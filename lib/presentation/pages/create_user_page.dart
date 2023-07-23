@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/gen/assets.gen.dart';
-import '../../core/constant/colors.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
@@ -27,23 +26,21 @@ class _CreateUserPageState extends State<CreateUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: CColors.sky600,
-        backgroundColor: CColors.background,
         elevation: 0.4,
-        title: const Text(
+        title: Text(
           'Tambah User',
           style: TextStyle(
-            color: CColors.primary,
             fontWeight: FontWeight.w700,
             fontSize: 18,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               size: 26,
               Icons.notifications,
-              color: CColors.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
             onPressed: () {},
           ),
@@ -59,12 +56,12 @@ class _CreateUserPageState extends State<CreateUserPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text(
+            Text(
               'Nama Lengkap',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: CColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(
@@ -74,38 +71,36 @@ class _CreateUserPageState extends State<CreateUserPage> {
               controller: phoneController,
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: CColors.primary,
+                color: Theme.of(context).colorScheme.primary,
               ),
               decoration: InputDecoration(
                 suffixIcon: phoneController.text.isEmpty
                     ? Container(width: 0)
                     : IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.close,
-                          color: Colors.amberAccent,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         onPressed: () => phoneController.clear(),
                       ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
-                  borderSide: const BorderSide(
-                    color: CColors.primary,
+                  borderSide: BorderSide(
                     width: 2,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(11),
-                  borderSide: const BorderSide(
+                  borderSide: BorderSide(
                     width: 2,
-                    color: CColors.primary,
-                    style: BorderStyle.solid,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
-              cursorColor: CColors.primary,
             ),
           ],
         ),
