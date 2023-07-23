@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../failures/failure.dart';
+import '../../core/failures/failure.dart';
 import '../repositories/user_repository.dart';
 
 class UploadProfilePicture {

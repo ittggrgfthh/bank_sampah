@@ -6,10 +6,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../constant/firebase_exception_codes.dart';
+import '../../core/constant/firebase_exception_codes.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
-import '../../failures/failure.dart';
+import '../../core/failures/failure.dart';
 
 import '../datasources/user_remote_data_source.dart';
 

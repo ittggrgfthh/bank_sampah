@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
 
-import '../../utils/firebase_extensions.dart';
-import '../../constant/firebase_storage_paths.dart';
+import '../../core/utils/firebase_extensions.dart';
+import '../../core/constant/firebase_storage_paths.dart';
 import '../models/user_model.dart';
 
 abstract class UserRemoteDataSource {

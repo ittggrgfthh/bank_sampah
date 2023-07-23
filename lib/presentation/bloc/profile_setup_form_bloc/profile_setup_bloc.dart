@@ -8,9 +8,9 @@ import '../../../domain/entities/user.dart';
 import '../../../domain/usecase/create_user_profile.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
-import '../../../failures/failure.dart';
-import '../../../failures/value_failure.dart';
-import '../../../utils/value_validators.dart';
+import '../../../core/failures/failure.dart';
+import '../../../core/failures/value_failure.dart';
+import '../../../core/utils/value_validators.dart';
 
 part 'profile_setup_bloc.freezed.dart';
 part 'profile_setup_event.dart';

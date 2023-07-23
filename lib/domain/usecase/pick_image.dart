@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../constant/colors.dart';
+import '../../core/constant/colors.dart';
 
 /// Return a [Future] of [File] or [Null]
 class PickImage {
