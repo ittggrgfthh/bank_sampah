@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/gen/assets.gen.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -125,10 +127,7 @@ class _LoginPageState extends State<LoginPage> {
               fontFamily: 'Poppins',
             ),
           ),
-          Image.asset(
-            'assets/login-icon.png',
-            width: 180,
-          ),
+          Assets.images.loginIcon.image(width: 180),
         ],
       ),
     );
@@ -158,11 +157,8 @@ class _LoginPageState extends State<LoginPage> {
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
               suffixIcon: IconButton(
-                icon: isPasswordVisible
-                    ? const Icon(Icons.visibility_off)
-                    : const Icon(Icons.visibility),
-                onPressed: () =>
-                    setState(() => isPasswordVisible = !isPasswordVisible),
+                icon: isPasswordVisible ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
+                onPressed: () => setState(() => isPasswordVisible = !isPasswordVisible),
               ),
               enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15)),

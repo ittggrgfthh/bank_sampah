@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 class CColors {
   const CColors._();
 
+  // tailwindcss color
+  static const sky50 = Color(0xFFF0F9FF);
+  static const sky600 = Color(0xFF0284c7);
+  static const sky700 = Color(0xFF0369A1);
+
+  // unknown color
   static const neutral0 = Color.fromARGB(255, 255, 255, 255);
   static const neutral25 = Color.fromARGB(255, 249, 249, 249);
   static const neutral50 = Color.fromARGB(255, 242, 242, 242);
@@ -36,17 +42,17 @@ class CColors {
 
   static const transparent = Colors.transparent;
 
-  static const primary = neutral0;
-  static const background = neutral1000;
-  static const surface = neutral800;
+  static const primary = sky700;
+  static const background = Colors.white;
+  static const surface = neutral0;
   static const positive = screaminGreen500;
   static const negative = orangeRedCrayola500;
   static const info = neonBlue500;
   static const warning = maximumYellowRed500;
   static const disabled = neutral500;
 
-  static const onPrimary = neutral1000;
-  static const onBackground = neutral0;
+  static const onPrimary = sky600;
+  static const onBackground = Colors.white;
   static const onSurface = neutral0;
   static const onPositive = neutral1000;
   static const onNegative = neutral1000;
