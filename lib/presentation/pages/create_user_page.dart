@@ -1,6 +1,9 @@
+import 'package:bank_sampah/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/gen/assets.gen.dart';
+import '../../data/datasources/user_remote_data_source.dart';
+import '../../injection.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
@@ -13,6 +16,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
   final fullNameController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneController = TextEditingController();
+  final userDataSource = getIt<UserRemoteDataSource>();
 
   @override
   void initState() {
@@ -55,54 +59,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Nama Lengkap',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextField(
-              controller: phoneController,
-              keyboardType: TextInputType.name,
-              textInputAction: TextInputAction.next,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              decoration: InputDecoration(
-                suffixIcon: phoneController.text.isEmpty
-                    ? Container(width: 0)
-                    : IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        onPressed: () => phoneController.clear(),
-                      ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11),
-                  borderSide: BorderSide(
-                    width: 2,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11),
-                  borderSide: BorderSide(
-                    width: 2,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          children: <Widget>[],
         ),
       ),
     );

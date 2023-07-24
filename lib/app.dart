@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'core/constant/theme.dart';
-import 'core/gen/fonts.gen.dart';
 import 'routing.dart';
 
 class MyApp extends StatelessWidget {

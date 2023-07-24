@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../../core/constant/colors.dart';
 import '../../core/constant/failure_messages.dart';
 import '../../injection.dart';
 import '../bloc/profile_setup_form_bloc/profile_setup_bloc.dart';

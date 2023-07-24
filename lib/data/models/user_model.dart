@@ -9,7 +9,7 @@ part 'user_model.g.dart';
 @freezed
 class UserModel with _$UserModel {
   const factory UserModel({
-    @JsonKey(includeFromJson: false, includeToJson: false) String? id,
+    String? id,
     @JsonKey(name: 'phone_number') required String phoneNumber,
     @Default('warga') String role,
     required String password,
@@ -23,6 +23,8 @@ class UserModel with _$UserModel {
 
   factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) =>
       UserModel.fromJson(doc.data()!).copyWith(id: doc.id);
+
+  factory UserModel.fromFirestoreQuery(Object object) => UserModel.fromJson(object as Map<String, dynamic>);
 
   factory UserModel.formDomain(User user) {
     return UserModel(

@@ -1,3 +1,4 @@
+import 'package:bank_sampah/domain/usecase/create_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -18,13 +19,15 @@ final getIt = GetIt.instance;
 
 void init() {
   // bloc
-  getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt()));
+  getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt(), getIt()));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));
   getIt.registerLazySingleton(() => CreateUserProfile(getIt()));
   getIt.registerLazySingleton(() => PickImage(getIt(), getIt()));
   getIt.registerLazySingleton(() => UploadProfilePicture(getIt()));
+
+  getIt.registerLazySingleton(() => CreateUser(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));
