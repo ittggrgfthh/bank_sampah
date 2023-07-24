@@ -1,9 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../core/constant/colors.dart';
 
 /// Return a [Future] of [File] or [Null]
 class PickImage {
@@ -27,14 +26,7 @@ class PickImage {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Foto Profil',
-            toolbarColor: CColors.background,
-            statusBarColor: CColors.background,
-            toolbarWidgetColor: CColors.onBackground,
             lockAspectRatio: true,
-            backgroundColor: CColors.background,
-            activeControlsWidgetColor: CColors.onBackground,
-            cropFrameColor: CColors.onBackground,
-            cropGridColor: CColors.onBackground,
           ),
           IOSUiSettings(
             title: 'Foto Profil',

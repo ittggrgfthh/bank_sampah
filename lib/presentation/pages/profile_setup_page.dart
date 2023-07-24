@@ -80,7 +80,7 @@ class _ProfileSetupPageBody extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: ((width - (radius * 2)) / 4) - 16),
       child: CircleAvatar(
-        backgroundColor: CColors.info,
+        backgroundColor: Theme.of(context).colorScheme.background,
         foregroundImage: state.profilePictureOption.isSome()
             ? FileImage(state.profilePictureOption.getOrElse(() => File('')))
             : null,
@@ -91,7 +91,7 @@ class _ProfileSetupPageBody extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 0.5 * radius,
-                  color: CColors.onInfo,
+                  color: Theme.of(context).colorScheme.background,
                 ),
               )
             : null,
