@@ -6,7 +6,7 @@ import 'presentation/pages/home_page.dart';
 import 'presentation/pages/login_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNav');
-final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shellNav');
+// final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shellNav');
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -14,7 +14,7 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       name: 'home',
-      builder: (context, state) => CreateUserPage(),
+      builder: (context, state) => const CreateUserPage(),
     ),
     GoRoute(
       path: '/login',

@@ -5,7 +5,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../domain/entities/user.dart';
-import '../../../domain/usecase/create_user.dart';
 import '../../../domain/usecase/create_user_profile.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
@@ -21,14 +20,11 @@ class ProfileSetupFormBloc extends Bloc<ProfileSetupFormEvent, ProfileSetupFormS
   final PickImage _pickImage;
   final CreateUserProfile _createUserProfile;
   final UploadProfilePicture _uploadProfilePicture;
-  // new method
-  final CreateUser _createUser;
 
   ProfileSetupFormBloc(
     this._pickImage,
     this._createUserProfile,
     this._uploadProfilePicture,
-    this._createUser,
   ) : super(ProfileSetupFormState.initial()) {
     on<ProfileSetupFormEvent>((event, emit) async {
       await event.when(

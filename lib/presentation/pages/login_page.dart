@@ -35,10 +35,7 @@ class _LoginPageState extends State<LoginPage> {
             buildPassword(),
             const SizedBox(height: 34),
             ElevatedButton(
-              onPressed: () {
-                print('Email:  ${phoneController.text}');
-                print('Password:  $password');
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromRGBO(3, 105, 161, 1),
                 shape: RoundedRectangleBorder(
