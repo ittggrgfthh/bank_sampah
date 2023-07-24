@@ -1,3 +1,4 @@
+import 'package:bank_sampah/component/my_input_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'core/constant/theme.dart';
@@ -11,8 +12,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Bank Sampah',
-      theme: MyTheme.lightMode,
-      darkTheme: MyTheme.darkMode,
+      theme: MyTheme.lightMode
+          .copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
+      darkTheme: MyTheme.darkMode
+          .copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
       routerConfig: router,
     );
   }

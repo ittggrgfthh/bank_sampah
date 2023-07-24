@@ -19,7 +19,7 @@ final getIt = GetIt.instance;
 
 void init() {
   // bloc
-  getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt()));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));
