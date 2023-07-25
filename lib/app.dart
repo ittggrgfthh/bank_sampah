@@ -11,11 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Bank Sampah',
-      theme: MyTheme.lightMode
-          .copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
-      darkTheme: MyTheme.darkMode
-          .copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
+      theme: MyTheme.lightMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
+      darkTheme: MyTheme.darkMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
       routerConfig: router,
     );
   }

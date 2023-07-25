@@ -1,8 +1,9 @@
+import 'package:bank_sampah/component/field/password_field.dart';
+import 'package:bank_sampah/component/field/phone_field.dart';
 import 'package:flutter/material.dart';
 
+import '../../component/field/name_field.dart';
 import '../../core/gen/assets.gen.dart';
-import '../../data/datasources/user_remote_data_source.dart';
-import '../../injection.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
@@ -12,166 +13,90 @@ class CreateUserPage extends StatefulWidget {
 }
 
 class _CreateUserPageState extends State<CreateUserPage> {
+  final phoneController = TextEditingController();
   final fullNameController = TextEditingController();
   final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
-  final userDataSource = getIt<UserRemoteDataSource>();
+  final confirmPasswordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final FocusNode _focusNode = FocusNode();
-  bool _isFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    fullNameController.addListener(() {
-      setState(() {});
-    });
-    _focusNode.addListener(() => setState(() => _isFocused = _focusNode.hasFocus));
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.4,
-        title: Text(
-          'Tambah User',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
+      appBar: _buildAppBar(),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                PhoneField(
+                  controller: phoneController,
+                ),
+                const SizedBox(height: 4),
+                NameField(
+                  controller: fullNameController,
+                ),
+                const SizedBox(height: 4),
+                PasswordField(
+                  controller: passwordController,
+                ),
+                const SizedBox(height: 4),
+                PasswordField(
+                  controller: confirmPasswordController,
+                  labelText: 'Confirm Password',
+                  hintText: 'Confirm Password',
+                  textInputAction: TextInputAction.done,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Validate returns true if the form is valid, or false otherwise.
+                    if (_formKey.currentState!.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing Data')),
+                      );
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      elevation: 0.4,
+      title: Text(
+        'Tambah User',
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            size: 26,
+            Icons.notifications,
             color: Theme.of(context).colorScheme.primary,
           ),
+          onPressed: () {},
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              size: 26,
-              Icons.notifications,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            onPressed: () {},
-          ),
-          CircleAvatar(
-            backgroundImage: Assets.images.ksaLogoGradientBlue.provider(),
-            radius: 16,
-          ),
-          const SizedBox(width: 20),
-        ],
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Nama Lengkap',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  color: Theme.of(context).colorScheme.primary,
-                  boxShadow: _isFocused
-                      ? [
-                          BoxShadow(
-                            color: Theme.of(context).colorScheme.primary,
-                            blurRadius: 5,
-                            spreadRadius: 2,
-                          ),
-                        ]
-                      : [],
-                ),
-                child: TextFormField(
-                  focusNode: _focusNode,
-                  controller: fullNameController,
-                  keyboardType: TextInputType.name,
-                  textInputAction: TextInputAction.next,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  decoration: InputDecoration(
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(11),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      ),
-                    ),
-                    suffixIcon: fullNameController.text.isEmpty
-                        ? Container(width: 0)
-                        : IconButton(
-                            icon: Icon(
-                              Icons.close,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            onPressed: () => fullNameController.clear(),
-                          ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(11),
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(11),
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    // if (_isFocused == true) {
-                    //   return null;
-                    // }
-                    if (value!.isEmpty) {
-                      return "text tidak boleh kosong";
-                    }
-                    if (value.length < 5) {
-                      return "text tidak boleh kurang dari 5";
-                    }
-
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    if (_formKey.currentState!.validate()) {}
-                  },
-                  onTap: () => _formKey.currentState!.reset(),
-                ),
-              ),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     // Trigger form validation
-              //     if (_formKey.currentState!.validate()) {
-              //       // All the TextFormField inputs are valid
-              //     }
-              //   },
-              //   child: Text('Submit'),
-              // ),
-            ],
-          ),
+        CircleAvatar(
+          backgroundImage: Assets.images.ksaLogoGradientBlue.provider(),
+          radius: 16,
         ),
-      ),
+        const SizedBox(width: 20),
+      ],
     );
   }
 }
