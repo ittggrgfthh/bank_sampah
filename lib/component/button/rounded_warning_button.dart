@@ -2,11 +2,13 @@ import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class RoundedWarningButton extends StatelessWidget {
-  final String task;
+  final VoidCallback? buttonTask;
+  final String buttonName;
 
   const RoundedWarningButton({
     super.key,
-    required this.task,
+    required this.buttonName,
+    required this.buttonTask,
   });
 
   @override
@@ -30,8 +32,8 @@ class RoundedWarningButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(CColors.warning),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         ),
-        child: const Text('Elevated Button!'),
-        onPressed: () => print(task),
+        onPressed: buttonTask,
+        child: Text(buttonName),
       ),
     );
   }

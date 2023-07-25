@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class RoundedNoColorButton extends StatelessWidget {
-  final String task;
   final VoidCallback? buttonTask;
+  final String buttonName;
 
-  const RoundedNoColorButton({super.key, required this.task, this.buttonTask});
+  const RoundedNoColorButton({
+    super.key,
+    required this.buttonTask,
+    required this.buttonName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +32,15 @@ class RoundedNoColorButton extends StatelessWidget {
         ),
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Theme.of(context).colorScheme.background,
+            ),
             foregroundColor: MaterialStateProperty.all<Color>(
               Theme.of(context).colorScheme.primary,
             ),
           ),
-          child: const Text('Elevated Button!'),
-          onPressed: () => print(task),
+          onPressed: buttonTask,
+          child: Text(buttonName),
         ),
       ),
     );

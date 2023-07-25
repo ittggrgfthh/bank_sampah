@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class RoundedPrimaryButton extends StatelessWidget {
-  final String task;
+  final VoidCallback? buttonTask;
+  final String buttonName;
 
   const RoundedPrimaryButton({
     super.key,
-    required this.task,
+    required this.buttonName,
+    required this.buttonTask,
   });
 
   @override
@@ -33,8 +35,8 @@ class RoundedPrimaryButton extends StatelessWidget {
             Theme.of(context).colorScheme.background,
           ),
         ),
-        child: const Text('Elevated Button!'),
-        onPressed: () => print(task),
+        onPressed: buttonTask,
+        child: Text(buttonName),
       ),
     );
   }

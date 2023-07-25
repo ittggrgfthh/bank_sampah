@@ -2,11 +2,13 @@ import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class NumberField extends StatelessWidget {
-  const NumberField({super.key});
+  final TextEditingController controller;
+  const NumberField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       keyboardType: const TextInputType.numberWithOptions(
         decimal: true,
         signed: true,

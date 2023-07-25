@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MultilineField extends StatelessWidget {
-  const MultilineField({super.key});
+  final TextEditingController controller;
+  const MultilineField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       maxLines: 5,
       decoration: const InputDecoration(
         helperText: "",
