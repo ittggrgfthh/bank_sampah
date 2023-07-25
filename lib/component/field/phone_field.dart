@@ -1,3 +1,4 @@
+import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -49,6 +50,12 @@ class _PhoneFieldState extends State<PhoneField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
+      validator: (s) {
+        if (s!.isWhitespace()) {
+          return "Tolong isi nomor telepon!";
+        }
+        return null;
+      },
       onChanged: (value) {
         setState(() {
           counterText = "${value.length}/13";
