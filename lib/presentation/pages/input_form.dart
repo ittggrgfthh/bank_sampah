@@ -1,3 +1,7 @@
+import 'package:bank_sampah/component/button/rounded_no_color_button.dart';
+import 'package:bank_sampah/component/button/rounded_primary_button.dart';
+import 'package:bank_sampah/component/button/rounded_success_button.dart';
+import 'package:bank_sampah/component/button/rounded_warning_button.dart';
 import 'package:bank_sampah/component/field/password_field.dart';
 import 'package:bank_sampah/component/field/phone_field.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +29,7 @@ class _InputFormState extends State<InputForm> {
             children: [
               PhoneField(),
               PasswordField(),
+              RoundedNoColorButton(task: "Elevated Button!"),
             ],
           ),
         ),
