@@ -6,12 +6,10 @@ import 'package:bank_sampah/component/field/checkbox_field.dart';
 import 'package:bank_sampah/component/field/chip_field.dart';
 import 'package:bank_sampah/component/field/password_field.dart';
 import 'package:bank_sampah/component/field/phone_field.dart';
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class InputForm extends StatefulWidget {
   const InputForm({super.key});
-
   @override
   State<InputForm> createState() => _InputFormState();
 }
