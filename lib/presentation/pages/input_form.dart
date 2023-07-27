@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 class InputForm extends StatefulWidget {
   const InputForm({super.key});
-
   @override
   State<InputForm> createState() => _InputFormState();
 }
@@ -14,6 +13,8 @@ class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  int? _selectedChoice = 0;
+  List<String> labelName = ['Warga', 'Staff', 'Admin'];
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,17 @@ class _InputFormState extends State<InputForm> {
             children: [
               PhoneField(controller: _phoneController),
               PasswordField(controller: _passwordController),
+              Wrap(
+                spacing: 30,
+                children: List<Widget>.generate(
+                  3,
+                  (index) => ChipField(
+                    labelName: labelName[index],
+                    selected: _selectedChoice == index,
+                    onSelected: (b) => setState(() => _selectedChoice = b ? index : null),
+                  ),
+                ),
+              ),
               RoundedNoColorButton(
                 buttonName: "Masuk",
                 buttonTask: () {
