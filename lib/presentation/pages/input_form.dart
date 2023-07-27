@@ -1,10 +1,6 @@
 import 'package:bank_sampah/component/button/rounded_no_color_button.dart';
-import 'package:bank_sampah/component/button/rounded_primary_button.dart';
-import 'package:bank_sampah/component/button/rounded_success_button.dart';
-import 'package:bank_sampah/component/button/rounded_warning_button.dart';
 import 'package:bank_sampah/component/field/password_field.dart';
 import 'package:bank_sampah/component/field/phone_field.dart';
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class InputForm extends StatefulWidget {
@@ -35,12 +31,7 @@ class _InputFormState extends State<InputForm> {
               RoundedNoColorButton(
                 buttonName: "Masuk",
                 buttonTask: () {
-                  if (_formKey.currentState!.validate()) {
-                    String phoneNumber = _phoneController.text;
-                    String password = _passwordController.text;
-                    print('Phone Number: $phoneNumber');
-                    print('Password: $password');
-                  }
+                  if (_formKey.currentState!.validate()) {}
                 },
               ),
             ],

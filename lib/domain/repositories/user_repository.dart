@@ -11,6 +11,7 @@ abstract class UserRepository {
     required File picture,
     required String userId,
   });
+  Future<Either<Failure, User>> getUserById(String userId);
 
   // Old method
   Stream<Either<Failure, User?>> getUserProfile(String userId);

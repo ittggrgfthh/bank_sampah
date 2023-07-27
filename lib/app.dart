@@ -1,5 +1,8 @@
-import 'package:bank_sampah/component/my_input_theme.dart';
+import 'component/my_input_theme.dart';
+import 'injection.dart';
+import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/constant/theme.dart';
 import 'routing.dart';
@@ -9,11 +12,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: MyTheme.lightMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
-      darkTheme: MyTheme.darkMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
-      routerConfig: router,
+    return BlocProvider(
+      lazy: false,
+      create: (context) => getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: MyTheme.lightMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
+        darkTheme: MyTheme.darkMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),
+        routerConfig: router,
+      ),
     );
   }
 }

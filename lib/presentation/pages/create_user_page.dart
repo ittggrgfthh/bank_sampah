@@ -3,7 +3,6 @@ import 'package:bank_sampah/component/field/phone_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../component/field/name_field.dart';
-import '../../core/gen/assets.gen.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});
@@ -35,15 +34,15 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 PhoneField(
                   controller: phoneController,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 16),
                 NameField(
                   controller: fullNameController,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 16),
                 PasswordField(
                   controller: passwordController,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 16),
                 PasswordField(
                   controller: confirmPasswordController,
                   labelText: 'Confirm Password',
@@ -91,8 +90,8 @@ class _CreateUserPageState extends State<CreateUserPage> {
           ),
           onPressed: () {},
         ),
-        CircleAvatar(
-          backgroundImage: Assets.images.ksaLogoGradientBlue.provider(),
+        const CircleAvatar(
+          backgroundImage: AssetImage('assets/images/ksa-logo-gradient-blue.png'),
           radius: 16,
         ),
         const SizedBox(width: 20),

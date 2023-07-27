@@ -11,6 +11,16 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   }
 }
 
+Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
+  const phoneRegex = r"^\d{3}-\d{4}-\d{2,4}$";
+
+  if (RegExp(phoneRegex).hasMatch(input)) {
+    return right(input);
+  } else {
+    return left(ValueFailure(input, message: 'Nomor telepon tidak valid'));
+  }
+}
+
 Either<ValueFailure<String>, String> validatePassword(String input, int minLength) {
   if (input.length >= minLength) {
     return right(input);

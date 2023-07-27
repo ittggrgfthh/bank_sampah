@@ -1,4 +1,3 @@
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
@@ -7,6 +6,8 @@ class PasswordField extends StatefulWidget {
   final String labelText;
   final String helperText;
   final String hintText;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   const PasswordField({
     super.key,
@@ -15,6 +16,8 @@ class PasswordField extends StatefulWidget {
     this.labelText = 'Password',
     this.helperText = '',
     this.hintText = 'Password',
+    this.onChanged,
+    this.validator,
   });
 
   @override
@@ -28,12 +31,12 @@ class _PasswordFieldState extends State<PasswordField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      validator: (s) {
-        if (s!.isWhitespace()) {
-          return "This is a required field!";
+      onChanged: (value) {
+        if (widget.onChanged != null) {
+          widget.onChanged!(value);
         }
-        return null;
       },
+      validator: widget.validator,
       obscureText: obscurePassword,
       keyboardType: TextInputType.visiblePassword,
       textInputAction: widget.textInputAction,

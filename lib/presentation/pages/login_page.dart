@@ -1,181 +1,136 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/gen/assets.gen.dart';
+import '../../component/field/password_field.dart';
+import '../../component/field/phone_field.dart';
+import '../../core/failures/auth_failure_messages.dart';
+import '../../injection.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
+import '../bloc/signin_form_bloc/signin_form_bloc.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<SignInFormBloc>(),
+      child: BlocConsumer<SignInFormBloc, SignInFormState>(
+        listenWhen: (previous, current) => previous.authFailureOrSuccessOption != current.authFailureOrSuccessOption,
+        listener: (context, state) {
+          final errorMessage = state.authFailureOrSuccessOption.fold(
+            () => null,
+            (failureOrSuccess) => failureOrSuccess.fold(
+              (failure) => failure.maybeWhen(
+                invalidPhoneNumberOrPassword: () => AuthFailureMessages.invalidPhoneNumberOrPassword,
+                timeout: () => AuthFailureMessages.timeout,
+                orElse: () => AuthFailureMessages.unexpected,
+              ),
+              (_) {
+                context.read<AuthBloc>().add(const AuthEvent.authCheckRequested());
+                return null;
+              },
+            ),
+          );
+
+          if (errorMessage != null) {
+            FlushbarHelper.createError(message: errorMessage).show(context);
+          }
+        },
+        buildWhen: (previous, current) => previous.errorMessagesShown != current.errorMessagesShown,
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Scaffold(
+              appBar: AppBar(
+                title: const Text('Masuk'),
+              ),
+              body: _LoginPageBody(state.errorMessagesShown),
+              bottomSheet: BlocBuilder<SignInFormBloc, SignInFormState>(
+                buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
+                builder: (context, state) {
+                  return Hero(
+                    tag: 'button1',
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: ElevatedButton(
+                        child: const Text('Masuk'),
+                        // busy: state.isSubmitting,
+                        onPressed: () async {
+                          context.read<SignInFormBloc>().add(const SignInFormEvent.signInButtonPressed());
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final phoneController = TextEditingController();
-  String password = '';
-  bool isPasswordVisible = false;
+class _LoginPageBody extends StatelessWidget {
+  const _LoginPageBody(this.errorMessagesShown);
 
-  @override
-  void initState() {
-    super.initState();
-
-    phoneController.addListener(() => setState(() {}));
-  }
+  final bool errorMessagesShown;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    return Form(
+      autovalidateMode: errorMessagesShown ? AutovalidateMode.always : AutovalidateMode.disabled,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            buildHeader(),
-            buildPhone(),
-            const SizedBox(height: 5),
-            buildPassword(),
-            const SizedBox(height: 34),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(3, 105, 161, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Masuk',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
+            const Hero(
+              tag: 'display-text',
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(
+                  'Welcome back!',
+                  maxLines: 2,
                 ),
               ),
             ),
+            const SizedBox(height: 16),
+            PhoneField(
+              onChanged: (email) => context.read<SignInFormBloc>().add(SignInFormEvent.phoneNumberChanged(email)),
+              validator: (_) {
+                return context.read<SignInFormBloc>().state.phoneNumber.fold(
+                      (failure) => failure.message,
+                      (_) => null,
+                    );
+              },
+            ),
+            const SizedBox(height: 16),
+            PasswordField(
+              hintText: 'Kata sandi',
+              textInputAction: TextInputAction.done,
+              onChanged: (password) => context.read<SignInFormBloc>().add(SignInFormEvent.passwordChanged(password)),
+              validator: (_) {
+                return context.read<SignInFormBloc>().state.password.fold(
+                      (failure) => failure.message,
+                      (_) => null,
+                    );
+              },
+            ),
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: BButton(
+            //     label: 'Lupa kata sandi?',
+            //     variant: BButtonVariant.bare,
+            //     dense: true,
+            //     size: BWidgetSize.mini,
+            //     onPressed: () => context.pushNamed('password-reset'),
+            //   ),
+            // ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget buildPhone() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Telepon',
-          style: TextStyle(
-            color: Color.fromRGBO(3, 105, 161, 1),
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppins',
-          ),
-        ),
-        const SizedBox(height: 5),
-        SizedBox(
-          height: 48,
-          child: TextField(
-            textAlignVertical: TextAlignVertical.top,
-            controller: phoneController,
-            keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-              suffixIcon: phoneController.text.isEmpty
-                  ? Container(width: 0)
-                  : IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.amberAccent,
-                      ),
-                      onPressed: () => phoneController.clear(),
-                    ),
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                borderSide: BorderSide(
-                  color: Color.fromRGBO(3, 105, 161, 1),
-                  width: 2.0,
-                ),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                borderSide: BorderSide(
-                  width: 3,
-                  color: Colors.amberAccent,
-                ),
-              ),
-            ),
-            cursorColor: Colors.amberAccent,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildHeader() {
-    return Center(
-      child: Column(
-        children: [
-          const Text(
-            'Masuk',
-            style: TextStyle(
-              color: Color.fromRGBO(3, 105, 161, 1),
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            ),
-          ),
-          Assets.images.loginIcon.image(width: 180),
-        ],
-      ),
-    );
-  }
-
-  Widget buildPassword() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Password',
-          style: TextStyle(
-            color: Color.fromRGBO(3, 105, 161, 1),
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Poppins',
-          ),
-        ),
-        const SizedBox(height: 5),
-        SizedBox(
-          height: 48,
-          child: TextField(
-            onSubmitted: (value) => setState(() => password = value),
-            obscureText: !isPasswordVisible,
-            textAlignVertical: TextAlignVertical.top,
-            keyboardType: TextInputType.visiblePassword,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: isPasswordVisible ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
-                onPressed: () => setState(() => isPasswordVisible = !isPasswordVisible),
-              ),
-              enabledBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                borderSide: BorderSide(
-                  color: Color.fromRGBO(3, 105, 161, 1),
-                  width: 2.0,
-                ),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-                borderSide: BorderSide(
-                  width: 3,
-                  color: Colors.amberAccent,
-                ),
-              ),
-            ),
-            cursorColor: Colors.amberAccent,
-          ),
-        ),
-      ],
     );
   }
 }

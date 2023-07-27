@@ -1,4 +1,13 @@
+import 'package:bank_sampah/data/datasources/user_local_data_source.dart';
+import 'package:bank_sampah/data/repositories/auth_facade_impl.dart';
+import 'package:bank_sampah/domain/repositories/auth_facade.dart';
 import 'package:bank_sampah/domain/usecase/create_user.dart';
+import 'package:bank_sampah/domain/usecase/get_signed_in_user.dart';
+import 'package:bank_sampah/domain/usecase/get_user_by_id.dart';
+import 'package:bank_sampah/domain/usecase/sign_out.dart';
+import 'package:bank_sampah/domain/usecase/signin_with_phone_number_and_password.dart';
+import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:bank_sampah/presentation/bloc/signin_form_bloc/signin_form_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -20,6 +29,12 @@ final getIt = GetIt.instance;
 void init() {
   // bloc
   getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt()));
+  getIt.registerFactory(() => SignInFormBloc(getIt()));
+  getIt.registerLazySingleton(() => AuthBloc(
+        getSignedInUser: getIt(),
+        signOut: getIt(),
+        getUserById: getIt(),
+      ));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));
@@ -28,12 +43,18 @@ void init() {
   getIt.registerLazySingleton(() => UploadProfilePicture(getIt()));
 
   getIt.registerLazySingleton(() => CreateUser(getIt()));
+  getIt.registerLazySingleton(() => SigninWithPhoneNumberAndPassword(getIt()));
+  getIt.registerLazySingleton(() => GetSignedInUser(getIt()));
+  getIt.registerLazySingleton(() => SignOut(getIt()));
+  getIt.registerLazySingleton(() => GetUserById(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<AuthFacade>(() => AuthFacadeImpl(getIt(), getIt()));
 
-  // data source
+  // datasource
   getIt.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(getIt(), getIt()));
+  getIt.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImpl());
 
 // external
   getIt.registerLazySingleton(() => FirebaseFirestore.instance);

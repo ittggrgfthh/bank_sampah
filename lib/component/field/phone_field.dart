@@ -1,4 +1,3 @@
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -33,11 +32,15 @@ class NumberTextInputFormatter extends TextInputFormatter {
 class PhoneField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputAction textInputAction;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   const PhoneField({
     super.key,
     this.controller,
     this.textInputAction = TextInputAction.next,
+    this.onChanged,
+    this.validator,
   });
 
   @override
@@ -50,16 +53,14 @@ class _PhoneFieldState extends State<PhoneField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      validator: (s) {
-        if (s!.isWhitespace()) {
-          return "Tolong isi nomor telepon!";
-        }
-        return null;
-      },
+      validator: widget.validator,
       onChanged: (value) {
         setState(() {
           counterText = "${value.length}/13";
         });
+        if (widget.onChanged != null) {
+          widget.onChanged!(value);
+        }
       },
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,

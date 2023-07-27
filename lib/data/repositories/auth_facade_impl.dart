@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:bank_sampah/core/utils/exception.dart';
 
 import '../../core/failures/auth_failure.dart';
@@ -22,12 +20,9 @@ class AuthFacadeImpl implements AuthFacade {
   Future<Option<User>> getSignedInUser() async {
     try {
       final userModel = await _userLocalDataSource.getLoggedInUser();
-      if (userModel.isNull) {
-        return none();
-      }
       return Option.of(userModel!.toDomain());
     } catch (e) {
-      throw LocalStorageException(e.toString());
+      return none();
     }
   }
 

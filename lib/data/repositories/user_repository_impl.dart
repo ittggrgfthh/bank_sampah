@@ -68,4 +68,14 @@ class UserRepositoryImpl implements UserRepository {
       return left(Failure.unexpected(e.toString(), error: e));
     }
   }
+
+  @override
+  Future<Either<Failure, User>> getUserById(String userId) async {
+    try {
+      final model = await _userRemoteDataSource.getUserById(userId);
+      return right(model.toDomain());
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
 }

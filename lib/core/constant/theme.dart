@@ -1,13 +1,11 @@
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../gen/fonts.gen.dart';
-
 class MyTheme {
   static ThemeData lightMode = ThemeData(
     brightness: Brightness.light,
     useMaterial3: true,
-    fontFamily: FontFamily.poppins,
+    fontFamily: "Poppins",
     textTheme: MyTypography.textTheme,
     colorScheme: MyColorScheme.lightColorScheme,
   );
@@ -15,7 +13,7 @@ class MyTheme {
   static ThemeData darkMode = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
-    fontFamily: FontFamily.poppins,
+    fontFamily: "Poppins",
     textTheme: MyTypography.textTheme,
     colorScheme: MyColorScheme.darkColorScheme,
   );

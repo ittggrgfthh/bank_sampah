@@ -1,5 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../../injection.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -7,42 +9,26 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const Text('coba'),
-          StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('users').snapshots(),
-            builder: (context, snapshot) {
-              List<Row> dataTest = [];
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text('coba'),
+            ElevatedButton(
+              onPressed: () {
+                getIt<AuthBloc>().state.when(initial: () {}, authenticated: (user) {}, unauthenticated: (reason) {});
+                getIt<AuthBloc>().add(
+                  const AuthEvent.signedOutRequested(),
                 );
-              }
-
-              if (snapshot.hasData) {
-                final tests = snapshot.data?.docs.reversed.toList();
-                for (var test in tests!) {
-                  final testWidget = Row(
-                    children: [
-                      Text(test['name']),
-                      Text(test['role']),
-                    ],
-                  );
-                  dataTest.add(testWidget);
-                }
-              } else {
-                return const Text('kosong');
-              }
-
-              return Expanded(
-                child: ListView(
-                  children: dataTest,
-                ),
-              );
-            },
-          ),
-        ],
+                getIt<AuthBloc>().state.when(initial: () {}, authenticated: (user) {}, unauthenticated: (reason) {});
+              },
+              child: const Text('LogOut'),
+            ),
+          ],
+        ),
       ),
     );
   }
