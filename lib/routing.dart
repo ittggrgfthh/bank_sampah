@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'injection.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'presentation/pages/admin_list_user_page.dart';
 import 'presentation/pages/home_page.dart';
 import 'presentation/pages/login_page.dart';
 
@@ -23,11 +24,19 @@ final router = GoRouter(
       path: '/login',
       builder: (context, state) => const LoginPage(),
     ),
+    GoRoute(
+      path: '/admin-list-user',
+      name: 'admin-list-user',
+      builder: (context, state) => const AdminListUserPage(),
+    ),
   ],
   redirect: (_, state) async {
     final String? a = await getIt<AuthBloc>().state.when(
       authenticated: (user) async {
-        return "/";
+        if (state.matchedLocation == '/login') {
+          return '/';
+        }
+        return null;
       },
       unauthenticated: (_) async {
         return "/login";
@@ -42,6 +51,7 @@ final router = GoRouter(
   debugLogDiagnostics: true,
 );
 
+// Method form depecrated go_route 5.0.0.
 class _RefreshStream extends ChangeNotifier {
   _RefreshStream(Stream<dynamic> stream) {
     notifyListeners();

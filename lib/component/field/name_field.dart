@@ -1,4 +1,3 @@
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class NameField extends StatelessWidget {
@@ -8,6 +7,8 @@ class NameField extends StatelessWidget {
   final String helperText;
   final String hintText;
   final TextInputType keyboardType;
+  final Function(String value)? onChanged;
+  final String? Function(String? value)? validator;
 
   const NameField({
     super.key,
@@ -17,20 +18,18 @@ class NameField extends StatelessWidget {
     this.labelText = 'Nama Lengkap',
     this.hintText = 'Nama Lengkap',
     this.helperText = '',
+    this.onChanged,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      validator: (s) {
-        if (s!.isWhitespace()) {
-          return "This is a required field!";
-        }
-        return null;
-      },
+      validator: validator,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
+      onChanged: onChanged,
       style: TextStyle(
         color: Theme.of(context).colorScheme.primary,
       ),

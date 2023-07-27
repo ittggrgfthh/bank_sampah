@@ -62,7 +62,7 @@ dev_dependencies:
   # code generator
   # dart run build_runner build --delete-conflicting-outputs
   build_runner: ^2.4.6
-  flutter_native_splash: ^2.3.1
+  flutter_native_splash:
   # flutter packages pub run build_runner build
   # flutter_gen_runner: ^5.3.1 # tidak digunakan karena bermasalah dengan debug web
 

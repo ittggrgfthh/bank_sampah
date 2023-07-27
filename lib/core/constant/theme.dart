@@ -16,6 +16,11 @@ class MyTheme {
     fontFamily: "Poppins",
     textTheme: MyTypography.textTheme,
     colorScheme: MyColorScheme.darkColorScheme,
+    scaffoldBackgroundColor: CColors.backgorundDark,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: CColors.backgorundDark,
+      foregroundColor: CColors.primaryDark,
+    ),
   );
 }
 
@@ -107,7 +112,6 @@ class MyColorScheme {
   static final lightColorScheme = ColorScheme.fromSeed(
     seedColor: CColors.primaryLight,
     brightness: Brightness.light,
-    surface: CColors.primaryLight,
   );
 
   static final darkColorScheme = ColorScheme.fromSeed(

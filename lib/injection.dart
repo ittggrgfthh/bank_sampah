@@ -7,6 +7,7 @@ import 'package:bank_sampah/domain/usecase/get_user_by_id.dart';
 import 'package:bank_sampah/domain/usecase/sign_out.dart';
 import 'package:bank_sampah/domain/usecase/signin_with_phone_number_and_password.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:bank_sampah/presentation/bloc/create_user_form/create_user_form_bloc.dart';
 import 'package:bank_sampah/presentation/bloc/signin_form_bloc/signin_form_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -29,6 +30,8 @@ final getIt = GetIt.instance;
 void init() {
   // bloc
   getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt()));
+
+  getIt.registerFactory(() => CreateUserFormBloc(getIt(), getIt(), getIt()));
   getIt.registerFactory(() => SignInFormBloc(getIt()));
   getIt.registerLazySingleton(() => AuthBloc(
         getSignedInUser: getIt(),

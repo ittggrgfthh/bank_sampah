@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../injection.dart';
 import '../bloc/auth_bloc/auth_bloc.dart';
@@ -9,6 +10,9 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ini Home Page'),
+      ),
       body: Container(
         padding: const EdgeInsets.all(20),
         width: double.infinity,
@@ -16,16 +20,22 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('coba'),
             ElevatedButton(
               onPressed: () {
-                getIt<AuthBloc>().state.when(initial: () {}, authenticated: (user) {}, unauthenticated: (reason) {});
                 getIt<AuthBloc>().add(
                   const AuthEvent.signedOutRequested(),
                 );
-                getIt<AuthBloc>().state.when(initial: () {}, authenticated: (user) {}, unauthenticated: (reason) {});
               },
               child: const Text('LogOut'),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.go('/admin-list-user');
+              },
+              child: const Text('Admin List User'),
             ),
           ],
         ),

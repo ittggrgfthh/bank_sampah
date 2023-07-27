@@ -7,6 +7,8 @@ class CColors {
   static const primaryLight = Color(0xFF285EA7);
   static const primaryDark = Color(0xFFA9C7FF);
 
+  static const backgorundDark = Color(0xFF020617);
+
   // system
   static const danger = red500;
   static const warning = yellow500;

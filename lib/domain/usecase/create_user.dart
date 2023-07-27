@@ -4,9 +4,6 @@ import '../../core/failures/failure.dart';
 import '../entities/user.dart';
 import '../repositories/user_repository.dart';
 
-/// Possible [Failure]s: <br>
-/// - **timeout**
-/// - **unexpected**
 class CreateUser {
   const CreateUser(this._userRepository);
 

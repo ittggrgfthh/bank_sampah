@@ -187,8 +187,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> getUserById(String userId) async {
-    final doc = await _firestore.userColRef.doc(userId).get();
-    return UserModel.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>);
+    try {
+      final doc = await _firestore.userColRef.doc(userId).get();
+      return UserModel.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>);
+    } catch (e) {
+      throw ServerException();
+    }
   }
 
   @override
