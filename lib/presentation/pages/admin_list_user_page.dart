@@ -1,7 +1,6 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../component/field/name_field.dart';
 import '../../component/field/password_field.dart';
@@ -62,16 +61,27 @@ class AdminListUserPage extends StatelessWidget {
                               BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
                                 builder: (context, state) {
                                   return PhoneField(
+                                    suffixIcon: state.isPhoneNumberLoading
+                                        ? Container(
+                                            child: const CircularProgressIndicator(),
+                                          )
+                                        : state.isPhoneNumberExists
+                                            ? const Icon(Icons.error)
+                                            : null,
                                     onChanged: (value) {
                                       context
                                           .read<CreateUserFormBloc>()
                                           .add(CreateUserFormEvent.phoneNumberChanged(value));
                                     },
                                     validator: (_) {
-                                      return context.read<CreateUserFormBloc>().state.phoneNumber.fold(
-                                            (failure) => failure.message,
-                                            (_) => null,
-                                          );
+                                      if (state.isPhoneNumberExists) {
+                                        return 'Nomor telepon sudah digunakan';
+                                      } else {
+                                        return context.read<CreateUserFormBloc>().state.phoneNumber.fold(
+                                              (failure) => failure.message,
+                                              (_) => null,
+                                            );
+                                      }
                                     },
                                   );
                                 },

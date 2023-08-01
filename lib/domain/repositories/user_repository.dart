@@ -12,6 +12,7 @@ abstract class UserRepository {
     required String userId,
   });
   Future<Either<Failure, User>> getUserById(String userId);
+  Future<Either<Failure, User>> getUserByPhoneNumber(String phoneNumber);
 
   // Old method
   Stream<Either<Failure, User?>> getUserProfile(String userId);

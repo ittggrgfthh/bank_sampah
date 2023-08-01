@@ -9,6 +9,7 @@ import '../../../core/failures/value_failure.dart';
 import '../../../core/utils/value_validators.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecase/create_user.dart';
+import '../../../domain/usecase/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
 
@@ -20,11 +21,13 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
   final PickImage pickImage;
   final CreateUser createUser;
   final UploadProfilePicture uploadProfilePicture;
+  final GetUserByPhoneNumber getUserByPhoneNumber;
 
   CreateUserFormBloc(
     this.pickImage,
     this.createUser,
     this.uploadProfilePicture,
+    this.getUserByPhoneNumber,
   ) : super(CreateUserFormState.initial()) {
     on<CreateUserFormEvent>((event, emit) async {
       await event.when(
@@ -51,7 +54,16 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
   }
 
   Future<void> _handlePhoneNumberChanged(Emitter<CreateUserFormState> emit, String phoneNumber) async {
-    emit(state.copyWith(phoneNumber: validatePhoneNumber(phoneNumber)));
+    if (phoneNumber.length >= 11) {
+      emit(state.copyWith(isPhoneNumberLoading: true));
+      await Future.delayed(const Duration(seconds: 10));
+      final failureOrSuccess = await getUserByPhoneNumber(phoneNumber);
+      failureOrSuccess.fold(
+        (failure) => emit(state.copyWith(
+            isPhoneNumberLoading: false, phoneNumber: validatePhoneNumber(phoneNumber), isPhoneNumberExists: false)),
+        (user) => emit(state.copyWith(isPhoneNumberLoading: false, isPhoneNumberExists: true)),
+      );
+    }
   }
 
   Future<void> _handleFullNameChanged(Emitter<CreateUserFormState> emit, String fullName) async {
