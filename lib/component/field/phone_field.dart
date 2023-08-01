@@ -34,6 +34,7 @@ class PhoneField extends StatefulWidget {
   final TextInputAction textInputAction;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final Widget? suffixIcon;
 
   const PhoneField({
     super.key,
@@ -41,6 +42,7 @@ class PhoneField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.onChanged,
     this.validator,
+    this.suffixIcon,
   });
 
   @override
@@ -79,6 +81,7 @@ class _PhoneFieldState extends State<PhoneField> {
         labelText: "Nomor Telepon",
         hintText: "812-3456-7890",
         helperText: "",
+        suffixIcon: widget.suffixIcon,
         prefixIcon: Container(
           margin: const EdgeInsets.fromLTRB(16, 16, 4, 16),
           child: Text(

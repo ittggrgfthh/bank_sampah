@@ -77,4 +77,14 @@ class UserRepositoryImpl implements UserRepository {
       return left(Failure.unexpected(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, User>> getUserByPhoneNumber(String phoneNumber) async {
+    try {
+      final model = await _userRemoteDataSource.getUserByPhoneNumber(phoneNumber);
+      return right(model.toDomain());
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
 }
