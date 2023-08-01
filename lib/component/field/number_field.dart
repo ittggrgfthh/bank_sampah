@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class NumberField extends StatelessWidget {
   final TextEditingController controller;
-  const NumberField({super.key, required this.controller});
+  final Widget? icon;
+  const NumberField({super.key, required this.controller, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,18 @@ class NumberField extends StatelessWidget {
         }
         return null;
       },
-      decoration: const InputDecoration(suffix: Text('Kg')),
+      decoration: InputDecoration(
+        helperText: "",
+        prefix: icon,
+        suffix: Text(
+          'kg',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -21,7 +21,7 @@ class RoundedPrimaryButton extends StatelessWidget {
             ),
             shape: MaterialStateProperty.all<OutlinedBorder>(
               const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
           ),
         ),

@@ -1,3 +1,10 @@
+import 'dart:async';
+
+import 'package:bank_sampah/component/widget/scaffold_with_navbar.dart';
+import 'package:bank_sampah/presentation/pages/staff/input_sampah.dart';
+import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
+import 'package:bank_sampah/presentation/pages/staff/tarik_saldo.dart';
+import 'package:bank_sampah/presentation/pages/staff/tarik_saldo_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,6 +15,7 @@ import 'presentation/pages/home_page.dart';
 import 'presentation/pages/login_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNav');
+final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shellNav');
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -18,7 +26,6 @@ final router = GoRouter(
       builder: (context, state) => const MyHomePage(),
     ),
     GoRoute(
-      name: 'login',
       path: '/login',
       builder: (context, state) => const LoginPage(),
     ),
@@ -26,6 +33,35 @@ final router = GoRouter(
       path: '/admin-list-user',
       name: 'admin-list-user',
       builder: (context, state) => const AdminListUserPage(),
+    ),
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) => ScaffoldWithNavbar(child: child),
+      routes: [
+        GoRoute(
+          path: '/input-sampah',
+          name: 'input-sampah',
+          builder: (context, state) => const InputSampah(),
+        ),
+        GoRoute(
+          path: '/riwayat-transaksi',
+          name: 'riwayat-transaksi',
+          builder: (context, state) => const RiwayatTransaksi(),
+        ),
+        GoRoute(
+          path: '/tarik-saldo',
+          name: 'tarik-saldo',
+          builder: (context, state) => const TarikSaldo(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: 'tarik-saldo-form',
+              name: 'tarik-saldo-form',
+              builder: (context, state) => const TarikSaldoForm(),
+            ),
+          ],
+        ),
+      ],
     ),
   ],
   redirect: (_, state) async {
