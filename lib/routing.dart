@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bank_sampah/component/widget/scaffold_with_navbar.dart';
-import 'package:bank_sampah/presentation/pages/admin_home_page.dart';
+import 'package:bank_sampah/presentation/pages/admin/admin_home_page.dart';
 import 'package:bank_sampah/presentation/pages/staff/input_sampah.dart';
 import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo.dart';
@@ -13,7 +13,7 @@ import 'package:go_router/go_router.dart';
 
 import 'injection.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'presentation/pages/admin_list_user_page.dart';
+import 'presentation/pages/admin/admin_list_user_page.dart';
 import 'presentation/pages/home_page.dart';
 import 'presentation/pages/login_page.dart';
 

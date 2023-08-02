@@ -10,6 +10,9 @@ import '../../core/utils/firebase_extensions.dart';
 import '../../core/constant/firebase_storage_paths.dart';
 import '../models/user_model.dart';
 
+/// Ini biasanya digunakan untuk mendapatkan data pengguna yang berasal dari internet,
+/// Bisa dari Rest API atau Cloud Firestore
+/// Silahkan modifikasi sesuai dengan kebutuhan apakah lewat Rest API atau Cloud Firestore.
 abstract class UserRemoteDataSource {
   // Register - Membuat pengguna baru
   Future<UserModel> createUser(UserModel userModel);

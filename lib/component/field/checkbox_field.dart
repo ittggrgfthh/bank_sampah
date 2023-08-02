@@ -16,7 +16,7 @@ class CheckboxField extends StatelessWidget {
       children: [
         Expanded(
           child: RadioListTile(
-            title: Text('Warga'),
+            title: const Text('Warga'),
             value: 0,
             groupValue: selectedChoice,
             onChanged: onChanged,
@@ -27,7 +27,7 @@ class CheckboxField extends StatelessWidget {
         ),
         Expanded(
           child: RadioListTile(
-            title: Text('Staff'),
+            title: const Text('Staff'),
             value: 1,
             groupValue: selectedChoice,
             onChanged: onChanged,
@@ -37,7 +37,7 @@ class CheckboxField extends StatelessWidget {
         ),
         Expanded(
           child: RadioListTile(
-            title: Text('Admin'),
+            title: const Text('Admin'),
             value: 2,
             groupValue: selectedChoice,
             onChanged: onChanged,

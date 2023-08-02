@@ -2,7 +2,7 @@ import 'package:bank_sampah/component/field/password_field.dart';
 import 'package:bank_sampah/component/field/phone_field.dart';
 import 'package:flutter/material.dart';
 
-import '../../component/field/name_field.dart';
+import '../../../component/field/name_field.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key});

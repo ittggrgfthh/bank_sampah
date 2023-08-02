@@ -13,6 +13,7 @@ abstract class UserRepository {
   });
   Future<Either<Failure, User>> getUserById(String userId);
   Future<Either<Failure, User>> getUserByPhoneNumber(String phoneNumber);
+  Future<Either<Failure, List<User>>> getAllUserByRole(String role);
 
   // Old method
   Stream<Either<Failure, User?>> getUserProfile(String userId);

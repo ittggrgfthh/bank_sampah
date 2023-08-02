@@ -1,3 +1,6 @@
+import 'package:bank_sampah/domain/usecase/admin/get_all_user_by_role.dart';
+import 'package:bank_sampah/presentation/bloc/list_user/list_user_bloc.dart';
+
 import 'data/datasources/user_local_data_source.dart';
 import 'data/repositories/auth_facade_impl.dart';
 import 'domain/repositories/auth_facade.dart';
@@ -33,6 +36,7 @@ void init() {
   getIt.registerFactory(() => ProfileSetupFormBloc(getIt(), getIt(), getIt()));
 
   getIt.registerFactory(() => CreateUserFormBloc(getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactory(() => ListUserBloc(getIt()));
   getIt.registerFactory(() => SignInFormBloc(getIt()));
   getIt.registerLazySingleton(() => AuthBloc(
         getSignedInUser: getIt(),
@@ -52,6 +56,8 @@ void init() {
   getIt.registerLazySingleton(() => SignOut(getIt()));
   getIt.registerLazySingleton(() => GetUserById(getIt()));
   getIt.registerLazySingleton(() => GetUserByPhoneNumber(getIt()));
+
+  getIt.registerLazySingleton(() => GetAllUserByRole(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));
