@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bank_sampah/component/widget/scaffold_with_navbar.dart';
+import 'package:bank_sampah/presentation/pages/admin_home_page.dart';
 import 'package:bank_sampah/presentation/pages/staff/input_sampah.dart';
 import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo_form.dart';
+import 'package:bank_sampah/presentation/pages/warga/warga_home_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -34,6 +36,16 @@ final router = GoRouter(
       path: '/admin-list-user',
       name: 'admin-list-user',
       builder: (context, state) => const AdminListUserPage(),
+    ),
+    GoRoute(
+      path: '/admin-home',
+      name: 'admin-home',
+      builder: (context, state) => const AdminHomePage(),
+    ),
+    GoRoute(
+      path: '/warga-home',
+      name: 'warga-home',
+      builder: (context, state) => const WargaHomePage(),
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
@@ -69,8 +81,18 @@ final router = GoRouter(
     final String? a = await getIt<AuthBloc>().state.when(
       authenticated: (user) async {
         if (state.matchedLocation == '/login') {
-          return '/';
+          switch (user.role) {
+            case 'warga':
+              return '/warga-home';
+            case 'staff':
+              return '/input-sampah';
+            case 'admin':
+              return '/admin-home';
+            default:
+              return '/';
+          }
         }
+
         return null;
       },
       unauthenticated: (_) async {
