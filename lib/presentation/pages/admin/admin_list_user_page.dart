@@ -76,7 +76,6 @@ class AdminListUserPage extends StatelessWidget {
                     child: BlocBuilder<ListUserBloc, ListUserState>(
                       builder: (context, state) {
                         return state.maybeWhen(
-                          (role) => Text(role),
                           loadSuccess: (users) {
                             if (users.isEmpty) {
                               return const Center(

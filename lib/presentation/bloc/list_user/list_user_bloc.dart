@@ -13,7 +13,7 @@ part 'list_user_bloc.freezed.dart';
 class ListUserBloc extends Bloc<ListUserEvent, ListUserState> {
   final GetAllUserByRole _getAllUserByRole;
 
-  ListUserBloc(this._getAllUserByRole) : super(ListUserState.initial()) {
+  ListUserBloc(this._getAllUserByRole) : super(const ListUserState.initial()) {
     on<ListUserEvent>((event, emit) async {
       await event.when(
         initialized: () => _handleInitialized(emit),
