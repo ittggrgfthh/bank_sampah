@@ -4,6 +4,7 @@ class RiwayatTransaksiListTile extends StatelessWidget {
   final String title;
   final List<String>? subtitle;
   final List<String>? trailing;
+  final String? image;
   final void Function()? onTap;
 
   const RiwayatTransaksiListTile({
@@ -11,12 +12,18 @@ class RiwayatTransaksiListTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.trailing,
+    this.image,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: CircleAvatar(
+        radius: 20,
+        backgroundImage: AssetImage(image ?? ''),
+        child: image == null ? const Text('AR') : Container(),
+      ),
       onTap: onTap,
       title: Text(
         title,
@@ -27,9 +34,7 @@ class RiwayatTransaksiListTile extends StatelessWidget {
       ),
       subtitle: Row(
         children: [
-          subtitle![0] == '0'
-              ? Container()
-              : const Icon(Icons.energy_savings_leaf),
+          subtitle![0] == '0' ? Container() : const Icon(Icons.energy_savings_leaf),
           Text(subtitle![0] == '0' ? '' : subtitle![0]),
           const SizedBox(width: 5),
           subtitle![1] == '0' ? Container() : const Icon(Icons.wallet),

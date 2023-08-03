@@ -23,8 +23,8 @@ class SingleListTile extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.primary,
-            offset: const Offset(4, 4),
-            blurRadius: 4,
+            offset: const Offset(2, 2),
+            blurRadius: 3,
             spreadRadius: 1,
           )
         ],

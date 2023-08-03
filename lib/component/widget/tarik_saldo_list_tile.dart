@@ -4,6 +4,7 @@ class TarikSaldoListTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? trailing;
+  final String? image;
   final void Function()? onTap;
 
   const TarikSaldoListTile({
@@ -11,12 +12,18 @@ class TarikSaldoListTile extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.trailing,
+    this.image,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundImage: AssetImage(image ?? ''),
+        child: image == null ? const Text('AR') : Container(),
+      ),
       onTap: onTap,
       title: Text(
         title,
