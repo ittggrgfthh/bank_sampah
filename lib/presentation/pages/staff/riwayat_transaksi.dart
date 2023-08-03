@@ -14,6 +14,7 @@ class RiwayatTransaksi extends StatelessWidget {
             color: Colors.amber,
             child: const RiwayatTransaksiListTile(
               title: 'Arlene McCoy',
+              // image: 'assets/images/logo.png',
               subtitle: ['100', '70'],
               trailing: ['5 jam yang lalu', 'Rp. 221.000'],
             ),
