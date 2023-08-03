@@ -19,10 +19,14 @@ class TarikSaldoListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        radius: 30,
-        backgroundImage: AssetImage(image ?? ''),
-        child: image == null ? const Text('AR') : Container(),
+      leading: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blueAccent),
+        child: const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          child: Text('AR'),
+        ),
       ),
       onTap: onTap,
       title: Text(

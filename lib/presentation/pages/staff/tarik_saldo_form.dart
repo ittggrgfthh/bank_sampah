@@ -1,5 +1,8 @@
+import 'dart:js_interop';
+
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:bank_sampah/component/data/choice_chips.dart';
+import 'package:bank_sampah/component/field/money_field.dart';
 import 'package:bank_sampah/component/model/choice_chip_data.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +16,9 @@ class TarikSaldoForm extends StatefulWidget {
 
 class _TarikSaldoFormState extends State<TarikSaldoForm> {
   List<ChoiceChipData> choiceChips = ChoiceChips.all;
+  List<String> chipdatas = ['50.000', '100.000', '200.000', '300.000', '500.000', '1.000.000'];
+  int? _selectedChoice = 0;
+  final TextEditingController _moneyController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,44 +47,35 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
               ),
             ),
             Wrap(
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.spaceAround,
-              children: choiceChips
-                  .map((choiceChip) => Container(
-                        color: Colors.amber,
-                        height: 70,
-                        width: 190,
-                        child: ChoiceChip(
-                          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
-                          label: Text(choiceChip.label),
-                          selected: choiceChip.isSelected,
-                          onSelected: (value) => setState(() {
-                            choiceChips = choiceChips.map(
-                              (otherChip) {
-                                final newChip = otherChip.copy(isSelected: false);
-
-                                return choiceChip == otherChip ? newChip.copy(isSelected: value) : newChip;
-                              },
-                            ).toList();
-                          }),
-                          selectedColor: Colors.green,
-                          backgroundColor: Colors.blue,
-                        ),
-                      ))
-                  .toList(),
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 30,
+              children: List<Widget>.generate(
+                6,
+                (index) => Container(
+                  height: 70,
+                  width: 190,
+                  child: ChoiceChip(
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
+                    label: Text('Rp. ${chipdatas[index]}'),
+                    selected: _selectedChoice == index,
+                    onSelected: (v) => setState(() => _selectedChoice = v ? index : null),
+                    selectedColor: Colors.green,
+                    backgroundColor: Colors.blue,
+                  ),
+                ),
+              ),
             ),
+            const SizedBox(height: 20),
+            MoneyField(controller: _moneyController, onTap: () => setState(() => _selectedChoice = null)),
             const SizedBox(height: 20),
             RoundedPrimaryButton(
                 buttonName: 'Tarik',
                 buttonTask: () {
-                  List<ChoiceChipData> selectedChips = choiceChips.where((chip) => chip.isSelected).toList();
-
-                  selectedChips.forEach((chip) {
-                    print(chip.label);
+                  if (_selectedChoice.isDefinedAndNotNull) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${chip.label} dipilih')),
+                      SnackBar(content: Text('Rp. ${chipdatas[_selectedChoice!]}')),
                     );
-                  });
+                  }
                 }),
           ],
         ),
