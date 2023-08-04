@@ -28,7 +28,7 @@ Bank Sampah adalah aplikasi mobile flutter sederhana yang digunakan untuk store 
   "password": "hashing...",
   "role": "warga || staff || admin",
   "full_name": "Kaesa Lyrih",
-  "photo_profile": "photo-profile/user_random-string.jpg"
+  "photo_url": "photo-profile/user_random-string.jpg"
 }
 ```
 
@@ -54,16 +54,17 @@ Bank Sampah adalah aplikasi mobile flutter sederhana yang digunakan untuk store 
 ```json
 {
   "id": "transaction_randoms-string",
-  "timestamp": 12131923192312931,
+  "create_at": 12131923192312931,
+  "update_at": 12312312313213123,
   "user": {
     "id": "user_randoms-string-warga",
     "name": "Kaesa Lyrih",
-    "photo_profile": "photo-profile/user_randoms-string-warga.jpg"
+    "photo_url": "photo-profile/user_randoms-string-warga.jpg"
   },
   "staff": {
     "id": "user_randoms-string-staff",
     "name": "Farhan Taqi",
-    "photo_profile": "photo-profile/user_randoms-string-staff.jpg"
+    "photo_url": "photo-profile/user_randoms-string-staff.jpg"
   },
   "withdrawn_balance": {
     "balance": 2000000,
@@ -77,7 +78,7 @@ Bank Sampah adalah aplikasi mobile flutter sederhana yang digunakan untuk store 
   "price": {
     "organic": 1000,
     "inorganic": 2000,
-    "timestamp": 1938192831939831
+    "update_at": 1938192831939831
   },
   "history_update": [
     {
@@ -85,14 +86,14 @@ Bank Sampah adalah aplikasi mobile flutter sederhana yang digunakan untuk store 
         "organic": 10,
         "inorganic": 20
       },
-      "timestamp": 12131923192312931
+      "update_at": 12131923192312931
     },
     {
       "waste": {
         "organic": 10,
         "inorganic": 20
       },
-      "timestamp": 12131923192312931
+      "update_at": 12131923192312931
     }
   ]
 }
@@ -100,45 +101,45 @@ Bank Sampah adalah aplikasi mobile flutter sederhana yang digunakan untuk store 
 
 ## Current Waste Price
 
-- /current-waste-price
+- /waste-price?current=true
 
 ```json
 {
   "organic": 1000,
   "inorganic": 2000,
-  "timestamp": 1938192831939831,
+  "update_at": 1938192831939831,
   "admin": {
     "id": "user_randoms-string-admin",
     "name": "Suastino Budi",
-    "photo_profile": "photo-profile/user_randoms-string-admin.jpg"
+    "photo_url": "photo-profile/user_randoms-string-admin.jpg"
   }
 }
 ```
 
 ## History Waste Price
 
-- /history-waste-price
+- /waste-price
 
 ```json
 [
   {
     "organic": 1000,
     "inorganic": 2000,
-    "timestamp": 1938192831939831,
+    "update_at": 1938192831939831,
     "admin": {
       "id": "user_randoms-string-admin",
       "name": "Suastino Budi",
-      "photo_profile": "photo-profile/user_randoms-string-admin.jpg"
+      "photo_url": "photo-profile/user_randoms-string-admin.jpg"
     }
   },
   {
     "organic": 2000,
     "inorganic": 2500,
-    "timestamp": 1938192831939831,
+    "update_at": 1938192831939831,
     "admin": {
       "id": "user_randoms-string-admin",
       "name": "Suastino Budi",
-      "photo_profile": "photo-profile/user_randoms-string-admin.jpg"
+      "photo_url": "photo-profile/user_randoms-string-admin.jpg"
     }
   }
 ]

@@ -1,8 +1,14 @@
+import 'package:bank_sampah/data/datasources/waste_price_remote_data_source.dart';
+import 'package:bank_sampah/domain/repositories/waste_price_repository.dart';
+import 'package:bank_sampah/domain/usecase/admin/create_waste_price.dart';
 import 'package:bank_sampah/domain/usecase/admin/get_all_user_by_role.dart';
+import 'package:bank_sampah/domain/usecase/admin/get_current_waste_price.dart';
+import 'package:bank_sampah/domain/usecase/admin/get_waste_prices.dart';
 import 'package:bank_sampah/presentation/bloc/list_user/list_user_bloc.dart';
 
 import 'data/datasources/user_local_data_source.dart';
 import 'data/repositories/auth_facade_impl.dart';
+import 'data/repositories/waste_price_repository_impl.dart';
 import 'domain/repositories/auth_facade.dart';
 import 'domain/usecase/create_user.dart';
 import 'domain/usecase/get_signed_in_user.dart';
@@ -58,16 +64,24 @@ void init() {
   getIt.registerLazySingleton(() => GetUserByPhoneNumber(getIt()));
 
   getIt.registerLazySingleton(() => GetAllUserByRole(getIt()));
+  // usecase - harga limbah organik dan an-organik
+  getIt.registerLazySingleton(() => CreateWastePrice(getIt()));
+  getIt.registerLazySingleton(() => GetCurrentWastePrice(getIt()));
+  getIt.registerLazySingleton(() => GetWastePrices(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));
   getIt.registerLazySingleton<AuthFacade>(() => AuthFacadeImpl(getIt(), getIt()));
+  // repository - harga limbah organik dan an-organik
+  getIt.registerLazySingleton<WastePriceRepository>(() => WastePriceRepositoryImpl(getIt()));
 
   // datasource
   getIt.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(getIt(), getIt()));
   getIt.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImpl());
+  // datasource - harga limbah organik dan anorganik
+  getIt.registerLazySingleton<WastePriceRemoteDataSource>(() => WastePriceRemoteDataSourceImpl(getIt()));
 
-// external
+  // external
   getIt.registerLazySingleton(() => FirebaseFirestore.instance);
   getIt.registerLazySingleton(() => FirebaseStorage.instance);
   getIt.registerLazySingleton(() => ImagePicker());

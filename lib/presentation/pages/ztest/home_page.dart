@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../injection.dart';
-import '../bloc/auth_bloc/auth_bloc.dart';
+import '../../../injection.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});

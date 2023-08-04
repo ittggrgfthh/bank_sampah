@@ -51,7 +51,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
               spacing: 30,
               children: List<Widget>.generate(
                 6,
-                (index) => Container(
+                (index) => SizedBox(
                   height: 70,
                   width: 190,
                   child: ChoiceChip(
