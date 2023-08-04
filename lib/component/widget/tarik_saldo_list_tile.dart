@@ -1,3 +1,6 @@
+import 'dart:js_interop';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class TarikSaldoListTile extends StatelessWidget {
@@ -22,10 +25,15 @@ class TarikSaldoListTile extends StatelessWidget {
       leading: Container(
         height: 40,
         width: 40,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blueAccent),
-        child: const CircleAvatar(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: image.isNull ? Colors.blueAccent : Colors.transparent,
+        ),
+        child: CircleAvatar(
+          radius: 50,
           backgroundColor: Colors.transparent,
-          child: Text('AR'),
+          backgroundImage: CachedNetworkImageProvider(image ?? ''),
+          child: image.isNull ? const Text('AR') : Container(),
         ),
       ),
       onTap: onTap,

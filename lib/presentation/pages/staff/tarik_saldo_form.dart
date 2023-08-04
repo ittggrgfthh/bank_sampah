@@ -1,23 +1,22 @@
 import 'dart:js_interop';
 
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
-import 'package:bank_sampah/component/data/choice_chips.dart';
 import 'package:bank_sampah/component/field/money_field.dart';
-import 'package:bank_sampah/component/model/choice_chip_data.dart';
+import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TarikSaldoForm extends StatefulWidget {
-  const TarikSaldoForm({super.key});
+  final User user;
+  const TarikSaldoForm({super.key, required this.user});
 
   @override
   State<TarikSaldoForm> createState() => _TarikSaldoFormState();
 }
 
 class _TarikSaldoFormState extends State<TarikSaldoForm> {
-  List<ChoiceChipData> choiceChips = ChoiceChips.all;
   List<String> chipdatas = ['50.000', '100.000', '200.000', '300.000', '500.000', '1.000.000'];
-  int? _selectedChoice = 0;
+  int? _selectedChoice;
   final TextEditingController _moneyController = TextEditingController();
 
   @override
@@ -56,7 +55,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
                   width: 190,
                   child: ChoiceChip(
                     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
-                    label: Text('Rp. ${chipdatas[index]}'),
+                    label: Text('Rp. ${chipdatas[index]} ditarik'),
                     selected: _selectedChoice == index,
                     onSelected: (v) => setState(() => _selectedChoice = v ? index : null),
                     selectedColor: Colors.green,
@@ -105,7 +104,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Arlene McCoy',
+                  widget.user.fullName!,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 16,
@@ -113,7 +112,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
                   ),
                 ),
                 Text(
-                  '+62 123-4567-8934',
+                  widget.user.phoneNumber,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 14,

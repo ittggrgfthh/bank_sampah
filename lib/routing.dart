@@ -1,8 +1,12 @@
 import 'dart:async';
 
-import 'package:bank_sampah/component/widget/scaffold_with_navbar.dart';
+import 'package:bank_sampah/component/widget/navbar_admin.dart';
+import 'package:bank_sampah/component/widget/navbar_staff.dart';
+import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/presentation/pages/admin/admin_home_page.dart';
+import 'package:bank_sampah/presentation/pages/admin/edit_harga.dart';
 import 'package:bank_sampah/presentation/pages/staff/input_sampah.dart';
+import 'package:bank_sampah/presentation/pages/staff/input_sampah_form.dart';
 import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo_form.dart';
@@ -32,29 +36,43 @@ final router = GoRouter(
       path: '/login',
       builder: (context, state) => const LoginPage(),
     ),
-    GoRoute(
-      path: '/admin-list-user',
-      name: 'admin-list-user',
-      builder: (context, state) => const AdminListUserPage(),
-    ),
-    GoRoute(
-      path: '/admin-home',
-      name: 'admin-home',
-      builder: (context, state) => const AdminHomePage(),
-    ),
-    GoRoute(
-      path: '/warga-home',
-      name: 'warga-home',
-      builder: (context, state) => const WargaHomePage(),
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) => NavbarAdmin(child: child),
+      routes: [
+        GoRoute(
+          path: '/admin-home',
+          name: 'admin-home',
+          builder: (context, state) => const AdminHomePage(),
+        ),
+        GoRoute(
+          path: '/admin-list-user',
+          name: 'admin-list-user',
+          builder: (context, state) => const AdminListUserPage(),
+        ),
+        GoRoute(
+          path: '/edit-harga',
+          name: 'edit-harga',
+          builder: (context, state) => const EditHarga(),
+        ),
+      ],
     ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
-      builder: (context, state, child) => ScaffoldWithNavbar(child: child),
+      builder: (context, state, child) => NavbarStaff(child: child),
       routes: [
         GoRoute(
           path: '/input-sampah',
           name: 'input-sampah',
           builder: (context, state) => const InputSampah(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: 'input-sampah-form',
+              name: 'input-sampah-form',
+              builder: (context, state) => InputSampahForm(user: state.extra as User),
+            ),
+          ],
         ),
         GoRoute(
           path: '/riwayat-transaksi',
@@ -70,11 +88,16 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'tarik-saldo-form',
               name: 'tarik-saldo-form',
-              builder: (context, state) => const TarikSaldoForm(),
+              builder: (context, state) => TarikSaldoForm(user: state.extra as User),
             ),
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '/warga-home',
+      name: 'warga-home',
+      builder: (context, state) => const WargaHomePage(),
     ),
   ],
   redirect: (_, state) async {
