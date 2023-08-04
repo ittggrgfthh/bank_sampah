@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ScaffoldWithNavbar extends StatelessWidget {
+class NavbarStaff extends StatelessWidget {
   final Widget child;
 
-  const ScaffoldWithNavbar({required this.child, super.key});
+  const NavbarStaff({required this.child, super.key});
 
   @override
   Widget build(BuildContext context) {

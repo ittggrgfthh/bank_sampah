@@ -1,12 +1,12 @@
 name: bank_sampah
 description: A store trash to get money
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 0.1.0+1
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
 
 dependencies:
   flutter:
@@ -38,6 +38,7 @@ dependencies:
   # image
   image_cropper: ^5.0.0
   image_picker: ^1.0.1
+  cached_network_image: ^3.2.3
 
   # ui
   another_flushbar: ^1.12.30
@@ -48,9 +49,9 @@ dependencies:
 
 # splash screen
 flutter_native_splash:
-  color: '#F8FDFF'
-  color_dark: '#020617'
-  image: 'assets/images/logo.png'
+  color: "#F8FDFF"
+  color_dark: "#020617"
+  image: "assets/images/logo.png"
   android: true
   ios: true
   web: true
