@@ -1,4 +1,4 @@
-import 'package:bank_sampah/component/data/dummy_data.dart';
+import 'package:bank_sampah/component/dummy/dummy_data.dart';
 import 'package:bank_sampah/component/widget/tarik_saldo_list_tile.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
