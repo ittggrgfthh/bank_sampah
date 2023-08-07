@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:bank_sampah/component/field/money_field.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
@@ -21,6 +19,9 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
 
   @override
   Widget build(BuildContext context) {
+    double heightScreen = MediaQuery.of(context).size.height;
+    double widthScreen = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tarik Saldo'),
@@ -29,55 +30,60 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
           icon: const Icon(Icons.chevron_left_rounded),
         ),
       ),
-      body: Container(
+      body: ListView(
         padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            _buildHeader(context),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                'Pilih Nominal',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
+        children: [
+          _buildHeader(context),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              'Pilih Nominal',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
               ),
             ),
-            Wrap(
-              alignment: WrapAlignment.spaceEvenly,
-              spacing: 30,
-              children: List<Widget>.generate(
-                6,
-                (index) => SizedBox(
-                  height: 70,
-                  width: 190,
-                  child: ChoiceChip(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
-                    label: Text('Rp. ${chipdatas[index]} ditarik'),
-                    selected: _selectedChoice == index,
-                    onSelected: (v) => setState(() => _selectedChoice = v ? index : null),
-                    selectedColor: Colors.green,
-                    backgroundColor: Colors.blue,
+          ),
+          GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            childAspectRatio: 3.5,
+            children: List<Widget>.generate(
+              chipdatas.length,
+              (index) => ChoiceChip(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                label: Text(
+                  'Rp. ${chipdatas[index]}',
+                  style: TextStyle(
+                    color: _selectedChoice == index
+                        ? Theme.of(context).colorScheme.background
+                        : Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
+                selected: _selectedChoice == index,
+                onSelected: (v) => setState(() => _selectedChoice = v ? index : null),
+                selectedColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.background,
               ),
             ),
-            const SizedBox(height: 20),
-            MoneyField(controller: _moneyController, onTap: () => setState(() => _selectedChoice = null)),
-            const SizedBox(height: 20),
-            RoundedPrimaryButton(
-                buttonName: 'Tarik',
-                buttonTask: () {
-                  if (_selectedChoice.isDefinedAndNotNull) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Rp. ${chipdatas[_selectedChoice!]}')),
-                    );
-                  }
-                }),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+          MoneyField(controller: _moneyController, onTap: () => setState(() => _selectedChoice = null)),
+          const SizedBox(height: 20),
+          RoundedPrimaryButton(
+            buttonName: 'Tarik',
+            buttonTask: () {
+              if (_selectedChoice != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Rp. ${chipdatas[_selectedChoice!]} ditarik')),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

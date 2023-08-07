@@ -4,6 +4,7 @@ import 'package:bank_sampah/component/field/money_field.dart';
 import 'package:bank_sampah/component/widget/utils.dart';
 import 'package:bank_sampah/domain/entities/waste_price.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class EditHarga extends StatelessWidget {
   const EditHarga({super.key});
@@ -49,7 +50,10 @@ class EditHarga extends StatelessWidget {
             Wrap(
               spacing: 5,
               children: [
-                const Icon(Icons.timelapse),
+                IconButton(
+                  icon: const Icon(Icons.timelapse),
+                  onPressed: () => context.goNamed('log-edit-price'),
+                ),
                 Text(timeAgo),
               ],
             ),

@@ -23,7 +23,7 @@ class InputSampah extends StatelessWidget {
             subtitle: userDatas[index].phoneNumber,
             trailing: 'Rp. 200.000',
             image: userDatas[index].photoUrl,
-            onTap: () => context.goNamed('input-sampah-form', extra: userDatas[index]),
+            onTap: () => context.goNamed('input-waste-form', extra: userDatas[index]),
           ),
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 class Utils {
   static String millisecondEpochtoString(int millisecondsSinceEpoch) {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
-    return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    return DateFormat('yyyy-MM-dd').format(dateTime);
   }
 
   static String timeAgoFromMillisecond(int millisecondsSinceEpoch) {

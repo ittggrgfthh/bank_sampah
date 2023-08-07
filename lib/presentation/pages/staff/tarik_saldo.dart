@@ -23,7 +23,7 @@ class TarikSaldo extends StatelessWidget {
             title: userDatas[index].fullName ?? 'No Name',
             subtitle: userDatas[index].phoneNumber,
             trailing: 'Rp. 200.000',
-            onTap: () => context.goNamed('tarik-saldo-form', extra: userDatas[index]),
+            onTap: () => context.goNamed('withdraw-balance-form', extra: userDatas[index]),
           ),
         ),
       ),

@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -27,13 +25,13 @@ class RiwayatTransaksiListTile extends StatelessWidget {
         width: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: image.isUndefinedOrNull ? Colors.blueAccent : Colors.transparent,
+          color: image == null || image == '' ? Colors.blueAccent : Colors.transparent,
         ),
         child: CircleAvatar(
           radius: 50,
           backgroundColor: Colors.transparent,
           backgroundImage: CachedNetworkImageProvider(image ?? ''),
-          child: image.isUndefinedOrNull ? const Text('AR') : Container(),
+          child: image == null || image == '' ? const Text('AR') : Container(),
         ),
       ),
       onTap: onTap,

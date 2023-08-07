@@ -271,16 +271,18 @@ class _FilterRoleChoiceChipState extends State<FilterRoleChoiceChip> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List<Widget>.generate(
         roles.length,
-        (index) => ChoiceChip(
-          label: Text(roles[index]),
-          selected: _selectedChoice == index,
-          onSelected: (selectedIndex) {
-            setState(() {
-              _selectedChoice = index;
-              _selectedRoleChoice = roles[index];
-              widget.onSelected?.call(_selectedRoleChoice);
-            });
-          },
+        (index) => Container(
+          child: ChoiceChip(
+            label: Text(roles[index]),
+            selected: _selectedChoice == index,
+            onSelected: (selectedIndex) {
+              setState(() {
+                _selectedChoice = index;
+                _selectedRoleChoice = roles[index];
+                widget.onSelected?.call(_selectedRoleChoice);
+              });
+            },
+          ),
         ),
       ),
     );

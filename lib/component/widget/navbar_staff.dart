@@ -37,13 +37,13 @@ class NavbarStaff extends StatelessWidget {
   void _onTap(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.goNamed('input-sampah');
+        context.goNamed('input-waste');
         break;
       case 1:
-        context.goNamed('riwayat-transaksi');
+        context.goNamed('transaction-history');
         break;
       case 2:
-        context.goNamed('tarik-saldo');
+        context.goNamed('withdraw-balance');
         break;
     }
   }

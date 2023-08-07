@@ -43,7 +43,7 @@ class NavbarAdmin extends StatelessWidget {
         context.goNamed('admin-list-user');
         break;
       case 2:
-        context.goNamed('edit-harga');
+        context.goNamed('edit-price');
         break;
     }
   }

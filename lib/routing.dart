@@ -51,9 +51,17 @@ final router = GoRouter(
           builder: (context, state) => const AdminListUserPage(),
         ),
         GoRoute(
-          path: '/edit-harga',
-          name: 'edit-harga',
+          path: '/edit-price',
+          name: 'edit-price',
           builder: (context, state) => const EditHarga(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: 'log-edit-price',
+              name: 'log-edit-price',
+              builder: (context, state) => InputSampahForm(user: state.extra as User),
+            ),
+          ],
         ),
       ],
     ),
@@ -62,32 +70,32 @@ final router = GoRouter(
       builder: (context, state, child) => NavbarStaff(child: child),
       routes: [
         GoRoute(
-          path: '/input-sampah',
-          name: 'input-sampah',
+          path: '/input-waste',
+          name: 'input-waste',
           builder: (context, state) => const InputSampah(),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
-              path: 'input-sampah-form',
-              name: 'input-sampah-form',
+              path: 'input-waste-form',
+              name: 'input-waste-form',
               builder: (context, state) => InputSampahForm(user: state.extra as User),
             ),
           ],
         ),
         GoRoute(
-          path: '/riwayat-transaksi',
-          name: 'riwayat-transaksi',
+          path: '/transaction-history',
+          name: 'transaction-history',
           builder: (context, state) => const RiwayatTransaksi(),
         ),
         GoRoute(
-          path: '/tarik-saldo',
-          name: 'tarik-saldo',
+          path: '/withdraw-balance',
+          name: 'withdraw-balance',
           builder: (context, state) => const TarikSaldo(),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
-              path: 'tarik-saldo-form',
-              name: 'tarik-saldo-form',
+              path: 'withdraw-balance-form',
+              name: 'withdraw-balance-form',
               builder: (context, state) => TarikSaldoForm(user: state.extra as User),
             ),
           ],
@@ -108,7 +116,7 @@ final router = GoRouter(
             case 'warga':
               return '/warga-home';
             case 'staff':
-              return '/input-sampah';
+              return '/input-waste';
             case 'admin':
               return '/admin-home';
             default:
