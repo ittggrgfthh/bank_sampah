@@ -75,7 +75,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
           const SizedBox(height: 20),
           RoundedPrimaryButton(
             buttonName: 'Tarik',
-            buttonTask: () {
+            onPressed: () {
               if (_selectedChoice != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Rp. ${chipdatas[_selectedChoice!]} ditarik')),

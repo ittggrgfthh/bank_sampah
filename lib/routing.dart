@@ -4,7 +4,7 @@ import 'package:bank_sampah/component/widget/navbar_admin.dart';
 import 'package:bank_sampah/component/widget/navbar_staff.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/presentation/pages/admin/admin_home_page.dart';
-import 'package:bank_sampah/presentation/pages/admin/edit_harga.dart';
+import 'package:bank_sampah/presentation/pages/admin/edit_waste_price.dart';
 import 'package:bank_sampah/presentation/pages/staff/input_sampah.dart';
 import 'package:bank_sampah/presentation/pages/staff/input_sampah_form.dart';
 import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
@@ -53,7 +53,7 @@ final router = GoRouter(
         GoRoute(
           path: '/edit-price',
           name: 'edit-price',
-          builder: (context, state) => const EditHarga(),
+          builder: (context, state) => const EditWastePrice(),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,

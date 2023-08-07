@@ -17,6 +17,7 @@ import 'domain/usecase/sign_out.dart';
 import 'domain/usecase/signin_with_phone_number_and_password.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'presentation/bloc/create_user_form/create_user_form_bloc.dart';
+import 'presentation/bloc/edit_waste_price/edit_waste_price_bloc.dart';
 import 'presentation/bloc/signin_form_bloc/signin_form_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -49,6 +50,9 @@ void init() {
         signOut: getIt(),
         getUserById: getIt(),
       ));
+
+  // bloc - admin
+  getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));

@@ -2,6 +2,7 @@ import 'package:bank_sampah/core/utils/exception.dart';
 import 'package:bank_sampah/core/utils/firebase_extensions.dart';
 import 'package:bank_sampah/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/waste_price_model.dart';
 
@@ -25,8 +26,12 @@ class WastePriceRemoteDataSourceImpl implements WastePriceRemoteDataSource {
 
   @override
   Future<void> createWastePrice(WastePriceModel wastePriceModel) async {
+    const uuid = Uuid();
+    final v4 = uuid.v4();
+    final v4WithoutDashes = v4.replaceAll('-', '');
+    final newWastePriceModel = wastePriceModel.copyWith(id: 'wastePrice_$v4WithoutDashes');
     try {
-      await _firestore.wastePriceColRef.add(wastePriceModel.toJson());
+      await _firestore.wastePriceDocRef(newWastePriceModel.id).set(newWastePriceModel.toJson());
     } catch (e) {
       throw ServerException();
     }
@@ -35,10 +40,8 @@ class WastePriceRemoteDataSourceImpl implements WastePriceRemoteDataSource {
   @override
   Future<WastePriceModel> getCurrentWastePrice() async {
     try {
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('waste_prices').orderBy('create_at', descending: true).limit(1).get();
-      final List<WastePriceModel> wastePrices =
-          snapshot.docs.map((doc) => WastePriceModel.fromJson(doc.data())).toList();
+      final snapshot = await _firestore.collection('waste-price').orderBy('create_at', descending: true).limit(1).get();
+      final wastePrices = snapshot.docs.map((doc) => WastePriceModel.fromJson(doc.data())).toList();
       if (wastePrices.isNotEmpty) {
         return wastePrices.first;
       } else {

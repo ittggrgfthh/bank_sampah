@@ -8,6 +8,7 @@ part 'waste_price_model.g.dart';
 
 @freezed
 class WastePriceModel with _$WastePriceModel {
+  @JsonSerializable(explicitToJson: true)
   const factory WastePriceModel({
     required String id,
     required int organic,

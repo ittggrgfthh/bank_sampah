@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 
 class RoundedPrimaryButton extends StatelessWidget {
-  final VoidCallback? buttonTask;
+  final VoidCallback? onPressed;
   final String buttonName;
+  final bool isLoading;
+  final bool isChanged;
 
   const RoundedPrimaryButton({
     super.key,
     required this.buttonName,
-    required this.buttonTask,
+    required this.onPressed,
+    this.isLoading = false,
+    this.isChanged = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final Color buttonBackgroundColor =
+        isLoading || isChanged ? Colors.blueGrey : Theme.of(context).colorScheme.primary;
+    final Color buttonPrimaryColor = Theme.of(context).colorScheme.background;
     return Theme(
       data: Theme.of(context).copyWith(
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -27,15 +34,18 @@ class RoundedPrimaryButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            Theme.of(context).colorScheme.primary,
-          ),
-          foregroundColor: MaterialStateProperty.all<Color>(
-            Theme.of(context).colorScheme.background,
-          ),
+          backgroundColor: MaterialStateProperty.all<Color>(buttonBackgroundColor),
+          foregroundColor: MaterialStateProperty.all<Color>(buttonPrimaryColor),
         ),
-        onPressed: buttonTask,
-        child: Text(buttonName),
+        onPressed: isLoading || isChanged ? null : onPressed,
+        child: isLoading
+            ? Transform.scale(
+                scale: 0.7,
+                child: CircularProgressIndicator(
+                  color: buttonPrimaryColor,
+                ),
+              )
+            : Text(buttonName),
       ),
     );
   }

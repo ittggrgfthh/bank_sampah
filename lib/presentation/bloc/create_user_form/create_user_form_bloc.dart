@@ -56,7 +56,6 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
   Future<void> _handlePhoneNumberChanged(Emitter<CreateUserFormState> emit, String phoneNumber) async {
     if (phoneNumber.length >= 11) {
       emit(state.copyWith(isPhoneNumberLoading: true));
-      await Future.delayed(const Duration(seconds: 10));
       final failureOrSuccess = await getUserByPhoneNumber(phoneNumber);
       failureOrSuccess.fold(
         (failure) => emit(state.copyWith(

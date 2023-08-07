@@ -55,7 +55,7 @@ class InputSampahForm extends StatelessWidget {
                 children: [
                   _totalMoney(context),
                   const SizedBox(height: 20),
-                  RoundedPrimaryButton(buttonName: 'Input', buttonTask: () {}),
+                  RoundedPrimaryButton(buttonName: 'Input', onPressed: () {}),
                 ],
               ),
             ],
