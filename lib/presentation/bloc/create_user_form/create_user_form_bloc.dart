@@ -112,6 +112,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final password = state.password.getOrElse((_) => '');
       final fullName = state.fullName.getOrElse((_) => '');
       final role = state.role;
+      final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
 
       newUser = User(
         id: "unknown",
@@ -120,6 +121,8 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         password: password,
         fullName: fullName,
         photoUrl: "uknown",
+        createdAt: dateNowEpoch,
+        updatedAt: dateNowEpoch,
       );
 
       // There is a picture selected

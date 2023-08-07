@@ -46,7 +46,7 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
         priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
         isChange: false,
-        currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(currentWastePrice.createAt),
+        currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(currentWastePrice.createdAt),
         currentAdminFullName: currentWastePrice.admin.id == user.id ? 'Anda' : currentWastePrice.admin.fullName!,
       )),
     );
@@ -80,12 +80,18 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
 
   Future<void> _submitButtonPressed(Emitter<EditWastePriceState> emit) async {
     emit(state.copyWith(isLoading: true));
+
+    final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
+
     final admin = state.user.getOrElse(
-      () => const User(
+      () => User(
         id: 'id',
         phoneNumber: 'phoneNumber',
         role: 'admin',
         password: 'password',
+        fullName: 'fullName',
+        createdAt: dateNowEpoch,
+        updatedAt: dateNowEpoch,
       ),
     );
     final wastePrice = state.wastePrice.getOrElse(
@@ -93,7 +99,7 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         id: 'id',
         organic: 0,
         inorganic: 0,
-        createAt: DateTime.now().millisecondsSinceEpoch,
+        createdAt: dateNowEpoch,
         admin: admin,
       ),
     );
@@ -101,7 +107,7 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
       id: 'id',
       organic: NumberConverter.parseToInteger(state.priceOrganic),
       inorganic: NumberConverter.parseToInteger(state.priceInorganic),
-      createAt: DateTime.now().millisecondsSinceEpoch,
+      createdAt: dateNowEpoch,
       admin: admin,
     );
     final failureOrSuccess = await _createWastePrice(newWastePrice);
@@ -115,7 +121,7 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         wastePrice: optionOf(newWastePrice),
         failure: none(),
         isChange: false,
-        currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(newWastePrice.createAt),
+        currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(newWastePrice.createdAt),
         currentAdminFullName: 'Anda',
       )),
     );

@@ -19,10 +19,10 @@ class EditWastePriceState with _$EditWastePriceState {
         failure: none(),
         user: none(),
         wastePrice: none(),
-        priceOrganic: '0',
-        priceInorganic: '0',
+        priceOrganic: '',
+        priceInorganic: '',
         isChange: false,
-        currentTimeAgo: '-',
-        currentAdminFullName: '-',
+        currentTimeAgo: '...',
+        currentAdminFullName: '...',
       );
 }

@@ -25,7 +25,7 @@ class EditPriceLog extends StatelessWidget {
         itemBuilder: (context, index) => Container(
           color: Colors.amber,
           child: RiwayatTransaksiListTile(
-            title: Utils.millisecondEpochtoString(logEditPrices[index].createAt),
+            title: Utils.millisecondEpochtoString(logEditPrices[index].createdAt),
             subtitle: [logEditPrices[index].organic.toString(), logEditPrices[index].inorganic.toString()],
             trailing: [logEditPrices[index].admin.fullName!, ''],
           ),

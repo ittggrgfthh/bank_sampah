@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
+import 'package:uuid/uuid.dart';
 
+import '../../core/constant/firebase_storage_paths.dart';
 import '../../core/utils/exception.dart';
 import '../../core/utils/firebase_extensions.dart';
-import '../../core/constant/firebase_storage_paths.dart';
+import '../models/point_balance_model.dart';
 import '../models/user_model.dart';
+import '../models/waste_model.dart';
 
 /// Ini biasanya digunakan untuk mendapatkan data pengguna yang berasal dari internet,
 /// Bisa dari Rest API atau Cloud Firestore
@@ -65,11 +67,20 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     final v4 = uuid.v4();
     final v4WithoutDashes = v4.replaceAll('-', '');
     final newUserModel = userModel.copyWith(id: 'user_$v4WithoutDashes');
-    final userDocRef = _firestore.userDocRef(newUserModel.id!);
-    final pointBalanceDocRef = _firestore.pointBalanceDocRef(newUserModel.id!);
+    final userDocRef = _firestore.userDocRef(newUserModel.id);
+    final pointBalanceDocRef = _firestore.pointBalanceDocRef(newUserModel.id);
+
+    final newPointBalance = PointBalanceModel(
+      userId: newUserModel.id,
+      currentBalance: 0,
+      waste: const WasteModel(
+        organic: 0,
+        inorganic: 0,
+      ),
+    );
 
     batch.set(userDocRef, newUserModel.toJson());
-    batch.set(pointBalanceDocRef, {'current_balance': 0});
+    batch.set(pointBalanceDocRef, newPointBalance.toJson());
 
     try {
       final querySnapshot =
@@ -78,7 +89,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         throw ServerException();
       }
       await batch.commit();
-      return await getUserById(newUserModel.id!);
+      return await getUserById(newUserModel.id);
     } catch (e) {
       throw ServerException();
     }
@@ -127,7 +138,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       }
 
       return UserModel.fromFirestore(
-        doc as DocumentSnapshot<Map<String, dynamic>>,
+        doc,
       );
     });
   }
@@ -135,8 +146,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<void> createUserProfile(UserModel userModel) async {
     final batch = _firestore.batch();
-    final userDocRef = _firestore.userDocRef(userModel.id!);
-    final pointBalanceDocRef = _firestore.pointBalanceDocRef(userModel.id!);
+    final userDocRef = _firestore.userDocRef(userModel.id);
+    final pointBalanceDocRef = _firestore.pointBalanceDocRef(userModel.id);
 
     batch.set(userDocRef, userModel.toJson());
     batch.set(pointBalanceDocRef, userModel.toJson());
@@ -167,7 +178,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       toFirestore: (value, options) => value.toJson(),
     );
     try {
-      final querySnapshot = await userRef.get();
+      final querySnapshot = await userRef.orderBy('created_at', descending: true).get();
       return querySnapshot.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw ServerException();
@@ -192,7 +203,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<UserModel> getUserById(String userId) async {
     try {
       final doc = await _firestore.userColRef.doc(userId).get();
-      return UserModel.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>);
+      return UserModel.fromFirestore(doc);
     } catch (e) {
       throw ServerException();
     }
@@ -206,7 +217,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         );
     try {
       await userRef.set(userModel);
-      return await getUserById(userModel.id!);
+      return await getUserById(userModel.id);
     } catch (e) {
       throw ServerException();
     }

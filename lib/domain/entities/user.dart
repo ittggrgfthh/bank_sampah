@@ -11,6 +11,8 @@ class User with _$User {
     required String password,
     String? fullName,
     String? photoUrl,
+    required int createdAt,
+    required int updatedAt,
   }) = _User;
 
   const User._();

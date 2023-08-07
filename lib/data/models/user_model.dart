@@ -10,12 +10,14 @@ part 'user_model.g.dart';
 class UserModel with _$UserModel {
   @JsonSerializable(explicitToJson: true)
   const factory UserModel({
-    String? id,
+    required String id,
     @JsonKey(name: 'phone_number') required String phoneNumber,
     @Default('warga') String role,
     required String password,
     @JsonKey(name: 'full_name') String? fullName,
     @JsonKey(name: 'photo_url') String? photoUrl,
+    @JsonKey(name: 'created_at') required int createdAt,
+    @JsonKey(name: 'updated_at') required int updatedAt,
   }) = _UserModel;
 
   const UserModel._();
@@ -35,17 +37,21 @@ class UserModel with _$UserModel {
       password: user.password,
       fullName: user.fullName,
       photoUrl: user.photoUrl,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     );
   }
 
   User toDomain() {
     return User(
-      id: id!,
+      id: id,
       phoneNumber: phoneNumber,
       role: role,
       password: password,
       fullName: fullName,
       photoUrl: photoUrl,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 }

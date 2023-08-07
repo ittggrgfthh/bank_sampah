@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:bank_sampah/presentation/bloc/list_user/list_user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,44 +20,43 @@ class AdminListUserPage extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => getIt<CreateUserFormBloc>(),
-      child: BlocListener<CreateUserFormBloc, CreateUserFormState>(
-        listenWhen: (previous, current) => previous.failureOrSuccessOption != current.failureOrSuccessOption,
-        listener: (context, state) {
-          final errorMessage = state.failureOrSuccessOption.fold(
-            () => null,
-            (failureOrSucces) => failureOrSucces.fold(
-              (failure) => failure.when(
-                timeout: () => FailureMessages.timeout,
-                unexpected: (_, __, ___) => FailureMessages.unexpected,
+      child: BlocProvider(
+        create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized()),
+        child: BlocListener<CreateUserFormBloc, CreateUserFormState>(
+          listenWhen: (previous, current) => previous.failureOrSuccessOption != current.failureOrSuccessOption,
+          listener: (context, state) {
+            final errorMessage = state.failureOrSuccessOption.fold(
+              () => null,
+              (failureOrSucces) => failureOrSucces.fold(
+                (failure) => failure.when(
+                  timeout: () => FailureMessages.timeout,
+                  unexpected: (_, __, ___) => FailureMessages.unexpected,
+                ),
+                (_) => null,
               ),
-              (_) => null,
-            ),
-          );
+            );
 
-          if (errorMessage != null) {
-            FlushbarHelper.createError(message: errorMessage).show(context);
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Daftar Pengguna'),
-          ),
-          floatingActionButton: ElevatedButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.blueGrey[900],
-                isScrollControlled: true,
-                builder: (context) {
-                  return _createUserFormModal(formKey);
-                },
-              );
-            },
-            child: const Text("Tambah Pengguna"),
-          ),
-          body: BlocProvider(
-            create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized()),
-            child: Container(
+            if (errorMessage != null) {
+              FlushbarHelper.createError(message: errorMessage).show(context);
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Daftar Pengguna'),
+            ),
+            floatingActionButton: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return _createUserFormModal(context, formKey);
+                  },
+                );
+              },
+              child: const Text("Tambah Pengguna"),
+            ),
+            body: Container(
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
@@ -121,11 +121,11 @@ class AdminListUserPage extends StatelessWidget {
     );
   }
 
-  BlocProvider<CreateUserFormBloc> _createUserFormModal(GlobalKey<FormState> formKey) {
+  Widget _createUserFormModal(BuildContext context, GlobalKey<FormState> formKey) {
     return BlocProvider(
       create: (context) => getIt<CreateUserFormBloc>(),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Form(
           key: formKey,
           child: Column(
@@ -218,23 +218,32 @@ class AdminListUserPage extends StatelessWidget {
               BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
                 buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
                 builder: (context, state) {
-                  String elevatedText = state.isSubmitting ? "..." : "Submit";
-                  return ElevatedButton(
+                  state.failureOrSuccessOption.fold(
+                    () => null,
+                    (failureOrSuccess) => failureOrSuccess.fold(
+                      (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
+                      (_) {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
+                  return RoundedPrimaryButton(
+                    isLoading: state.isSubmitting,
+                    buttonName: "Buat Pengguna Baru",
                     onPressed: () {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (formKey.currentState!.validate()) {
-                        context.read<CreateUserFormBloc>().add(
-                              const CreateUserFormEvent.submitButtonPressed(),
-                            );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
+                        context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.submitButtonPressed());
                       }
                     },
-                    child: Text(elevatedText),
                   );
                 },
               ),
+              const SizedBox(height: 16),
+              RoundedPrimaryButton(
+                buttonName: "Batal",
+                onPressed: () => Navigator.pop(context),
+              )
             ],
           ),
         ),
@@ -307,8 +316,8 @@ class _RoleChoiceChipState extends State<RoleChoiceChip> {
 
   final roles = [
     Role.warga,
-    Role.admin,
     Role.staff,
+    Role.admin,
   ];
 
   @override

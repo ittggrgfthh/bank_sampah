@@ -40,23 +40,26 @@ class WastePriceRemoteDataSourceImpl implements WastePriceRemoteDataSource {
   @override
   Future<WastePriceModel> getCurrentWastePrice() async {
     try {
-      final snapshot = await _firestore.collection('waste-price').orderBy('create_at', descending: true).limit(1).get();
+      final snapshot = await _firestore.wastePriceColRef.orderBy('created_at', descending: true).limit(1).get();
       final wastePrices = snapshot.docs.map((doc) => WastePriceModel.fromJson(doc.data())).toList();
       if (wastePrices.isNotEmpty) {
         return wastePrices.first;
       } else {
-        return const WastePriceModel(
+        final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
+        return WastePriceModel(
           id: 'defaut',
-          organic: 2000,
-          inorganic: 3000,
-          createAt: 1691113133,
+          organic: 9999999,
+          inorganic: 9999999,
+          createdAt: dateNowEpoch - 9000,
           admin: UserModel(
             id: 'default',
             phoneNumber: '899-9999-9999',
             password: '',
-            fullName: 'Kaesa Lyrih',
-            photoUrl: 'https://github.com/lyrihkaesa.png',
+            fullName: 'Kaesa Lyrih {Default Error}',
+            photoUrl: 'unkown',
             role: 'admin',
+            createdAt: dateNowEpoch,
+            updatedAt: dateNowEpoch,
           ),
         );
       }

@@ -10,7 +10,7 @@ class WastePrice with _$WastePrice {
     required String id,
     required int organic,
     required int inorganic,
-    required int createAt,
+    required int createdAt,
     required User admin,
   }) = _WastePrice;
 

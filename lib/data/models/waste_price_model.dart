@@ -13,7 +13,7 @@ class WastePriceModel with _$WastePriceModel {
     required String id,
     required int organic,
     required int inorganic,
-    @JsonKey(name: 'create_at') required int createAt,
+    @JsonKey(name: 'created_at') required int createdAt,
     required UserModel admin,
   }) = _WastePriceModel;
 
@@ -26,7 +26,7 @@ class WastePriceModel with _$WastePriceModel {
       id: wastePrice.id,
       organic: wastePrice.organic,
       inorganic: wastePrice.inorganic,
-      createAt: wastePrice.createAt,
+      createdAt: wastePrice.createdAt,
       admin: UserModel.formDomain(wastePrice.admin),
     );
   }
@@ -36,7 +36,7 @@ class WastePriceModel with _$WastePriceModel {
       id: id,
       organic: organic,
       inorganic: inorganic,
-      createAt: createAt,
+      createdAt: createdAt,
       admin: admin.toDomain(),
     );
   }
