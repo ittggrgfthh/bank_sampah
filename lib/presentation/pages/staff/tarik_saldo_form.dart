@@ -19,9 +19,6 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
 
   @override
   Widget build(BuildContext context) {
-    double heightScreen = MediaQuery.of(context).size.height;
-    double widthScreen = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tarik Saldo'),
