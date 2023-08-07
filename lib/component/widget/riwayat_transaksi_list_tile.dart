@@ -63,7 +63,7 @@ class RiwayatTransaksiListTile extends StatelessWidget {
             ),
           ),
           Text(
-            trailing![1],
+            'Rp. ${trailing![1]}',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 14,

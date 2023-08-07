@@ -13,11 +13,25 @@ class InputSampah extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Input Sampah'),
+        actions: [
+          IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
+          const SizedBox(
+            height: 32,
+            width: 32,
+            child: CircleAvatar(),
+          ),
+          const SizedBox(width: 15),
+        ],
       ),
       body: ListView.builder(
         itemCount: userDatas.length,
         itemBuilder: (context, index) => Container(
-          color: Colors.amber,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+            ),
+          ),
           child: TarikSaldoListTile(
             title: userDatas[index].fullName ?? 'No Name',
             subtitle: userDatas[index].phoneNumber,

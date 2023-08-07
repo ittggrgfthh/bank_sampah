@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,9 +44,6 @@ class LoginPage extends StatelessWidget {
           return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
-              appBar: AppBar(
-                title: const Text('Masuk'),
-              ),
               body: _LoginPageBody(state.errorMessagesShown),
               bottomSheet: BlocBuilder<SignInFormBloc, SignInFormState>(
                 buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
@@ -83,9 +81,23 @@ class _LoginPageBody extends StatelessWidget {
     return Form(
       autovalidateMode: errorMessagesShown ? AutovalidateMode.always : AutovalidateMode.disabled,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: Column(
           children: [
+            Text(
+              'Masuk',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            CachedNetworkImage(
+              height: 125,
+              width: 125,
+              imageUrl:
+                  'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+            ),
             const Hero(
               tag: 'display-text',
               child: Material(
