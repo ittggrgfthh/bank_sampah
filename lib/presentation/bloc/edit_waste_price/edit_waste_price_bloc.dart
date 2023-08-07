@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/date_time_converter.dart';
+import '../../../core/utils/number_converter.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste_price.dart';
 import '../../../domain/usecase/admin/create_waste_price.dart';
@@ -42,8 +43,8 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         failure: none(),
         user: optionOf(user),
         wastePrice: optionOf(currentWastePrice),
-        priceOrganic: currentWastePrice.organic.toString(), // TODO: jadikan 1.000.000
-        priceInorganic: currentWastePrice.inorganic.toString(), // TODO: jadikan 1.000.000
+        priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
+        priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
         isChange: false,
         currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(currentWastePrice.createAt),
         currentAdminFullName: currentWastePrice.admin.id == user.id ? 'Anda' : currentWastePrice.admin.fullName!,
@@ -98,8 +99,8 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
     );
     final newWastePrice = wastePrice.copyWith(
       id: 'id',
-      organic: int.parse(state.priceOrganic), // TODO: kembalikan menjadi 1.000.000 ke 1000000
-      inorganic: int.parse(state.priceInorganic), // TODO: kembalikan menjadi 1.000.000 ke 1000000
+      organic: NumberConverter.parseToInteger(state.priceOrganic),
+      inorganic: NumberConverter.parseToInteger(state.priceInorganic),
       createAt: DateTime.now().millisecondsSinceEpoch,
       admin: admin,
     );

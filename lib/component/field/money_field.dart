@@ -1,5 +1,27 @@
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+
+import '../string_extension.dart';
+
+class ThousandsFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final text = newValue.text.replaceAll(RegExp(r'[^0-9]'), ''); // Menghapus karakter non-angka
+    final formattedText = _formatToThousands(text);
+
+    return TextEditingValue(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
+    );
+  }
+
+  String _formatToThousands(String text) {
+    final formatter = NumberFormat("#,##0", "id_ID");
+    final parsedValue = int.tryParse(text) ?? 0;
+    return formatter.format(parsedValue);
+  }
+}
 
 class MoneyField extends StatelessWidget {
   final TextEditingController? controller;
@@ -22,10 +44,11 @@ class MoneyField extends StatelessWidget {
         }
         return null;
       },
+      inputFormatters: [ThousandsFormatter()],
       onChanged: onChanged,
       decoration: InputDecoration(
         helperText: "",
-        suffixIcon: isLoading
+        prefixIcon: isLoading
             ? Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Transform.scale(
@@ -34,6 +57,15 @@ class MoneyField extends StatelessWidget {
                 ),
               )
             : null,
+        suffixIcon: Container(
+          padding: const EdgeInsets.only(right: 10),
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('per kg'),
+            ],
+          ),
+        ),
       ),
     );
   }
