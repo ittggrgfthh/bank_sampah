@@ -5,8 +5,8 @@ import 'package:bank_sampah/component/widget/navbar_staff.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/presentation/pages/admin/admin_home_page.dart';
 import 'package:bank_sampah/presentation/pages/admin/edit_waste_price.dart';
-import 'package:bank_sampah/presentation/pages/staff/input_sampah.dart';
-import 'package:bank_sampah/presentation/pages/staff/input_sampah_form.dart';
+import 'package:bank_sampah/presentation/pages/staff/store_waste_list.dart';
+import 'package:bank_sampah/presentation/pages/staff/store_waste_form.dart';
 import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo.dart';
 import 'package:bank_sampah/presentation/pages/staff/tarik_saldo_form.dart';
@@ -59,7 +59,7 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'log-edit-price',
               name: 'log-edit-price',
-              builder: (context, state) => InputSampahForm(user: state.extra as User),
+              builder: (context, state) => StoreWasteFormPage(user: state.extra as User),
             ),
           ],
         ),
@@ -78,7 +78,7 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'input-waste-form',
               name: 'input-waste-form',
-              builder: (context, state) => InputSampahForm(user: state.extra as User),
+              builder: (context, state) => StoreWasteFormPage(user: state.extra as User),
             ),
           ],
         ),

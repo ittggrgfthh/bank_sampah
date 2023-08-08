@@ -5,15 +5,15 @@ import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class InputSampahForm extends StatelessWidget {
+class StoreWasteFormPage extends StatelessWidget {
   final User user;
-  const InputSampahForm({super.key, required this.user});
+  const StoreWasteFormPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Input Sampah'),
+        title: const Text('Form Simpan Sampah'),
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: const Icon(Icons.chevron_left_rounded),
@@ -55,7 +55,7 @@ class InputSampahForm extends StatelessWidget {
                 children: [
                   _totalMoney(context),
                   const SizedBox(height: 20),
-                  RoundedPrimaryButton(buttonName: 'Input', onPressed: () {}),
+                  RoundedPrimaryButton(buttonName: 'Simpan Sampah', onPressed: () {}),
                 ],
               ),
             ],

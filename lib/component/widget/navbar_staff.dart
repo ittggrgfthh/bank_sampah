@@ -13,7 +13,7 @@ class NavbarStaff extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-            label: 'Input Sampah',
+            label: 'Simpan Sampah',
             icon: Icon(Icons.list),
             activeIcon: Icon(Icons.list_alt),
           ),

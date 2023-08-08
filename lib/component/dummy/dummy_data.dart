@@ -3,6 +3,8 @@ import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/domain/entities/waste.dart';
 import 'package:bank_sampah/domain/entities/waste_price.dart';
 
+import '../../domain/entities/point_balance.dart';
+
 class DummyData {
   static final dummyUser = <User>[
     const User(
@@ -12,6 +14,14 @@ class DummyData {
       password: '',
       fullName: 'Juna Cilok',
       photoUrl: 'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+      pointBalance: PointBalance(
+        userId: '01',
+        currentBalance: 0,
+        waste: Waste(
+          organic: 0,
+          inorganic: 0,
+        ),
+      ),
       createdAt: 1679094315000,
       updatedAt: 1679094315000,
     ),
@@ -22,6 +32,14 @@ class DummyData {
       password: '',
       fullName: 'Sigit Rendang',
       photoUrl: 'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+      pointBalance: PointBalance(
+        userId: '01',
+        currentBalance: 0,
+        waste: Waste(
+          organic: 0,
+          inorganic: 0,
+        ),
+      ),
       createdAt: 1679094315000,
       updatedAt: 1679094315000,
     ),
@@ -40,6 +58,14 @@ class DummyData {
         password: '',
         createdAt: 1679094315000,
         updatedAt: 1679094315000,
+        pointBalance: PointBalance(
+          userId: '01',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
       ),
     ),
     const WastePrice(
@@ -55,6 +81,14 @@ class DummyData {
         fullName: 'Juna Cilok',
         photoUrl:
             'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+        pointBalance: PointBalance(
+          userId: '01',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
         createdAt: 1679094315000,
         updatedAt: 1679094315000,
       ),
@@ -74,6 +108,14 @@ class DummyData {
         fullName: 'Sigit Rendang',
         photoUrl:
             'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+        pointBalance: PointBalance(
+          userId: '01',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
         createdAt: 1679094315000,
         updatedAt: 1679094315000,
       ),
@@ -85,6 +127,14 @@ class DummyData {
         fullName: 'Sigit Rendang',
         photoUrl:
             'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+        pointBalance: PointBalance(
+          userId: '01',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
         createdAt: 1679094315000,
         updatedAt: 1679094315000,
       ),
@@ -100,6 +150,14 @@ class DummyData {
           phoneNumber: '882-9819-2342',
           role: 'Admin',
           password: '',
+          pointBalance: PointBalance(
+            userId: '01',
+            currentBalance: 0,
+            waste: Waste(
+              organic: 0,
+              inorganic: 0,
+            ),
+          ),
           createdAt: 1679094315000,
           updatedAt: 1679094315000,
         ),
@@ -120,6 +178,14 @@ class DummyData {
         fullName: 'Arlene McCoy',
         photoUrl:
             'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+        pointBalance: PointBalance(
+          userId: '01',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
         createdAt: 1679094315000,
         updatedAt: 1679094315000,
       ),
@@ -131,6 +197,14 @@ class DummyData {
         fullName: 'Agus Lontong',
         photoUrl:
             'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+        pointBalance: PointBalance(
+          userId: '01',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
         createdAt: 1679094315000,
         updatedAt: 1679094315000,
       ),
@@ -146,6 +220,14 @@ class DummyData {
           phoneNumber: '882-9819-2342',
           role: 'Admin',
           password: '',
+          pointBalance: PointBalance(
+            userId: '01',
+            currentBalance: 0,
+            waste: Waste(
+              organic: 0,
+              inorganic: 0,
+            ),
+          ),
           createdAt: 1679094315000,
           updatedAt: 1679094315000,
         ),

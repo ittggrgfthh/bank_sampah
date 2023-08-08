@@ -79,7 +79,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       ),
     );
 
-    batch.set(userDocRef, newUserModel.toJson());
+    batch.set(userDocRef, newUserModel.copyWith(pointBalance: newPointBalance).toJson());
     batch.set(pointBalanceDocRef, newPointBalance.toJson());
 
     try {

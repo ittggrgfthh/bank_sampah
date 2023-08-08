@@ -4,6 +4,8 @@ import 'package:bank_sampah/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
+import '../models/point_balance_model.dart';
+import '../models/waste_model.dart';
 import '../models/waste_price_model.dart';
 
 abstract class WastePriceRemoteDataSource {
@@ -58,6 +60,14 @@ class WastePriceRemoteDataSourceImpl implements WastePriceRemoteDataSource {
             fullName: 'Kaesa Lyrih {Default Error}',
             photoUrl: 'unkown',
             role: 'admin',
+            pointBalance: const PointBalanceModel(
+              userId: 'default',
+              currentBalance: 0,
+              waste: WasteModel(
+                inorganic: 0,
+                organic: 0,
+              ),
+            ),
             createdAt: dateNowEpoch,
             updatedAt: dateNowEpoch,
           ),

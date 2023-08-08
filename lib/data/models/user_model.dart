@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entities/user.dart';
+import 'point_balance_model.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
@@ -16,6 +17,7 @@ class UserModel with _$UserModel {
     required String password,
     @JsonKey(name: 'full_name') String? fullName,
     @JsonKey(name: 'photo_url') String? photoUrl,
+    @JsonKey(name: 'point_balance') required PointBalanceModel pointBalance,
     @JsonKey(name: 'created_at') required int createdAt,
     @JsonKey(name: 'updated_at') required int updatedAt,
   }) = _UserModel;
@@ -37,6 +39,7 @@ class UserModel with _$UserModel {
       password: user.password,
       fullName: user.fullName,
       photoUrl: user.photoUrl,
+      pointBalance: PointBalanceModel.formDomain(user.pointBalance),
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     );
@@ -50,6 +53,7 @@ class UserModel with _$UserModel {
       password: password,
       fullName: fullName,
       photoUrl: photoUrl,
+      pointBalance: pointBalance.toDomain(),
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

@@ -5,7 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/date_time_converter.dart';
 import '../../../core/utils/number_converter.dart';
+import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/entities/waste.dart';
 import '../../../domain/entities/waste_price.dart';
 import '../../../domain/usecase/admin/create_waste_price.dart';
 import '../../../domain/usecase/admin/get_current_waste_price.dart';
@@ -90,6 +92,14 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         role: 'admin',
         password: 'password',
         fullName: 'fullName',
+        pointBalance: const PointBalance(
+          userId: 'id',
+          currentBalance: 0,
+          waste: Waste(
+            organic: 0,
+            inorganic: 0,
+          ),
+        ),
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       ),

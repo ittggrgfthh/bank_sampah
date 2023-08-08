@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'point_balance.dart';
+
 part 'user.freezed.dart';
 
 @freezed
@@ -11,6 +13,7 @@ class User with _$User {
     required String password,
     String? fullName,
     String? photoUrl,
+    required PointBalance pointBalance,
     required int createdAt,
     required int updatedAt,
   }) = _User;

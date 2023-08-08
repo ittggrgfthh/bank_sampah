@@ -12,7 +12,7 @@ class InputSampah extends StatelessWidget {
     final List<User> userDatas = DummyData.dummyUser;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Input Sampah'),
+        title: const Text('Simpan Sampah'),
         actions: [
           IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
