@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bank_sampah/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +31,12 @@ final router = GoRouter(
       path: '/',
       name: 'root',
       builder: (context, state) => const MyHomePage(),
+      routes: [
+        GoRoute(
+          path: 'profile',
+          builder: (context, state) => const ProfilePage(),
+        ),
+      ],
     ),
     GoRoute(
       path: '/login',
@@ -43,11 +50,23 @@ final router = GoRouter(
           path: '/admin-home',
           name: 'admin-home',
           builder: (context, state) => const AdminHomePage(),
+          routes: [
+            GoRoute(
+              path: 'profile',
+              builder: (context, state) => const ProfilePage(),
+            ),
+          ],
         ),
         GoRoute(
           path: '/admin-list-user',
           name: 'admin-list-user',
           builder: (context, state) => const AdminListUserPage(),
+          routes: [
+            GoRoute(
+              path: 'profile',
+              builder: (context, state) => const ProfilePage(),
+            ),
+          ],
         ),
         GoRoute(
           path: '/edit-price',
@@ -94,7 +113,7 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: 'withdraw-balance-form',
               name: 'withdraw-balance-form',
-              builder: (context, state) => TarikSaldoForm(user: state.extra as User),
+              builder: (context, state) => const TarikSaldoForm(),
             ),
           ],
         ),
@@ -104,6 +123,12 @@ final router = GoRouter(
       path: '/warga-home',
       name: 'warga-home',
       builder: (context, state) => const WargaHomePage(),
+      routes: [
+        GoRoute(
+          path: 'profile',
+          builder: (context, state) => const ProfilePage(),
+        ),
+      ],
     ),
   ],
   redirect: (_, state) async {
