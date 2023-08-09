@@ -122,7 +122,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         role: role,
         password: password,
         fullName: fullName,
-        photoUrl: "uknown",
+        photoUrl: null,
         pointBalance: const PointBalance(
           userId: "unknown",
           currentBalance: 0,

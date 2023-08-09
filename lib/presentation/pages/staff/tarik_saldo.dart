@@ -33,7 +33,7 @@ class TarikSaldo extends StatelessWidget {
             ),
           ),
           child: TarikSaldoListTile(
-            image: userDatas[index].photoUrl,
+            photoUrl: userDatas[index].photoUrl,
             title: userDatas[index].fullName ?? 'No Name',
             subtitle: userDatas[index].phoneNumber,
             trailing: 'Rp. 200.000',

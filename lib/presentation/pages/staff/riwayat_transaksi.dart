@@ -1,6 +1,6 @@
 import 'package:bank_sampah/component/dummy/dummy_data.dart';
 import 'package:bank_sampah/component/widget/riwayat_transaksi_list_tile.dart';
-import 'package:bank_sampah/domain/entities/transaction.dart';
+import 'package:bank_sampah/domain/entities/transaction_waste.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class RiwayatTransaksi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<User> userDatas = DummyData.dummyUser;
-    final List<Transaction> transactions = DummyData.dummyTransaction;
+    final List<TransactionWaste> transactions = DummyData.dummyTransaction;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riwayat Transaksi'),

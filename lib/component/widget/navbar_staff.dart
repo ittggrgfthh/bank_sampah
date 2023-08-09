@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../injection.dart';
+import '../../presentation/bloc/list_user/list_user_bloc.dart';
 
 class NavbarStaff extends StatelessWidget {
   final Widget child;
@@ -8,28 +12,31 @@ class NavbarStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            label: 'Simpan Sampah',
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.list_alt),
-          ),
-          BottomNavigationBarItem(
-            label: 'Riwayat Transaksi',
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.list_alt),
-          ),
-          BottomNavigationBarItem(
-            label: 'Tarik Saldo',
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.list_alt),
-          ),
-        ],
-        onTap: (index) => _onTap(context, index),
-        currentIndex: _calculatedSelectedIndex(context),
+    return BlocProvider(
+      create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('warga')),
+      child: Scaffold(
+        body: child,
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              label: 'Simpan Sampah',
+              icon: Icon(Icons.list),
+              activeIcon: Icon(Icons.list_alt),
+            ),
+            BottomNavigationBarItem(
+              label: 'Riwayat Transaksi',
+              icon: Icon(Icons.list),
+              activeIcon: Icon(Icons.list_alt),
+            ),
+            BottomNavigationBarItem(
+              label: 'Tarik Saldo',
+              icon: Icon(Icons.list),
+              activeIcon: Icon(Icons.list_alt),
+            ),
+          ],
+          onTap: (index) => _onTap(context, index),
+          currentIndex: _calculatedSelectedIndex(context),
+        ),
       ),
     );
   }

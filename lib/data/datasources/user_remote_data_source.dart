@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:bank_sampah/core/utils/app_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
-import 'package:uuid/uuid.dart';
 
 import '../../core/constant/firebase_storage_paths.dart';
 import '../../core/utils/exception.dart';
@@ -63,10 +63,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> createUser(UserModel userModel) async {
     final batch = _firestore.batch();
-    const uuid = Uuid();
-    final v4 = uuid.v4();
-    final v4WithoutDashes = v4.replaceAll('-', '');
-    final newUserModel = userModel.copyWith(id: 'user_$v4WithoutDashes');
+    final newUserModel = userModel.copyWith(id: 'user_${AppHelper.v4UUIDWithoutDashes()}');
     final userDocRef = _firestore.userDocRef(newUserModel.id);
     final pointBalanceDocRef = _firestore.pointBalanceDocRef(newUserModel.id);
 
@@ -211,12 +208,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> updateUser(UserModel userModel) async {
-    final userRef = _firestore.userColRef.doc(userModel.id).withConverter<UserModel>(
-          fromFirestore: (snapshot, options) => UserModel.fromJson(snapshot.data()!),
-          toFirestore: (value, options) => value.toJson(),
-        );
+    final batch = _firestore.batch();
+    final userDocRef = _firestore.userDocRef(userModel.id);
+    final pointBalanceDocRef = _firestore.pointBalanceDocRef(userModel.id);
     try {
-      await userRef.set(userModel);
+      batch.set(userDocRef, userModel.toJson());
+      batch.set(pointBalanceDocRef, userModel.toJson());
+      await batch.commit();
       return await getUserById(userModel.id);
     } catch (e) {
       throw ServerException();

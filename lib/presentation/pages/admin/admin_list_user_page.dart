@@ -21,7 +21,7 @@ class AdminListUserPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<CreateUserFormBloc>(),
       child: BlocProvider(
-        create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized()),
+        create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('semua')),
         child: BlocListener<CreateUserFormBloc, CreateUserFormState>(
           listenWhen: (previous, current) => previous.failureOrSuccessOption != current.failureOrSuccessOption,
           listener: (context, state) {

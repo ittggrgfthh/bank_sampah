@@ -1,25 +1,24 @@
 import 'dart:async';
 
-import 'package:bank_sampah/component/widget/navbar_admin.dart';
-import 'package:bank_sampah/component/widget/navbar_staff.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
-import 'package:bank_sampah/presentation/pages/admin/admin_home_page.dart';
-import 'package:bank_sampah/presentation/pages/admin/edit_waste_price.dart';
-import 'package:bank_sampah/presentation/pages/staff/store_waste_list.dart';
-import 'package:bank_sampah/presentation/pages/staff/store_waste_form.dart';
-import 'package:bank_sampah/presentation/pages/staff/riwayat_transaksi.dart';
-import 'package:bank_sampah/presentation/pages/staff/tarik_saldo.dart';
-import 'package:bank_sampah/presentation/pages/staff/tarik_saldo_form.dart';
-import 'package:bank_sampah/presentation/pages/warga/warga_home_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'component/widget/navbar_admin.dart';
+import 'component/widget/navbar_staff.dart';
+import 'domain/entities/user.dart';
 import 'injection.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'presentation/pages/admin/admin_home_page.dart';
 import 'presentation/pages/admin/admin_list_user_page.dart';
-import 'presentation/pages/ztest/home_page.dart';
+import 'presentation/pages/admin/edit_waste_price.dart';
 import 'presentation/pages/login_page.dart';
+import 'presentation/pages/staff/riwayat_transaksi.dart';
+import 'presentation/pages/staff/store_waste_form.dart';
+import 'presentation/pages/staff/store_waste_list.dart';
+import 'presentation/pages/staff/tarik_saldo.dart';
+import 'presentation/pages/staff/tarik_saldo_form.dart';
+import 'presentation/pages/warga/warga_home_page.dart';
+import 'presentation/pages/ztest/home_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNav');
 final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shellNav');
@@ -72,10 +71,9 @@ final router = GoRouter(
         GoRoute(
           path: '/input-waste',
           name: 'input-waste',
-          builder: (context, state) => const InputSampah(),
+          builder: (context, state) => const StoreWasteListPage(),
           routes: [
             GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
               path: 'input-waste-form',
               name: 'input-waste-form',
               builder: (context, state) => StoreWasteFormPage(user: state.extra as User),

@@ -1,3 +1,7 @@
+import 'package:bank_sampah/data/datasources/transaction_remote_data_source.dart';
+import 'package:bank_sampah/data/repositories/transaction_repository_impl.dart';
+import 'package:bank_sampah/domain/repositories/transaction_repository.dart';
+import 'package:bank_sampah/presentation/bloc/store_waste_form/store_waste_form_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -27,6 +31,7 @@ import 'domain/usecase/get_user_profile.dart';
 import 'domain/usecase/pick_image.dart';
 import 'domain/usecase/sign_out.dart';
 import 'domain/usecase/signin_with_phone_number_and_password.dart';
+import 'domain/usecase/staff/create_waste_transaction.dart';
 import 'domain/usecase/upload_profile_picture.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'presentation/bloc/create_user_form/create_user_form_bloc.dart';
@@ -49,6 +54,8 @@ void init() {
 
   // bloc - admin
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
+  // bloc - staff
+  getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt()));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));
@@ -68,18 +75,22 @@ void init() {
   getIt.registerLazySingleton(() => CreateWastePrice(getIt()));
   getIt.registerLazySingleton(() => GetCurrentWastePrice(getIt()));
   getIt.registerLazySingleton(() => GetWastePrices(getIt()));
+  // usecase - transaction
+  getIt.registerLazySingleton(() => CreateWasteTransaction(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));
   getIt.registerLazySingleton<AuthFacade>(() => AuthFacadeImpl(getIt(), getIt()));
-  // repository - harga limbah organik dan an-organik
+  // repository - waste
   getIt.registerLazySingleton<WastePriceRepository>(() => WastePriceRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt()));
 
   // datasource
   getIt.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(getIt(), getIt()));
   getIt.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImpl());
-  // datasource - harga limbah organik dan anorganik
+  // datasource - waste
   getIt.registerLazySingleton<WastePriceRemoteDataSource>(() => WastePriceRemoteDataSourceImpl(getIt()));
+  getIt.registerLazySingleton<TransactionRemoteDataSource>(() => TransactionRemoteDataSourceImpl(getIt()));
 
   // external
   getIt.registerLazySingleton(() => FirebaseFirestore.instance);

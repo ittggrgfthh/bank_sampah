@@ -1,15 +1,17 @@
-import 'package:bank_sampah/component/dummy/dummy_data.dart';
-import 'package:bank_sampah/component/widget/tarik_saldo_list_tile.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
-class InputSampah extends StatelessWidget {
-  const InputSampah({super.key});
+import '../../../component/widget/tarik_saldo_list_tile.dart';
+import '../../../injection.dart';
+import '../../bloc/list_user/list_user_bloc.dart';
+
+class StoreWasteListPage extends StatelessWidget {
+  const StoreWasteListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<User> userDatas = DummyData.dummyUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Simpan Sampah'),
@@ -24,22 +26,41 @@ class InputSampah extends StatelessWidget {
           const SizedBox(width: 15),
         ],
       ),
-      body: ListView.builder(
-        itemCount: userDatas.length,
-        itemBuilder: (context, index) => Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+      body: BlocBuilder<ListUserBloc, ListUserState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            loadSuccess: (users) {
+              if (users.isEmpty) {
+                return const Center(
+                  child: Text('Tidak ada pengguna'),
+                );
+              }
+              return ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (context, index) => Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ),
+                  child: TarikSaldoListTile(
+                    title: users[index].fullName ?? 'No Name',
+                    subtitle: '+62 ${users[index].phoneNumber}',
+                    trailing: getIt<NumberFormat>().format(users[index].pointBalance.currentBalance),
+                    photoUrl: users[index].photoUrl,
+                    onTap: () => context.goNamed('input-waste-form', extra: users[index]),
+                  ),
+                ),
+              );
+            },
+            loadFailure: (_) => const Center(
+              child: Text('Terjadi kesalahan'),
             ),
-          ),
-          child: TarikSaldoListTile(
-            title: userDatas[index].fullName ?? 'No Name',
-            subtitle: userDatas[index].phoneNumber,
-            trailing: 'Rp. 200.000',
-            image: userDatas[index].photoUrl,
-            onTap: () => context.goNamed('input-waste-form', extra: userDatas[index]),
-          ),
-        ),
+            orElse: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
       ),
     );
   }

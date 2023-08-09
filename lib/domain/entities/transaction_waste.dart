@@ -1,26 +1,26 @@
-import 'package:bank_sampah/domain/entities/waste_price.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'user.dart';
 import 'waste.dart';
+import 'waste_price.dart';
 
-part 'transaction.freezed.dart';
+part 'transaction_waste.freezed.dart';
 
 @freezed
-class Transaction with _$Transaction {
-  const factory Transaction({
+class TransactionWaste with _$TransactionWaste {
+  const factory TransactionWaste({
     required String id,
-    required int createAt,
-    required int updateAt,
+    required int createdAt,
+    required int updatedAt,
     required User user,
     required User staff,
     required WithdrawnBalance withdrawnBalance,
     required Waste waste,
-    required WastePrice priceWaste,
+    required WastePrice wastePrice,
     required List<HistoryWaste> historyUpdate,
-  }) = _Transaction;
+  }) = _TransactionWaste;
 
-  const Transaction._();
+  const TransactionWaste._();
 }
 
 @freezed
@@ -38,7 +38,7 @@ class WithdrawnBalance with _$WithdrawnBalance {
 class HistoryWaste with _$HistoryWaste {
   const factory HistoryWaste({
     required Waste waste,
-    required int updateAt,
+    required int updatedAt,
   }) = _HistoryUpdate;
 
   const HistoryWaste._();

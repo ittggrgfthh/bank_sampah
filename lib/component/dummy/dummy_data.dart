@@ -1,4 +1,4 @@
-import 'package:bank_sampah/domain/entities/transaction.dart';
+import 'package:bank_sampah/domain/entities/transaction_waste.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/domain/entities/waste.dart';
 import 'package:bank_sampah/domain/entities/waste_price.dart';
@@ -95,11 +95,11 @@ class DummyData {
     ),
   ];
 
-  static final dummyTransaction = <Transaction>[
-    const Transaction(
+  static final dummyTransaction = <TransactionWaste>[
+    const TransactionWaste(
       id: '01',
-      createAt: 1689303011000,
-      updateAt: 1689303011000,
+      createdAt: 1689303011000,
+      updatedAt: 1689303011000,
       user: User(
         id: '02',
         phoneNumber: '981-3123-5432',
@@ -140,7 +140,7 @@ class DummyData {
       ),
       withdrawnBalance: WithdrawnBalance(balance: 1000000, withdrawn: 200000, currentBalance: 800000),
       waste: Waste(organic: 100, inorganic: 200),
-      priceWaste: WastePrice(
+      wastePrice: WastePrice(
         id: '01',
         organic: 2000,
         inorganic: 3000,
@@ -163,13 +163,13 @@ class DummyData {
         ),
       ),
       historyUpdate: <HistoryWaste>[
-        HistoryWaste(waste: Waste(organic: 2000, inorganic: 3000), updateAt: 1679094315000)
+        HistoryWaste(waste: Waste(organic: 2000, inorganic: 3000), updatedAt: 1679094315000)
       ],
     ),
-    const Transaction(
+    const TransactionWaste(
       id: '02',
-      createAt: 1689303011000,
-      updateAt: 1689303011000,
+      createdAt: 1689303011000,
+      updatedAt: 1689303011000,
       user: User(
         id: '02',
         phoneNumber: '981-3123-5432',
@@ -210,7 +210,7 @@ class DummyData {
       ),
       withdrawnBalance: WithdrawnBalance(balance: 1000000, withdrawn: 200000, currentBalance: 800000),
       waste: Waste(organic: 50, inorganic: 300),
-      priceWaste: WastePrice(
+      wastePrice: WastePrice(
         id: '01',
         organic: 2000,
         inorganic: 3000,

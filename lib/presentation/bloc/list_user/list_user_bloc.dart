@@ -16,16 +16,16 @@ class ListUserBloc extends Bloc<ListUserEvent, ListUserState> {
   ListUserBloc(this._getAllUserByRole) : super(const ListUserState.initial()) {
     on<ListUserEvent>((event, emit) async {
       await event.when(
-        initialized: () => _handleInitialized(emit),
+        initialized: (defaultRole) => _handleInitialized(emit, defaultRole),
         roleChanged: (String role) => _handleRoleChanged(emit, role),
         usersReceived: (failureOrUsers) => _handleUsersReceived(emit, failureOrUsers),
       );
     });
   }
 
-  Future<void> _handleInitialized(Emitter<ListUserState> emit) async {
+  Future<void> _handleInitialized(Emitter<ListUserState> emit, String defaultRole) async {
     emit(const ListUserState.loadInProgress());
-    final users = await _getAllUserByRole('semua');
+    final users = await _getAllUserByRole(defaultRole);
     users.fold(
       (failure) => emit(ListUserState.loadFailure(failure)),
       (users) => emit(ListUserState.loadSuccess(users!)),

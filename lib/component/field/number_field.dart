@@ -1,10 +1,15 @@
 import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
+import 'money_field.dart';
+
 class NumberField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final Widget? icon;
-  const NumberField({super.key, required this.controller, this.icon});
+  final String? helperText;
+  final ValueChanged<String>? onChanged;
+  final bool isLoading;
+  const NumberField({super.key, this.controller, this.icon, this.helperText, this.onChanged, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +25,24 @@ class NumberField extends StatelessWidget {
         }
         return null;
       },
+      onChanged: onChanged,
+      inputFormatters: [ThousandsFormatter()],
       decoration: InputDecoration(
-        helperText: "",
+        enabled: !isLoading,
+        helperText: helperText ?? '',
         prefix: icon,
-        suffix: Text(
-          'kg',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
+        suffixIcon: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'kg',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
         ),
       ),
     );
