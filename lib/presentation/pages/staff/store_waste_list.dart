@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -48,7 +49,7 @@ class StoreWasteListPage extends StatelessWidget {
                     subtitle: '+62 ${users[index].phoneNumber}',
                     trailing: getIt<NumberFormat>().format(users[index].pointBalance.currentBalance),
                     photoUrl: users[index].photoUrl,
-                    onTap: () => context.goNamed('input-waste-form', extra: users[index]),
+                    onTap: () => context.goNamed(AppRouterName.staffStoreWasteName, extra: users[index]),
                   ),
                 ),
               );

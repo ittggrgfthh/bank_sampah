@@ -97,7 +97,7 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => TarikSaldoForm(user: state.extra as User),
+              builder: (context, state) => const TarikSaldoForm(),
             ),
           ],
         ),
