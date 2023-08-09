@@ -1,5 +1,5 @@
 import 'package:bank_sampah/component/button/rounded_dropdown_button.dart';
-import 'package:bank_sampah/component/dummy/dummy_data.dart';
+import 'package:bank_sampah/core/constant/constant_data.dart';
 import 'package:flutter/material.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -10,10 +10,10 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
-  final months = DummyData.months;
-  final years = DummyData.years;
-  String? valueMonth = DummyData.months.first;
-  String? valueYear = DummyData.years.first;
+  final months = ConstantData.months;
+  final years = ConstantData.years;
+  String? valueMonth = ConstantData.months.first;
+  String? valueYear = ConstantData.years.first;
 
   @override
   Widget build(BuildContext context) {

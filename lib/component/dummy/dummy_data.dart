@@ -235,20 +235,4 @@ class DummyData {
       historyUpdate: <HistoryWaste>[],
     ),
   ];
-
-  static final months = <String>[
-    'Januari',
-    'Februari',
-    'Maret',
-    'April',
-    'Juni',
-    'Juli',
-    'Agustus',
-    'September',
-    'Oktober',
-    'November',
-    'Desember',
-  ];
-
-  static final years = <String>['2023', '2024', '2025'];
 }
