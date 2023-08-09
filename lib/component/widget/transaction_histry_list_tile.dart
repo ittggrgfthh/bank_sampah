@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -51,11 +52,25 @@ class TransactionHitoryListTile extends StatelessWidget {
       ),
       subtitle: Row(
         children: [
-          subtitle![0] == '0' ? Container() : const Icon(Icons.energy_savings_leaf),
-          Text(subtitle![0] == '0' ? '' : subtitle![0]),
-          const SizedBox(width: 5),
-          subtitle![1] == '0' ? Container() : const Icon(Icons.wallet),
-          Text(subtitle![1] == '0' ? '' : subtitle![1]),
+          subtitle![0] == '0' ? Container() : const Icon(Icons.energy_savings_leaf, size: 20),
+          const SizedBox(width: 4),
+          Text(
+            subtitle![0] == '0' ? '' : subtitle![0],
+            style: const TextStyle(
+              color: CColors.green500,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          const SizedBox(width: 10),
+          subtitle![1] == '0' ? Container() : const Icon(Icons.wallet, size: 20),
+          const SizedBox(width: 4),
+          Text(
+            subtitle![1] == '0' ? '' : subtitle![1],
+            style: const TextStyle(
+              color: CColors.red400,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
         ],
       ),
       trailing: Column(
@@ -70,7 +85,7 @@ class TransactionHitoryListTile extends StatelessWidget {
             ),
           ),
           Text(
-            'Rp. ${trailing![1]}',
+            trailing![1],
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 14,

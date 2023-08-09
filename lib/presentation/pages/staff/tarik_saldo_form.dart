@@ -1,18 +1,19 @@
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:bank_sampah/component/field/money_field.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
+import 'package:bank_sampah/injection.dart';
+import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TarikSaldoForm extends StatefulWidget {
-  final User user;
-  const TarikSaldoForm({super.key, required this.user});
+  const TarikSaldoForm({super.key});
 
   @override
   State<TarikSaldoForm> createState() => _TarikSaldoFormState();
 }
 
 class _TarikSaldoFormState extends State<TarikSaldoForm> {
+  final user = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
   List<String> chipdatas = ['50.000', '100.000', '200.000', '300.000', '500.000', '1.000.000'];
   int? _selectedChoice;
   final TextEditingController _moneyController = TextEditingController();
@@ -107,7 +108,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.user.fullName!,
+                  user.fullName!,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 16,
@@ -115,7 +116,7 @@ class _TarikSaldoFormState extends State<TarikSaldoForm> {
                   ),
                 ),
                 Text(
-                  widget.user.phoneNumber,
+                  user.phoneNumber,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 14,

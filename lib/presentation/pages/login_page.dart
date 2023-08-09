@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,9 +53,9 @@ class LoginPage extends StatelessWidget {
                     tag: 'button1',
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: ElevatedButton(
-                        child: const Text('Masuk'),
-                        // busy: state.isSubmitting,
+                      child: RoundedPrimaryButton(
+                        buttonName: 'Masuk',
+                        isLoading: state.isSubmitting,
                         onPressed: () async {
                           context.read<SignInFormBloc>().add(const SignInFormEvent.signInButtonPressed());
                         },
@@ -82,6 +83,7 @@ class _LoginPageBody extends StatelessWidget {
       autovalidateMode: errorMessagesShown ? AutovalidateMode.always : AutovalidateMode.disabled,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        reverse: true,
         child: Column(
           children: [
             Text(
@@ -130,6 +132,8 @@ class _LoginPageBody extends StatelessWidget {
                     );
               },
             ),
+            const SizedBox(height: 40),
+
             // Align(
             //   alignment: Alignment.centerRight,
             //   child: BButton(
