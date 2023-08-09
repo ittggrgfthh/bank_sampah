@@ -53,7 +53,7 @@ class NavbarAdmin extends StatelessWidget {
     if (uri.startsWith('/admin-list-user')) {
       return 1;
     }
-    if (uri.startsWith('/edit-harga')) {
+    if (uri.startsWith('/edit-price')) {
       return 2;
     }
     return 0;

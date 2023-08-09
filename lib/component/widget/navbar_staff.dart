@@ -57,10 +57,10 @@ class NavbarStaff extends StatelessWidget {
 
   int _calculatedSelectedIndex(BuildContext context) {
     final String uri = GoRouterState.of(context).uri.toString();
-    if (uri.startsWith('/riwayat-transaksi')) {
+    if (uri.startsWith('/transaction-history')) {
       return 1;
     }
-    if (uri.startsWith('/tarik-saldo')) {
+    if (uri.startsWith('/withdraw-balance')) {
       return 2;
     }
     return 0;
