@@ -12,7 +12,7 @@ import 'presentation/pages/admin/admin_home_page.dart';
 import 'presentation/pages/admin/admin_list_user_page.dart';
 import 'presentation/pages/admin/edit_waste_price.dart';
 import 'presentation/pages/login_page.dart';
-import 'presentation/pages/staff/riwayat_transaksi.dart';
+import 'presentation/pages/staff/transaction_history.dart';
 import 'presentation/pages/staff/store_waste_form.dart';
 import 'presentation/pages/staff/store_waste_list.dart';
 import 'presentation/pages/staff/tarik_saldo.dart';
@@ -83,7 +83,7 @@ final router = GoRouter(
         GoRoute(
           path: '/transaction-history',
           name: 'transaction-history',
-          builder: (context, state) => const RiwayatTransaksi(),
+          builder: (context, state) => const TransactionHistoryPage(),
         ),
         GoRoute(
           path: '/withdraw-balance',

@@ -1,7 +1,9 @@
 import 'package:bank_sampah/data/datasources/transaction_remote_data_source.dart';
 import 'package:bank_sampah/data/repositories/transaction_repository_impl.dart';
 import 'package:bank_sampah/domain/repositories/transaction_repository.dart';
+import 'package:bank_sampah/domain/usecase/staff/get_transactions_by_staff_id.dart';
 import 'package:bank_sampah/presentation/bloc/store_waste_form/store_waste_form_bloc.dart';
+import 'package:bank_sampah/presentation/bloc/transaction_history/transaction_history_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -56,6 +58,7 @@ void init() {
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
   // bloc - staff
   getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt()));
+  getIt.registerFactory(() => TransactionHistoryBloc(getIt()));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));
@@ -77,6 +80,7 @@ void init() {
   getIt.registerLazySingleton(() => GetWastePrices(getIt()));
   // usecase - transaction
   getIt.registerLazySingleton(() => CreateWasteTransaction(getIt()));
+  getIt.registerLazySingleton(() => GetTransactionsByStaffId(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));

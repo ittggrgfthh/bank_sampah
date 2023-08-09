@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class RiwayatTransaksiListTile extends StatelessWidget {
+class TransactionHitoryListTile extends StatelessWidget {
   final String title;
   final List<String>? subtitle;
   final List<String>? trailing;
-  final String? image;
+  final String? photoUrl;
   final void Function()? onTap;
 
-  const RiwayatTransaksiListTile({
+  const TransactionHitoryListTile({
     super.key,
     required this.title,
     this.subtitle,
     this.trailing,
-    this.image,
+    this.photoUrl,
     this.onTap,
   });
 
@@ -25,13 +25,20 @@ class RiwayatTransaksiListTile extends StatelessWidget {
         width: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: image == null || image == '' ? Colors.blueAccent : Colors.transparent,
+          color: photoUrl == null || photoUrl == '' ? Colors.blueAccent : Colors.transparent,
         ),
         child: CircleAvatar(
           radius: 50,
           backgroundColor: Colors.transparent,
-          backgroundImage: CachedNetworkImageProvider(image ?? ''),
-          child: image == null || image == '' ? const Text('AR') : Container(),
+          backgroundImage: photoUrl != null ? CachedNetworkImageProvider(photoUrl!) : null,
+          child: photoUrl == null || photoUrl == ''
+              ? Text(
+                  title[0].toUpperCase() + title[1].toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                )
+              : Container(),
         ),
       ),
       onTap: onTap,
