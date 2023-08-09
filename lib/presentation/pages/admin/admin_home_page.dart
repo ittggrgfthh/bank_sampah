@@ -88,18 +88,6 @@ class _AdminHomePageState extends State<AdminHomePage> {
     );
   }
 
-  DropdownMenuItem<String> buildMenuYear(String year) => DropdownMenuItem(
-        value: year,
-        child: Text(
-          year,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      );
-
   Widget _buildSaldoDitarik(BuildContext context) {
     return Container(
       width: double.infinity,
@@ -123,7 +111,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.background,
                   fontSize: 14,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                 ),
               )
             ],

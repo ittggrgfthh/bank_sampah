@@ -144,6 +144,13 @@ final router = GoRouter(
       path: AppRouterName.wargaHomePath,
       name: AppRouterName.wargaHomeName,
       builder: (context, state) => const WargaHomePage(),
+      routes: [
+        GoRoute(
+          parentNavigatorKey: _rootNavigatorKey,
+          path: AppRouterName.profilePath,
+          builder: (context, state) => const ProfilePage(),
+        ),
+      ],
     ),
   ],
   redirect: (_, state) async {
