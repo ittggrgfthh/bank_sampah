@@ -25,7 +25,7 @@ class EditWastePrice extends StatelessWidget {
             shape: const CircleBorder(),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: InkWell(
-              onTap: () => context.go('${AppRouterName.adminListUsersPath}/${AppRouterName.profilePath}'),
+              onTap: () => context.go('${AppRouterName.adminWastePricePath}/${AppRouterName.profilePath}'),
               child: Ink.image(
                 width: 32,
                 height: 32,

@@ -78,6 +78,11 @@ final router = GoRouter(
               name: AppRouterName.adminWastePriceLogName,
               builder: (context, state) => StoreWasteFormPage(user: state.extra as User),
             ),
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.profilePath,
+              builder: (context, state) => const ProfilePage(),
+            ),
           ],
         ),
       ],
