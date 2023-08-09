@@ -16,7 +16,7 @@ import '../../presentation/pages/staff/transaction_history.dart';
 import '../../presentation/pages/staff/store_waste_form.dart';
 import '../../presentation/pages/staff/store_waste_list.dart';
 import '../../presentation/pages/staff/withdraw_balance.dart';
-import '../../presentation/pages/staff/withdraw-balance_form.dart';
+import '../../presentation/pages/staff/withdraw_balance_form.dart';
 import '../../presentation/pages/warga/warga_home_page.dart';
 import '../../presentation/pages/ztest/home_page.dart';
 
