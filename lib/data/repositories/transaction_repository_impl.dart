@@ -1,12 +1,9 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:bank_sampah/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../core/constant/firebase_exception_codes.dart';
 import '../../core/failures/failure.dart';
 import '../../domain/entities/transaction_waste.dart';
-import '../../domain/entities/user.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../datasources/transaction_remote_data_source.dart';
 import '../models/transaction_waste_model.dart';
@@ -34,8 +31,8 @@ class TransactionRepositoryImpl implements TransactionRepository {
   @override
   Future<Either<Failure, List<TransactionWaste>>> getTransactions() async {
     try {
-      final listTransactionWasteModel = await _transactionRemoteDataSource.getTransactions();
-      return right(listTransactionWasteModel.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
+      final result = await _transactionRemoteDataSource.getTransactions();
+      return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {
         return left(const Failure.timeout());
@@ -47,11 +44,10 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByStaff(User staff) async {
+  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByStaffId(String staffId) async {
     try {
-      final listTransactionWasteModel =
-          await _transactionRemoteDataSource.getTransactionsByStaff(UserModel.formDomain(staff));
-      return right(listTransactionWasteModel.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
+      final result = await _transactionRemoteDataSource.getTransactionsByStaffId(staffId);
+      return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {
         return left(const Failure.timeout());
@@ -63,11 +59,10 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUser(User user) async {
+  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUserId(String staffId) async {
     try {
-      final listTransactionWasteModel =
-          await _transactionRemoteDataSource.getTransactionsByStaff(UserModel.formDomain(user));
-      return right(listTransactionWasteModel.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
+      final result = await _transactionRemoteDataSource.getTransactionsByStaffId(staffId);
+      return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {
         return left(const Failure.timeout());
