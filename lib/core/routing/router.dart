@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bank_sampah/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,11 +47,25 @@ final router = GoRouter(
           path: AppRouterName.adminReportPath,
           name: AppRouterName.adminReportName,
           builder: (context, state) => const AdminHomePage(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.profilePath,
+              builder: (context, state) => const ProfilePage(),
+            ),
+          ],
         ),
         GoRoute(
           path: AppRouterName.adminListUsersPath,
           name: AppRouterName.adminListUsersName,
           builder: (context, state) => const AdminListUserPage(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.profilePath,
+              builder: (context, state) => const ProfilePage(),
+            ),
+          ],
         ),
         GoRoute(
           path: AppRouterName.adminWastePricePath,
@@ -81,12 +96,24 @@ final router = GoRouter(
               name: AppRouterName.staffStoreWasteName,
               builder: (context, state) => StoreWasteFormPage(user: state.extra as User),
             ),
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.profilePath,
+              builder: (context, state) => const ProfilePage(),
+            ),
           ],
         ),
         GoRoute(
           path: AppRouterName.staffHistoryTransactionPath,
           name: AppRouterName.staffHistoryTransactionName,
           builder: (context, state) => const TransactionHistoryPage(),
+          routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.profilePath,
+              builder: (context, state) => const ProfilePage(),
+            ),
+          ],
         ),
         GoRoute(
           path: AppRouterName.staffBalanceTransactionPath,
@@ -98,6 +125,11 @@ final router = GoRouter(
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
               builder: (context, state) => const WithdrawBalanceForm(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.profilePath,
+              builder: (context, state) => const ProfilePage(),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:bank_sampah/component/button/rounded_danger_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,6 +13,12 @@ class ProfilePage extends StatelessWidget {
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: const Icon(Icons.chevron_left_rounded),
+        ),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: RoundedDangerButton(buttonName: 'Keluar', buttonTask: () {}),
         ),
       ),
     );

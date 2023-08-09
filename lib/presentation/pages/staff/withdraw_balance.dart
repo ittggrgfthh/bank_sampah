@@ -1,8 +1,12 @@
 import 'package:bank_sampah/component/dummy/dummy_data.dart';
 import 'package:bank_sampah/component/widget/withdraw_balance_list_tile.dart';
+import 'package:bank_sampah/core/routing/router.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
+import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class WithdrawBalance extends StatelessWidget {
   const WithdrawBalance({super.key});
@@ -10,16 +14,25 @@ class WithdrawBalance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<User> userDatas = DummyData.dummyUser;
+    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tarik Saldo'),
         actions: [
           IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-          const SizedBox(
-            height: 32,
-            width: 32,
-            child: CircleAvatar(),
+          Material(
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: InkWell(
+              onTap: () => context.go('${AppRouterName.staffBalanceTransactionPath}/${AppRouterName.profilePath}'),
+              child: Ink.image(
+                width: 32,
+                height: 32,
+                image: CachedNetworkImageProvider(staff.photoUrl ??
+                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
+              ),
+            ),
           ),
           const SizedBox(width: 15),
         ],

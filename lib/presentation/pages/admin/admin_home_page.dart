@@ -1,6 +1,11 @@
 import 'package:bank_sampah/component/button/rounded_dropdown_button.dart';
 import 'package:bank_sampah/core/constant/constant_data.dart';
+import 'package:bank_sampah/core/routing/router.dart';
+import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -17,9 +22,28 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final admin = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AdminHome'),
+        title: const Text('Admin Home'),
+        actions: [
+          IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
+          Material(
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: InkWell(
+              onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
+              child: Ink.image(
+                width: 32,
+                height: 32,
+                image: CachedNetworkImageProvider(admin.photoUrl ??
+                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
+              ),
+            ),
+          ),
+          const SizedBox(width: 15),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
