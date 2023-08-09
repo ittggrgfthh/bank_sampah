@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -44,23 +45,23 @@ class NavbarStaff extends StatelessWidget {
   void _onTap(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.goNamed('input-waste');
+        context.goNamed(AppRouterName.staffWasteTransactionName);
         break;
       case 1:
-        context.goNamed('transaction-history');
+        context.goNamed(AppRouterName.staffHistoryTransactionName);
         break;
       case 2:
-        context.goNamed('withdraw-balance');
+        context.goNamed(AppRouterName.staffBalanceTransactionName);
         break;
     }
   }
 
   int _calculatedSelectedIndex(BuildContext context) {
     final String uri = GoRouterState.of(context).uri.toString();
-    if (uri.startsWith('/riwayat-transaksi')) {
+    if (uri.startsWith(AppRouterName.staffHistoryTransactionPath)) {
       return 1;
     }
-    if (uri.startsWith('/tarik-saldo')) {
+    if (uri.startsWith(AppRouterName.staffBalanceTransactionPath)) {
       return 2;
     }
     return 0;

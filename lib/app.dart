@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/constant/theme.dart';
-import 'routing.dart';
+import 'core/routing/router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

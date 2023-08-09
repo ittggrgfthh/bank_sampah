@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,23 +38,23 @@ class NavbarAdmin extends StatelessWidget {
   void _onTap(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.goNamed('admin-home');
+        context.goNamed(AppRouterName.adminReportName);
         break;
       case 1:
-        context.goNamed('admin-list-user');
+        context.goNamed(AppRouterName.adminListUsersName);
         break;
       case 2:
-        context.goNamed('edit-price');
+        context.goNamed(AppRouterName.adminWastePriceName);
         break;
     }
   }
 
   int _calculatedSelectedIndex(BuildContext context) {
     final String uri = GoRouterState.of(context).uri.toString();
-    if (uri.startsWith('/admin-list-user')) {
+    if (uri.startsWith(AppRouterName.adminListUsersPath)) {
       return 1;
     }
-    if (uri.startsWith('/edit-harga')) {
+    if (uri.startsWith(AppRouterName.adminWastePricePath)) {
       return 2;
     }
     return 0;
