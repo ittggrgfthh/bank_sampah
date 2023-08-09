@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../component/widget/tarik_saldo_list_tile.dart';
+import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../injection.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
@@ -44,7 +44,7 @@ class StoreWasteListPage extends StatelessWidget {
                       bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
                     ),
                   ),
-                  child: TarikSaldoListTile(
+                  child: WithdrawBalanceListTile(
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
                     trailing: getIt<NumberFormat>().format(users[index].pointBalance.currentBalance),

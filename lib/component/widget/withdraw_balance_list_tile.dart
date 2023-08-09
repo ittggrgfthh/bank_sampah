@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class TarikSaldoListTile extends StatelessWidget {
+class WithdrawBalanceListTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? trailing;
   final String? photoUrl;
   final void Function()? onTap;
 
-  const TarikSaldoListTile({
+  const WithdrawBalanceListTile({
     super.key,
     required this.title,
     this.subtitle,

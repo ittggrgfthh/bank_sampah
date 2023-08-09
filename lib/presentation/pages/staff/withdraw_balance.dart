@@ -1,11 +1,11 @@
 import 'package:bank_sampah/component/dummy/dummy_data.dart';
-import 'package:bank_sampah/component/widget/tarik_saldo_list_tile.dart';
+import 'package:bank_sampah/component/widget/withdraw_balance_list_tile.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class TarikSaldo extends StatelessWidget {
-  const TarikSaldo({super.key});
+class WithdrawBalance extends StatelessWidget {
+  const WithdrawBalance({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class TarikSaldo extends StatelessWidget {
               bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
             ),
           ),
-          child: TarikSaldoListTile(
+          child: WithdrawBalanceListTile(
             photoUrl: userDatas[index].photoUrl,
             title: userDatas[index].fullName ?? 'No Name',
             subtitle: userDatas[index].phoneNumber,

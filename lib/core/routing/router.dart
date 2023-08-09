@@ -15,8 +15,8 @@ import '../../presentation/pages/login_page.dart';
 import '../../presentation/pages/staff/transaction_history.dart';
 import '../../presentation/pages/staff/store_waste_form.dart';
 import '../../presentation/pages/staff/store_waste_list.dart';
-import '../../presentation/pages/staff/tarik_saldo.dart';
-import '../../presentation/pages/staff/tarik_saldo_form.dart';
+import '../../presentation/pages/staff/withdraw_balance.dart';
+import '../../presentation/pages/staff/withdraw-balance_form.dart';
 import '../../presentation/pages/warga/warga_home_page.dart';
 import '../../presentation/pages/ztest/home_page.dart';
 
@@ -91,13 +91,13 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.staffBalanceTransactionPath,
           name: AppRouterName.staffBalanceTransactionName,
-          builder: (context, state) => const TarikSaldo(),
+          builder: (context, state) => const WithdrawBalance(),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => const TarikSaldoForm(),
+              builder: (context, state) => const WithdrawBalanceForm(),
             ),
           ],
         ),
