@@ -59,9 +59,9 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUserId(String staffId) async {
+  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUserId(String user) async {
     try {
-      final result = await _transactionRemoteDataSource.getTransactionsByStaffId(staffId);
+      final result = await _transactionRemoteDataSource.getTransactionsByUserId(user);
       return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {

@@ -17,9 +17,8 @@ class TransactionWasteModel with _$TransactionWasteModel {
     @JsonKey(name: 'updated_at') required int updatedAt,
     required UserModel user,
     required UserModel staff,
-    @JsonKey(name: 'withdrawn_balance') required WithdrawnBalanceModel withdrawnBalance,
-    required WasteModel waste,
-    @JsonKey(name: 'waste_price') required WastePriceModel wastePrice,
+    @JsonKey(name: 'store_waste') StoreWasteModel? storeWaste,
+    @JsonKey(name: 'withdrawn_balance') WithdrawnBalanceModel? withdrawnBalance,
     required List<HistoryWasteModel> historyUpdate,
   }) = _TransactionWasteModel;
 
@@ -34,9 +33,8 @@ class TransactionWasteModel with _$TransactionWasteModel {
       updatedAt: updatedAt,
       user: user.toDomain(),
       staff: staff.toDomain(),
-      withdrawnBalance: withdrawnBalance.toDomain(),
-      waste: waste.toDomain(),
-      wastePrice: wastePrice.toDomain(),
+      withdrawnBalance: withdrawnBalance?.toDomain(),
+      storeWaste: storeWaste?.toDomain(),
       historyUpdate: historyUpdate.map((history) => history.toDomain()).toList(),
     );
   }
@@ -48,10 +46,40 @@ class TransactionWasteModel with _$TransactionWasteModel {
       updatedAt: transaction.updatedAt,
       user: UserModel.formDomain(transaction.user),
       staff: UserModel.formDomain(transaction.staff),
-      withdrawnBalance: WithdrawnBalanceModel.formDomain(transaction.withdrawnBalance),
-      waste: WasteModel.formDomain(transaction.waste),
-      wastePrice: WastePriceModel.formDomain(transaction.wastePrice),
+      withdrawnBalance:
+          transaction.withdrawnBalance == null ? null : WithdrawnBalanceModel.formDomain(transaction.withdrawnBalance!),
+      storeWaste: transaction.storeWaste == null ? null : StoreWasteModel.formDomain(transaction.storeWaste!),
       historyUpdate: transaction.historyUpdate.map((history) => HistoryWasteModel.formDomain(history)).toList(),
+    );
+  }
+}
+
+@freezed
+class StoreWasteModel with _$StoreWasteModel {
+  @JsonSerializable(explicitToJson: true)
+  const factory StoreWasteModel({
+    @JsonKey(name: 'earned_balance') required int earnedBalance,
+    required WasteModel waste,
+    required WastePriceModel wastePrice,
+  }) = _StoreWasteModel;
+
+  const StoreWasteModel._();
+
+  factory StoreWasteModel.fromJson(Map<String, dynamic> json) => _$StoreWasteModelFromJson(json);
+
+  StoreWaste toDomain() {
+    return StoreWaste(
+      earnedBalance: earnedBalance,
+      waste: waste.toDomain(),
+      wastePrice: wastePrice.toDomain(),
+    );
+  }
+
+  static StoreWasteModel formDomain(StoreWaste storeWaste) {
+    return StoreWasteModel(
+      earnedBalance: storeWaste.earnedBalance,
+      waste: WasteModel.formDomain(storeWaste.waste),
+      wastePrice: WastePriceModel.formDomain(storeWaste.wastePrice),
     );
   }
 }
@@ -90,7 +118,7 @@ class WithdrawnBalanceModel with _$WithdrawnBalanceModel {
 class HistoryWasteModel with _$HistoryWasteModel {
   @JsonSerializable(explicitToJson: true)
   const factory HistoryWasteModel({
-    required WasteModel waste,
+    @JsonKey(name: 'store_waste') required StoreWasteModel storeWaste,
     @JsonKey(name: 'updated_at') required int updatedAt,
   }) = _HistoryWasteModel;
 
@@ -100,14 +128,14 @@ class HistoryWasteModel with _$HistoryWasteModel {
 
   HistoryWaste toDomain() {
     return HistoryWaste(
-      waste: waste.toDomain(),
+      storeWaste: storeWaste.toDomain(),
       updatedAt: updatedAt,
     );
   }
 
   static HistoryWasteModel formDomain(HistoryWaste history) {
     return HistoryWasteModel(
-      waste: WasteModel.formDomain(history.waste),
+      storeWaste: StoreWasteModel.formDomain(history.storeWaste),
       updatedAt: history.updatedAt,
     );
   }

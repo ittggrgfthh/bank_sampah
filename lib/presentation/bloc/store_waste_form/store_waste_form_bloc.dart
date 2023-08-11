@@ -50,7 +50,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
         failure: none(),
         priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
         priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
-        transaction: optionOf(defaultTransaction.copyWith(
+        transaction: optionOf(defaultTransaction.copyWith.storeWaste?.call(
           wastePrice: currentWastePrice,
         )),
       )),
@@ -120,10 +120,15 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
         organicWeight: state.organicWeight,
         inorganicWeight: state.inorganicWeight,
       ),
-      waste: DefaultData.waste.copyWith(
-        organic: NumberConverter.parseToInteger(state.organicWeight),
-        inorganic: NumberConverter.parseToInteger(state.inorganicWeight),
+      storeWaste: StoreWaste(
+        earnedBalance: NumberConverter.parseToInteger(state.earnedBalance),
+        waste: Waste(
+          organic: NumberConverter.parseToInteger(state.organicWeight),
+          inorganic: NumberConverter.parseToInteger(state.inorganicWeight),
+        ),
+        wastePrice: transaction.storeWaste!.wastePrice, // karena storeWaste bisa null
       ),
+      withdrawnBalance: null, // null: karena ini bukan transaksi tarik saldo
     );
     final failureOrSuccess = await _createWasteTransaction(newTransaction);
     failureOrSuccess.fold(

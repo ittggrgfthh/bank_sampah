@@ -35,6 +35,8 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
 
     try {
       batch.set(userDocRef, newTransaction.user.toJson());
+      // jika ingin menggunakan update untuk spesifik key daripada set. Kurang tau soal performa.
+      // batch.update(userDocRef, {'point_balance': newTransaction.user.pointBalance.toJson()});
       batch.set(pointBalanceDocRef, newTransaction.user.pointBalance.toJson());
       batch.set(transactionDocRef, newTransaction.toJson());
       await batch.commit();

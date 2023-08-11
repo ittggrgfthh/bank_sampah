@@ -14,9 +14,8 @@ class TransactionWaste with _$TransactionWaste {
     required int updatedAt,
     required User user,
     required User staff,
-    required WithdrawnBalance withdrawnBalance,
-    required Waste waste,
-    required WastePrice wastePrice,
+    StoreWaste? storeWaste, // menyimpan limbah atau input sampah
+    WithdrawnBalance? withdrawnBalance, // menarik saldo
     required List<HistoryWaste> historyUpdate,
   }) = _TransactionWaste;
 
@@ -24,11 +23,22 @@ class TransactionWaste with _$TransactionWaste {
 }
 
 @freezed
+class StoreWaste with _$StoreWaste {
+  const factory StoreWaste({
+    required int earnedBalance,
+    required Waste waste,
+    required WastePrice wastePrice,
+  }) = _StoreWaste;
+
+  const StoreWaste._();
+}
+
+@freezed
 class WithdrawnBalance with _$WithdrawnBalance {
   const factory WithdrawnBalance({
-    required int balance,
-    required int withdrawn,
-    required int currentBalance,
+    required int balance, // saldo sebelumnya
+    required int withdrawn, // jumlah yang ditarik
+    required int currentBalance, // saldo sekarang dari pengurangan saldo sebelumnya
   }) = _WithdrawnBalance;
 
   const WithdrawnBalance._();
@@ -37,7 +47,7 @@ class WithdrawnBalance with _$WithdrawnBalance {
 @freezed
 class HistoryWaste with _$HistoryWaste {
   const factory HistoryWaste({
-    required Waste waste,
+    required StoreWaste storeWaste,
     required int updatedAt,
   }) = _HistoryUpdate;
 

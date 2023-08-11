@@ -45,6 +45,12 @@ class DefaultData {
     currentBalance: 0,
   );
 
+  static final storeWaste = StoreWaste(
+    earnedBalance: 0,
+    waste: waste,
+    wastePrice: wastePrice,
+  );
+
   static final transactionWaste = TransactionWaste(
     id: 'id-default-transaction',
     createdAt: nowDateEpoch,
@@ -57,8 +63,7 @@ class DefaultData {
       role: 'staff',
     ),
     withdrawnBalance: withdrawnBalance,
-    waste: waste,
-    wastePrice: wastePrice,
+    storeWaste: storeWaste,
     historyUpdate: [],
   );
 }

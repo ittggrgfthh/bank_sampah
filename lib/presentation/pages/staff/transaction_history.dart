@@ -35,7 +35,19 @@ class TransactionHistoryPage extends StatelessWidget {
               loadSuccess: (transactions) {
                 if (transactions.isEmpty) {
                   return const Center(
-                    child: Text('Tidak ada transaksi'),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '(ノ_<、)',
+                          style: TextStyle(
+                            fontSize: 36,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text('Belum ada transaksi!'),
+                      ],
+                    ),
                   );
                 }
                 return ListView.builder(
@@ -51,10 +63,13 @@ class TransactionHistoryPage extends StatelessWidget {
                       child: TransactionHitoryListTile(
                         title: transaction.user.fullName!,
                         photoUrl: transaction.user.photoUrl,
-                        subtitle: [transaction.waste.organic.toString(), transaction.waste.inorganic.toString()],
+                        subtitle: [
+                          transaction.storeWaste!.waste.organic.toString(),
+                          transaction.storeWaste!.waste.inorganic.toString()
+                        ],
                         trailing: [
                           DateTimeConverter.timeAgoFromMillisecond(transaction.createdAt),
-                          transaction.withdrawnBalance.withdrawn.toString()
+                          transaction.storeWaste!.earnedBalance.toString()
                         ],
                       ),
                     );
@@ -63,6 +78,7 @@ class TransactionHistoryPage extends StatelessWidget {
               },
               loadFailure: (_) => const Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       '(ノ_<、)',
@@ -70,6 +86,7 @@ class TransactionHistoryPage extends StatelessWidget {
                         fontSize: 36,
                       ),
                     ),
+                    SizedBox(height: 5),
                     Text('Terjadi kesalahan'),
                   ],
                 ),

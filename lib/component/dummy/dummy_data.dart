@@ -139,32 +139,33 @@ class DummyData {
         updatedAt: 1679094315000,
       ),
       withdrawnBalance: WithdrawnBalance(balance: 1000000, withdrawn: 200000, currentBalance: 800000),
-      waste: Waste(organic: 100, inorganic: 200),
-      wastePrice: WastePrice(
-        id: '01',
-        organic: 2000,
-        inorganic: 3000,
-        createdAt: 1679094315000,
-        admin: User(
-          id: '09',
-          phoneNumber: '882-9819-2342',
-          role: 'Admin',
-          password: '',
-          pointBalance: PointBalance(
-            userId: '01',
-            currentBalance: 0,
-            waste: Waste(
-              organic: 0,
-              inorganic: 0,
-            ),
-          ),
+      storeWaste: StoreWaste(
+        earnedBalance: 1000000,
+        waste: Waste(organic: 100, inorganic: 200),
+        wastePrice: WastePrice(
+          id: '01',
+          organic: 2000,
+          inorganic: 3000,
           createdAt: 1679094315000,
-          updatedAt: 1679094315000,
+          admin: User(
+            id: '09',
+            phoneNumber: '882-9819-2342',
+            role: 'Admin',
+            password: '',
+            pointBalance: PointBalance(
+              userId: '01',
+              currentBalance: 0,
+              waste: Waste(
+                organic: 0,
+                inorganic: 0,
+              ),
+            ),
+            createdAt: 1679094315000,
+            updatedAt: 1679094315000,
+          ),
         ),
       ),
-      historyUpdate: <HistoryWaste>[
-        HistoryWaste(waste: Waste(organic: 2000, inorganic: 3000), updatedAt: 1679094315000)
-      ],
+      historyUpdate: <HistoryWaste>[],
     ),
     const TransactionWaste(
       id: '02',
@@ -209,27 +210,30 @@ class DummyData {
         updatedAt: 1679094315000,
       ),
       withdrawnBalance: WithdrawnBalance(balance: 1000000, withdrawn: 200000, currentBalance: 800000),
-      waste: Waste(organic: 50, inorganic: 300),
-      wastePrice: WastePrice(
-        id: '01',
-        organic: 2000,
-        inorganic: 3000,
-        createdAt: 1679094315000,
-        admin: User(
-          id: '09',
-          phoneNumber: '882-9819-2342',
-          role: 'Admin',
-          password: '',
-          pointBalance: PointBalance(
-            userId: '01',
-            currentBalance: 0,
-            waste: Waste(
-              organic: 0,
-              inorganic: 0,
-            ),
-          ),
+      storeWaste: StoreWaste(
+        earnedBalance: 1000000,
+        waste: Waste(organic: 100, inorganic: 200),
+        wastePrice: WastePrice(
+          id: '01',
+          organic: 2000,
+          inorganic: 3000,
           createdAt: 1679094315000,
-          updatedAt: 1679094315000,
+          admin: User(
+            id: '09',
+            phoneNumber: '882-9819-2342',
+            role: 'Admin',
+            password: '',
+            pointBalance: PointBalance(
+              userId: '01',
+              currentBalance: 0,
+              waste: Waste(
+                organic: 0,
+                inorganic: 0,
+              ),
+            ),
+            createdAt: 1679094315000,
+            updatedAt: 1679094315000,
+          ),
         ),
       ),
       historyUpdate: <HistoryWaste>[],
