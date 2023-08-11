@@ -1,20 +1,21 @@
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:bank_sampah/component/field/money_field.dart';
+import 'package:bank_sampah/core/constant/constant_data.dart';
 import 'package:bank_sampah/injection.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class TarikSaldoForm extends StatefulWidget {
-  const TarikSaldoForm({super.key});
+class WithdrawBalanceForm extends StatefulWidget {
+  const WithdrawBalanceForm({super.key});
 
   @override
-  State<TarikSaldoForm> createState() => _TarikSaldoFormState();
+  State<WithdrawBalanceForm> createState() => _WithdrawBalanceFormState();
 }
 
-class _TarikSaldoFormState extends State<TarikSaldoForm> {
+class _WithdrawBalanceFormState extends State<WithdrawBalanceForm> {
   final user = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-  List<String> chipdatas = ['50.000', '100.000', '200.000', '300.000', '500.000', '1.000.000'];
+  List<String> chipdatas = ConstantData.withdrawChoice;
   int? _selectedChoice;
   final TextEditingController _moneyController = TextEditingController();
 

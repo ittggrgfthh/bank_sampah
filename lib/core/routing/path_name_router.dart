@@ -36,4 +36,6 @@ class AppRouterName {
 
   static const String wargaHomePath = '/warga';
   static const String wargaHomeName = 'warga';
+
+  static const String profilePath = 'profile';
 }

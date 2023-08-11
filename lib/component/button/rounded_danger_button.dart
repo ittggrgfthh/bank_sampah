@@ -21,15 +21,14 @@ class RoundedDangerButton extends StatelessWidget {
               const Size.fromHeight(45),
             ),
             shape: MaterialStateProperty.all<OutlinedBorder>(
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
           ),
         ),
       ),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(CColors.success),
+          backgroundColor: MaterialStateProperty.all<Color>(CColors.danger),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         ),
         onPressed: buttonTask,

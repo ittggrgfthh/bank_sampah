@@ -1,8 +1,12 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
+import 'package:bank_sampah/core/routing/router.dart';
+import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:bank_sampah/presentation/bloc/list_user/list_user_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../component/field/name_field.dart';
 import '../../../component/field/password_field.dart';
@@ -16,6 +20,7 @@ class AdminListUserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final admin = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return BlocProvider(
@@ -43,6 +48,23 @@ class AdminListUserPage extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Daftar Pengguna'),
+              actions: [
+                IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
+                Material(
+                  shape: const CircleBorder(),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  child: InkWell(
+                    onTap: () => context.go('${AppRouterName.adminListUsersPath}/${AppRouterName.profilePath}'),
+                    child: Ink.image(
+                      width: 32,
+                      height: 32,
+                      image: CachedNetworkImageProvider(admin.photoUrl ??
+                          'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15),
+              ],
             ),
             floatingActionButton: ElevatedButton(
               onPressed: () {

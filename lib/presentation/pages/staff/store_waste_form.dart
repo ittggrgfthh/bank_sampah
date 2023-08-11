@@ -154,6 +154,7 @@ class _StoreWasteFormState extends State<StoreWasteForm> {
           },
           builder: (context, state) {
             return NumberField(
+              label: 'Organik',
               isLoading: state.isLoading,
               helperText: "Rp${context.read<StoreWasteFormBloc>().state.priceOrganic}/kg",
               onChanged: (value) {
@@ -162,13 +163,14 @@ class _StoreWasteFormState extends State<StoreWasteForm> {
             );
           },
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 15),
         BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
           buildWhen: (previous, current) {
             return previous.priceInorganic != current.priceInorganic || previous.isLoading != current.isLoading;
           },
           builder: (context, state) {
             return NumberField(
+              label: 'An-Organik',
               isLoading: state.isLoading,
               helperText: "Rp${context.read<StoreWasteFormBloc>().state.priceInorganic}/kg",
               onChanged: (value) {

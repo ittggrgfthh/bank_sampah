@@ -1,4 +1,5 @@
 import 'package:bank_sampah/core/routing/router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,13 +15,32 @@ class EditWastePrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    final admin = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Harga')),
+      appBar: AppBar(
+        title: const Text('Edit Harga'),
+        actions: [
+          IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
+          Material(
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: InkWell(
+              onTap: () => context.go('${AppRouterName.adminWastePricePath}/${AppRouterName.profilePath}'),
+              child: Ink.image(
+                width: 32,
+                height: 32,
+                image: CachedNetworkImageProvider(admin.photoUrl ??
+                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
+              ),
+            ),
+          ),
+          const SizedBox(width: 15),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: BlocProvider(
-          create: (context) => getIt<EditWastePriceBloc>()..add(EditWastePriceEvent.initialized(user)),
+          create: (context) => getIt<EditWastePriceBloc>()..add(EditWastePriceEvent.initialized(admin)),
           child: Wrap(
             runSpacing: 20,
             children: [

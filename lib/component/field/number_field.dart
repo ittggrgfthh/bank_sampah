@@ -4,12 +4,21 @@ import 'package:flutter/material.dart';
 import 'money_field.dart';
 
 class NumberField extends StatelessWidget {
+  final String label;
   final TextEditingController? controller;
   final Widget? icon;
   final String? helperText;
   final ValueChanged<String>? onChanged;
   final bool isLoading;
-  const NumberField({super.key, this.controller, this.icon, this.helperText, this.onChanged, this.isLoading = false});
+  const NumberField({
+    super.key,
+    this.controller,
+    this.icon,
+    this.helperText,
+    this.onChanged,
+    this.isLoading = false,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +37,7 @@ class NumberField extends StatelessWidget {
       onChanged: onChanged,
       inputFormatters: [ThousandsFormatter()],
       decoration: InputDecoration(
+        label: Text(label),
         enabled: !isLoading,
         helperText: helperText ?? '',
         prefix: icon,

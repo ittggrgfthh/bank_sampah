@@ -1,24 +1,23 @@
-import 'package:bank_sampah/core/routing/router.dart';
-import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../component/widget/withdraw_balance_list_tile.dart';
-import '../../../injection.dart';
+import '../../../core/routing/router.dart';
+import '../../../core/utils/currency_converter.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
-class StoreWasteListPage extends StatelessWidget {
-  const StoreWasteListPage({super.key});
+class WithdrawBalance extends StatelessWidget {
+  const WithdrawBalance({super.key});
 
   @override
   Widget build(BuildContext context) {
     final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Simpan Sampah'),
+        title: const Text('Tarik Saldo'),
         actions: [
           IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
@@ -26,7 +25,7 @@ class StoreWasteListPage extends StatelessWidget {
             shape: const CircleBorder(),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: InkWell(
-              onTap: () => context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}'),
+              onTap: () => context.go('${AppRouterName.staffBalanceTransactionPath}/${AppRouterName.profilePath}'),
               child: Ink.image(
                 width: 32,
                 height: 32,
@@ -56,18 +55,15 @@ class StoreWasteListPage extends StatelessWidget {
                     ),
                   ),
                   child: WithdrawBalanceListTile(
+                    photoUrl: users[index].photoUrl,
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
-                    trailing: getIt<NumberFormat>().format(users[index].pointBalance.currentBalance),
-                    photoUrl: users[index].photoUrl,
-                    onTap: () => context.goNamed(AppRouterName.staffStoreWasteName, extra: users[index]),
+                    trailing: CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance),
+                    onTap: () => context.goNamed('withdraw-balance-form', extra: users[index]),
                   ),
                 ),
               );
             },
-            loadFailure: (_) => const Center(
-              child: Text('Terjadi kesalahan'),
-            ),
             orElse: () => const Center(
               child: CircularProgressIndicator(),
             ),
