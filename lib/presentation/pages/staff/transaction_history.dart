@@ -1,4 +1,5 @@
 import 'package:bank_sampah/core/routing/router.dart';
+import 'package:bank_sampah/core/utils/currency_converter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +66,7 @@ class TransactionHistoryPage extends StatelessWidget {
                         subtitle: [transaction.waste.organic.toString(), transaction.waste.inorganic.toString()],
                         trailing: [
                           DateTimeConverter.timeAgoFromMillisecond(transaction.createdAt),
-                          transaction.withdrawnBalance.withdrawn.toString()
+                          CurrencyConverter.intToIDR(transaction.user.pointBalance.currentBalance),
                         ],
                       ),
                     );

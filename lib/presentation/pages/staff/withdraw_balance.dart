@@ -1,19 +1,19 @@
-import 'package:bank_sampah/component/dummy/dummy_data.dart';
-import 'package:bank_sampah/component/widget/withdraw_balance_list_tile.dart';
-import 'package:bank_sampah/core/routing/router.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
-import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+
+import '../../../component/widget/withdraw_balance_list_tile.dart';
+import '../../../core/routing/router.dart';
+import '../../../core/utils/currency_converter.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/list_user/list_user_bloc.dart';
 
 class WithdrawBalance extends StatelessWidget {
   const WithdrawBalance({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<User> userDatas = DummyData.dummyUser;
     final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
       appBar: AppBar(
@@ -37,22 +37,38 @@ class WithdrawBalance extends StatelessWidget {
           const SizedBox(width: 15),
         ],
       ),
-      body: ListView.builder(
-        itemCount: userDatas.length,
-        itemBuilder: (context, index) => Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+      body: BlocBuilder<ListUserBloc, ListUserState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            loadSuccess: (users) {
+              if (users.isEmpty) {
+                return const Center(
+                  child: Text('Tidak ada pengguna'),
+                );
+              }
+              return ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (context, index) => Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ),
+                  child: WithdrawBalanceListTile(
+                    photoUrl: users[index].photoUrl,
+                    title: users[index].fullName ?? 'No Name',
+                    subtitle: '+62 ${users[index].phoneNumber}',
+                    trailing: CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance),
+                    onTap: () => context.goNamed('withdraw-balance-form', extra: users[index]),
+                  ),
+                ),
+              );
+            },
+            orElse: () => const Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
-          child: WithdrawBalanceListTile(
-            photoUrl: userDatas[index].photoUrl,
-            title: userDatas[index].fullName ?? 'No Name',
-            subtitle: userDatas[index].phoneNumber,
-            trailing: 'Rp. 200.000',
-            onTap: () => context.goNamed('withdraw-balance-form', extra: userDatas[index]),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
