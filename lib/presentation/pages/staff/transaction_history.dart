@@ -1,9 +1,9 @@
 import 'package:bank_sampah/core/routing/router.dart';
-import 'package:bank_sampah/core/utils/currency_converter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../component/widget/transaction_histry_list_tile.dart';
 import '../../../core/utils/date_time_converter.dart';
@@ -73,15 +73,21 @@ class TransactionHistoryPage extends StatelessWidget {
                         ),
                       ),
                       child: TransactionHitoryListTile(
+                        enabled: transaction.storeWaste != null,
                         title: transaction.user.fullName!,
                         photoUrl: transaction.user.photoUrl,
                         subtitle: [
-                          transaction.storeWaste!.waste.organic.toString(),
-                          transaction.storeWaste!.waste.inorganic.toString()
+                          transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.organic.toString(),
+                          transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.inorganic.toString(),
+                          transaction.withdrawnBalance == null
+                              ? '0'
+                              : getIt<NumberFormat>().format(transaction.withdrawnBalance!.withdrawn),
                         ],
                         trailing: [
                           DateTimeConverter.timeAgoFromMillisecond(transaction.createdAt),
-                          transaction.storeWaste!.earnedBalance.toString()
+                          transaction.storeWaste == null
+                              ? '-'
+                              : getIt<NumberFormat>().format(transaction.storeWaste!.earnedBalance),
                         ],
                       ),
                     );

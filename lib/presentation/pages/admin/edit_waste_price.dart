@@ -150,6 +150,7 @@ class _EditWastePriceFormState extends State<EditWastePriceForm> {
             return MoneyField(
               isLoading: state.isLoading,
               controller: _priceOrganicController,
+              suffixText: 'per kg',
               onChanged: (value) {
                 context.read<EditWastePriceBloc>().add(EditWastePriceEvent.priceOrganicChanged(value));
               },
@@ -167,6 +168,7 @@ class _EditWastePriceFormState extends State<EditWastePriceForm> {
             return MoneyField(
               isLoading: state.isLoading,
               controller: _priceInorganicController,
+              suffixText: 'per kg',
               onChanged: (value) {
                 context.read<EditWastePriceBloc>().add(EditWastePriceEvent.priceInorganicChanged(value));
               },

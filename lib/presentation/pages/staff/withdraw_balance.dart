@@ -59,7 +59,8 @@ class WithdrawBalance extends StatelessWidget {
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
                     trailing: CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance),
-                    onTap: () => context.goNamed('withdraw-balance-form', extra: users[index]),
+                    onTap: () => context.goNamed(AppRouterName.staffWithdrawName, extra: users[index]),
+                    enabled: users[index].pointBalance.currentBalance > 0,
                   ),
                 ),
               );

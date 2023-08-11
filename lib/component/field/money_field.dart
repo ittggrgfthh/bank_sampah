@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import '../string_extension.dart';
-
 class ThousandsFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
@@ -27,9 +25,21 @@ class MoneyField extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final bool isLoading;
+  final String? suffixText;
+  final String? Function(String? value)? validator;
   final void Function()? onTap;
+  final String? hintText;
 
-  const MoneyField({super.key, this.controller, this.onChanged, this.isLoading = false, this.onTap});
+  const MoneyField({
+    super.key,
+    this.controller,
+    this.onChanged,
+    this.isLoading = false,
+    this.onTap,
+    this.suffixText,
+    this.validator,
+    this.hintText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +48,11 @@ class MoneyField extends StatelessWidget {
       onTap: onTap,
       controller: controller,
       keyboardType: TextInputType.number,
-      validator: (s) {
-        if (!s!.isValidDouble()) {
-          return "Enter a valid number!";
-        }
-        return null;
-      },
+      validator: validator,
       inputFormatters: [ThousandsFormatter()],
       onChanged: onChanged,
       decoration: InputDecoration(
+        hintText: hintText,
         helperText: "",
         prefixIcon: isLoading
             ? Padding(
@@ -57,15 +63,17 @@ class MoneyField extends StatelessWidget {
                 ),
               )
             : null,
-        suffixIcon: Container(
-          padding: const EdgeInsets.only(right: 10),
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('per kg'),
-            ],
-          ),
-        ),
+        suffixIcon: suffixText == null
+            ? null
+            : Container(
+                padding: const EdgeInsets.only(right: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(suffixText!),
+                  ],
+                ),
+              ),
       ),
     );
   }

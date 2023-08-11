@@ -126,10 +126,11 @@ final router = GoRouter(
           builder: (context, state) => const WithdrawBalance(),
           routes: [
             GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => const WithdrawBalanceForm(),
+              builder: (context, state) => WithdrawBalanceForm(
+                user: state.extra as User,
+              ),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,

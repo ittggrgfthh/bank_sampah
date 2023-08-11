@@ -8,6 +8,7 @@ class TransactionHitoryListTile extends StatelessWidget {
   final List<String>? trailing;
   final String? photoUrl;
   final void Function()? onTap;
+  final bool enabled;
 
   const TransactionHitoryListTile({
     super.key,
@@ -16,11 +17,13 @@ class TransactionHitoryListTile extends StatelessWidget {
     this.trailing,
     this.photoUrl,
     this.onTap,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      enabled: enabled,
       leading: Container(
         height: 40,
         width: 40,
@@ -52,23 +55,33 @@ class TransactionHitoryListTile extends StatelessWidget {
       ),
       subtitle: Row(
         children: [
-          subtitle![0] == '0' ? Container() : const Icon(Icons.energy_savings_leaf, size: 20),
-          Text(
-            subtitle![0] == '0' ? '' : subtitle![0],
-            style: const TextStyle(
-              color: CColors.green500,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          subtitle![0] != '0' ? const SizedBox(width: 10) : Container(),
-          subtitle![1] == '0' ? Container() : const Icon(Icons.wallet, size: 20),
-          Text(
-            subtitle![1] == '0' ? '' : subtitle![1],
-            style: const TextStyle(
-              color: CColors.red400,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+          subtitle![0] == '0'
+              ? const SizedBox()
+              : RowSubtitle(
+                  text: subtitle![0],
+                  icon: Icons.eco_rounded,
+                  color: MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? CColors.successLight
+                      : CColors.successDark,
+                ),
+          subtitle![1] == '0'
+              ? const SizedBox()
+              : RowSubtitle(
+                  text: subtitle![1],
+                  icon: Icons.shopping_bag_rounded,
+                  color: MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? CColors.warningLight
+                      : CColors.warningDark,
+                ),
+          subtitle![2] == '0'
+              ? const SizedBox()
+              : RowSubtitle(
+                  text: subtitle![2],
+                  icon: Icons.currency_exchange_rounded,
+                  color: MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? CColors.dangerLight
+                      : CColors.dangerDark,
+                ),
         ],
       ),
       trailing: Column(
@@ -82,16 +95,57 @@ class TransactionHitoryListTile extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          Text(
-            trailing![1],
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+          trailing![1] == '-'
+              ? const SizedBox()
+              : Text(
+                  trailing![1],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
         ],
       ),
+    );
+  }
+}
+
+class RowSubtitle extends StatelessWidget {
+  const RowSubtitle({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.color,
+  });
+
+  final String text;
+  final IconData icon;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 20,
+          color: color,
+        ),
+        const SizedBox(
+          width: 2,
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        )
+      ],
     );
   }
 }

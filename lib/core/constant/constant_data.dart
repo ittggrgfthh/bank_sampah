@@ -15,5 +15,5 @@ class ConstantData {
 
   static final years = <String>['2023', '2024', '2025'];
 
-  static final withdrawChoice = <String>['50.000', '100.000', '200.000', '300.000', '500.000', '1.000.000'];
+  static final withdrawChoice = <int>[50000, 100000, 200000, 300000, 500000, 1000000];
 }

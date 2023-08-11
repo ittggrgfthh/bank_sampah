@@ -7,6 +7,7 @@ class WithdrawBalanceListTile extends StatelessWidget {
   final String? trailing;
   final String? photoUrl;
   final void Function()? onTap;
+  final bool enabled;
 
   const WithdrawBalanceListTile({
     super.key,
@@ -15,11 +16,13 @@ class WithdrawBalanceListTile extends StatelessWidget {
     this.trailing,
     this.photoUrl,
     this.onTap,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      enabled: enabled,
       leading: Container(
         height: 40,
         width: 40,
