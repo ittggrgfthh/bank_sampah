@@ -27,4 +27,12 @@ class DateTimeConverter {
       return '$years tahun yang lalu';
     }
   }
+
+  static bool isWithin30Minutes(int millisecondsSinceEpoch) {
+    DateTime now = DateTime.now();
+    int nowInMillisecondsSinceEpoch = now.millisecondsSinceEpoch;
+    int differenceMillisecondsEpoch = nowInMillisecondsSinceEpoch - millisecondsSinceEpoch;
+
+    return (differenceMillisecondsEpoch / (1000 * 60)) < 30;
+  }
 }

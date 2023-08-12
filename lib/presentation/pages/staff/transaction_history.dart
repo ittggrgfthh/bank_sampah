@@ -66,6 +66,7 @@ class TransactionHistoryPage extends StatelessWidget {
                   itemCount: transactions.length,
                   itemBuilder: (context, index) {
                     final transaction = transactions[index];
+                    print(DateTimeConverter.isWithin30Minutes(transaction.createdAt));
                     return Container(
                       decoration: BoxDecoration(
                         border: Border(
@@ -73,7 +74,8 @@ class TransactionHistoryPage extends StatelessWidget {
                         ),
                       ),
                       child: TransactionHitoryListTile(
-                        enabled: transaction.storeWaste != null,
+                        enabled: transaction.storeWaste != null &&
+                            DateTimeConverter.isWithin30Minutes(transaction.createdAt),
                         title: transaction.user.fullName!,
                         photoUrl: transaction.user.photoUrl,
                         subtitle: [

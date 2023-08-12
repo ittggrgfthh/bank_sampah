@@ -27,7 +27,7 @@ class EditPriceLog extends StatelessWidget {
           child: TransactionHitoryListTile(
             title: DateTimeConverter.millisecondEpochtoString(logEditPrices[index].createdAt),
             subtitle: [logEditPrices[index].organic.toString(), logEditPrices[index].inorganic.toString()],
-            trailing: [logEditPrices[index].admin.fullName!, ''],
+            trailing: [logEditPrices[index].admin.fullName!, '', ''],
           ),
         ),
       ),
