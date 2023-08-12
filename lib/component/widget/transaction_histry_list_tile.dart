@@ -1,3 +1,5 @@
+import 'package:bank_sampah/core/constant/theme.dart';
+
 import '../../core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +51,7 @@ class TransactionHitoryListTile extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
+          overflow: TextOverflow.ellipsis,
           color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.w400,
         ),
@@ -60,27 +63,21 @@ class TransactionHitoryListTile extends StatelessWidget {
               : RowSubtitle(
                   text: subtitle![0],
                   icon: Icons.eco_rounded,
-                  color: MediaQuery.of(context).platformBrightness == Brightness.light
-                      ? CColors.successLight
-                      : CColors.successDark,
+                  color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
                 ),
           subtitle![1] == '0'
               ? const SizedBox()
               : RowSubtitle(
                   text: subtitle![1],
                   icon: Icons.shopping_bag_rounded,
-                  color: MediaQuery.of(context).platformBrightness == Brightness.light
-                      ? CColors.warningLight
-                      : CColors.warningDark,
+                  color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
                 ),
           subtitle![2] == '0'
               ? const SizedBox()
               : RowSubtitle(
                   text: subtitle![2],
                   icon: Icons.currency_exchange_rounded,
-                  color: MediaQuery.of(context).platformBrightness == Brightness.light
-                      ? CColors.dangerLight
-                      : CColors.dangerDark,
+                  color: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
                 ),
         ],
       ),
@@ -95,16 +92,33 @@ class TransactionHitoryListTile extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          trailing![1] == '-'
-              ? const SizedBox()
-              : Text(
-                  trailing![1],
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              trailing![1] == '-'
+                  ? const SizedBox()
+                  : Text(
+                      trailing![1],
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+              const SizedBox(width: 5),
+              enabled
+                  ? Icon(
+                      Icons.save_as_rounded,
+                      size: 16,
+                      color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+                    )
+                  : Icon(
+                      Icons.lock,
+                      size: 16,
+                      color: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
+                    )
+            ],
+          ),
         ],
       ),
     );
@@ -129,7 +143,7 @@ class RowSubtitle extends StatelessWidget {
       children: [
         Icon(
           icon,
-          size: 20,
+          size: 18,
           color: color,
         ),
         const SizedBox(
