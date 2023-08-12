@@ -1,5 +1,6 @@
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class NavbarAdmin extends StatelessWidget {
@@ -12,21 +13,21 @@ class NavbarAdmin extends StatelessWidget {
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items: [
           BottomNavigationBarItem(
             label: 'Laporan',
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.list_alt),
+            icon: SvgPicture.asset('assets/images/add-form.svg'),
+            activeIcon: SvgPicture.asset('assets/images/add-form-active.svg'),
           ),
           BottomNavigationBarItem(
             label: 'Buat User',
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.list_alt),
+            icon: SvgPicture.asset('assets/images/add-user.svg'),
+            activeIcon: SvgPicture.asset('assets/images/add-user-active.svg'),
           ),
           BottomNavigationBarItem(
             label: 'Edit Harga',
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.list_alt),
+            icon: SvgPicture.asset('assets/images/edit-balance.svg'),
+            activeIcon: SvgPicture.asset('assets/images/edit-balance-active.svg'),
           ),
         ],
         onTap: (index) => _onTap(context, index),

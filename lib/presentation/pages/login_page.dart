@@ -3,6 +3,7 @@ import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../component/field/password_field.dart';
 import '../../component/field/phone_field.dart';
@@ -94,12 +95,9 @@ class _LoginPageBody extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            CachedNetworkImage(
-              height: 125,
-              width: 125,
-              imageUrl:
-                  'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
-            ),
+            const SizedBox(height: 20),
+            SvgPicture.asset('assets/images/logo-kabupaten.svg'),
+            const SizedBox(height: 20),
             const Hero(
               tag: 'display-text',
               child: Material(

@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/money_field.dart';
 import '../../../core/constant/constant_data.dart';
-import '../../../core/utils/number_converter.dart';
 import '../../../domain/entities/user.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';

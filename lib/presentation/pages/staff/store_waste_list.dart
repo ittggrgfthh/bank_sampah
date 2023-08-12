@@ -1,5 +1,3 @@
-import 'package:bank_sampah/core/routing/router.dart';
-import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../component/widget/withdraw_balance_list_tile.dart';
+import '../../../core/routing/router.dart';
 import '../../../injection.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
+import '../custom_search_delegate.dart';
 
 class StoreWasteListPage extends StatelessWidget {
   const StoreWasteListPage({super.key});
@@ -20,7 +21,11 @@ class StoreWasteListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Simpan Sampah'),
         actions: [
-          IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
+          IconButton(
+              icon: const Icon(Icons.search_rounded, size: 32),
+              onPressed: () {
+                showSearch(context: context, delegate: CustomSearchDelegate());
+              }),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
           Material(
             shape: const CircleBorder(),

@@ -46,7 +46,7 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.adminReportPath,
           name: AppRouterName.adminReportName,
-          builder: (context, state) => const AdminHomePage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: AdminHomePage()),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -58,7 +58,7 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.adminListUsersPath,
           name: AppRouterName.adminListUsersName,
-          builder: (context, state) => const AdminListUserPage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: AdminListUserPage()),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -70,7 +70,7 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.adminWastePricePath,
           name: AppRouterName.adminWastePriceName,
-          builder: (context, state) => const EditWastePrice(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: EditWastePrice()),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -94,7 +94,7 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.staffWasteTransactionPath,
           name: AppRouterName.staffWasteTransactionName,
-          builder: (context, state) => const StoreWasteListPage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: StoreWasteListPage()),
           routes: [
             GoRoute(
               path: AppRouterName.staffStoreWastePath,
@@ -111,7 +111,7 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.staffHistoryTransactionPath,
           name: AppRouterName.staffHistoryTransactionName,
-          builder: (context, state) => const TransactionHistoryPage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: TransactionHistoryPage()),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -123,14 +123,12 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.staffBalanceTransactionPath,
           name: AppRouterName.staffBalanceTransactionName,
-          builder: (context, state) => const WithdrawBalance(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: WithdrawBalance()),
           routes: [
             GoRoute(
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => WithdrawBalanceForm(
-                user: state.extra as User,
-              ),
+              builder: (context, state) => WithdrawBalanceForm(user: state.extra as User),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,

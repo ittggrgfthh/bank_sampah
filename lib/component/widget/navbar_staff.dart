@@ -1,6 +1,7 @@
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../injection.dart';
@@ -18,21 +19,21 @@ class NavbarStaff extends StatelessWidget {
       child: Scaffold(
         body: child,
         bottomNavigationBar: BottomNavigationBar(
-          items: const [
+          items: [
             BottomNavigationBarItem(
               label: 'Simpan Sampah',
-              icon: Icon(Icons.list),
-              activeIcon: Icon(Icons.list_alt),
+              icon: SvgPicture.asset('assets/images/add-form.svg'),
+              activeIcon: SvgPicture.asset('assets/images/add-form-active.svg'),
             ),
             BottomNavigationBarItem(
               label: 'Riwayat Transaksi',
-              icon: Icon(Icons.list),
-              activeIcon: Icon(Icons.list_alt),
+              icon: SvgPicture.asset('assets/images/transaction-history.svg'),
+              activeIcon: SvgPicture.asset('assets/images/transaction-history-active.svg'),
             ),
             BottomNavigationBarItem(
               label: 'Tarik Saldo',
-              icon: Icon(Icons.list),
-              activeIcon: Icon(Icons.list_alt),
+              icon: SvgPicture.asset('assets/images/withdraw-balance.svg'),
+              activeIcon: SvgPicture.asset('assets/images/withdraw-balance-active.svg'),
             ),
           ],
           onTap: (index) => _onTap(context, index),
