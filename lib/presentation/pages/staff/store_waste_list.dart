@@ -35,8 +35,8 @@ class StoreWasteListPage extends StatelessWidget {
               child: Ink.image(
                 width: 32,
                 height: 32,
-                image: CachedNetworkImageProvider(staff.photoUrl ??
-                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
+                image: CachedNetworkImageProvider(
+                    'https://firebasestorage.googleapis.com/v0/b/banksampah-b3d01.appspot.com/o/profile-picture%2Ffigma-botts.png?alt=media&token=7611d9e3-3664-449e-8b97-feac1556d64c'),
               ),
             ),
           ),

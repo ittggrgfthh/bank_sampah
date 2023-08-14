@@ -52,6 +52,8 @@ class DummyData {
       inorganic: 50000,
       createdAt: 1679094315000,
       admin: User(
+        fullName: 'Kukuh Setya',
+        photoUrl: '',
         id: '06',
         phoneNumber: '000-0000-0000',
         role: 'admin',
@@ -80,7 +82,7 @@ class DummyData {
         password: '',
         fullName: 'Juna Cilok',
         photoUrl:
-            'https://images.unsplash.com/photo-1532264523420-881a47db012d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+            'https://images.unsplash.com/photo-1608889175123-8ee362201f81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80',
         pointBalance: PointBalance(
           userId: '01',
           currentBalance: 0,

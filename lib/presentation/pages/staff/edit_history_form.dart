@@ -36,7 +36,7 @@ class EditHistoryFormPage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Form Simpan Sampah'),
+            title: const Text('Form Edit Sampah'),
           ),
           body: ListView(
             padding: const EdgeInsets.all(20),

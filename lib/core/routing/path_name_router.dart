@@ -28,6 +28,9 @@ class AppRouterName {
   static const String staffHistoryTransactionPath = '/transaction/history';
   static const String staffHistoryTransactionName = 'transaction-history';
 
+  static const String staffEditHistoryPath = 'edit-history';
+  static const String staffEditHistoryName = 'edit-history';
+
   static const String staffBalanceTransactionPath = '/transaction/balance';
   static const String staffBalanceTransactionName = 'transaction-balance';
 

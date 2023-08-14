@@ -1,3 +1,5 @@
+import 'package:bank_sampah/core/constant/colors.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,26 +20,39 @@ class NavbarStaff extends StatelessWidget {
       create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('warga')),
       child: Scaffold(
         body: child,
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              label: 'Simpan Sampah',
-              icon: SvgPicture.asset('assets/images/add-form.svg'),
-              activeIcon: SvgPicture.asset('assets/images/add-form-active.svg'),
-            ),
-            BottomNavigationBarItem(
-              label: 'Riwayat Transaksi',
-              icon: SvgPicture.asset('assets/images/transaction-history.svg'),
-              activeIcon: SvgPicture.asset('assets/images/transaction-history-active.svg'),
-            ),
-            BottomNavigationBarItem(
-              label: 'Tarik Saldo',
-              icon: SvgPicture.asset('assets/images/withdraw-balance.svg'),
-              activeIcon: SvgPicture.asset('assets/images/withdraw-balance-active.svg'),
-            ),
-          ],
-          onTap: (index) => _onTap(context, index),
-          currentIndex: _calculatedSelectedIndex(context),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            boxShadow: [
+              BoxShadow(
+                  color: Theme.of(context).colorScheme.primary,
+                  spreadRadius: 2,
+                  blurRadius: 1,
+                  offset: const Offset(0, 2)),
+            ],
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.primaryDark,
+            items: [
+              BottomNavigationBarItem(
+                label: 'Simpan Sampah',
+                icon: SvgPicture.asset('assets/images/add-form.svg'),
+                activeIcon: SvgPicture.asset('assets/images/add-form-active.svg'),
+              ),
+              BottomNavigationBarItem(
+                label: 'Riwayat Transaksi',
+                icon: SvgPicture.asset('assets/images/transaction-history.svg'),
+                activeIcon: SvgPicture.asset('assets/images/transaction-history-active.svg'),
+              ),
+              BottomNavigationBarItem(
+                label: 'Tarik Saldo',
+                icon: SvgPicture.asset('assets/images/withdraw-balance.svg'),
+                activeIcon: SvgPicture.asset('assets/images/withdraw-balance-active.svg'),
+              ),
+            ],
+            onTap: (index) => _onTap(context, index),
+            currentIndex: _calculatedSelectedIndex(context),
+          ),
         ),
       ),
     );

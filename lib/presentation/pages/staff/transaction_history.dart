@@ -66,7 +66,6 @@ class TransactionHistoryPage extends StatelessWidget {
                   itemCount: transactions.length,
                   itemBuilder: (context, index) {
                     final transaction = transactions[index];
-                    print(DateTimeConverter.isWithin30Minutes(transaction.createdAt));
                     return Container(
                       decoration: BoxDecoration(
                         border: Border(
@@ -91,6 +90,7 @@ class TransactionHistoryPage extends StatelessWidget {
                               ? '-'
                               : getIt<NumberFormat>().format(transaction.storeWaste!.earnedBalance),
                         ],
+                        onTap: () => context.goNamed(AppRouterName.staffEditHistoryName, extra: transaction.user),
                       ),
                     );
                   },

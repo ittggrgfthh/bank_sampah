@@ -103,7 +103,6 @@ class EditWastePrice extends StatelessWidget {
         Container(
           width: 50,
           height: 50,
-          color: Colors.amber,
           child: IconButton(
             icon: const Icon(Icons.history),
             onPressed: () => context.goNamed(AppRouterName.adminWastePriceLogName),

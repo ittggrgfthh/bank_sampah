@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:bank_sampah/presentation/pages/admin/edit_price_history.dart';
 import 'package:bank_sampah/presentation/pages/profile_page.dart';
+import 'package:bank_sampah/presentation/pages/staff/edit_history_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -76,7 +78,7 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.adminWastePriceLogPath,
               name: AppRouterName.adminWastePriceLogName,
-              builder: (context, state) => StoreWasteFormPage(user: state.extra as User),
+              builder: (context, state) => const EditPriceHistory(),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -113,6 +115,12 @@ final router = GoRouter(
           name: AppRouterName.staffHistoryTransactionName,
           pageBuilder: (context, state) => const NoTransitionPage(child: TransactionHistoryPage()),
           routes: [
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.staffEditHistoryPath,
+              name: AppRouterName.staffEditHistoryName,
+              builder: (context, state) => EditHistoryFormPage(user: state.extra as User),
+            ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
