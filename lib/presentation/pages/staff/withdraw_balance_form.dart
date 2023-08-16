@@ -21,7 +21,6 @@ class WithdrawBalanceForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final staff = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    String? validatorWithdrawManual;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tarik Saldo'),
@@ -35,7 +34,6 @@ class WithdrawBalanceForm extends StatelessWidget {
         child: BlocListener<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
           listenWhen: (previous, current) => previous.isLoading != current.isLoading,
           listener: (context, state) {
-            print('listen1');
             state.failureOrSuccessOption.fold(
               () => null,
               (failureOrSuccess) => failureOrSuccess.fold(
@@ -79,28 +77,23 @@ class WithdrawBalanceForm extends StatelessWidget {
               Form(
                 key: formKey,
                 autovalidateMode: AutovalidateMode.always,
-                child: BlocConsumer<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
-                  listenWhen: (previous, current) =>
-                      previous.withdrwaBalanceValidator != current.withdrwaBalanceValidator,
-                  listener: (context, state) {
-                    validatorWithdrawManual = state.withdrwaBalanceValidator.fold(() => null, (t) => t);
-                  },
-                  buildWhen: (previous, current) =>
-                      previous.withdrwaBalanceValidator != current.withdrwaBalanceValidator,
-                  builder: (context, state) {
-                    return MoneyField(
-                      hintText: 'Atau masukan nominal disini!',
-                      validator: (value) {
-                        return validatorWithdrawManual;
-                      },
-                      onChanged: (value) {
-                        context
-                            .read<WithdrawBalanceFormBloc>()
-                            .add(WithdrawBalanceFormEvent.withdrwaBalanceChanged(value));
-                      },
-                    );
-                  },
-                ),
+                child: Builder(builder: (context) {
+                  return MoneyField(
+                    hintText: 'Atau masukan nominal disini!',
+                    validator: (_) {
+                      return context
+                          .read<WithdrawBalanceFormBloc>()
+                          .state
+                          .withdrwaBalanceValidator
+                          .fold(() => null, (t) => t);
+                    },
+                    onChanged: (value) {
+                      context
+                          .read<WithdrawBalanceFormBloc>()
+                          .add(WithdrawBalanceFormEvent.withdrwaBalanceChanged(value));
+                    },
+                  );
+                }),
               ),
               const SizedBox(height: 20),
               BlocBuilder<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(

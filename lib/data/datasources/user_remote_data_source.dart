@@ -110,10 +110,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           )
           .get();
       if (querySnapshot.docs.isEmpty) {
-        throw ServerException();
+        throw AuthException('Nomor telepon tidak ditemukan!');
       }
       return querySnapshot.docs.first.data();
     } catch (e) {
+      if (e is AuthException) {
+        throw AuthException(e.toString());
+      }
       throw ServerException();
     }
   }

@@ -120,6 +120,7 @@ class _LoginPageBody extends StatelessWidget {
             const SizedBox(height: 16),
             PasswordField(
               hintText: 'Kata sandi',
+              helperText: 'Panjang kata sandi harus lebih dari 8.',
               textInputAction: TextInputAction.done,
               onChanged: (password) => context.read<SignInFormBloc>().add(SignInFormEvent.passwordChanged(password)),
               validator: (_) {
@@ -129,18 +130,6 @@ class _LoginPageBody extends StatelessWidget {
                     );
               },
             ),
-            const SizedBox(height: 40),
-
-            // Align(
-            //   alignment: Alignment.centerRight,
-            //   child: BButton(
-            //     label: 'Lupa kata sandi?',
-            //     variant: BButtonVariant.bare,
-            //     dense: true,
-            //     size: BWidgetSize.mini,
-            //     onPressed: () => context.pushNamed('password-reset'),
-            //   ),
-            // ),
           ],
         ),
       ),
