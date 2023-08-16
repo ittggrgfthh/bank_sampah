@@ -1,3 +1,4 @@
+import 'package:bank_sampah/presentation/bloc/edit_waste_price_history/edit_waste_price_history_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -57,6 +58,7 @@ void init() {
 
   // bloc - admin
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
+  getIt.registerFactory(() => EditWastePriceHistoryBloc(getIt()));
   // bloc - staff
   getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt()));
   getIt.registerFactory(() => TransactionHistoryBloc(getIt()));

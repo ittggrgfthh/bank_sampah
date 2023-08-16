@@ -53,7 +53,7 @@ class DummyData {
       createdAt: 1679094315000,
       admin: User(
         fullName: 'Kukuh Setya',
-        photoUrl: '',
+        photoUrl: null,
         id: '06',
         phoneNumber: '000-0000-0000',
         role: 'admin',
