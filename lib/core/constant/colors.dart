@@ -23,8 +23,10 @@ class CColors {
   static const successLight = green600;
   static const successDark = green300;
 
+  static const shadow = Color.fromARGB(63, 40, 95, 167);
+
   // tailwindcss color
-  static const red300 = Color(0xFFFCA5A5);
+  static const red300 = Color.fromARGB(255, 252, 165, 165);
   static const red400 = Color(0xFFF87171);
   static const red500 = Color(0xFFEF4444);
   static const red600 = Color(0xFFDC2626);

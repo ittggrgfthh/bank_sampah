@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,16 +50,16 @@ class WithdrawBalance extends StatelessWidget {
               return ListView.builder(
                 itemCount: users.length,
                 itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+                      bottom: BorderSide(color: CColors.shadow),
                     ),
                   ),
                   child: WithdrawBalanceListTile(
                     photoUrl: users[index].photoUrl,
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
-                    trailing: CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance),
+                    trailing: ['Saldo', CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance)],
                     onTap: () => context.goNamed(AppRouterName.staffWithdrawName, extra: users[index]),
                     enabled: users[index].pointBalance.currentBalance > 0,
                   ),

@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/component/button/rounded_choice_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -212,32 +213,18 @@ class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 2,
-      childAspectRatio: 3.5,
+      childAspectRatio: 5,
+      mainAxisSpacing: 20,
+      crossAxisSpacing: 20,
       children: List<Widget>.generate(
         ConstantData.withdrawChoice.length,
-        (index) => ChoiceChip(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          label: Text(
-            getIt<NumberFormat>().format(ConstantData.withdrawChoice[index]),
-            style: TextStyle(
-              color: selectedChoice == index
-                  ? Theme.of(context).colorScheme.background
-                  : Theme.of(context).colorScheme.primary,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        (index) => RoundedChoiceButton(
+          name: getIt<NumberFormat>().format(ConstantData.withdrawChoice[index]),
           selected: selectedChoice == index,
-          onSelected: widget.balance < ConstantData.withdrawChoice[index]
-              ? null
-              : (value) {
-                  setState(() {
-                    selectedChoice = index;
-                    widget.onSelected?.call(ConstantData.withdrawChoice[index]);
-                  });
-                },
-          selectedColor: Theme.of(context).colorScheme.primary,
-          backgroundColor: Theme.of(context).colorScheme.background,
+          onPressed: () => setState(() {
+            selectedChoice = index;
+            widget.onSelected?.call(ConstantData.withdrawChoice[index]);
+          }),
         ),
       ),
     );

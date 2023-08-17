@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -67,9 +68,9 @@ class TransactionHistoryPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final transaction = transactions[index];
                     return Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         border: Border(
-                          bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+                          bottom: BorderSide(color: CColors.shadow),
                         ),
                       ),
                       child: TransactionHitoryListTile(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class WithdrawBalanceListTile extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final String? trailing;
+  final List<String?>? trailing;
   final String? photoUrl;
   final void Function()? onTap;
   final bool enabled;
@@ -58,14 +58,14 @@ class WithdrawBalanceListTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            'Saldo',
+            '${trailing![0]}',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w400,
             ),
           ),
           Text(
-            '$trailing',
+            '${trailing![1]}',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 14,

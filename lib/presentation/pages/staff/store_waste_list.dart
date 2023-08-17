@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,7 @@ class StoreWasteListPage extends StatelessWidget {
               child: Ink.image(
                 width: 32,
                 height: 32,
-                image: CachedNetworkImageProvider(
+                image: const CachedNetworkImageProvider(
                     'https://firebasestorage.googleapis.com/v0/b/banksampah-b3d01.appspot.com/o/profile-picture%2Ffigma-botts.png?alt=media&token=7611d9e3-3664-449e-8b97-feac1556d64c'),
               ),
             ),
@@ -55,15 +56,15 @@ class StoreWasteListPage extends StatelessWidget {
               return ListView.builder(
                 itemCount: users.length,
                 itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+                      bottom: BorderSide(color: CColors.shadow),
                     ),
                   ),
                   child: WithdrawBalanceListTile(
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
-                    trailing: getIt<NumberFormat>().format(users[index].pointBalance.currentBalance),
+                    trailing: ['Saldo', getIt<NumberFormat>().format(users[index].pointBalance.currentBalance)],
                     photoUrl: users[index].photoUrl,
                     onTap: () => context.goNamed(AppRouterName.staffStoreWasteName, extra: users[index]),
                   ),

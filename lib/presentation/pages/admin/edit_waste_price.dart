@@ -1,3 +1,5 @@
+import 'package:bank_sampah/core/constant/colors.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -101,10 +103,16 @@ class EditWastePrice extends StatelessWidget {
           ],
         ),
         Container(
-          width: 50,
-          height: 50,
+          decoration: BoxDecoration(
+            color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: IconButton(
-            icon: const Icon(Icons.history),
+            icon: Icon(
+              Icons.history_rounded,
+              size: 50,
+              color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+            ),
             onPressed: () => context.goNamed(AppRouterName.adminWastePriceLogName),
           ),
         ),

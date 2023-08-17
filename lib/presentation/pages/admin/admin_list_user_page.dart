@@ -1,6 +1,11 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/component/button/rounded_button.dart';
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
+import 'package:bank_sampah/component/widget/withdraw_balance_list_tile.dart';
+import 'package:bank_sampah/core/constant/colors.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
+import 'package:bank_sampah/core/utils/currency_converter.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:bank_sampah/presentation/bloc/list_user/list_user_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -108,19 +113,22 @@ class AdminListUserPage extends StatelessWidget {
                                 itemCount: users.length,
                                 itemBuilder: (context, index) {
                                   final user = users[index];
-                                  return ListTile(
-                                    leading: CircleAvatar(
-                                      child: Text(
-                                        user.fullName == null
-                                            ? "X"
-                                            : user.fullName![0].toUpperCase() + user.fullName![1].toUpperCase(),
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                        ),
+                                  return Container(
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(color: CColors.shadow),
                                       ),
                                     ),
-                                    title: Text(user.fullName ?? "Unknown"),
-                                    subtitle: Text("+62 ${user.phoneNumber}"),
+                                    child: WithdrawBalanceListTile(
+                                      photoUrl: user.photoUrl,
+                                      title: user.fullName ?? 'No Name',
+                                      subtitle: '+62 ${user.phoneNumber}',
+                                      trailing: [
+                                        user.role,
+                                        CurrencyConverter.intToIDR(user.pointBalance.currentBalance)
+                                      ],
+                                      enabled: true,
+                                    ),
                                   );
                                 });
                           },
@@ -146,127 +154,164 @@ class AdminListUserPage extends StatelessWidget {
   Widget _createUserFormModal(BuildContext context, GlobalKey<FormState> formKey) {
     return BlocProvider(
       create: (context) => getIt<CreateUserFormBloc>(),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                builder: (context, state) {
-                  return PhoneField(
-                    suffixIcon: state.isPhoneNumberLoading
-                        ? const CircularProgressIndicator()
-                        : state.isPhoneNumberExists
-                            ? const Icon(Icons.error)
-                            : null,
-                    onChanged: (value) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.phoneNumberChanged(value));
-                    },
-                    validator: (_) {
-                      if (state.isPhoneNumberExists) {
-                        return 'Nomor telepon sudah digunakan';
-                      } else {
-                        return context.read<CreateUserFormBloc>().state.phoneNumber.fold(
+      child: DraggableScrollableSheet(
+        initialChildSize: 1.0,
+        builder: (context, scrollController) => Container(
+          color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Form(
+            key: formKey,
+            child: ListView(
+              controller: scrollController,
+              children: <Widget>[
+                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+                  builder: (context, state) {
+                    return PhoneField(
+                      suffixIcon: state.isPhoneNumberLoading
+                          ? const CircularProgressIndicator()
+                          : state.isPhoneNumberExists
+                              ? const Icon(Icons.error)
+                              : null,
+                      onChanged: (value) {
+                        context.read<CreateUserFormBloc>().add(CreateUserFormEvent.phoneNumberChanged(value));
+                      },
+                      validator: (_) {
+                        if (state.isPhoneNumberExists) {
+                          return 'Nomor telepon sudah digunakan';
+                        } else {
+                          return context.read<CreateUserFormBloc>().state.phoneNumber.fold(
+                                (failure) => failure.message,
+                                (_) => null,
+                              );
+                        }
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+                  buildWhen: (previous, current) => previous.errorMessagesShown != current.errorMessagesShown,
+                  builder: (context, state) {
+                    return NameField(
+                      onChanged: (value) {
+                        context.read<CreateUserFormBloc>().add(CreateUserFormEvent.fullNameChanged(value));
+                      },
+                      validator: (_) {
+                        return context.read<CreateUserFormBloc>().state.fullName.fold(
                               (failure) => failure.message,
                               (_) => null,
                             );
-                      }
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                buildWhen: (previous, current) => previous.errorMessagesShown != current.errorMessagesShown,
-                builder: (context, state) {
-                  return NameField(
-                    onChanged: (value) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.fullNameChanged(value));
-                    },
-                    validator: (_) {
-                      return context.read<CreateUserFormBloc>().state.fullName.fold(
-                            (failure) => failure.message,
-                            (_) => null,
-                          );
-                    },
-                  );
-                },
-              ),
-              BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                builder: (context, state) {
-                  return RoleChoiceChip(
-                    onSelected: (selectedRole) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.roleChanged(selectedRole));
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 24),
-              BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                builder: (context, state) {
-                  return PasswordField(
-                    onChanged: (value) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.passwordChanged(value));
-                    },
-                    validator: (_) {
-                      return context.read<CreateUserFormBloc>().state.password.fold(
-                            (failure) => failure.message,
-                            (_) => null,
-                          );
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                builder: (context, state) {
-                  return PasswordField(
-                    onChanged: (value) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.confirmPasswordChanged(value));
-                    },
-                    validator: (_) {
-                      return context.read<CreateUserFormBloc>().state.isConfirmPasswordValid
-                          ? null
-                          : "Kata sandi tidak cocok.";
-                    },
-                    labelText: 'Confirm Password',
-                    hintText: 'Confirm Password',
-                    textInputAction: TextInputAction.done,
-                  );
-                },
-              ),
-              BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
-                builder: (context, state) {
-                  state.failureOrSuccessOption.fold(
-                    () => null,
-                    (failureOrSuccess) => failureOrSuccess.fold(
-                      (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
-                      (_) {
-                        Navigator.pop(context);
                       },
-                    ),
-                  );
-                  return RoundedPrimaryButton(
-                    isLoading: state.isSubmitting,
-                    buttonName: "Buat Pengguna Baru",
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      if (formKey.currentState!.validate()) {
-                        context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.submitButtonPressed());
-                      }
-                    },
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              RoundedPrimaryButton(
-                buttonName: "Batal",
-                onPressed: () => Navigator.pop(context),
-              )
-            ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 24),
+                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+                  builder: (context, state) {
+                    return PasswordField(
+                      onChanged: (value) {
+                        context.read<CreateUserFormBloc>().add(CreateUserFormEvent.passwordChanged(value));
+                      },
+                      validator: (_) {
+                        return context.read<CreateUserFormBloc>().state.password.fold(
+                              (failure) => failure.message,
+                              (_) => null,
+                            );
+                      },
+                    );
+                  },
+                ),
+                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+                  builder: (context, state) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Foto Profile Pengguna',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            UploadPhoto(),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Role',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            RoleChoiceChip(
+                              onSelected: (selectedRole) {
+                                context.read<CreateUserFormBloc>().add(CreateUserFormEvent.roleChanged(selectedRole));
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+                  buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
+                  builder: (context, state) {
+                    state.failureOrSuccessOption.fold(
+                      () => null,
+                      (failureOrSuccess) => failureOrSuccess.fold(
+                        (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
+                        (_) {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    );
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 44,
+                          width: (MediaQuery.of(context).size.width / 2) - 25,
+                          child: RoundedPrimaryButton(
+                            isLoading: state.isSubmitting,
+                            buttonName: "Simpan",
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (formKey.currentState!.validate()) {
+                                context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.submitButtonPressed());
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          height: 44,
+                          width: (MediaQuery.of(context).size.width / 2) - 25,
+                          child: RoundedPrimaryButton(
+                            buttonName: "Batal",
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),
@@ -340,22 +385,35 @@ class _RoleChoiceChipState extends State<RoleChoiceChip> {
     Role.admin,
   ];
 
+  final textColor = <Color>[
+    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+    MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+    MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 30,
+      direction: Axis.vertical,
+      spacing: 10,
       children: List<Widget>.generate(
         roles.length,
-        (index) => ChoiceChip(
-          label: Text(roles[index].name),
-          selected: _selectedChoice == index,
-          onSelected: (selectedIndex) {
-            setState(() {
-              _selectedChoice = index;
-              _selectedRoleChoice = roles[index];
-              widget.onSelected?.call(_selectedRoleChoice.name);
-            });
-          },
+        (index) => SizedBox(
+          width: (MediaQuery.of(context).size.width / 2) - 25,
+          height: 44,
+          child: RoundedButton(
+            name: roles[index].name,
+            selected: _selectedChoice == index,
+            onPressed: () {
+              setState(() {
+                _selectedChoice = index;
+                _selectedRoleChoice = roles[index];
+                widget.onSelected?.call(_selectedRoleChoice.name);
+              });
+            },
+            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+            textColor: textColor[index],
+          ),
         ),
       ),
     );
@@ -363,3 +421,32 @@ class _RoleChoiceChipState extends State<RoleChoiceChip> {
 }
 
 enum Role { admin, staff, warga }
+
+class UploadPhoto extends StatelessWidget {
+  const UploadPhoto({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        width: (MediaQuery.of(context).size.width / 2) - 25,
+        height: 152,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+          ),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.picture_in_picture_alt_rounded,
+            size: 100,
+            color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+          ),
+        ),
+      ),
+    );
+  }
+}
