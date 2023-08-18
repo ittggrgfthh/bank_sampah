@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/failures/value_failure.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../core/utils/value_validators.dart';
 import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
@@ -117,18 +118,19 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final rt = state.rt;
       final rw = state.rw;
       final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
+      final userId = 'user_${AppHelper.v4UUIDWithoutDashes()}';
 
       newUser = User(
-        id: "unknown",
+        id: userId,
         phoneNumber: phoneNumber,
         role: role,
         password: password,
         fullName: fullName,
         photoUrl: null,
-        pointBalance: const PointBalance(
-          userId: "unknown",
+        pointBalance: PointBalance(
+          userId: userId,
           currentBalance: 0,
-          waste: Waste(
+          waste: const Waste(
             organic: 0,
             inorganic: 0,
           ),

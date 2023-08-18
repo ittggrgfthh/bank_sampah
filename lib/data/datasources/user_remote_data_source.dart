@@ -65,7 +65,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     final batch = _firestore.batch();
     final hashPassword = AppHelper.hashPassword(userModel.password);
     final newUserModel = userModel.copyWith(
-      id: 'user_${AppHelper.v4UUIDWithoutDashes()}',
       password: hashPassword,
     );
     final userDocRef = _firestore.userDocRef(newUserModel.id);
@@ -162,8 +161,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<String> uploadProfilePicture({required File picture, required String userId}) async {
     final path = '${FirebaseStoragePaths.profilePicture}/$userId${p.extension(picture.path)}';
-    await _firebaseStorage.ref(path).putFile(picture);
-    return path;
+
+    final uploadTask = await _firebaseStorage.ref(path).putFile(picture);
+    final downloadUrl = await uploadTask.ref.getDownloadURL();
+    return downloadUrl.toString();
   }
 
   @override

@@ -499,12 +499,17 @@ class UploadPhoto extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Icon(
-            Icons.picture_in_picture_alt_rounded,
-            size: 100,
-            color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-          ),
-        ),
+            child: context.read<CreateUserFormBloc>().state.profilePictureOption.fold(
+                  () => Icon(
+                    Icons.picture_in_picture_alt_rounded,
+                    size: 100,
+                    color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                  ),
+                  (file) => Image.file(
+                    file,
+                    fit: BoxFit.cover,
+                  ),
+                )),
       ),
     );
   }
