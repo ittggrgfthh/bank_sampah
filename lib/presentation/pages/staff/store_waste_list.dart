@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/routing/router.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../custom_search_delegate.dart';
 
@@ -17,7 +16,6 @@ class StoreWasteListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Simpan Sampah'),

@@ -192,7 +192,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       toFirestore: (value, options) => value.toJson(),
     );
     try {
-      final querySnapshot = await userRef.where('role', isEqualTo: role).get();
+      final querySnapshot = await userRef.where('role', isEqualTo: role).orderBy('updated_at', descending: true).get();
       return querySnapshot.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw ServerException();

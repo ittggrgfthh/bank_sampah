@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:bank_sampah/component/button/rounded_button.dart';
 import 'package:bank_sampah/component/button/rounded_primary_button.dart';
+import 'package:bank_sampah/component/field/rtrw_field.dart';
 import 'package:bank_sampah/component/widget/withdraw_balance_list_tile.dart';
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/constant/theme.dart';
@@ -164,11 +165,18 @@ class AdminListUserPage extends StatelessWidget {
             child: ListView(
               controller: scrollController,
               children: <Widget>[
-                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                  builder: (context, state) {
+                Builder(
+                  builder: (context) {
+                    final state = context.watch<CreateUserFormBloc>().state;
                     return PhoneField(
                       suffixIcon: state.isPhoneNumberLoading
-                          ? const CircularProgressIndicator()
+                          ? Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Transform.scale(
+                                scale: 0.7,
+                                child: const CircularProgressIndicator(),
+                              ),
+                            )
                           : state.isPhoneNumberExists
                               ? const Icon(Icons.error)
                               : null,
@@ -176,14 +184,10 @@ class AdminListUserPage extends StatelessWidget {
                         context.read<CreateUserFormBloc>().add(CreateUserFormEvent.phoneNumberChanged(value));
                       },
                       validator: (_) {
-                        if (state.isPhoneNumberExists) {
-                          return 'Nomor telepon sudah digunakan';
-                        } else {
-                          return context.read<CreateUserFormBloc>().state.phoneNumber.fold(
-                                (failure) => failure.message,
-                                (_) => null,
-                              );
-                        }
+                        return state.phoneNumber.fold(
+                          (failure) => failure.message,
+                          (_) => null,
+                        );
                       },
                     );
                   },
@@ -221,50 +225,56 @@ class AdminListUserPage extends StatelessWidget {
                     );
                   },
                 ),
-                BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-                  builder: (context, state) {
-                    return Row(
+                RtrwField(
+                  label: 'RT',
+                  onChanged: (value) {},
+                ),
+                RtrwField(
+                  label: 'RW',
+                  onChanged: (value) {},
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Foto Profile Pengguna',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            UploadPhoto(),
-                          ],
+                        Text(
+                          'Foto Profile Pengguna',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Role',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            RoleChoiceChip(
-                              onSelected: (selectedRole) {
-                                context.read<CreateUserFormBloc>().add(CreateUserFormEvent.roleChanged(selectedRole));
-                              },
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 10),
+                        const UploadPhoto(),
                       ],
-                    );
-                  },
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Role',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Builder(builder: (context) {
+                          return RoleChoiceChip(
+                            onSelected: (selectedRole) {
+                              context.read<CreateUserFormBloc>().add(CreateUserFormEvent.roleChanged(selectedRole));
+                            },
+                          );
+                        }),
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 BlocBuilder<CreateUserFormBloc, CreateUserFormState>(

@@ -5,15 +5,65 @@ Bank Sampah adalah aplikasi mobile flutter sederhana yang digunakan untuk store 
 ## Usecase
 
 - [ ] Admin - Melihat laporan bulanan
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Admin - Mengubah harga limbah organik dan anorganik per kg.
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Admin - Mendaftarkan pengguna baru
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Admin - Melihat daftar pengguna
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Admin - Mengedit pengguna
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Staff - Menarik saldo “warga”
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Staff - Melihat daftar pengguna dengan role “warga”
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Staff - Memasukan transaksi jumlah limbah organik dan anorganik dari warga
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Warga - Melihat jumlah saldo dan limbah yang sudah disimpan di bank sampah.
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 - [ ] Semua - dapat mengedit profil masing-masing
+  - [ ] UI
+  - [ ] Bloc
+  - [ ] Usecase
+  - [ ] Repository
+  - [ ] Remote Data Source
 
 ---
 

@@ -1,5 +1,3 @@
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {

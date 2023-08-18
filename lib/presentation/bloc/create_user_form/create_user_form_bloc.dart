@@ -38,7 +38,6 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         fullNameChanged: (fullName) => _handleFullNameChanged(emit, fullName),
         roleChanged: (role) => _handleRoleChanged(emit, role),
         passwordChanged: (password) => _handlePasswordChanged(emit, password),
-        confirmPasswordChanged: (confirmPassword) => _handleConfirmPasswordChanged(emit, confirmPassword),
         submitButtonPressed: () => _handleSubmitButtonPressed(emit),
       );
     });
@@ -61,8 +60,13 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final failureOrSuccess = await getUserByPhoneNumber(phoneNumber);
       failureOrSuccess.fold(
         (failure) => emit(state.copyWith(
-            isPhoneNumberLoading: false, phoneNumber: validatePhoneNumber(phoneNumber), isPhoneNumberExists: false)),
-        (user) => emit(state.copyWith(isPhoneNumberLoading: false, isPhoneNumberExists: true)),
+            isPhoneNumberLoading: false,
+            phoneNumber: validatePhoneNumber(phoneNumber, false),
+            isPhoneNumberExists: false)),
+        (user) => emit(state.copyWith(
+            isPhoneNumberLoading: false,
+            phoneNumber: validatePhoneNumber(phoneNumber, true),
+            isPhoneNumberExists: true)),
       );
     }
   }
@@ -76,22 +80,8 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
   }
 
   Future<void> _handlePasswordChanged(Emitter<CreateUserFormState> emit, String password) async {
-    final isConfirmPasswordValid = state.confirmPassword == password;
     emit(state.copyWith(
       password: validatePassword(password, 8),
-      isConfirmPasswordValid: isConfirmPasswordValid,
-    ));
-  }
-
-  Future<void> _handleConfirmPasswordChanged(Emitter<CreateUserFormState> emit, String confirmPassword) async {
-    final password = state.password.fold(
-      (failure) => failure.value,
-      (value) => value,
-    );
-    final isConfirmPasswordValid = confirmPassword == password;
-    emit(state.copyWith(
-      confirmPassword: confirmPassword,
-      isConfirmPasswordValid: isConfirmPasswordValid,
     ));
   }
 

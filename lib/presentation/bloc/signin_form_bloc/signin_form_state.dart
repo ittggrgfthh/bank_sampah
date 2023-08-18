@@ -11,7 +11,7 @@ class SignInFormState with _$SignInFormState {
   }) = _SigninFormState;
 
   factory SignInFormState.initial() => SignInFormState(
-        phoneNumber: validatePhoneNumber(''),
+        phoneNumber: validatePhoneNumber('', false),
         password: validatePassword('', 8),
         isSubmitting: false,
         errorMessagesShown: false,

@@ -120,7 +120,7 @@ class _LoginPageBody extends StatelessWidget {
             const SizedBox(height: 16),
             PasswordField(
               hintText: 'Kata sandi',
-              helperText: 'Panjang kata sandi harus lebih dari 8.',
+              helperText: 'Minimal 8 karakter.',
               textInputAction: TextInputAction.done,
               onChanged: (password) => context.read<SignInFormBloc>().add(SignInFormEvent.passwordChanged(password)),
               validator: (_) {

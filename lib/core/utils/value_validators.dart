@@ -11,10 +11,13 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   }
 }
 
-Either<ValueFailure<String>, String> validatePhoneNumber(String input) {
+Either<ValueFailure<String>, String> validatePhoneNumber(String input, bool isPhoneNumberExists) {
   const phoneRegex = r"^\d{3}-\d{4}-\d{2,4}$";
 
   if (RegExp(phoneRegex).hasMatch(input)) {
+    if (isPhoneNumberExists) {
+      return left(ValueFailure(input, message: 'Nomor telepon sudah digunakan'));
+    }
     return right(input);
   } else {
     return left(ValueFailure(input, message: 'Nomor telepon tidak valid'));

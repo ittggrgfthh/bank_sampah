@@ -11,7 +11,6 @@ class CreateUserFormState with _$CreateUserFormState {
     required String role,
     required Either<ValueFailure<String>, String> password,
     required String confirmPassword,
-    required bool isConfirmPasswordValid,
     required bool isSubmitting,
     required bool errorMessagesShown,
     required Option<Either<Failure, User>> failureOrSuccessOption,
@@ -19,14 +18,13 @@ class CreateUserFormState with _$CreateUserFormState {
 
   factory CreateUserFormState.initial() => CreateUserFormState(
         profilePictureOption: none(),
-        phoneNumber: validatePhoneNumber(''),
+        phoneNumber: validatePhoneNumber('', false),
         isPhoneNumberLoading: false,
         isPhoneNumberExists: false,
         fullName: validateName(''),
         role: 'warga',
         password: validatePassword('', 8),
         confirmPassword: '',
-        isConfirmPasswordValid: true,
         isSubmitting: false,
         errorMessagesShown: false,
         failureOrSuccessOption: none(),

@@ -25,7 +25,7 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   }
 
   Future<void> _handlePhoneNumberChanged(Emitter<SignInFormState> emit, String phoneNumber) async {
-    emit(state.copyWith(phoneNumber: validatePhoneNumber(phoneNumber)));
+    emit(state.copyWith(phoneNumber: validatePhoneNumber(phoneNumber, false)));
   }
 
   Future<void> _handlePasswordChanged(Emitter<SignInFormState> emit, String password) async {
