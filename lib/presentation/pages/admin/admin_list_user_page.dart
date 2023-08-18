@@ -165,6 +165,9 @@ class AdminListUserPage extends StatelessWidget {
             child: ListView(
               controller: scrollController,
               children: <Widget>[
+                const SizedBox(
+                  height: 10,
+                ),
                 Builder(
                   builder: (context) {
                     final state = context.watch<CreateUserFormBloc>().state;
@@ -209,7 +212,6 @@ class AdminListUserPage extends StatelessWidget {
                     );
                   },
                 ),
-                const SizedBox(height: 24),
                 BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
                   builder: (context, state) {
                     return PasswordField(
@@ -225,14 +227,26 @@ class AdminListUserPage extends StatelessWidget {
                     );
                   },
                 ),
-                RtrwField(
-                  label: 'RT',
-                  onChanged: (value) {},
-                ),
-                RtrwField(
-                  label: 'RW',
-                  onChanged: (value) {},
-                ),
+                Builder(builder: (context) {
+                  return RtrwField(
+                    label: 'RT',
+                    hintText: '005',
+                    helperText: '',
+                    onChanged: (value) {
+                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.rtChanged(value));
+                    },
+                  );
+                }),
+                Builder(builder: (context) {
+                  return RtrwField(
+                    label: 'RW',
+                    hintText: '007',
+                    helperText: '',
+                    onChanged: (value) {
+                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.rwChanged(value));
+                    },
+                  );
+                }),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -285,7 +299,7 @@ class AdminListUserPage extends StatelessWidget {
                       (failureOrSuccess) => failureOrSuccess.fold(
                         (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
                         (_) {
-                          Navigator.pop(context);
+                          context.pop();
                         },
                       ),
                     );
@@ -438,7 +452,9 @@ class UploadPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.imagePickerOpened());
+      },
       child: Container(
         width: (MediaQuery.of(context).size.width / 2) - 25,
         height: 152,

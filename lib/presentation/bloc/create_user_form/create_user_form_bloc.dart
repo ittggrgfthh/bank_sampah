@@ -38,6 +38,8 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         fullNameChanged: (fullName) => _handleFullNameChanged(emit, fullName),
         roleChanged: (role) => _handleRoleChanged(emit, role),
         passwordChanged: (password) => _handlePasswordChanged(emit, password),
+        rtChanged: (rt) => _handleRtChaged(emit, rt),
+        rwChanged: (rw) => _handleRwChanged(emit, rw),
         submitButtonPressed: () => _handleSubmitButtonPressed(emit),
       );
     });
@@ -85,6 +87,14 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
     ));
   }
 
+  Future<void> _handleRtChaged(Emitter<CreateUserFormState> emit, String rt) async {
+    emit(state.copyWith(rt: rt));
+  }
+
+  Future<void> _handleRwChanged(Emitter<CreateUserFormState> emit, String rw) async {
+    emit(state.copyWith(rw: rw));
+  }
+
   Future<void> _handleSubmitButtonPressed(Emitter<CreateUserFormState> emit) async {
     final isPhoneNumberValid = state.phoneNumber.isRight();
     final isPasswordValid = state.password.isRight();
@@ -104,6 +114,8 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final password = state.password.getOrElse((_) => '');
       final fullName = state.fullName.getOrElse((_) => '');
       final role = state.role;
+      final rt = state.rt;
+      final rw = state.rw;
       final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
 
       newUser = User(
@@ -121,8 +133,8 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
             inorganic: 0,
           ),
         ),
-        rt: "001",
-        rw: "001",
+        rt: rt,
+        rw: rw,
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       );

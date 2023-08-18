@@ -26,6 +26,7 @@ class RtrwField extends StatelessWidget {
   final String? helperText;
   final ValueChanged<String>? onChanged;
   final bool isLoading;
+  final String? hintText;
   const RtrwField({
     super.key,
     this.controller,
@@ -34,6 +35,7 @@ class RtrwField extends StatelessWidget {
     this.onChanged,
     this.isLoading = false,
     required this.label,
+    this.hintText,
   });
 
   @override
@@ -58,6 +60,7 @@ class RtrwField extends StatelessWidget {
       decoration: InputDecoration(
         label: Text(label),
         enabled: !isLoading,
+        hintText: hintText,
         helperText: helperText ?? '',
         prefix: icon,
       ),
