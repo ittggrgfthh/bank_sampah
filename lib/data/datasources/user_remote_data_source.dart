@@ -63,7 +63,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> createUser(UserModel userModel) async {
     final batch = _firestore.batch();
-    final newUserModel = userModel.copyWith(id: 'user_${AppHelper.v4UUIDWithoutDashes()}');
+    final hashPassword = AppHelper.hashPassword(userModel.password);
+    final newUserModel = userModel.copyWith(
+      id: 'user_${AppHelper.v4UUIDWithoutDashes()}',
+      password: hashPassword,
+    );
     final userDocRef = _firestore.userDocRef(newUserModel.id);
     final pointBalanceDocRef = _firestore.pointBalanceDocRef(newUserModel.id);
 
@@ -106,7 +110,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           )
           .where(
             'password',
-            isEqualTo: password,
+            isEqualTo: AppHelper.hashPassword(password),
           )
           .get();
       if (querySnapshot.docs.isEmpty) {

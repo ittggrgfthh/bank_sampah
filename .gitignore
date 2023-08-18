@@ -53,3 +53,5 @@ app.*.map.json
 
 # vscode
 .vscode/
+
+*.env
