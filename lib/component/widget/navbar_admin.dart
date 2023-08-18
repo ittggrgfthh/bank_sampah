@@ -30,18 +30,36 @@ class NavbarAdmin extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
               label: 'Laporan',
-              icon: SvgPicture.asset('assets/images/add-form.svg'),
-              activeIcon: SvgPicture.asset('assets/images/add-form-active.svg'),
+              icon: SvgPicture.asset(
+                'assets/images/add-form.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/images/add-form-active.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              ),
             ),
             BottomNavigationBarItem(
               label: 'Buat User',
-              icon: SvgPicture.asset('assets/images/add-user.svg'),
-              activeIcon: SvgPicture.asset('assets/images/add-user-active.svg'),
+              icon: SvgPicture.asset(
+                'assets/images/add-user.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/images/add-user-active.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              ),
             ),
             BottomNavigationBarItem(
               label: 'Edit Harga',
-              icon: SvgPicture.asset('assets/images/edit-balance.svg'),
-              activeIcon: SvgPicture.asset('assets/images/edit-balance-active.svg'),
+              icon: SvgPicture.asset(
+                'assets/images/edit-balance.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/images/edit-balance-active.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              ),
             ),
           ],
           onTap: (index) => _onTap(context, index),

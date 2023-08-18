@@ -72,7 +72,7 @@ class AdminListUserPage extends StatelessWidget {
                 const SizedBox(width: 15),
               ],
             ),
-            floatingActionButton: ElevatedButton(
+            floatingActionButton: FloatingActionButton(
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
@@ -80,9 +80,15 @@ class AdminListUserPage extends StatelessWidget {
                   builder: (context) {
                     return _createUserFormModal(context, formKey);
                   },
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
                 );
               },
-              child: const Text("Tambah Pengguna"),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.background,
+              child: const Icon(Icons.add_rounded, size: 32),
             ),
             body: Container(
               padding: const EdgeInsets.all(20),
@@ -165,9 +171,15 @@ class AdminListUserPage extends StatelessWidget {
             child: ListView(
               controller: scrollController,
               children: <Widget>[
-                const SizedBox(
-                  height: 10,
+                Text(
+                  'Tambah User',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
+                const SizedBox(height: 10),
                 Builder(
                   builder: (context) {
                     final state = context.watch<CreateUserFormBloc>().state;
@@ -227,26 +239,37 @@ class AdminListUserPage extends StatelessWidget {
                     );
                   },
                 ),
-                Builder(builder: (context) {
-                  return RtrwField(
-                    label: 'RT',
-                    hintText: '005',
-                    helperText: '',
-                    onChanged: (value) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.rtChanged(value));
-                    },
-                  );
-                }),
-                Builder(builder: (context) {
-                  return RtrwField(
-                    label: 'RW',
-                    hintText: '007',
-                    helperText: '',
-                    onChanged: (value) {
-                      context.read<CreateUserFormBloc>().add(CreateUserFormEvent.rwChanged(value));
-                    },
-                  );
-                }),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: (MediaQuery.of(context).size.width / 2) - 25,
+                      child: Builder(builder: (context) {
+                        return RtrwField(
+                          label: 'RT',
+                          hintText: '005',
+                          helperText: '',
+                          onChanged: (value) {
+                            context.read<CreateUserFormBloc>().add(CreateUserFormEvent.rtChanged(value));
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: (MediaQuery.of(context).size.width / 2) - 25,
+                      child: Builder(builder: (context) {
+                        return RtrwField(
+                          label: 'RW',
+                          hintText: '007',
+                          helperText: '',
+                          onChanged: (value) {
+                            context.read<CreateUserFormBloc>().add(CreateUserFormEvent.rwChanged(value));
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -266,6 +289,11 @@ class AdminListUserPage extends StatelessWidget {
                         const SizedBox(height: 10),
                         const UploadPhoto(),
                       ],
+                    ),
+                    Container(
+                      color: Theme.of(context).colorScheme.primary,
+                      height: 188,
+                      width: 1,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +318,9 @@ class AdminListUserPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
+                Divider(color: Theme.of(context).colorScheme.primary, height: 1),
+                const SizedBox(height: 20),
                 BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
                   buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
                   builder: (context, state) {
@@ -309,6 +339,18 @@ class AdminListUserPage extends StatelessWidget {
                         SizedBox(
                           height: 44,
                           width: (MediaQuery.of(context).size.width / 2) - 25,
+                          child: RoundedButton(
+                            name: "Batal",
+                            onPressed: () => Navigator.pop(context),
+                            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                            selected: false,
+                            textColor: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          height: 44,
+                          width: (MediaQuery.of(context).size.width / 2) - 25,
                           child: RoundedPrimaryButton(
                             isLoading: state.isSubmitting,
                             buttonName: "Simpan",
@@ -318,15 +360,6 @@ class AdminListUserPage extends StatelessWidget {
                                 context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.submitButtonPressed());
                               }
                             },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          height: 44,
-                          width: (MediaQuery.of(context).size.width / 2) - 25,
-                          child: RoundedPrimaryButton(
-                            buttonName: "Batal",
-                            onPressed: () => Navigator.pop(context),
                           ),
                         ),
                       ],
@@ -423,7 +456,7 @@ class _RoleChoiceChipState extends State<RoleChoiceChip> {
       children: List<Widget>.generate(
         roles.length,
         (index) => SizedBox(
-          width: (MediaQuery.of(context).size.width / 2) - 25,
+          width: (MediaQuery.of(context).size.width / 2) - 35,
           height: 44,
           child: RoundedButton(
             name: roles[index].name,
@@ -456,7 +489,7 @@ class UploadPhoto extends StatelessWidget {
         context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.imagePickerOpened());
       },
       child: Container(
-        width: (MediaQuery.of(context).size.width / 2) - 25,
+        width: (MediaQuery.of(context).size.width / 2) - 35,
         height: 152,
         decoration: BoxDecoration(
           color: Colors.transparent,

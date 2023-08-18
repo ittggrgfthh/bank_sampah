@@ -36,18 +36,36 @@ class NavbarStaff extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 label: 'Simpan Sampah',
-                icon: SvgPicture.asset('assets/images/add-form.svg'),
-                activeIcon: SvgPicture.asset('assets/images/add-form-active.svg'),
+                icon: SvgPicture.asset(
+                  'assets/images/add-form.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/add-form-active.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
               ),
               BottomNavigationBarItem(
                 label: 'Riwayat Transaksi',
-                icon: SvgPicture.asset('assets/images/transaction-history.svg'),
-                activeIcon: SvgPicture.asset('assets/images/transaction-history-active.svg'),
+                icon: SvgPicture.asset(
+                  'assets/images/transaction-history.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/transaction-history-active.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
               ),
               BottomNavigationBarItem(
                 label: 'Tarik Saldo',
-                icon: SvgPicture.asset('assets/images/withdraw-balance.svg'),
-                activeIcon: SvgPicture.asset('assets/images/withdraw-balance-active.svg'),
+                icon: SvgPicture.asset(
+                  'assets/images/withdraw-balance.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/withdraw-balance-active.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
               ),
             ],
             onTap: (index) => _onTap(context, index),

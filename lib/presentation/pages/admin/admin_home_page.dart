@@ -1,5 +1,8 @@
+import 'package:bank_sampah/component/button/rounded_button.dart';
 import 'package:bank_sampah/component/button/rounded_dropdown_button.dart';
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/constant/constant_data.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -82,6 +85,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ),
             ),
             _buildTotalSampah(context),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: RoundedButton(
+                name: 'Cetak Laporan',
+                onPressed: () {},
+                selected: true,
+                color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                textColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+              ),
+            ),
           ],
         ),
       ),
