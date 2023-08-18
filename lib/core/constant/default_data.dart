@@ -24,6 +24,8 @@ class DefaultData {
     role: 'warga',
     password: 'password',
     pointBalance: pointBalance,
+    rt: 'rt',
+    rw: 'rw',
     createdAt: nowDateEpoch,
     updatedAt: nowDateEpoch,
   );

@@ -18,6 +18,8 @@ class UserModel with _$UserModel {
     @JsonKey(name: 'full_name') String? fullName,
     @JsonKey(name: 'photo_url') String? photoUrl,
     @JsonKey(name: 'point_balance') required PointBalanceModel pointBalance,
+    required String rt,
+    required String rw,
     @JsonKey(name: 'created_at') required int createdAt,
     @JsonKey(name: 'updated_at') required int updatedAt,
   }) = _UserModel;
@@ -40,6 +42,8 @@ class UserModel with _$UserModel {
       fullName: user.fullName,
       photoUrl: user.photoUrl,
       pointBalance: PointBalanceModel.formDomain(user.pointBalance),
+      rt: user.rt,
+      rw: user.rw,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     );
@@ -54,6 +58,8 @@ class UserModel with _$UserModel {
       fullName: fullName,
       photoUrl: photoUrl,
       pointBalance: pointBalance.toDomain(),
+      rt: rt,
+      rw: rw,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

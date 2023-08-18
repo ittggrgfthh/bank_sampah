@@ -100,6 +100,8 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
             inorganic: 0,
           ),
         ),
+        rt: 'rt',
+        rw: 'rw',
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       ),

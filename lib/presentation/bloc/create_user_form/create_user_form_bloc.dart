@@ -121,6 +121,8 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
             inorganic: 0,
           ),
         ),
+        rt: "001",
+        rw: "001",
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       );

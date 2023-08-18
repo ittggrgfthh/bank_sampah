@@ -65,6 +65,8 @@ class WastePriceRemoteDataSourceImpl implements WastePriceRemoteDataSource {
                 organic: 0,
               ),
             ),
+            rt: '001',
+            rw: '001',
             createdAt: dateNowEpoch,
             updatedAt: dateNowEpoch,
           ),

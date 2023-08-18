@@ -14,6 +14,8 @@ class User with _$User {
     String? fullName,
     String? photoUrl,
     required PointBalance pointBalance,
+    required String rt,
+    required String rw,
     required int createdAt,
     required int updatedAt,
   }) = _User;
