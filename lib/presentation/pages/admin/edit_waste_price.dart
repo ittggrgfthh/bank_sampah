@@ -79,11 +79,14 @@ class EditWastePrice extends StatelessWidget {
             Wrap(
               spacing: 5,
               children: [
-                const Icon(Icons.access_time),
+                const Icon(Icons.access_time, size: 20),
                 BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
                   buildWhen: (previous, current) => previous.currentTimeAgo != current.currentTimeAgo,
                   builder: (context, state) {
-                    return Text('diperbarui ${state.currentTimeAgo}');
+                    return Text(
+                      'diperbarui ${state.currentTimeAgo}',
+                      style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 14),
+                    );
                   },
                 ),
               ],
@@ -91,7 +94,7 @@ class EditWastePrice extends StatelessWidget {
             Wrap(
               spacing: 5,
               children: [
-                const Icon(Icons.group),
+                const Icon(Icons.group, size: 20),
                 BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
                   buildWhen: (previous, current) => previous.currentAdminFullName != current.currentAdminFullName,
                   builder: (context, state) {

@@ -50,22 +50,26 @@ class _AdminHomePageState extends State<AdminHomePage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: Wrap(
-          runSpacing: 10,
+        child: ListView(
+          shrinkWrap: true,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  SizedBox(
+                    height: 41,
+                    width: (MediaQuery.of(context).size.width / 2) - 25,
                     child: RoundedDropdownButton(
                       items: months,
                       onChanged: (value) => setState(() => valueMonth = value),
                       value: valueMonth,
                     ),
                   ),
-                  const SizedBox(width: 40),
-                  Expanded(
+                  SizedBox(
+                    height: 41,
+                    width: (MediaQuery.of(context).size.width / 2) - 25,
                     child: RoundedDropdownButton(
                       items: years,
                       onChanged: (value) => setState(() => valueYear = value),
@@ -144,9 +148,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   Widget _buildTotalSampah(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: (MediaQuery.of(context).size.width / 2) - 25,
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -194,9 +199,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
           ),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          flex: 1,
+        SizedBox(
+          width: (MediaQuery.of(context).size.width / 2) - 25,
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(

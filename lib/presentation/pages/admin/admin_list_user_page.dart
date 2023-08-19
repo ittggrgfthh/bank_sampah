@@ -90,67 +90,64 @@ class AdminListUserPage extends StatelessWidget {
               foregroundColor: Theme.of(context).colorScheme.background,
               child: const Icon(Icons.add_rounded, size: 32),
             ),
-            body: Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  BlocBuilder<ListUserBloc, ListUserState>(
-                    builder: (context, state) {
-                      return FilterRoleChoiceChip(
+            body: Column(
+              children: [
+                BlocBuilder<ListUserBloc, ListUserState>(
+                  builder: (context, state) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: FilterRoleChoiceChip(
                         onSelected: (selectedRole) {
                           context.read<ListUserBloc>().add(ListUserEvent.roleChanged(selectedRole));
                         },
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Expanded(
+                  child: BlocBuilder<ListUserBloc, ListUserState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loadSuccess: (users) {
+                          if (users.isEmpty) {
+                            return const Center(
+                              child: Text('Tidak ada pengguna'),
+                            );
+                          }
+                          return ListView.builder(
+                              itemCount: users.length,
+                              itemBuilder: (context, index) {
+                                final user = users[index];
+                                return Container(
+                                  decoration: const BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(color: CColors.shadow),
+                                    ),
+                                  ),
+                                  child: WithdrawBalanceListTile(
+                                    photoUrl: user.photoUrl,
+                                    title: user.fullName ?? 'No Name',
+                                    subtitle: '+62 ${user.phoneNumber}',
+                                    trailing: [user.role, CurrencyConverter.intToIDR(user.pointBalance.currentBalance)],
+                                    enabled: true,
+                                  ),
+                                );
+                              });
+                        },
+                        loadFailure: (_) => const Center(
+                          child: Text('Terjadi kesalahan'),
+                        ),
+                        orElse: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
                     },
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Expanded(
-                    child: BlocBuilder<ListUserBloc, ListUserState>(
-                      builder: (context, state) {
-                        return state.maybeWhen(
-                          loadSuccess: (users) {
-                            if (users.isEmpty) {
-                              return const Center(
-                                child: Text('Tidak ada pengguna'),
-                              );
-                            }
-                            return ListView.builder(
-                                itemCount: users.length,
-                                itemBuilder: (context, index) {
-                                  final user = users[index];
-                                  return Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(color: CColors.shadow),
-                                      ),
-                                    ),
-                                    child: WithdrawBalanceListTile(
-                                      photoUrl: user.photoUrl,
-                                      title: user.fullName ?? 'No Name',
-                                      subtitle: '+62 ${user.phoneNumber}',
-                                      trailing: [
-                                        user.role,
-                                        CurrencyConverter.intToIDR(user.pointBalance.currentBalance)
-                                      ],
-                                      enabled: true,
-                                    ),
-                                  );
-                                });
-                          },
-                          loadFailure: (_) => const Center(
-                            child: Text('Terjadi kesalahan'),
-                          ),
-                          orElse: () => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -162,10 +159,13 @@ class AdminListUserPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<CreateUserFormBloc>(),
       child: DraggableScrollableSheet(
-        initialChildSize: 1.0,
+        initialChildSize: 0.95,
         builder: (context, scrollController) => Container(
-          color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          decoration: BoxDecoration(
+            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+          ),
           child: Form(
             key: formKey,
             child: ListView(
@@ -279,7 +279,7 @@ class AdminListUserPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Foto Profile Pengguna',
+                          'Foto  Pengguna',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontSize: 16,
@@ -347,7 +347,6 @@ class AdminListUserPage extends StatelessWidget {
                             textColor: Theme.of(context).colorScheme.primary,
                           ),
                         ),
-                        const SizedBox(width: 10),
                         SizedBox(
                           height: 44,
                           width: (MediaQuery.of(context).size.width / 2) - 25,
@@ -401,19 +400,24 @@ class _FilterRoleChoiceChipState extends State<FilterRoleChoiceChip> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List<Widget>.generate(
         roles.length,
-        (index) => ChoiceChip(
-          label: Text(roles[index]),
-          selected: _selectedChoice == index,
-          onSelected: (selectedIndex) {
-            setState(() {
-              _selectedChoice = index;
-              _selectedRoleChoice = roles[index];
-              widget.onSelected?.call(_selectedRoleChoice);
-            });
-          },
+        (index) => Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: ChoiceChip(
+            label: Text(
+              roles[index],
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+            ),
+            selected: _selectedChoice == index,
+            onSelected: (selectedIndex) {
+              setState(() {
+                _selectedChoice = index;
+                _selectedRoleChoice = roles[index];
+                widget.onSelected?.call(_selectedRoleChoice);
+              });
+            },
+          ),
         ),
       ),
     );
@@ -498,18 +502,23 @@ class UploadPhoto extends StatelessWidget {
             color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
           ),
         ),
-        child: Center(
-            child: context.read<CreateUserFormBloc>().state.profilePictureOption.fold(
-                  () => Icon(
-                    Icons.picture_in_picture_alt_rounded,
-                    size: 100,
-                    color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-                  ),
-                  (file) => Image.file(
-                    file,
-                    fit: BoxFit.cover,
-                  ),
-                )),
+        child: BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+          builder: (context, state) {
+            print(state.profilePictureOption);
+            return Center(
+                child: state.profilePictureOption.fold(
+              () => Icon(
+                Icons.picture_in_picture_alt_rounded,
+                size: 100,
+                color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+              ),
+              (file) => Image.file(
+                file,
+                fit: BoxFit.cover,
+              ),
+            ));
+          },
+        ),
       ),
     );
   }
