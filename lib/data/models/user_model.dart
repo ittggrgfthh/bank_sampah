@@ -22,6 +22,7 @@ class UserModel with _$UserModel {
     required String rw,
     @JsonKey(name: 'created_at') required int createdAt,
     @JsonKey(name: 'updated_at') required int updatedAt,
+    @JsonKey(name: 'last_transaction_epoch') int? lastTransactionEpoch,
   }) = _UserModel;
 
   const UserModel._();
@@ -46,6 +47,7 @@ class UserModel with _$UserModel {
       rw: user.rw,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      lastTransactionEpoch: user.lastTransactionEpoch,
     );
   }
 
@@ -62,6 +64,7 @@ class UserModel with _$UserModel {
       rw: rw,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      lastTransactionEpoch: lastTransactionEpoch,
     );
   }
 }

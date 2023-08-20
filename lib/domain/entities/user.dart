@@ -18,6 +18,7 @@ class User with _$User {
     required String rw,
     required int createdAt,
     required int updatedAt,
+    int? lastTransactionEpoch,
   }) = _User;
 
   const User._();

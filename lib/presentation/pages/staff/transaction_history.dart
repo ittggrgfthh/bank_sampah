@@ -73,7 +73,7 @@ class TransactionHistoryPage extends StatelessWidget {
                     ),
                     child: TransactionHitoryListTile(
                       enabled:
-                          transaction.storeWaste != null && DateTimeConverter.isWithin30Minutes(transaction.createdAt),
+                          transaction.storeWaste != null && DateTimeConverter.isWithin5Minutes(transaction.createdAt),
                       title: transaction.user.fullName!,
                       photoUrl: transaction.user.photoUrl,
                       subtitle: [

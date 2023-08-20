@@ -35,4 +35,12 @@ class DateTimeConverter {
 
     return (differenceMillisecondsEpoch / (1000 * 60)) < 30;
   }
+
+  static bool isWithin5Minutes(int millisecondsSinceEpoch) {
+    DateTime now = DateTime.now();
+    int nowInMillisecondsSinceEpoch = now.millisecondsSinceEpoch;
+    int differenceMillisecondsEpoch = nowInMillisecondsSinceEpoch - millisecondsSinceEpoch;
+
+    return (differenceMillisecondsEpoch / (1000 * 60)) < 5;
+  }
 }

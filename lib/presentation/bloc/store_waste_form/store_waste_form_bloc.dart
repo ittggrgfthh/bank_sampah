@@ -92,6 +92,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     required String earnedBalance,
     required String organicWeight,
     required String inorganicWeight,
+    required int lastTransactionEpoch,
   }) {
     return transaction.user.copyWith(
       pointBalance: PointBalance(
@@ -102,6 +103,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
           inorganic: transaction.user.pointBalance.waste.inorganic + NumberConverter.parseToInteger(inorganicWeight),
         ),
       ),
+      lastTransactionEpoch: lastTransactionEpoch,
     );
   }
 
@@ -119,6 +121,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
         earnedBalance: state.earnedBalance,
         organicWeight: state.organicWeight,
         inorganicWeight: state.inorganicWeight,
+        lastTransactionEpoch: dateNowEpoch,
       ),
       storeWaste: StoreWaste(
         earnedBalance: NumberConverter.parseToInteger(state.earnedBalance),
