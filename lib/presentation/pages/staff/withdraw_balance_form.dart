@@ -223,10 +223,12 @@ class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
         (index) => RoundedChoiceButton(
           name: getIt<NumberFormat>().format(ConstantData.withdrawChoice[index]),
           selected: selectedChoice == index,
-          onPressed: () => setState(() {
-            selectedChoice = index;
-            widget.onSelected?.call(ConstantData.withdrawChoice[index]);
-          }),
+          onPressed: widget.balance < ConstantData.withdrawChoice[index]
+              ? null
+              : () => setState(() {
+                    selectedChoice = index;
+                    widget.onSelected?.call(ConstantData.withdrawChoice[index]);
+                  }),
         ),
       ),
     );
