@@ -72,4 +72,19 @@ class TransactionRepositoryImpl implements TransactionRepository {
       return left(Failure.unexpected(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> updateTransaction(TransactionWaste transaction) async {
+    try {
+      await _transactionRemoteDataSource.updateTransaction(TransactionWasteModel.formDomain(transaction));
+      return right(unit);
+    } on FirebaseException catch (e) {
+      if (e.code == FirebaseExceptionCodes.unavailable) {
+        return left(const Failure.timeout());
+      }
+      return left(Failure.unexpected(e.toString()));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
 }

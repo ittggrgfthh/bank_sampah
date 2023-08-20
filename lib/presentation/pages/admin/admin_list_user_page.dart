@@ -504,7 +504,6 @@ class UploadPhoto extends StatelessWidget {
         ),
         child: BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
           builder: (context, state) {
-            print(state.profilePictureOption);
             return Center(
                 child: state.profilePictureOption.fold(
               () => Icon(

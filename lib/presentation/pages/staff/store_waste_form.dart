@@ -11,6 +11,7 @@ import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/store_waste_form/store_waste_form_bloc.dart';
+import '../../bloc/transaction_history/transaction_history_bloc.dart';
 
 class StoreWasteFormPage extends StatelessWidget {
   final User user;
@@ -29,6 +30,7 @@ class StoreWasteFormPage extends StatelessWidget {
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
                 context.read<ListUserBloc>().add(const ListUserEvent.initialized('warga'));
+                context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(staff.id));
                 context.pop();
               },
             ),

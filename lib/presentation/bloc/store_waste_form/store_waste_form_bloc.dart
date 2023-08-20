@@ -1,5 +1,3 @@
-import 'package:bank_sampah/domain/entities/transaction_waste.dart';
-import 'package:bank_sampah/domain/entities/waste.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -8,13 +6,15 @@ import '../../../core/constant/default_data.dart';
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/number_converter.dart';
 import '../../../domain/entities/point_balance.dart';
+import '../../../domain/entities/transaction_waste.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/entities/waste.dart';
 import '../../../domain/usecase/admin/get_current_waste_price.dart';
 import '../../../domain/usecase/staff/create_waste_transaction.dart';
 
+part 'store_waste_form_bloc.freezed.dart';
 part 'store_waste_form_event.dart';
 part 'store_waste_form_state.dart';
-part 'store_waste_form_bloc.freezed.dart';
 
 class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> {
   final GetCurrentWastePrice _getCurrentWastePrice;
@@ -48,8 +48,8 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
       (currentWastePrice) async => emit(state.copyWith(
         isLoading: false,
         failure: none(),
-        priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
-        priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
+        priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
+        priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
         transaction: optionOf(defaultTransaction.copyWith.storeWaste?.call(
           wastePrice: currentWastePrice,
         )),
