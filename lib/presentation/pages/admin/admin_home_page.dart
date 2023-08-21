@@ -84,6 +84,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               ),
             ),
             _buildSaldoDitarik(context),
+            const SizedBox(height: 10),
             Text(
               'Total Sampah Terkumpul (900 kg)',
               style: TextStyle(
@@ -92,6 +93,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 fontWeight: FontWeight.w700,
               ),
             ),
+            const SizedBox(height: 10),
             _buildTotalSampah(context),
             Padding(
               padding: const EdgeInsets.only(top: 20),
@@ -101,7 +103,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
                   final transactions = DummyData.dummyTransaction;
                   final pdfFile = await PdfReportApi.generatePdf(transactions);
 
-                  await PdfApi.openFile(pdfFile);
+                  if (pdfFile.existsSync()) {
+                    await PdfApi.openFile(pdfFile);
+                  } else {
+                    print('The PDF file was not generated successfully or doesn\'t exist.');
+                  }
                 },
                 selected: true,
                 color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
