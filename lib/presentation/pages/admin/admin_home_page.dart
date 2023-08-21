@@ -1,14 +1,18 @@
 import 'package:bank_sampah/component/button/rounded_button.dart';
 import 'package:bank_sampah/component/button/rounded_dropdown_button.dart';
+import 'package:bank_sampah/component/dummy/dummy_data.dart';
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/constant/constant_data.dart';
 import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:bank_sampah/presentation/pages/admin/pdf_api.dart';
+import 'package:bank_sampah/presentation/pages/admin/pdf_report_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_file/open_file.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -93,7 +97,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
               padding: const EdgeInsets.only(top: 20),
               child: RoundedButton(
                 name: 'Cetak Laporan',
-                onPressed: () {},
+                onPressed: () async {
+                  final transactions = DummyData.dummyTransaction;
+                  final pdfFile = await PdfReportApi.generatePdf(transactions);
+
+                  await PdfApi.openFile(pdfFile);
+                },
                 selected: true,
                 color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                 textColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
