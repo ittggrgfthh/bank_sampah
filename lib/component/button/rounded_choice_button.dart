@@ -26,7 +26,12 @@ class RoundedChoiceButton extends StatelessWidget {
             shape: MaterialStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                side: BorderSide(color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
+                side: BorderSide(
+                    color: onPressed == null
+                        ? Colors.blueGrey
+                        : MyTheme.isDarkMode
+                            ? CColors.primaryDark
+                            : CColors.primaryLight),
               ),
             ),
           ),
@@ -37,9 +42,12 @@ class RoundedChoiceButton extends StatelessWidget {
           backgroundColor: selected
               ? MaterialStateProperty.all<Color>(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight)
               : MaterialStateProperty.all<Color>(MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight),
-          foregroundColor: selected
-              ? MaterialStateProperty.all<Color>(MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight)
-              : MaterialStateProperty.all<Color>(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
+          foregroundColor: onPressed == null
+              ? MaterialStateProperty.all<Color>(Colors.blueGrey)
+              : selected
+                  ? MaterialStateProperty.all<Color>(
+                      MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight)
+                  : MaterialStateProperty.all<Color>(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
         ),
         onPressed: onPressed,
         child: Text(

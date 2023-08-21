@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/presentation/bloc/transaction_history/transaction_history_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,22 +7,20 @@ import 'package:go_router/go_router.dart';
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/number_field.dart';
 import '../../../component/widget/single_list_tile.dart';
-import '../../../domain/entities/user.dart';
+import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/edit_store_waste_form/edit_store_waste_form_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
-import '../../bloc/store_waste_form/store_waste_form_bloc.dart';
 
-class EditHistoryFormPage extends StatelessWidget {
-  final User user;
-  const EditHistoryFormPage({super.key, required this.user});
+class EditStoreWasteFormPage extends StatelessWidget {
+  final TransactionWaste transaction;
+  const EditStoreWasteFormPage({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
-    final staff = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return BlocProvider(
-      create: (context) => getIt<StoreWasteFormBloc>()..add(StoreWasteFormEvent.initialized(user, staff)),
-      child: BlocListener<StoreWasteFormBloc, StoreWasteFormState>(
+      create: (context) => getIt<EditStoreWasteFormBloc>()..add(EditStoreWasteFormEvent.initialized(transaction)),
+      child: BlocListener<EditStoreWasteFormBloc, EditStoreWasteFormState>(
         listener: (context, state) {
           state.failureOrSuccessOption.fold(
             () => null,
@@ -29,6 +28,7 @@ class EditHistoryFormPage extends StatelessWidget {
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
                 context.read<ListUserBloc>().add(const ListUserEvent.initialized('warga'));
+                context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(transaction.staff.id));
                 context.pop();
               },
             ),
@@ -49,9 +49,9 @@ class EditHistoryFormPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: SingleListTile(
-                      photoUrl: user.photoUrl,
-                      title: user.fullName ?? 'No Name',
-                      subtitle: Text('+62 ${user.phoneNumber}'),
+                      photoUrl: transaction.user.photoUrl,
+                      title: transaction.user.fullName ?? 'No Name',
+                      subtitle: Text('+62 ${transaction.user.phoneNumber}'),
                       trailing: const Icon(Icons.chevron_right_rounded),
                     ),
                   ),
@@ -66,7 +66,7 @@ class EditHistoryFormPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const StoreWasteForm(),
+                  const EditStoreWasteForm(),
                   const SizedBox(height: 100),
                 ],
               ),
@@ -81,7 +81,7 @@ class EditHistoryFormPage extends StatelessWidget {
               children: [
                 _totalMoney(context),
                 const SizedBox(height: 10),
-                BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
+                BlocBuilder<EditStoreWasteFormBloc, EditStoreWasteFormState>(
                   buildWhen: (previous, current) {
                     return previous.isLoading != current.isLoading || previous.isChange != current.isChange;
                   },
@@ -91,7 +91,7 @@ class EditHistoryFormPage extends StatelessWidget {
                       isLoading: state.isLoading,
                       buttonName: 'Simpan Sampah',
                       onPressed: () {
-                        context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
+                        context.read<EditStoreWasteFormBloc>().add(const EditStoreWasteFormEvent.submitButtonPressed());
                       },
                     );
                   },
@@ -116,7 +116,7 @@ class EditHistoryFormPage extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        BlocSelector<StoreWasteFormBloc, StoreWasteFormState, String>(
+        BlocSelector<EditStoreWasteFormBloc, EditStoreWasteFormState, String>(
             selector: (state) => state.earnedBalance,
             builder: (context, earnedBalance) {
               return Text(
@@ -133,48 +133,55 @@ class EditHistoryFormPage extends StatelessWidget {
   }
 }
 
-class StoreWasteForm extends StatefulWidget {
-  const StoreWasteForm({
+class EditStoreWasteForm extends StatefulWidget {
+  const EditStoreWasteForm({
     super.key,
   });
 
   @override
-  State<StoreWasteForm> createState() => _StoreWasteFormState();
+  State<EditStoreWasteForm> createState() => _EditStoreWasteFormState();
 }
 
-class _StoreWasteFormState extends State<StoreWasteForm> {
+class _EditStoreWasteFormState extends State<EditStoreWasteForm> {
+  final TextEditingController _priceOrganicController = TextEditingController();
+  final TextEditingController _priceInorganicController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
+        BlocBuilder<EditStoreWasteFormBloc, EditStoreWasteFormState>(
           buildWhen: (previous, current) {
             return previous.priceOrganic != current.priceOrganic || previous.isLoading != current.isLoading;
           },
           builder: (context, state) {
+            _priceOrganicController.text = state.organicWeight;
             return NumberField(
+              controller: _priceOrganicController,
               label: 'Organik',
               isLoading: state.isLoading,
-              helperText: "Rp${context.read<StoreWasteFormBloc>().state.priceOrganic}/kg",
+              helperText: "Rp${context.read<EditStoreWasteFormBloc>().state.priceOrganic}/kg",
               onChanged: (value) {
-                context.read<StoreWasteFormBloc>().add(StoreWasteFormEvent.organicWeightChanged(value));
+                context.read<EditStoreWasteFormBloc>().add(EditStoreWasteFormEvent.organicWeightChanged(value));
               },
             );
           },
         ),
         const SizedBox(height: 15),
-        BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
+        BlocBuilder<EditStoreWasteFormBloc, EditStoreWasteFormState>(
           buildWhen: (previous, current) {
             return previous.priceInorganic != current.priceInorganic || previous.isLoading != current.isLoading;
           },
           builder: (context, state) {
+            _priceInorganicController.text = state.inorganicWeight;
             return NumberField(
+              controller: _priceInorganicController,
               label: 'An-Organik',
               isLoading: state.isLoading,
-              helperText: "Rp${context.read<StoreWasteFormBloc>().state.priceInorganic}/kg",
+              helperText: "Rp${context.read<EditStoreWasteFormBloc>().state.priceInorganic}/kg",
               onChanged: (value) {
-                context.read<StoreWasteFormBloc>().add(StoreWasteFormEvent.inorganicWeightChanged(value));
+                context.read<EditStoreWasteFormBloc>().add(EditStoreWasteFormEvent.inorganicWeightChanged(value));
               },
             );
           },

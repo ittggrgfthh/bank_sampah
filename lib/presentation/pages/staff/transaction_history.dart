@@ -40,84 +40,81 @@ class TransactionHistoryPage extends StatelessWidget {
           const SizedBox(width: 15),
         ],
       ),
-      body: BlocProvider(
-        create: (context) => getIt<TransactionHistoryBloc>()..add(TransactionHistoryEvent.initialized(staff.id)),
-        child: BlocBuilder<TransactionHistoryBloc, TransactionHistoryState>(
-          builder: (context, state) {
-            return state.maybeWhen(
-              loadSuccess: (transactions) {
-                if (transactions.isEmpty) {
-                  return const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '(ノ_<、)',
-                          style: TextStyle(
-                            fontSize: 36,
-                          ),
+      body: BlocBuilder<TransactionHistoryBloc, TransactionHistoryState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            loadSuccess: (transactions) {
+              if (transactions.isEmpty) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '(ノ_<、)',
+                        style: TextStyle(
+                          fontSize: 36,
                         ),
-                        SizedBox(height: 5),
-                        Text('Belum ada transaksi!'),
+                      ),
+                      SizedBox(height: 5),
+                      Text('Belum ada transaksi!'),
+                    ],
+                  ),
+                );
+              }
+              return ListView.builder(
+                itemCount: transactions.length,
+                itemBuilder: (context, index) {
+                  final transaction = transactions[index];
+                  return Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: CColors.shadow),
+                      ),
+                    ),
+                    child: TransactionHitoryListTile(
+                      enabled:
+                          transaction.storeWaste != null && DateTimeConverter.isWithin5Minutes(transaction.createdAt),
+                      title: transaction.user.fullName!,
+                      photoUrl: transaction.user.photoUrl,
+                      subtitle: [
+                        transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.organic.toString(),
+                        transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.inorganic.toString(),
+                        transaction.withdrawnBalance == null
+                            ? '0'
+                            : getIt<NumberFormat>().format(transaction.withdrawnBalance!.withdrawn),
                       ],
+                      trailing: [
+                        DateTimeConverter.timeAgoFromMillisecond(transaction.createdAt),
+                        transaction.storeWaste == null
+                            ? '-'
+                            : getIt<NumberFormat>().format(transaction.storeWaste!.earnedBalance),
+                      ],
+                      onTap: () => context.goNamed(AppRouterName.staffEditHistoryName, extra: transaction),
                     ),
                   );
-                }
-                return ListView.builder(
-                  itemCount: transactions.length,
-                  itemBuilder: (context, index) {
-                    final transaction = transactions[index];
-                    return Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: CColors.shadow),
-                        ),
-                      ),
-                      child: TransactionHitoryListTile(
-                        enabled: transaction.storeWaste != null &&
-                            DateTimeConverter.isWithin30Minutes(transaction.createdAt),
-                        title: transaction.user.fullName!,
-                        photoUrl: transaction.user.photoUrl,
-                        subtitle: [
-                          transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.organic.toString(),
-                          transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.inorganic.toString(),
-                          transaction.withdrawnBalance == null
-                              ? '0'
-                              : getIt<NumberFormat>().format(transaction.withdrawnBalance!.withdrawn),
-                        ],
-                        trailing: [
-                          DateTimeConverter.timeAgoFromMillisecond(transaction.createdAt),
-                          transaction.storeWaste == null
-                              ? '-'
-                              : getIt<NumberFormat>().format(transaction.storeWaste!.earnedBalance),
-                        ],
-                        onTap: () => context.goNamed(AppRouterName.staffEditHistoryName, extra: transaction.user),
-                      ),
-                    );
-                  },
-                );
-              },
-              loadFailure: (_) => const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '(ノ_<、)',
-                      style: TextStyle(
-                        fontSize: 36,
-                      ),
+                },
+              );
+            },
+            loadFailure: (_) => const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '(ノ_<、)',
+                    style: TextStyle(
+                      fontSize: 36,
                     ),
-                    SizedBox(height: 5),
-                    Text('Terjadi kesalahan'),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 5),
+                  Text('Terjadi kesalahan'),
+                ],
               ),
-              orElse: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          },
-        ),
+            ),
+            orElse: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/routing/router.dart';
+import '../../../core/utils/date_time_converter.dart';
 import '../../../injection.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../custom_search_delegate.dart';
@@ -60,6 +61,8 @@ class StoreWasteListPage extends StatelessWidget {
                     ),
                   ),
                   child: WithdrawBalanceListTile(
+                    enabled: users[index].lastTransactionEpoch == null ||
+                        !DateTimeConverter.isWithin5Minutes(users[index].lastTransactionEpoch ?? 0),
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
                     trailing: ['Saldo', getIt<NumberFormat>().format(users[index].pointBalance.currentBalance)],

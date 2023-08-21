@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:bank_sampah/presentation/pages/admin/edit_price_history.dart';
 import 'package:bank_sampah/presentation/pages/profile_page.dart';
-import 'package:bank_sampah/presentation/pages/staff/edit_history_form.dart';
+import 'package:bank_sampah/presentation/pages/staff/edit_store_waste_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../component/widget/navbar_admin.dart';
 import '../../component/widget/navbar_staff.dart';
+import '../../domain/entities/transaction_waste.dart';
 import '../../domain/entities/user.dart';
 import '../../injection.dart';
 import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -116,10 +117,9 @@ final router = GoRouter(
           pageBuilder: (context, state) => const NoTransitionPage(child: TransactionHistoryPage()),
           routes: [
             GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.staffEditHistoryPath,
               name: AppRouterName.staffEditHistoryName,
-              builder: (context, state) => EditHistoryFormPage(user: state.extra as User),
+              builder: (context, state) => EditStoreWasteFormPage(transaction: state.extra as TransactionWaste),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -163,7 +163,7 @@ final router = GoRouter(
   redirect: (_, state) async {
     final String? a = await getIt<AuthBloc>().state.when(
       authenticated: (user) async {
-        if (state.matchedLocation == AppRouterName.loginPath) {
+        if (state.matchedLocation == AppRouterName.loginPath || state.matchedLocation == AppRouterName.rootPath) {
           switch (user.role) {
             case 'warga':
               return AppRouterName.wargaHomePath;

@@ -7,7 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../injection.dart';
+import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
 import '../../presentation/bloc/list_user/list_user_bloc.dart';
+import '../../presentation/bloc/transaction_history/transaction_history_bloc.dart';
 
 class NavbarStaff extends StatelessWidget {
   final Widget child;
@@ -16,8 +18,16 @@ class NavbarStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('warga')),
+    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('warga')),
+        ),
+        BlocProvider(
+          create: (context) => getIt<TransactionHistoryBloc>()..add(TransactionHistoryEvent.initialized(staff.id)),
+        ),
+      ],
       child: Scaffold(
         body: child,
         bottomNavigationBar: Container(

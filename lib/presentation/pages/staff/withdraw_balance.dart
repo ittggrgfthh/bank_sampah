@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/currency_converter.dart';
+import '../../../core/utils/date_time_converter.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
@@ -61,7 +62,9 @@ class WithdrawBalance extends StatelessWidget {
                     subtitle: '+62 ${users[index].phoneNumber}',
                     trailing: ['Saldo', CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance)],
                     onTap: () => context.goNamed(AppRouterName.staffWithdrawName, extra: users[index]),
-                    enabled: users[index].pointBalance.currentBalance > 0,
+                    enabled: users[index].pointBalance.currentBalance > 0 &&
+                        (users[index].lastTransactionEpoch == null ||
+                            !DateTimeConverter.isWithin5Minutes(users[index].lastTransactionEpoch ?? 0)),
                   ),
                 ),
               );

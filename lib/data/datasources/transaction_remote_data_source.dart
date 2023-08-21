@@ -9,6 +9,9 @@ abstract class TransactionRemoteDataSource {
   /// Membuat transaksi saat "simpan limbah" dan "tarik saldo"
   Future<void> createTransaction(TransactionWasteModel transaction);
 
+  /// Update transaksi
+  Future<void> updateTransaction(TransactionWasteModel transaction);
+
   /// Mendapatkan semua transaksi
   Future<List<TransactionWasteModel>> getTransactions();
 
@@ -84,6 +87,25 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
       final querySnapshot =
           await transactionRef.where('user.id', isEqualTo: userId).orderBy('updated_at', descending: true).get();
       return querySnapshot.docs.map((e) => e.data()).toList();
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<void> updateTransaction(TransactionWasteModel transaction) async {
+    final batch = _firestore.batch();
+    final userDocRef = _firestore.userDocRef(transaction.user.id);
+    final pointBalanceDocRef = _firestore.pointBalanceDocRef(transaction.user.id);
+    final transactionDocRef = _firestore.transactionDocRef(transaction.id);
+
+    try {
+      batch.set(userDocRef, transaction.user.toJson());
+      // jika ingin menggunakan update untuk spesifik key daripada set. Kurang tau soal performa.
+      // batch.update(userDocRef, {'point_balance': newTransaction.user.pointBalance.toJson()});
+      batch.set(pointBalanceDocRef, transaction.user.pointBalance.toJson());
+      batch.set(transactionDocRef, transaction.toJson());
+      await batch.commit();
     } catch (e) {
       throw ServerException();
     }

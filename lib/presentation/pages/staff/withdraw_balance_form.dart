@@ -12,6 +12,7 @@ import '../../../domain/entities/user.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
+import '../../bloc/transaction_history/transaction_history_bloc.dart';
 import '../../bloc/withdraw_balance_form/withdraw_balance_form_bloc.dart';
 
 class WithdrawBalanceForm extends StatelessWidget {
@@ -41,6 +42,7 @@ class WithdrawBalanceForm extends StatelessWidget {
                 (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
                 (_) {
                   context.read<ListUserBloc>().add(const ListUserEvent.initialized('warga'));
+                  context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(staff.id));
                   context.pop();
                 },
               ),
@@ -221,10 +223,12 @@ class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
         (index) => RoundedChoiceButton(
           name: getIt<NumberFormat>().format(ConstantData.withdrawChoice[index]),
           selected: selectedChoice == index,
-          onPressed: () => setState(() {
-            selectedChoice = index;
-            widget.onSelected?.call(ConstantData.withdrawChoice[index]);
-          }),
+          onPressed: widget.balance < ConstantData.withdrawChoice[index]
+              ? null
+              : () => setState(() {
+                    selectedChoice = index;
+                    widget.onSelected?.call(ConstantData.withdrawChoice[index]);
+                  }),
         ),
       ),
     );
