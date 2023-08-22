@@ -1,18 +1,18 @@
-import 'package:bank_sampah/component/button/rounded_button.dart';
-import 'package:bank_sampah/component/button/rounded_dropdown_button.dart';
-import 'package:bank_sampah/component/dummy/dummy_data.dart';
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/constant_data.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
-import 'package:bank_sampah/core/routing/router.dart';
-import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:bank_sampah/presentation/pages/admin/pdf_api.dart';
-import 'package:bank_sampah/presentation/pages/admin/pdf_report_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:open_file/open_file.dart';
+
+import '../../../component/button/rounded_button.dart';
+import '../../../component/button/rounded_dropdown_button.dart';
+import '../../../component/dummy/dummy_data.dart';
+import '../../../core/constant/colors.dart';
+import '../../../core/constant/constant_data.dart';
+import '../../../core/constant/theme.dart';
+import '../../../core/routing/router.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
+import 'pdf_api.dart';
+import 'pdf_report_api.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -100,13 +100,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
               child: RoundedButton(
                 name: 'Cetak Laporan',
                 onPressed: () async {
-                  final transactions = DummyData.dummyTransaction;
-                  final pdfFile = await PdfReportApi.generatePdf(transactions);
+                  const report = DummyData.dummyPdfReport;
+                  final pdfFile = await PdfReportApi.generatePdf(report);
 
                   if (pdfFile.existsSync()) {
                     await PdfApi.openFile(pdfFile);
                   } else {
-                    print('The PDF file was not generated successfully or doesn\'t exist.');
+                    const SnackBar(
+                      content: Text('The PDF file was not generated successfully or doesn\'t exist.'),
+                    );
                   }
                 },
                 selected: true,

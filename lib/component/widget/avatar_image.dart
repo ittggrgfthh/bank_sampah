@@ -33,7 +33,7 @@ class AvatarImage extends StatelessWidget {
             : photoUrl == '' || photoUrl == null
                 ? Text(
                     '$username[0] $username[1]',
-                    style: TextStyle(),
+                    style: const TextStyle(),
                   )
                 : Ink.image(
                     width: 32,

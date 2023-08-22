@@ -6,6 +6,11 @@ class DateTimeConverter {
     return DateFormat('dd MMMM yyyy').format(dateTime);
   }
 
+  static String millisecondEpochtoDay(int millisecondsSinceEpoch) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+    return DateFormat('EEEE').format(dateTime);
+  }
+
   static String timeAgoFromMillisecond(int millisecondsSinceEpoch) {
     DateTime itemDateTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
     DateTime now = DateTime.now();
