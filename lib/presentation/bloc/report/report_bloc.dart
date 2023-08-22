@@ -1,30 +1,28 @@
-import 'dart:collection';
-
-import 'package:bank_sampah/domain/entities/transaction_waste.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
+import '../../../core/utils/number_converter.dart';
 import '../../../domain/entities/report.dart';
+import '../../../domain/entities/waste.dart';
 import '../../../domain/usecase/staff/get_transaction_by_time_span.dart';
 
+part 'report_bloc.freezed.dart';
 part 'report_event.dart';
 part 'report_state.dart';
-part 'report_bloc.freezed.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final GetTransactionsByTimeSpan _getTransactionsByTimeSpan;
   ReportBloc(this._getTransactionsByTimeSpan) : super(ReportState.initial()) {
     on<ReportEvent>((event, emit) async {
       await event.when(
-        initial: (timeSpan) => _handleInitial(emit, timeSpan),
         chooseTimeRange: (timeSpan) => _handleChooseTimeRange(emit, timeSpan),
       );
     });
   }
 
-  Future<void> _handleInitial(Emitter<ReportState> emit, TimeSpan timeSpan) async {
+  Future<void> _handleChooseTimeRange(Emitter<ReportState> emit, TimeSpan timeSpan) async {
     emit(state.copyWith(isLoading: true));
 
     final failureOrSuccess = await _getTransactionsByTimeSpan(timeSpan);
@@ -34,43 +32,88 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         failure: optionOf(failure),
       )),
       (transactions) {
-        Map<String, List<TransactionWaste>> rtRwMap = {};
+        int totalOrganic = 0;
+        int totalInorganic = 0;
+        int totalOrganicBalance = 0;
+        int totalInorganicBalance = 0;
+        int withdrawBalance = 0;
 
-        for (var transactionWaste in transactions) {
-          String rtRw = "${transactionWaste.user.rw}-${transactionWaste.user.rt}";
-          if (!rtRwMap.containsKey(rtRw)) {
-            rtRwMap[rtRw] = [];
+        List<RowReport> rowsReport = [];
+
+        for (var transaction in transactions) {
+          if (transaction.storeWaste != null) {
+            totalOrganic += transaction.storeWaste!.waste.organic;
+            totalInorganic += transaction.storeWaste!.waste.inorganic;
+            totalOrganicBalance += transaction.storeWaste!.wasteBalance.organic;
+            totalInorganicBalance += transaction.storeWaste!.wasteBalance.inorganic;
           }
-          rtRwMap[rtRw]!.add(transactionWaste);
+
+          if (transaction.withdrawnBalance != null) {
+            withdrawBalance += transaction.withdrawnBalance!.withdrawn;
+          }
+
+          int existingIndex =
+              rowsReport.indexWhere((row) => row.rt == transaction.user.rt && row.rw == transaction.user.rw);
+          if (existingIndex != -1) {
+            RowReport existingRow = rowsReport[existingIndex];
+            // Update the existingRow with new data from transaction
+            if (transaction.storeWaste != null) {
+              existingRow = existingRow.copyWith(
+                waste: Waste(
+                  organic: transaction.storeWaste!.waste.organic + existingRow.waste.organic,
+                  inorganic: transaction.storeWaste!.waste.inorganic + existingRow.waste.inorganic,
+                ),
+              );
+            }
+
+            if (transaction.withdrawnBalance != null) {
+              existingRow = existingRow.copyWith(
+                withdrawBalance: transaction.withdrawnBalance!.withdrawn + existingRow.withdrawBalance,
+              );
+            }
+
+            rowsReport[existingIndex] = existingRow;
+          } else {
+            Waste rowWaste = transaction.storeWaste?.waste ?? const Waste(organic: 0, inorganic: 0);
+            int rowWithdrawBalance = transaction.withdrawnBalance?.withdrawn ?? 0;
+            rowsReport.add(RowReport(
+              rt: transaction.user.rt,
+              rw: transaction.user.rw,
+              waste: rowWaste,
+              withdrawBalance: rowWithdrawBalance,
+            ));
+          }
         }
-        // Sorting the groups based on rw
-        var sortedGroups = rtRwMap.keys.toList()..sort();
 
-        // Creating a new map with sorted groups
-        var sortedRtRwMap = <String, List<TransactionWaste>>{};
-        for (var groupKey in sortedGroups) {
-          sortedRtRwMap[groupKey] = rtRwMap[groupKey]!;
-        }
+        int totalWasteStored = totalOrganic + totalInorganic;
 
-        // Now sortedRtRwMap contains the transactions grouped and sorted by rw and rt
-        print(sortedRtRwMap);
+        TotalRowReport totalRowReport = TotalRowReport(
+          waste: Waste(organic: totalOrganic, inorganic: totalInorganic),
+          withdrawBalance: withdrawBalance,
+          sumWaste: totalWasteStored,
+        );
 
-        // RowReport(rt: rt, rw: rw, waste: waste, withdrawBalance: withdrawBalance);
-        // Report report = Report(
-        //   createdAt: DateTime.now().millisecondsSinceEpoch,
-        //   createdAtCity: 'Semarang',
-        //   village: 'Ini Desa',
-        //   rowsReport: [],
-        //   total: TotalRowReport(waste: waste, withdrawBalance: withdrawBalance, sumWaste: sumWaste,),
-        //   timeSpan: timeSpan,
-        // )
+        Report report = Report(
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          createdAtCity: 'Semarang',
+          village: 'Ini Desa',
+          rowsReport: rowsReport,
+          total: totalRowReport,
+          timeSpan: timeSpan.copyWith(end: timeSpan.end - 1000),
+        );
+
         emit(state.copyWith(
           isLoading: false,
           failure: none(),
+          report: optionOf(report),
+          totalInorganic: NumberConverter.formatToThousandsInt(totalInorganic),
+          totalOrganic: NumberConverter.formatToThousandsInt(totalOrganic),
+          totalOrganicBalance: NumberConverter.formatToThousandsInt(totalOrganicBalance),
+          totalInorganicBalance: NumberConverter.formatToThousandsInt(totalInorganicBalance),
+          totalWasteStored: NumberConverter.formatToThousandsInt(totalWasteStored),
+          totalWithdrawBalance: NumberConverter.formatToThousandsInt(withdrawBalance),
         ));
       },
     );
   }
-
-  Future<void> _handleChooseTimeRange(Emitter<ReportState> emit, TimeSpan timeSpan) async {}
 }

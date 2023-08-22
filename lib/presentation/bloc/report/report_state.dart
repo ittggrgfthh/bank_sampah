@@ -18,11 +18,11 @@ class ReportState with _$ReportState {
         isLoading: false,
         failure: none(),
         report: none(),
-        totalWithdrawBalance: '',
-        totalWasteStored: '',
-        totalOrganic: '',
-        totalInorganic: '',
-        totalOrganicBalance: '',
-        totalInorganicBalance: '',
+        totalWithdrawBalance: '0',
+        totalWasteStored: '0',
+        totalOrganic: '0',
+        totalInorganic: '0',
+        totalOrganicBalance: '0',
+        totalInorganicBalance: '0',
       );
 }

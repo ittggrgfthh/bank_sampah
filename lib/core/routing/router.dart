@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:bank_sampah/presentation/pages/admin/edit_price_history.dart';
-import 'package:bank_sampah/presentation/pages/profile_page.dart';
-import 'package:bank_sampah/presentation/pages/staff/edit_store_waste_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,11 +11,14 @@ import '../../injection.dart';
 import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
 import '../../presentation/pages/admin/admin_home_page.dart';
 import '../../presentation/pages/admin/admin_list_user_page.dart';
+import '../../presentation/pages/admin/edit_price_history.dart';
 import '../../presentation/pages/admin/edit_waste_price.dart';
 import '../../presentation/pages/login_page.dart';
-import '../../presentation/pages/staff/transaction_history.dart';
+import '../../presentation/pages/profile_page.dart';
+import '../../presentation/pages/staff/edit_store_waste_form.dart';
 import '../../presentation/pages/staff/store_waste_form.dart';
 import '../../presentation/pages/staff/store_waste_list.dart';
+import '../../presentation/pages/staff/transaction_history.dart';
 import '../../presentation/pages/staff/withdraw_balance.dart';
 import '../../presentation/pages/staff/withdraw_balance_form.dart';
 import '../../presentation/pages/warga/warga_home_page.dart';
