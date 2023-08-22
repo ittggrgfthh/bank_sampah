@@ -10,7 +10,7 @@ class PdfApi {
     required Document pdf,
   }) async {
     final bytes = await pdf.save();
-    final dir = await getApplicationDocumentsDirectory();
+    final dir = await getTemporaryDirectory();
     final file = File('${dir.path}/$name');
 
     await file.writeAsBytes(bytes);
@@ -24,7 +24,7 @@ class PdfApi {
     try {
       await OpenFile.open(url);
     } catch (e) {
-      print('Error opening PDF: $e');
+      Text('Error opening PDF: $e');
     }
   }
 }

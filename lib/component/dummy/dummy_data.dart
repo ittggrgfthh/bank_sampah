@@ -4,6 +4,7 @@ import 'package:bank_sampah/domain/entities/waste.dart';
 import 'package:bank_sampah/domain/entities/waste_price.dart';
 
 import '../../domain/entities/point_balance.dart';
+import '../../domain/entities/report.dart';
 
 class DummyData {
   static final dummyUser = <User>[
@@ -263,4 +264,39 @@ class DummyData {
       historyUpdate: <HistoryWaste>[],
     ),
   ];
+
+  static const dummyPdfReport = Report(
+    createdAt: 1679094315000,
+    createdAtCity: 'Semarang',
+    village: 'Kebumen',
+    timeSpan: TimeSpan(start: 1679094315000, end: 1679094315000),
+    rowsReport: [
+      RowReport(
+        rt: '001',
+        rw: '001',
+        waste: Waste(
+          organic: 126,
+          inorganic: 111,
+        ),
+        withdrawBalance: 300000,
+      ),
+      RowReport(
+        rt: '002',
+        rw: '001',
+        waste: Waste(
+          organic: 103,
+          inorganic: 96,
+        ),
+        withdrawBalance: 398000,
+      ),
+    ],
+    total: TotalRowReport(
+      waste: Waste(
+        organic: 1000000,
+        inorganic: 1000000,
+      ),
+      withdrawBalance: 600000,
+      sumWaste: 500,
+    ),
+  );
 }

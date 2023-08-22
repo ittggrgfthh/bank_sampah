@@ -81,19 +81,20 @@ class AdminHomePage extends StatelessWidget {
                     final transactions = DummyData.dummyTransaction;
                     final pdfFile = await PdfReportApi.generatePdf(transactions);
 
-                    if (pdfFile.existsSync()) {
-                      await PdfApi.openFile(pdfFile);
-                    } else {
-                      print('The PDF file was not generated successfully or doesn\'t exist.');
-                    }
-                  },
-                  selected: true,
-                  color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                  textColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-                ),
+                  if (pdfFile.existsSync()) {
+                    await PdfApi.openFile(pdfFile);
+                  } else {
+                    const SnackBar(
+                      content: Text('The PDF file was not generated successfully or doesn\'t exist.'),
+                    );
+                  }
+                },
+                selected: true,
+                color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                textColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
