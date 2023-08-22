@@ -9,6 +9,7 @@ import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste.dart';
+import '../../../domain/entities/waste_price.dart';
 import '../../../domain/usecase/admin/get_current_waste_price.dart';
 import '../../../domain/usecase/staff/create_waste_transaction.dart';
 
@@ -107,6 +108,38 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     );
   }
 
+  StoreWaste _newStoreWaste({
+    required String organicWeight,
+    required String inorganicWeight,
+    required String priceOrganic,
+    required String priceInorganic,
+    required WastePrice wastePrice,
+  }) {
+    int organicWeightInt = NumberConverter.parseToInteger(organicWeight);
+    int inorganicWeightInt = NumberConverter.parseToInteger(inorganicWeight);
+    int priceOrganicInt = NumberConverter.parseToInteger(priceOrganic);
+    int priceInorganicInt = NumberConverter.parseToInteger(priceInorganic);
+
+    int organicBalanceInt = organicWeightInt * priceOrganicInt;
+    int inorganicBalanceInt = inorganicWeightInt * priceInorganicInt;
+    int earnedBalanceInt = organicBalanceInt + inorganicBalanceInt;
+
+    return StoreWaste(
+      earnedBalance: earnedBalanceInt,
+      // Kg
+      waste: Waste(
+        organic: organicWeightInt,
+        inorganic: inorganicWeightInt,
+      ),
+      // Rp
+      wasteBalance: Waste(
+        organic: organicBalanceInt,
+        inorganic: inorganicBalanceInt,
+      ),
+      wastePrice: wastePrice, // karena storeWaste bisa null
+    );
+  }
+
   Future<void> _submitButtonPressed(Emitter<StoreWasteFormState> emit) async {
     emit(state.copyWith(isLoading: true));
     final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
@@ -123,13 +156,12 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
         inorganicWeight: state.inorganicWeight,
         lastTransactionEpoch: dateNowEpoch,
       ),
-      storeWaste: StoreWaste(
-        earnedBalance: NumberConverter.parseToInteger(state.earnedBalance),
-        waste: Waste(
-          organic: NumberConverter.parseToInteger(state.organicWeight),
-          inorganic: NumberConverter.parseToInteger(state.inorganicWeight),
-        ),
-        wastePrice: transaction.storeWaste!.wastePrice, // karena storeWaste bisa null
+      storeWaste: _newStoreWaste(
+        organicWeight: state.organicWeight,
+        inorganicWeight: state.inorganicWeight,
+        priceOrganic: state.priceOrganic,
+        priceInorganic: state.priceInorganic,
+        wastePrice: transaction.storeWaste!.wastePrice,
       ),
       withdrawnBalance: null, // null: karena ini bukan transaksi tarik saldo
     );

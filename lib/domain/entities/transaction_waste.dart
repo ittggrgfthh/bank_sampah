@@ -26,7 +26,8 @@ class TransactionWaste with _$TransactionWaste {
 class StoreWaste with _$StoreWaste {
   const factory StoreWaste({
     required int earnedBalance,
-    required Waste waste,
+    required Waste waste, // kg
+    required Waste wasteBalance, // Rp
     required WastePrice wastePrice,
   }) = _StoreWaste;
 

@@ -50,6 +50,7 @@ class DefaultData {
   static final storeWaste = StoreWaste(
     earnedBalance: 0,
     waste: waste,
+    wasteBalance: waste,
     wastePrice: wastePrice,
   );
 

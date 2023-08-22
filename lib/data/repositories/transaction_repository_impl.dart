@@ -1,3 +1,4 @@
+import 'package:bank_sampah/domain/entities/report.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -78,6 +79,21 @@ class TransactionRepositoryImpl implements TransactionRepository {
     try {
       await _transactionRemoteDataSource.updateTransaction(TransactionWasteModel.formDomain(transaction));
       return right(unit);
+    } on FirebaseException catch (e) {
+      if (e.code == FirebaseExceptionCodes.unavailable) {
+        return left(const Failure.timeout());
+      }
+      return left(Failure.unexpected(e.toString()));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByTimeSpan(TimeSpan timeSpan) async {
+    try {
+      final result = await _transactionRemoteDataSource.getTransactionsByTimeSpan(timeSpan.start, timeSpan.end);
+      return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {
         return left(const Failure.timeout());

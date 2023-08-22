@@ -156,6 +156,7 @@ class DummyData {
       storeWaste: StoreWaste(
         earnedBalance: 1000000,
         waste: Waste(organic: 100, inorganic: 200),
+        wasteBalance: Waste(organic: 100, inorganic: 200),
         wastePrice: WastePrice(
           id: '01',
           organic: 2000,
@@ -233,6 +234,7 @@ class DummyData {
       storeWaste: StoreWaste(
         earnedBalance: 1000000,
         waste: Waste(organic: 100, inorganic: 200),
+        wasteBalance: Waste(organic: 100, inorganic: 200),
         wastePrice: WastePrice(
           id: '01',
           organic: 2000,

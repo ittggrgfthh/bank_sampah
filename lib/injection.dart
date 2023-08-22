@@ -31,6 +31,7 @@ import 'domain/usecase/pick_image.dart';
 import 'domain/usecase/sign_out.dart';
 import 'domain/usecase/signin_with_phone_number_and_password.dart';
 import 'domain/usecase/staff/create_waste_transaction.dart';
+import 'domain/usecase/staff/get_transaction_by_time_span.dart';
 import 'domain/usecase/staff/get_transactions_by_staff_id.dart';
 import 'domain/usecase/staff/update_waste_transaction.dart';
 import 'domain/usecase/upload_profile_picture.dart';
@@ -40,6 +41,7 @@ import 'presentation/bloc/edit_store_waste_form/edit_store_waste_form_bloc.dart'
 import 'presentation/bloc/edit_waste_price/edit_waste_price_bloc.dart';
 import 'presentation/bloc/edit_waste_price_history/edit_waste_price_history_bloc.dart';
 import 'presentation/bloc/list_user/list_user_bloc.dart';
+import 'presentation/bloc/report/report_bloc.dart';
 import 'presentation/bloc/signin_form_bloc/signin_form_bloc.dart';
 import 'presentation/bloc/store_waste_form/store_waste_form_bloc.dart';
 import 'presentation/bloc/transaction_history/transaction_history_bloc.dart';
@@ -59,6 +61,7 @@ void init() {
       ));
 
   // bloc - admin
+  getIt.registerFactory(() => ReportBloc(getIt()));
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
   getIt.registerFactory(() => EditWastePriceHistoryBloc(getIt()));
   // bloc - staff
@@ -88,6 +91,7 @@ void init() {
   // usecase - transaction
   getIt.registerLazySingleton(() => CreateWasteTransaction(getIt()));
   getIt.registerLazySingleton(() => GetTransactionsByStaffId(getIt()));
+  getIt.registerLazySingleton(() => GetTransactionsByTimeSpan(getIt()));
   getIt.registerLazySingleton(() => UpdateWasteTransaction(getIt()));
 
   // repository

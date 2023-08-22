@@ -4,6 +4,7 @@ class ConstantData {
     'Februari',
     'Maret',
     'April',
+    'Mei',
     'Juni',
     'Juli',
     'Agustus',

@@ -60,6 +60,7 @@ class StoreWasteModel with _$StoreWasteModel {
   const factory StoreWasteModel({
     @JsonKey(name: 'earned_balance') required int earnedBalance,
     required WasteModel waste,
+    @JsonKey(name: 'waste_balance') required WasteModel wasteBalance,
     required WastePriceModel wastePrice,
   }) = _StoreWasteModel;
 
@@ -71,6 +72,7 @@ class StoreWasteModel with _$StoreWasteModel {
     return StoreWaste(
       earnedBalance: earnedBalance,
       waste: waste.toDomain(),
+      wasteBalance: wasteBalance.toDomain(),
       wastePrice: wastePrice.toDomain(),
     );
   }
@@ -79,6 +81,7 @@ class StoreWasteModel with _$StoreWasteModel {
     return StoreWasteModel(
       earnedBalance: storeWaste.earnedBalance,
       waste: WasteModel.formDomain(storeWaste.waste),
+      wasteBalance: WasteModel.formDomain(storeWaste.wasteBalance),
       wastePrice: WastePriceModel.formDomain(storeWaste.wastePrice),
     );
   }

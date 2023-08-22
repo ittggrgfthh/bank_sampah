@@ -20,6 +20,9 @@ abstract class TransactionRemoteDataSource {
 
   /// Mendapatkan semua transaksi yang dilakukan oleh user
   Future<List<TransactionWasteModel>> getTransactionsByUserId(String userId);
+
+  /// Mendapatkan semua transaksi berdasarkan rentang waktu
+  Future<List<TransactionWasteModel>> getTransactionsByTimeSpan(int startEpoch, int endEpoch);
 }
 
 class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
@@ -106,6 +109,23 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
       batch.set(pointBalanceDocRef, transaction.user.pointBalance.toJson());
       batch.set(transactionDocRef, transaction.toJson());
       await batch.commit();
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<TransactionWasteModel>> getTransactionsByTimeSpan(int startEpoch, int endEpoch) async {
+    final transactionRef = _firestore.transactionColRef.withConverter<TransactionWasteModel>(
+      fromFirestore: (snapshot, options) => TransactionWasteModel.fromJson(snapshot.data()!),
+      toFirestore: (value, options) => value.toJson(),
+    );
+    try {
+      final querySnapshot = await transactionRef
+          .where('created_at', isGreaterThanOrEqualTo: startEpoch, isLessThan: endEpoch)
+          .orderBy('created_at', descending: true)
+          .get();
+      return querySnapshot.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw ServerException();
     }

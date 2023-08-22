@@ -21,8 +21,8 @@ class Report with _$Report {
 @freezed
 class TimeSpan with _$TimeSpan {
   const factory TimeSpan({
-    required int start,
-    required int end,
+    required int start, // >= 01 Agustus 2023 00:00:00
+    required int end, // < 01 Agustus 2023 00:00:00
   }) = _TimeSpan;
 
   const TimeSpan._();
