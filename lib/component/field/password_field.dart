@@ -8,6 +8,7 @@ class PasswordField extends StatefulWidget {
   final String hintText;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final Function(String value)? onFieldSubmitted;
 
   const PasswordField({
     super.key,
@@ -18,6 +19,7 @@ class PasswordField extends StatefulWidget {
     this.hintText = 'Password',
     this.onChanged,
     this.validator,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -30,6 +32,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: widget.onFieldSubmitted,
       controller: widget.controller,
       onChanged: (value) {
         if (widget.onChanged != null) {

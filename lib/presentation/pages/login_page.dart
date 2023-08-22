@@ -129,6 +129,9 @@ class _LoginPageBody extends StatelessWidget {
                       (_) => null,
                     );
               },
+              onFieldSubmitted: (value) {
+                context.read<SignInFormBloc>().add(const SignInFormEvent.signInButtonPressed());
+              },
             ),
           ],
         ),
