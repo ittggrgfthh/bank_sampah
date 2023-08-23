@@ -17,29 +17,35 @@ class AvatarImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: InkWell(
-        onTap: onTap,
-        child: isLoading
-            ? Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Transform.scale(
-                  scale: 0.7,
-                  child: const CircularProgressIndicator(),
-                ),
-              )
-            : photoUrl == '' || photoUrl == null
-                ? Text(
-                    '$username[0] $username[1]',
-                    style: const TextStyle(),
-                  )
-                : Ink.image(
-                    width: 32,
-                    height: 32,
-                    image: CachedNetworkImageProvider(photoUrl!),
+    return SizedBox(
+      width: 32,
+      height: 32,
+      child: Material(
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: InkWell(
+          onTap: onTap,
+          child: isLoading
+              ? Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Transform.scale(
+                    scale: 0.7,
+                    child: const CircularProgressIndicator(),
                   ),
+                )
+              : photoUrl == '' || photoUrl == null
+                  ? Center(
+                      child: Text(
+                        '${username?[0].toUpperCase()}${username?[1].toUpperCase()}',
+                        style: const TextStyle(),
+                      ),
+                    )
+                  : Ink.image(
+                      width: 32,
+                      height: 32,
+                      image: CachedNetworkImageProvider(photoUrl!),
+                    ),
+        ),
       ),
     );
   }
