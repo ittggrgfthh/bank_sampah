@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/component/widget/avatar_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,9 @@ import '../../../component/field/name_field.dart';
 import '../../../component/field/password_field.dart';
 import '../../../component/field/phone_field.dart';
 import '../../../component/field/rtrw_field.dart';
+import '../../../component/widget/filter_role_choice_chip.dart';
+import '../../../component/widget/roles_choice_chip.dart';
+import '../../../component/widget/upload_photo.dart';
 import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/failure_messages.dart';
@@ -56,18 +60,10 @@ class AdminListUserPage extends StatelessWidget {
               title: const Text('Daftar Pengguna'),
               actions: [
                 IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-                Material(
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  child: InkWell(
-                    onTap: () => context.go('${AppRouterName.adminListUsersPath}/${AppRouterName.profilePath}'),
-                    child: Ink.image(
-                      width: 32,
-                      height: 32,
-                      image: CachedNetworkImageProvider(admin.photoUrl ??
-                          'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
-                    ),
-                  ),
+                AvatarImage(
+                  photoUrl: admin.photoUrl,
+                  username: admin.fullName,
+                  onTap: () => context.go('${AppRouterName.adminListUsersPath}/${AppRouterName.profilePath}'),
                 ),
                 const SizedBox(width: 15),
               ],
@@ -288,7 +284,10 @@ class AdminListUserPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        const UploadPhoto(),
+                        UploadPhoto(
+                          onTap: () =>
+                              context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.imagePickerOpened()),
+                        ),
                       ],
                     ),
                     Container(
@@ -370,154 +369,6 @@ class AdminListUserPage extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class FilterRoleChoiceChip extends StatefulWidget {
-  final Function(String selectedRole)? onSelected;
-  const FilterRoleChoiceChip({
-    super.key,
-    this.onSelected,
-  });
-
-  @override
-  State<FilterRoleChoiceChip> createState() => _FilterRoleChoiceChipState();
-}
-
-class _FilterRoleChoiceChipState extends State<FilterRoleChoiceChip> {
-  int _selectedChoice = 0;
-  String _selectedRoleChoice = 'warga';
-
-  final roles = [
-    'semua',
-    'warga',
-    'staff',
-    'admin',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List<Widget>.generate(
-        roles.length,
-        (index) => Container(
-          margin: const EdgeInsets.only(right: 10),
-          child: ChoiceChip(
-            label: Text(
-              roles[index],
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-            ),
-            selected: _selectedChoice == index,
-            onSelected: (selectedIndex) {
-              setState(() {
-                _selectedChoice = index;
-                _selectedRoleChoice = roles[index];
-                widget.onSelected?.call(_selectedRoleChoice);
-              });
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class RoleChoiceChip extends StatefulWidget {
-  final Function(String selectedRole)? onSelected;
-
-  const RoleChoiceChip({
-    super.key,
-    this.onSelected,
-  });
-
-  @override
-  State<RoleChoiceChip> createState() => _RoleChoiceChipState();
-}
-
-class _RoleChoiceChipState extends State<RoleChoiceChip> {
-  int _selectedChoice = 0;
-  Role _selectedRoleChoice = Role.warga;
-
-  final roles = [
-    Role.warga,
-    Role.staff,
-    Role.admin,
-  ];
-
-  final textColor = <Color>[
-    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-    MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
-    MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      direction: Axis.vertical,
-      spacing: 10,
-      children: List<Widget>.generate(
-        roles.length,
-        (index) => SizedBox(
-          width: (MediaQuery.of(context).size.width / 2) - 35,
-          height: 44,
-          child: RoundedButton(
-            name: roles[index].name,
-            selected: _selectedChoice == index,
-            onPressed: () {
-              setState(() {
-                _selectedChoice = index;
-                _selectedRoleChoice = roles[index];
-                widget.onSelected?.call(_selectedRoleChoice.name);
-              });
-            },
-            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-            textColor: textColor[index],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-enum Role { admin, staff, warga }
-
-class UploadPhoto extends StatelessWidget {
-  const UploadPhoto({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.imagePickerOpened());
-      },
-      child: Container(
-        width: (MediaQuery.of(context).size.width / 2) - 35,
-        height: 152,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-          ),
-        ),
-        child: BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
-          builder: (context, state) {
-            return Center(
-                child: state.profilePictureOption.fold(
-              () => Icon(
-                Icons.picture_in_picture_alt_rounded,
-                size: 100,
-                color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-              ),
-              (file) => Image.file(
-                file,
-                fit: BoxFit.cover,
-              ),
-            ));
-          },
         ),
       ),
     );

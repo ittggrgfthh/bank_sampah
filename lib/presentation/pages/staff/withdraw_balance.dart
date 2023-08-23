@@ -1,3 +1,4 @@
+import 'package:bank_sampah/component/widget/avatar_image.dart';
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -23,18 +24,10 @@ class WithdrawBalance extends StatelessWidget {
         actions: [
           IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-          Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: InkWell(
-              onTap: () => context.go('${AppRouterName.staffBalanceTransactionPath}/${AppRouterName.profilePath}'),
-              child: Ink.image(
-                width: 32,
-                height: 32,
-                image: CachedNetworkImageProvider(staff.photoUrl ??
-                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
-              ),
-            ),
+          AvatarImage(
+            photoUrl: staff.photoUrl,
+            username: staff.fullName,
+            onTap: () => context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}'),
           ),
           const SizedBox(width: 15),
         ],

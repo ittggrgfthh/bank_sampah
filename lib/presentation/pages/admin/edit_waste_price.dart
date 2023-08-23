@@ -1,7 +1,6 @@
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,14 +23,10 @@ class EditWastePrice extends StatelessWidget {
         title: const Text('Edit Harga'),
         actions: [
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-          Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: AvatarImage(
-              photoUrl: admin.photoUrl,
-              username: admin.fullName,
-              onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
-            ),
+          AvatarImage(
+            photoUrl: admin.photoUrl,
+            username: admin.fullName,
+            onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
           ),
           const SizedBox(width: 15),
         ],

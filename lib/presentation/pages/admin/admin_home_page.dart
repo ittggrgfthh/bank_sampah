@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../component/button/rounded_button.dart';
 import '../../../component/button/rounded_dropdown_button.dart';
+import '../../../component/widget/avatar_image.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/constant_data.dart';
 import '../../../core/constant/theme.dart';
@@ -29,18 +29,10 @@ class AdminHomePage extends StatelessWidget {
         actions: [
           IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-          Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: InkWell(
-              onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
-              child: Ink.image(
-                width: 32,
-                height: 32,
-                image: CachedNetworkImageProvider(admin.photoUrl ??
-                    'https://firebasestorage.googleapis.com/v0/b/banksampah-b3d01.appspot.com/o/profile-picture%2Ffigma-botts.png?alt=media&token=7611d9e3-3664-449e-8b97-feac1556d64c'),
-              ),
-            ),
+          AvatarImage(
+            photoUrl: admin.photoUrl,
+            username: admin.fullName,
+            onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
           ),
           const SizedBox(width: 15),
         ],

@@ -1,3 +1,4 @@
+import 'package:bank_sampah/component/widget/avatar_image.dart';
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/date_time_converter.dart';
 import '../../../injection.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../custom_search_delegate.dart';
 
@@ -17,6 +19,8 @@ class StoreWasteListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Simpan Sampah'),
@@ -27,18 +31,10 @@ class StoreWasteListPage extends StatelessWidget {
                 showSearch(context: context, delegate: CustomSearchDelegate());
               }),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-          Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: InkWell(
-              onTap: () => context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}'),
-              child: Ink.image(
-                width: 32,
-                height: 32,
-                image: const CachedNetworkImageProvider(
-                    'https://firebasestorage.googleapis.com/v0/b/banksampah-b3d01.appspot.com/o/profile-picture%2Ffigma-botts.png?alt=media&token=7611d9e3-3664-449e-8b97-feac1556d64c'),
-              ),
-            ),
+          AvatarImage(
+            onTap: () => context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}'),
+            photoUrl: staff.photoUrl,
+            username: staff.fullName,
           ),
           const SizedBox(width: 15),
         ],

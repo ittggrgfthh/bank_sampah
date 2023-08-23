@@ -17,4 +17,17 @@ class ConstantData {
   static final years = <String>['2023', '2024', '2025'];
 
   static final withdrawChoice = <int>[50000, 100000, 200000, 300000, 500000, 1000000];
+
+  static final village = <String>[
+    'Banyubiru',
+    'Gedong',
+    'Kebondowo',
+    'Kebumen',
+    'Kemambang',
+    'Ngrapah',
+    'Rowoboni',
+    'Sepakung',
+    'Tegaron',
+    'Wirogomo',
+  ];
 }
