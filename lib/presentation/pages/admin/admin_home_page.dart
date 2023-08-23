@@ -161,130 +161,126 @@ class AdminHomePage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
+        Container(
+          padding: const EdgeInsets.all(10),
           width: (MediaQuery.of(context).size.width / 2) - 25,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  spacing: 5,
-                  children: [
-                    Icon(
-                      Icons.wallet_rounded,
+          decoration: BoxDecoration(
+            color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                spacing: 5,
+                children: [
+                  Icon(
+                    Icons.wallet_rounded,
+                    color: Theme.of(context).colorScheme.background,
+                    size: 20,
+                  ),
+                  Text(
+                    'Organik',
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.background,
-                      size: 20,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Text(
-                      'Organik',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
+                  ),
+                ],
+              ),
+              BlocSelector<ReportBloc, ReportState, String>(
+                selector: (state) {
+                  return state.totalOrganic;
+                },
+                builder: (context, totalOrganic) {
+                  return Text(
+                    '${totalOrganic}Kg',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.background,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ],
-                ),
-                BlocSelector<ReportBloc, ReportState, String>(
-                  selector: (state) {
-                    return state.totalOrganic;
-                  },
-                  builder: (context, totalOrganic) {
-                    return Text(
-                      '${totalOrganic}Kg',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    );
-                  },
-                ),
-                BlocSelector<ReportBloc, ReportState, String>(
-                  selector: (state) {
-                    return state.totalOrganicBalance;
-                  },
-                  builder: (context, totalOrganicBalance) {
-                    return Text(
-                      'Rp$totalOrganicBalance',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                  );
+                },
+              ),
+              BlocSelector<ReportBloc, ReportState, String>(
+                selector: (state) {
+                  return state.totalOrganicBalance;
+                },
+                builder: (context, totalOrganicBalance) {
+                  return Text(
+                    'Rp$totalOrganicBalance',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.background,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
-        SizedBox(
+        Container(
           width: (MediaQuery.of(context).size.width / 2) - 25,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  spacing: 5,
-                  children: [
-                    Icon(
-                      Icons.wallet_rounded,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                spacing: 5,
+                children: [
+                  Icon(
+                    Icons.wallet_rounded,
+                    color: Theme.of(context).colorScheme.background,
+                    size: 20,
+                  ),
+                  Text(
+                    'An-Organik',
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.background,
-                      size: 20,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Text(
-                      'An-Organik',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
+                  ),
+                ],
+              ),
+              BlocSelector<ReportBloc, ReportState, String>(
+                selector: (state) {
+                  return state.totalInorganic;
+                },
+                builder: (context, totalInorganic) {
+                  return Text(
+                    '${totalInorganic}Kg',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.background,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ],
-                ),
-                BlocSelector<ReportBloc, ReportState, String>(
-                  selector: (state) {
-                    return state.totalInorganic;
-                  },
-                  builder: (context, totalInorganic) {
-                    return Text(
-                      '${totalInorganic}Kg',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    );
-                  },
-                ),
-                BlocSelector<ReportBloc, ReportState, String>(
-                  selector: (state) {
-                    return state.totalInorganicBalance;
-                  },
-                  builder: (context, totalInorganicBalance) {
-                    return Text(
-                      'Rp$totalInorganicBalance',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                  );
+                },
+              ),
+              BlocSelector<ReportBloc, ReportState, String>(
+                selector: (state) {
+                  return state.totalInorganicBalance;
+                },
+                builder: (context, totalInorganicBalance) {
+                  return Text(
+                    'Rp$totalInorganicBalance',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.background,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ],
