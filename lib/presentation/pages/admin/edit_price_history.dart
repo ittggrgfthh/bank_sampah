@@ -92,14 +92,20 @@ class EditPriceHistory extends StatelessWidget {
                                   : Container(),
                             ),
                           ),
-                          Text(
-                            admin.id == editWastePriceHistory[index].admin.id
-                                ? 'Anda'
-                                : 'Admin ${editWastePriceHistory[index].admin.fullName}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w300,
+                          Container(
+                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2.5),
+                            child: Expanded(
+                              child: Text(
+                                admin.id == editWastePriceHistory[index].admin.id
+                                    ? 'Anda'
+                                    : 'Admin ${editWastePriceHistory[index].admin.fullName}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
                           )
                         ],

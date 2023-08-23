@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/money_field.dart';
+import '../../../component/widget/avatar_image.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/edit_waste_price/edit_waste_price_bloc.dart';
@@ -26,14 +27,10 @@ class EditWastePrice extends StatelessWidget {
           Material(
             shape: const CircleBorder(),
             clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: InkWell(
-              onTap: () => context.go('${AppRouterName.adminWastePricePath}/${AppRouterName.profilePath}'),
-              child: Ink.image(
-                width: 32,
-                height: 32,
-                image: CachedNetworkImageProvider(admin.photoUrl ??
-                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
-              ),
+            child: AvatarImage(
+              photoUrl: admin.photoUrl,
+              username: admin.fullName,
+              onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
             ),
           ),
           const SizedBox(width: 15),
@@ -70,40 +67,52 @@ class EditWastePrice extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Wrap(
-              spacing: 5,
-              children: [
-                const Icon(Icons.access_time, size: 20),
-                BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
-                  buildWhen: (previous, current) => previous.currentTimeAgo != current.currentTimeAgo,
-                  builder: (context, state) {
-                    return Text(
-                      'diperbarui ${state.currentTimeAgo}',
-                      style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 14),
-                    );
-                  },
-                ),
-              ],
-            ),
-            Wrap(
-              spacing: 5,
-              children: [
-                const Icon(Icons.group, size: 20),
-                BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
-                  buildWhen: (previous, current) => previous.currentAdminFullName != current.currentAdminFullName,
-                  builder: (context, state) {
-                    return Text('Oleh ${state.currentAdminFullName}');
-                  },
-                ),
-              ],
-            ),
-          ],
+        Container(
+          constraints: BoxConstraints(maxWidth: width - (width / 3)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.access_time, size: 20),
+                  const SizedBox(width: 5),
+                  BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
+                    buildWhen: (previous, current) => previous.currentTimeAgo != current.currentTimeAgo,
+                    builder: (context, state) {
+                      return Expanded(
+                        child: Text(
+                          'diperbarui ${state.currentTimeAgo}',
+                          style: const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 14),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  const Icon(Icons.group, size: 20),
+                  const SizedBox(width: 5),
+                  BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
+                    buildWhen: (previous, current) => previous.currentAdminFullName != current.currentAdminFullName,
+                    builder: (context, state) {
+                      return Expanded(
+                        child: Text(
+                          'Oleh ${state.currentAdminFullName}',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         Container(
           decoration: BoxDecoration(
