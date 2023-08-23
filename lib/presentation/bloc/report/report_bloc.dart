@@ -93,6 +93,16 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
           sumWaste: totalWasteStored,
         );
 
+        /// Sorting berdasarkan RW dulu baru RT
+        rowsReport.sort((a, b) {
+          int rwComparison = a.rw.compareTo(b.rw);
+          if (rwComparison != 0) {
+            return rwComparison;
+          } else {
+            return a.rt.compareTo(b.rt);
+          }
+        });
+
         Report report = Report(
           createdAt: DateTime.now().millisecondsSinceEpoch,
           createdAtCity: 'Semarang',
