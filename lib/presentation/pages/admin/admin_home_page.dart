@@ -32,7 +32,7 @@ class AdminHomePage extends StatelessWidget {
           AvatarImage(
             photoUrl: admin.photoUrl,
             username: admin.fullName,
-            onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}'),
+            onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}', extra: admin),
           ),
           const SizedBox(width: 15),
         ],

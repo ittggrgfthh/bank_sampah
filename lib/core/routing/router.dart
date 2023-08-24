@@ -55,7 +55,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
-              builder: (context, state) => const ProfilePage(),
+              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
           ],
         ),
@@ -67,7 +67,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
-              builder: (context, state) => const ProfilePage(),
+              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -91,7 +91,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
-              builder: (context, state) => const ProfilePage(),
+              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
           ],
         ),
@@ -114,7 +114,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
-              builder: (context, state) => const ProfilePage(),
+              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
           ],
         ),
@@ -131,7 +131,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
-              builder: (context, state) => const ProfilePage(),
+              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
           ],
         ),
@@ -148,7 +148,7 @@ final router = GoRouter(
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
-              builder: (context, state) => const ProfilePage(),
+              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
           ],
         ),
@@ -162,7 +162,7 @@ final router = GoRouter(
         GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
           path: AppRouterName.profilePath,
-          builder: (context, state) => const ProfilePage(),
+          builder: (context, state) => ProfilePage(user: state.extra as User),
         ),
       ],
     ),

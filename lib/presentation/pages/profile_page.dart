@@ -1,11 +1,12 @@
 import 'package:bank_sampah/component/button/rounded_danger_button.dart';
+import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/injection.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({super.key, required User user});
 
   @override
   Widget build(BuildContext context) {

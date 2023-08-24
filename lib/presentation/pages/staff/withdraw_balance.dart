@@ -27,7 +27,8 @@ class WithdrawBalance extends StatelessWidget {
           AvatarImage(
             photoUrl: staff.photoUrl,
             username: staff.fullName,
-            onTap: () => context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}'),
+            onTap: () =>
+                context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}', extra: staff),
           ),
           const SizedBox(width: 15),
         ],

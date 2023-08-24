@@ -32,7 +32,8 @@ class StoreWasteListPage extends StatelessWidget {
               }),
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
           AvatarImage(
-            onTap: () => context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}'),
+            onTap: () =>
+                context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}', extra: staff),
             photoUrl: staff.photoUrl,
             username: staff.fullName,
           ),

@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../component/widget/avatar_image.dart';
+
 class WargaHomePage extends StatelessWidget {
   const WargaHomePage({super.key});
 
@@ -16,18 +18,11 @@ class WargaHomePage extends StatelessWidget {
         title: const Text('Home Warga'),
         actions: [
           IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
-          Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: InkWell(
-              onTap: () => context.go('${AppRouterName.wargaHomePath}/${AppRouterName.profilePath}'),
-              child: Ink.image(
-                width: 32,
-                height: 32,
-                image: CachedNetworkImageProvider(warga.photoUrl ??
-                    'https://avatars.mds.yandex.net/i?id=1b0ce6ca8b11735031618d51e2a7e336f6d6f7b5-9291521-images-thumbs&n=13'),
-              ),
-            ),
+          AvatarImage(
+            photoUrl: warga.photoUrl,
+            username: warga.fullName,
+            onTap: () =>
+                context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}', extra: warga),
           ),
           const SizedBox(width: 15),
         ],
