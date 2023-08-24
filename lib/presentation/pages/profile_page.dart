@@ -1,4 +1,5 @@
 import 'package:bank_sampah/component/button/rounded_danger_button.dart';
+import 'package:bank_sampah/component/widget/confirmation_dialog.dart';
 import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:bank_sampah/injection.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -23,7 +24,12 @@ class ProfilePage extends StatelessWidget {
         child: Center(
           child: RoundedDangerButton(
             buttonName: 'Keluar',
-            buttonTask: () => getIt<AuthBloc>().add(const AuthEvent.signedOutRequested()),
+            buttonTask: () => ConfirmationDialog.dialog(
+              context: context,
+              title: 'Apakah kamu yakin mau Logout?',
+              content: null,
+              onPressedYes: () => getIt<AuthBloc>().add(const AuthEvent.signedOutRequested()),
+            ),
           ),
         ),
       ),
