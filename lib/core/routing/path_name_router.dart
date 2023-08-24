@@ -13,6 +13,9 @@ class AppRouterName {
   static const String adminListUsersPath = '/list-user';
   static const String adminListUsersName = 'list-user';
 
+  static const String adminEditUserPath = 'update-user';
+  static const String adminEditUserName = 'update-user';
+
   static const String adminWastePricePath = '/waste/price';
   static const String adminWastePriceName = 'waste-price';
 

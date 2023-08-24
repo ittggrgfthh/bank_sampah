@@ -9,6 +9,7 @@ import '../../domain/entities/transaction_waste.dart';
 import '../../domain/entities/user.dart';
 import '../../injection.dart';
 import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
+import '../../presentation/pages/admin/admin_edit_user_page.dart';
 import '../../presentation/pages/admin/admin_home_page.dart';
 import '../../presentation/pages/admin/admin_list_user_page.dart';
 import '../../presentation/pages/admin/edit_price_history.dart';
@@ -67,6 +68,12 @@ final router = GoRouter(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.profilePath,
               builder: (context, state) => const ProfilePage(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _rootNavigatorKey,
+              path: AppRouterName.adminEditUserPath,
+              name: AppRouterName.adminEditUserName,
+              builder: (context, state) => AdminEditUserPage(user: state.extra as User),
             ),
           ],
         ),

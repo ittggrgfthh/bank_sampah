@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:bank_sampah/core/routing/router.dart';
+import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +20,8 @@ import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/create_user_form/create_user_form_bloc.dart';
 
 class AdminEditUserPage extends StatelessWidget {
-  const AdminEditUserPage({super.key});
+  final User user;
+  const AdminEditUserPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +46,6 @@ class AdminEditUserPage extends StatelessWidget {
         key: formKey,
         child: ListView(
           children: <Widget>[
-            Text(
-              'Tambah User',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
             const SizedBox(height: 10),
             Builder(
               builder: (context) {

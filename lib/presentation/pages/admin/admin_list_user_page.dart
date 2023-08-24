@@ -121,6 +121,7 @@ class AdminListUserPage extends StatelessWidget {
                                     subtitle: '+62 ${user.phoneNumber}',
                                     trailing: [user.role, CurrencyConverter.intToIDR(user.pointBalance.currentBalance)],
                                     enabled: true,
+                                    onTap: () => context.goNamed(AppRouterName.adminEditUserName, extra: user),
                                   ),
                                 );
                               });
