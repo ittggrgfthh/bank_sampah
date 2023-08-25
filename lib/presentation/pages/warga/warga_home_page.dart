@@ -1,3 +1,5 @@
+import 'package:bank_sampah/core/constant/colors.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:bank_sampah/injection.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -20,8 +22,7 @@ class WargaHomePage extends StatelessWidget {
           AvatarImage(
             photoUrl: warga.photoUrl,
             username: warga.fullName,
-            onTap: () =>
-                context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}', extra: warga),
+            onTap: () => context.go('${AppRouterName.wargaHomePath}/${AppRouterName.profilePath}', extra: warga),
           ),
           const SizedBox(width: 15),
         ],
@@ -31,6 +32,7 @@ class WargaHomePage extends StatelessWidget {
         child: Wrap(
           runSpacing: 10,
           children: [
+            Container(),
             _buildSaldo(context),
             Text(
               'Total Sampah Terkumpul (900 kg)',
@@ -41,6 +43,7 @@ class WargaHomePage extends StatelessWidget {
               ),
             ),
             _buildTotalSampah(context),
+            Container(),
             Text(
               'Riwayat',
               style: TextStyle(
@@ -105,7 +108,7 @@ class WargaHomePage extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -115,7 +118,7 @@ class WargaHomePage extends StatelessWidget {
                   spacing: 5,
                   children: [
                     Icon(
-                      Icons.wallet_rounded,
+                      Icons.eco_rounded,
                       color: Theme.of(context).colorScheme.background,
                       size: 20,
                     ),
@@ -147,7 +150,7 @@ class WargaHomePage extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -157,7 +160,7 @@ class WargaHomePage extends StatelessWidget {
                   spacing: 5,
                   children: [
                     Icon(
-                      Icons.wallet_rounded,
+                      Icons.shopping_bag_rounded,
                       color: Theme.of(context).colorScheme.background,
                       size: 20,
                     ),
