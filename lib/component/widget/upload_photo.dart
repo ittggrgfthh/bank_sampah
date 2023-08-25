@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
@@ -18,7 +19,7 @@ class UploadPhoto extends StatelessWidget {
         height: 152,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
+          shape: BoxShape.circle,
           border: Border.all(
             color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
           ),
@@ -27,14 +28,16 @@ class UploadPhoto extends StatelessWidget {
           builder: (context, state) {
             return Center(
                 child: state.profilePictureOption.fold(
-              () => Icon(
-                Icons.picture_in_picture_alt_rounded,
-                size: 100,
-                color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+              () => SvgPicture.asset(
+                'assets/images/no-image.svg',
+                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                height: 100,
               ),
-              (file) => Image.file(
-                file,
-                fit: BoxFit.cover,
+              (file) => ClipOval(
+                child: Image.file(
+                  file,
+                  fit: BoxFit.cover,
+                ),
               ),
             ));
           },

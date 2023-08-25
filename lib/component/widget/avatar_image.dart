@@ -5,6 +5,7 @@ class AvatarImage extends StatelessWidget {
   final String? photoUrl;
   final bool isLoading;
   final String? username;
+  final double? size;
   final void Function()? onTap;
 
   const AvatarImage({
@@ -12,14 +13,15 @@ class AvatarImage extends StatelessWidget {
     required this.photoUrl,
     required this.username,
     this.isLoading = false,
+    this.size = 32,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 32,
-      height: 32,
+      width: size,
+      height: size,
       child: Material(
         shape: const CircleBorder(),
         clipBehavior: Clip.antiAliasWithSaveLayer,
