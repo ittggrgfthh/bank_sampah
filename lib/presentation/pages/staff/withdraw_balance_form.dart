@@ -1,5 +1,7 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:bank_sampah/component/button/rounded_choice_button.dart';
+import 'package:bank_sampah/component/widget/avatar_image.dart';
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -51,7 +53,7 @@ class WithdrawBalanceForm extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              _buildHeader(context),
+              _buildHeader(context, user),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -120,7 +122,7 @@ class WithdrawBalanceForm extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, User user) {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -130,12 +132,14 @@ class WithdrawBalanceForm extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blueAccent),
-            child: const CircleAvatar(
-              backgroundColor: Colors.transparent,
-              child: Text('AR'),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: CColors.shadow),
+            ),
+            child: AvatarImage(
+              photoUrl: user.photoUrl,
+              username: user.fullName,
+              size: 100,
             ),
           ),
           const SizedBox(width: 10),
@@ -215,7 +219,7 @@ class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 2,
-      childAspectRatio: 5,
+      childAspectRatio: 3.5,
       mainAxisSpacing: 20,
       crossAxisSpacing: 20,
       children: List<Widget>.generate(

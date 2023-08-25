@@ -27,7 +27,10 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         children: [
           Container(
-            decoration: BoxDecoration(border: Border.all()),
+            decoration: BoxDecoration(
+              border: Border.all(color: CColors.shadow),
+              shape: BoxShape.circle,
+            ),
             child: AvatarImage(
               photoUrl: user.photoUrl,
               username: user.fullName,

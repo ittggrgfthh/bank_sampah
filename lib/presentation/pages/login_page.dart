@@ -133,6 +133,7 @@ class _LoginPageBody extends StatelessWidget {
                 context.read<SignInFormBloc>().add(const SignInFormEvent.signInButtonPressed());
               },
             ),
+            const SizedBox(height: 50),
           ],
         ),
       ),
