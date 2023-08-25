@@ -56,7 +56,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-          _ProfileListTile(title: 'Telepon', subtitle: user.phoneNumber, onTap: () {}),
+          _ProfileListTile(title: 'Telepon', subtitle: '+62 ${user.phoneNumber}', onTap: () {}),
           _ProfileListTile(title: 'Ganti Password', subtitle: 'diperbarui 29 Mei 2023', onTap: () {}),
           const SizedBox(height: 100),
           RoundedDangerButton(
