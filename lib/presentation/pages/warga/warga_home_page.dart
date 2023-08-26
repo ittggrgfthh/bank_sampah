@@ -52,6 +52,7 @@ class WargaHomePage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
+            _WargaListTile(),
           ],
         ),
       ),
@@ -187,6 +188,102 @@ class WargaHomePage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _WargaListTile extends StatelessWidget {
+  const _WargaListTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: CColors.shadow),
+      ),
+      child: ListTile(
+        title: Text(
+          '27 November 2023',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        subtitle: Row(
+          children: [
+            Icon(
+              Icons.eco_rounded,
+              size: 20,
+              color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+            ),
+            Text(
+              '100kg',
+              style: TextStyle(
+                color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 5),
+            Icon(
+              Icons.shopping_bag_rounded,
+              size: 20,
+              color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+            ),
+            Text(
+              '100kg',
+              style: TextStyle(
+                color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              'Rp221.000',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Staff Ech Ibang',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: CColors.shadow),
+                  ),
+                  child: const AvatarImage(
+                    photoUrl: '',
+                    username: 'ab',
+                    size: 16,
+                    fontSize: 9,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
