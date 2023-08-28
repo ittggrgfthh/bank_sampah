@@ -70,7 +70,6 @@ final router = GoRouter(
               builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
             GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.adminEditUserPath,
               name: AppRouterName.adminEditUserName,
               builder: (context, state) => AdminEditUserPage(user: state.extra as User),

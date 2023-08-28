@@ -1,3 +1,4 @@
+import 'package:bank_sampah/presentation/bloc/update_user_form/update_user_form_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -64,6 +65,8 @@ void init() {
   getIt.registerFactory(() => ReportBloc(getIt()));
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
   getIt.registerFactory(() => EditWastePriceHistoryBloc(getIt()));
+
+  getIt.registerFactory(() => UpdateUserFormBloc());
   // bloc - staff
   getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt()));
   getIt.registerFactory(() => TransactionHistoryBloc(getIt()));

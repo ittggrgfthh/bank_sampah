@@ -158,9 +158,14 @@ class AdminCreateUserPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        UploadPhoto(
-                          onTap: () =>
-                              context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.imagePickerOpened()),
+                        BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
+                          builder: (context, state) {
+                            return UploadPhoto(
+                              file: state.profilePictureOption,
+                              onTap: () =>
+                                  context.read<CreateUserFormBloc>().add(const CreateUserFormEvent.imagePickerOpened()),
+                            );
+                          },
                         ),
                       ],
                     ),
