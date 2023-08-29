@@ -24,9 +24,6 @@ class AdminEditUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _phoneNumberController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -56,13 +53,11 @@ class AdminEditUserPage extends StatelessWidget {
                 BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
                   buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                   builder: (context, state) {
-                    print(state);
-                    print(state.phoneNumber);
-                    print(user.phoneNumber);
+                    final TextEditingController phoneNumberController = TextEditingController();
                     String phoneNumber = state.phoneNumber.getOrElse((l) => '0');
-                    _phoneNumberController.text = phoneNumber;
+                    phoneNumberController.text = phoneNumber;
                     return PhoneField(
-                      controller: _phoneNumberController,
+                      controller: phoneNumberController,
                       suffixIcon: state.isPhoneNumberLoading
                           ? Padding(
                               padding: const EdgeInsets.all(5.0),
@@ -88,9 +83,13 @@ class AdminEditUserPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
-                  buildWhen: (previous, current) => previous.errorMessagesShown != current.errorMessagesShown,
+                  buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                   builder: (context, state) {
+                    final TextEditingController nameController = TextEditingController();
+                    String fullName = state.fullName.getOrElse((l) => 'kosong');
+                    nameController.text = fullName;
                     return NameField(
+                      controller: nameController,
                       onChanged: (value) {
                         context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.fullNameChanged(value));
                       },
@@ -122,30 +121,40 @@ class AdminEditUserPage extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: (MediaQuery.of(context).size.width / 2) - 25,
-                      child: Builder(builder: (context) {
-                        return RtrwField(
-                          label: 'RT',
-                          hintText: '005',
-                          helperText: '',
-                          onChanged: (value) {
-                            context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.rtChanged(value));
-                          },
-                        );
-                      }),
+                      child: BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                        builder: (context, state) {
+                          final TextEditingController rtController = TextEditingController();
+                          rtController.text = state.rt;
+                          return RtrwField(
+                            controller: rtController,
+                            label: 'RT',
+                            hintText: '005',
+                            helperText: '',
+                            onChanged: (value) {
+                              context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.rtChanged(value));
+                            },
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(width: 10),
                     SizedBox(
                       width: (MediaQuery.of(context).size.width / 2) - 25,
-                      child: Builder(builder: (context) {
-                        return RtrwField(
-                          label: 'RW',
-                          hintText: '007',
-                          helperText: '',
-                          onChanged: (value) {
-                            context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.rwChanged(value));
-                          },
-                        );
-                      }),
+                      child: BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                        builder: (context, state) {
+                          final TextEditingController rwController = TextEditingController();
+                          rwController.text = state.rw;
+                          return RtrwField(
+                            controller: rwController,
+                            label: 'RW',
+                            hintText: '007',
+                            helperText: '',
+                            onChanged: (value) {
+                              context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.rwChanged(value));
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -196,6 +205,7 @@ class AdminEditUserPage extends StatelessWidget {
                         const SizedBox(height: 10),
                         Builder(builder: (context) {
                           return RoleChoiceChip(
+                            initial: user.role,
                             onSelected: (selectedRole) {
                               context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.roleChanged(selectedRole));
                             },

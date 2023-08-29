@@ -30,4 +30,10 @@ class ConstantData {
     'Tegaron',
     'Wirogomo',
   ];
+
+  static final roles = <String>[
+    'warga',
+    'staff',
+    'admin',
+  ];
 }
