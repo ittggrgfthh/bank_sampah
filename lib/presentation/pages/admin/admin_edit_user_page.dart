@@ -121,6 +121,7 @@ class AdminEditUserPage extends StatelessWidget {
                 DropdownVillage(
                   onChanged: (village) => print(village),
                 ),
+                const SizedBox(height: 25),
                 Row(
                   children: [
                     SizedBox(
