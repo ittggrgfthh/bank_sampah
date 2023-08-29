@@ -3,7 +3,9 @@ import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
 import 'package:bank_sampah/injection.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:bank_sampah/presentation/bloc/warga_home/warga_home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
@@ -27,33 +29,36 @@ class WargaHomePage extends StatelessWidget {
           const SizedBox(width: 15),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Wrap(
-          runSpacing: 10,
-          children: [
-            Container(),
-            _buildSaldo(context),
-            Text(
-              'Total Sampah Terkumpul (900 kg)',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+      body: BlocProvider(
+        create: (context) => getIt<WargaHomeBloc>()..add(WargaHomeEvent.initialized(warga.id)),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Wrap(
+            runSpacing: 10,
+            children: [
+              Container(),
+              _buildSaldo(context),
+              Text(
+                'Total Sampah Terkumpul (900 kg)',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            _buildTotalSampah(context),
-            Container(),
-            Text(
-              'Riwayat',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+              _buildTotalSampah(context),
+              Container(),
+              Text(
+                'Riwayat',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            _WargaListTile(),
-          ],
+              _WargaListTile(),
+            ],
+          ),
         ),
       ),
     );
@@ -88,13 +93,18 @@ class WargaHomePage extends StatelessWidget {
               )
             ],
           ),
-          Text(
-            'Rp. 1.221.000',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.background,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
+          BlocBuilder<WargaHomeBloc, WargaHomeState>(
+            buildWhen: (previous, current) => previous.totalBalance != current.totalBalance,
+            builder: (context, state) {
+              return Text(
+                'Rp${state.totalBalance}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.background,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -133,13 +143,18 @@ class WargaHomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
-                  '791 Kg',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.background,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
+                BlocBuilder<WargaHomeBloc, WargaHomeState>(
+                  buildWhen: (previous, current) => previous.totalOrganic != current.totalOrganic,
+                  builder: (context, state) {
+                    return Text(
+                      '${state.totalOrganic} Kg',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.background,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -175,13 +190,18 @@ class WargaHomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
-                  '791 Kg',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.background,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
+                BlocBuilder<WargaHomeBloc, WargaHomeState>(
+                  buildWhen: (previous, current) => previous.totalInorganic != current.totalInorganic,
+                  builder: (context, state) {
+                    return Text(
+                      '${state.totalInorganic} Kg',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.background,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

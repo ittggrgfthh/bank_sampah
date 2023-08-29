@@ -1,4 +1,3 @@
-import 'package:bank_sampah/presentation/bloc/update_user_form/update_user_form_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -18,35 +17,9 @@ import 'domain/repositories/auth_facade.dart';
 import 'domain/repositories/transaction_repository.dart';
 import 'domain/repositories/user_repository.dart';
 import 'domain/repositories/waste_price_repository.dart';
-import 'domain/usecase/admin/create_waste_price.dart';
-import 'domain/usecase/admin/get_all_user_by_role.dart';
-import 'domain/usecase/admin/get_current_waste_price.dart';
-import 'domain/usecase/admin/get_waste_prices.dart';
-import 'domain/usecase/create_user.dart';
-import 'domain/usecase/create_user_profile.dart';
-import 'domain/usecase/get_signed_in_user.dart';
-import 'domain/usecase/get_user_by_id.dart';
-import 'domain/usecase/get_user_by_phone_number.dart';
-import 'domain/usecase/get_user_profile.dart';
-import 'domain/usecase/pick_image.dart';
-import 'domain/usecase/sign_out.dart';
-import 'domain/usecase/signin_with_phone_number_and_password.dart';
-import 'domain/usecase/staff/create_waste_transaction.dart';
-import 'domain/usecase/staff/get_transaction_by_time_span.dart';
-import 'domain/usecase/staff/get_transactions_by_staff_id.dart';
-import 'domain/usecase/staff/update_waste_transaction.dart';
-import 'domain/usecase/upload_profile_picture.dart';
-import 'presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'presentation/bloc/create_user_form/create_user_form_bloc.dart';
-import 'presentation/bloc/edit_store_waste_form/edit_store_waste_form_bloc.dart';
-import 'presentation/bloc/edit_waste_price/edit_waste_price_bloc.dart';
-import 'presentation/bloc/edit_waste_price_history/edit_waste_price_history_bloc.dart';
-import 'presentation/bloc/list_user/list_user_bloc.dart';
-import 'presentation/bloc/report/report_bloc.dart';
-import 'presentation/bloc/signin_form_bloc/signin_form_bloc.dart';
-import 'presentation/bloc/store_waste_form/store_waste_form_bloc.dart';
-import 'presentation/bloc/transaction_history/transaction_history_bloc.dart';
-import 'presentation/bloc/withdraw_balance_form/withdraw_balance_form_bloc.dart';
+
+import 'domain/usecase/usecase.dart';
+import 'presentation/bloc/bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -72,6 +45,8 @@ void init() {
   getIt.registerFactory(() => TransactionHistoryBloc(getIt()));
   getIt.registerFactory(() => EditStoreWasteFormBloc(getIt()));
   getIt.registerFactory(() => WithdrawBalanceFormBloc(getIt()));
+  // bloc - warga
+  getIt.registerFactory(() => WargaHomeBloc(getIt(), getIt()));
 
   // usecase
   getIt.registerLazySingleton(() => GetUserProfile(getIt()));
@@ -96,6 +71,7 @@ void init() {
   getIt.registerLazySingleton(() => GetTransactionsByStaffId(getIt()));
   getIt.registerLazySingleton(() => GetTransactionsByTimeSpan(getIt()));
   getIt.registerLazySingleton(() => UpdateWasteTransaction(getIt()));
+  getIt.registerLazySingleton(() => GetTransactionsByUserId(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));

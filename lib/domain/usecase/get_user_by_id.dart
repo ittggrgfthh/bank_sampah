@@ -9,7 +9,7 @@ class GetUserById {
 
   final UserRepository _userRepository;
 
-  Future<Either<Failure, User?>> call(String userId) {
+  Future<Either<Failure, User>> call(String userId) {
     return _userRepository.getUserById(userId);
   }
 }
