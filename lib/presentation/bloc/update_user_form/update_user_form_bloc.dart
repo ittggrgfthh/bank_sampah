@@ -10,9 +10,12 @@ import 'package:http/http.dart' as http;
 import '../../../core/failures/failure.dart';
 import '../../../core/failures/value_failure.dart';
 import '../../../core/utils/value_validators.dart';
+import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/entities/waste.dart';
 import '../../../domain/usecase/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
+import '../../../domain/usecase/upload_profile_picture.dart';
 
 part 'update_user_form_event.dart';
 part 'update_user_form_state.dart';
@@ -21,10 +24,12 @@ part 'update_user_form_bloc.freezed.dart';
 class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> {
   final PickImage pickImage;
   final GetUserByPhoneNumber getUserByPhoneNumber;
+  final UploadProfilePicture uploadProfilePicture;
 
   UpdateUserFormBloc(
     this.pickImage,
     this.getUserByPhoneNumber,
+    this.uploadProfilePicture,
   ) : super(UpdateUserFormState.initial()) {
     on<UpdateUserFormEvent>((event, emit) async {
       await event.when(
@@ -41,6 +46,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
             role: user.role,
             rt: user.rt,
             rw: user.rw,
+            user: optionOf(user),
             isLoading: false,
           ));
         },
@@ -90,7 +96,76 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
         rwChanged: (rw) async {
           emit(state.copyWith(rw: rw));
         },
-        submitButtonPressed: () async {},
+        submitButtonPressed: () async {
+          final isPhoneNumberValid = state.phoneNumber.isRight();
+          final isPasswordValid = state.password.isRight();
+          final isFullNameValid = state.fullName.isRight();
+
+          Either<Failure, String>? failureOrPath;
+          Either<Failure, User>? failureOrSuccess;
+          late User updatedUser;
+
+          if (isPhoneNumberValid && isPasswordValid && isFullNameValid) {
+            emit(state.copyWith(isSubmitting: true, failureOrSuccessOption: none()));
+
+            final phoneNumber = state.phoneNumber.getOrElse((l) => '');
+            final fullName = state.fullName.getOrElse((l) => '');
+            final password = state.password.getOrElse((l) => '');
+            final role = state.role;
+            final rt = state.rt;
+            final rw = state.rw;
+            final user = state.user.toNullable();
+            final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
+
+            updatedUser = User(
+              id: user!.id,
+              phoneNumber: phoneNumber,
+              fullName: fullName,
+              role: role,
+              password: password,
+              pointBalance: PointBalance(
+                userId: user.id,
+                currentBalance: 0,
+                waste: const Waste(
+                  organic: 0,
+                  inorganic: 0,
+                ),
+              ),
+              rt: rt,
+              rw: rw,
+              createdAt: user.createdAt,
+              updatedAt: dateNowEpoch,
+            );
+
+            if (state.profilePictureOption.isSome()) {
+              final picture = state.profilePictureOption.toNullable()!;
+
+              failureOrPath = await uploadProfilePicture(
+                picture: picture,
+                userId: user.id,
+              );
+
+              if (failureOrPath.isLeft()) {
+                emit(state.copyWith(
+                  isSubmitting: false,
+                  errorMessagesShown: true,
+                  failureOrSuccessOption: optionOf(
+                    left<Failure, User>(failureOrPath.getLeft().toNullable()!),
+                  ),
+                ));
+                return;
+              }
+              updatedUser = updatedUser.copyWith(photoUrl: failureOrPath.getRight().toNullable());
+            }
+            //send user to update
+          }
+
+          emit(state.copyWith(
+            isSubmitting: false,
+            errorMessagesShown: true,
+            failureOrSuccessOption: optionOf(failureOrSuccess),
+          ));
+        },
       );
     });
   }

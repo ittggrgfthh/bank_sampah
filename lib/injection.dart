@@ -66,7 +66,7 @@ void init() {
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
   getIt.registerFactory(() => EditWastePriceHistoryBloc(getIt()));
 
-  getIt.registerFactory(() => UpdateUserFormBloc(getIt(), getIt()));
+  getIt.registerFactory(() => UpdateUserFormBloc(getIt(), getIt(), getIt()));
   // bloc - staff
   getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt()));
   getIt.registerFactory(() => TransactionHistoryBloc(getIt()));
