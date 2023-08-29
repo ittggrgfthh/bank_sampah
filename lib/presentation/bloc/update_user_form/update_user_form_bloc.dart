@@ -11,13 +11,21 @@ import '../../../core/failures/failure.dart';
 import '../../../core/failures/value_failure.dart';
 import '../../../core/utils/value_validators.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/usecase/get_user_by_phone_number.dart';
+import '../../../domain/usecase/pick_image.dart';
 
 part 'update_user_form_event.dart';
 part 'update_user_form_state.dart';
 part 'update_user_form_bloc.freezed.dart';
 
 class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> {
-  UpdateUserFormBloc() : super(UpdateUserFormState.initial()) {
+  final PickImage pickImage;
+  final GetUserByPhoneNumber getUserByPhoneNumber;
+
+  UpdateUserFormBloc(
+    this.pickImage,
+    this.getUserByPhoneNumber,
+  ) : super(UpdateUserFormState.initial()) {
     on<UpdateUserFormEvent>((event, emit) async {
       await event.when(
         initial: (user) async {
@@ -36,13 +44,52 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
             isLoading: false,
           ));
         },
-        imagePickerOpened: () async {},
-        phoneNumberChanged: (phoneNumber) async {},
-        fullNameChanged: (fullName) async {},
-        roleChanged: (role) async {},
-        passwordChanged: (password) async {},
-        rtChanged: (rt) async {},
-        rwChanged: (rw) async {},
+        imagePickerOpened: () async {
+          final picture = await pickImage();
+
+          final profilPictureOption = state.profilePictureOption.fold(
+            () => optionOf(picture),
+            (oldPicture) => optionOf(picture ?? oldPicture),
+          );
+          emit(state.copyWith(profilePictureOption: profilPictureOption));
+        },
+        phoneNumberChanged: (phoneNumber) async {
+          if (phoneNumber.length >= 11) {
+            emit(state.copyWith(isPhoneNumberLoading: true));
+            final failureOrSuccess = await getUserByPhoneNumber(phoneNumber);
+
+            failureOrSuccess.fold(
+              (failure) {
+                emit(state.copyWith(
+                    isPhoneNumberLoading: false,
+                    phoneNumber: validatePhoneNumber(phoneNumber, false),
+                    isPhoneNumberExists: false));
+                print(phoneNumber);
+              },
+              (user) {
+                emit(state.copyWith(
+                    isPhoneNumberLoading: false,
+                    phoneNumber: validatePhoneNumber(phoneNumber, true),
+                    isPhoneNumberExists: true));
+              },
+            );
+          }
+        },
+        fullNameChanged: (fullName) async {
+          emit(state.copyWith(fullName: validateName(fullName)));
+        },
+        roleChanged: (role) async {
+          emit(state.copyWith(role: role));
+        },
+        passwordChanged: (password) async {
+          emit(state.copyWith(password: validatePassword(password, 8)));
+        },
+        rtChanged: (rt) async {
+          emit(state.copyWith(rt: rt));
+        },
+        rwChanged: (rw) async {
+          emit(state.copyWith(rw: rw));
+        },
         submitButtonPressed: () async {},
       );
     });
@@ -54,7 +101,21 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
     ByteData byteData = ByteData.view(buffer);
 
     final tempDir = await getTemporaryDirectory();
-    final tempFile = File('${tempDir.path}/temp_image.jpg');
+    final tempFiles = tempDir.listSync().whereType<File>().toList();
+    const maxTempFiles = 100; // Set your desired file limit here
+
+    // Delete older files if the file limit is exceeded
+    if (tempFiles.length >= maxTempFiles) {
+      tempFiles.sort((a, b) => a.lastModifiedSync().compareTo(b.lastModifiedSync()));
+      final filesToDelete = tempFiles.sublist(0, tempFiles.length - maxTempFiles + 1);
+      for (final file in filesToDelete) {
+        await file.delete();
+      }
+    }
+
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final tempFile = File('${tempDir.path}/temp_image_$timestamp.jpg');
+
     await tempFile.writeAsBytes(buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     return tempFile;

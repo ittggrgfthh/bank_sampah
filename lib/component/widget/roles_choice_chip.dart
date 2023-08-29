@@ -21,7 +21,7 @@ class RoleChoiceChip extends StatefulWidget {
 
 class _RoleChoiceChipState extends State<RoleChoiceChip> {
   final roles = ConstantData.roles;
-  String choicedRole = 'warga';
+  late String choicedRole = widget.initial!;
 
   final textColor = <Color>[
     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
@@ -31,7 +31,6 @@ class _RoleChoiceChipState extends State<RoleChoiceChip> {
 
   @override
   Widget build(BuildContext context) {
-    choicedRole = widget.initial!;
     return Wrap(
       direction: Axis.vertical,
       spacing: 10,

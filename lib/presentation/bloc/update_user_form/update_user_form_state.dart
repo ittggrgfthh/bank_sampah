@@ -3,6 +3,7 @@ part of 'update_user_form_bloc.dart';
 @freezed
 class UpdateUserFormState with _$UpdateUserFormState {
   const factory UpdateUserFormState({
+    required Option<User> user,
     required Option<File> profilePictureOption,
     required Either<ValueFailure<String>, String> phoneNumber,
     required bool isPhoneNumberLoading,
@@ -19,6 +20,7 @@ class UpdateUserFormState with _$UpdateUserFormState {
   }) = _UpdateUserFormState;
 
   factory UpdateUserFormState.initial() => UpdateUserFormState(
+        user: none(),
         profilePictureOption: none(),
         phoneNumber: validatePhoneNumber('', false),
         isPhoneNumberLoading: false,
