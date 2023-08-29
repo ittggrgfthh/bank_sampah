@@ -59,14 +59,18 @@ dependencies:
 
 # splash screen
 flutter_native_splash:
+  web: false
+
   color: "#F8FDFF"
   color_dark: "#020617"
   image: "assets/images/splash-screen.png"
-  android: true
-  ios: true
-  web: true
+  image_dark: "assets/images/splash-screen.png"
+
   android_12:
     image: "assets/images/splash-screen.png"
+    image_dark: "assets/images/splash-screen.png"
+    color: "#F8FDFF"
+    color_dark: "#020617"
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +88,15 @@ dev_dependencies:
 
   # json
   json_serializable: ^6.7.1
+
+  # launcher icon
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/tong-sampah.png"
+  remove_alpha_ios: true
 
 # flutter_gen:
 #   output: lib/core/gen/ # Optional (default: lib/gen/)
