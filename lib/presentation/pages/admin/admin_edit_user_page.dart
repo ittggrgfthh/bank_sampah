@@ -9,6 +9,7 @@ import '../../../component/field/name_field.dart';
 import '../../../component/field/password_field.dart';
 import '../../../component/field/phone_field.dart';
 import '../../../component/field/rtrw_field.dart';
+import '../../../component/widget/dropdown_village.dart';
 import '../../../component/widget/roles_choice_chip.dart';
 import '../../../component/widget/upload_photo.dart';
 import '../../../core/constant/colors.dart';
@@ -116,6 +117,9 @@ class AdminEditUserPage extends StatelessWidget {
                       },
                     );
                   },
+                ),
+                DropdownVillage(
+                  onChanged: (village) => print(village),
                 ),
                 Row(
                   children: [
