@@ -36,7 +36,7 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
     final userDocRef = _firestore.userDocRef(transaction.user.id);
     final pointBalanceDocRef = _firestore.pointBalanceDocRef(transaction.user.id);
 
-    final newTransaction = transaction.copyWith(id: 'transaction_${AppHelper.v4UUIDWithoutDashes()}');
+    final newTransaction = transaction.copyWith(id: 'transaction_${AppHelper.v1UUIDWithoutDashes()}');
     final transactionDocRef = _firestore.transactionDocRef(newTransaction.id);
 
     try {

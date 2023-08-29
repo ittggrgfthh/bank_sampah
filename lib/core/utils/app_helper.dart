@@ -4,11 +4,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:uuid/uuid.dart';
 
 class AppHelper {
-  static String v4UUIDWithoutDashes() {
+  static String v1UUIDWithoutDashes() {
     const uuid = Uuid();
-    final v4 = uuid.v4();
-    final v4WithoutDashes = v4.replaceAll('-', '');
-    return v4WithoutDashes;
+    final v1 = uuid.v1();
+    // final v1WithoutDashes = v1.replaceAll('-', '');
+    // return v1WithoutDashes;
+    return v1;
   }
 
   static String hashPassword(String password) {

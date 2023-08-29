@@ -28,7 +28,7 @@ class WastePriceRemoteDataSourceImpl implements WastePriceRemoteDataSource {
 
   @override
   Future<void> createWastePrice(WastePriceModel wastePriceModel) async {
-    final newWastePriceModel = wastePriceModel.copyWith(id: 'waste_price_${AppHelper.v4UUIDWithoutDashes()}');
+    final newWastePriceModel = wastePriceModel.copyWith(id: 'waste_price_${AppHelper.v1UUIDWithoutDashes()}');
     try {
       await _firestore.wastePriceDocRef(newWastePriceModel.id).set(newWastePriceModel.toJson());
     } catch (e) {
