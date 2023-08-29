@@ -9,5 +9,6 @@ class CreateUserFormEvent with _$CreateUserFormEvent {
   const factory CreateUserFormEvent.passwordChanged(String password) = _PasswordChanged;
   const factory CreateUserFormEvent.rtChanged(String rt) = _RtChanged;
   const factory CreateUserFormEvent.rwChanged(String rw) = _RwChanged;
+  const factory CreateUserFormEvent.villageChanged(String village) = _VillageChanged;
   const factory CreateUserFormEvent.submitButtonPressed() = _SubmitButtonPressed;
 }

@@ -19,6 +19,7 @@ class User with _$User {
     required int createdAt,
     required int updatedAt,
     int? lastTransactionEpoch,
+    String? village,
   }) = _User;
 
   const User._();

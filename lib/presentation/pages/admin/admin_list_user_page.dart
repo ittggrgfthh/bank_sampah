@@ -1,6 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:bank_sampah/component/widget/avatar_image.dart';
-import 'package:bank_sampah/presentation/pages/admin/admin_create_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +21,6 @@ class AdminListUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final admin = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return BlocProvider(
       create: (context) => getIt<CreateUserFormBloc>(),
@@ -62,16 +60,7 @@ class AdminListUserPage extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return AdminCreateUserPage(formkey: formKey);
-                  },
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-                );
+                context.goNamed(AppRouterName.adminCreateUserName);
               },
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               backgroundColor: Theme.of(context).colorScheme.primary,

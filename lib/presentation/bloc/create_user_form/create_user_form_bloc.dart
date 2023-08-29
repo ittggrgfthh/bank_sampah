@@ -41,6 +41,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         passwordChanged: (password) => _handlePasswordChanged(emit, password),
         rtChanged: (rt) => _handleRtChaged(emit, rt),
         rwChanged: (rw) => _handleRwChanged(emit, rw),
+        villageChanged: (village) => _handleVillageChanged(emit, village),
         submitButtonPressed: () => _handleSubmitButtonPressed(emit),
       );
     });
@@ -96,6 +97,10 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
     emit(state.copyWith(rw: rw));
   }
 
+  Future<void> _handleVillageChanged(Emitter<CreateUserFormState> emit, String village) async {
+    emit(state.copyWith(village: village));
+  }
+
   Future<void> _handleSubmitButtonPressed(Emitter<CreateUserFormState> emit) async {
     final isPhoneNumberValid = state.phoneNumber.isRight();
     final isPasswordValid = state.password.isRight();
@@ -117,6 +122,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final role = state.role;
       final rt = state.rt;
       final rw = state.rw;
+      final village = state.village;
       final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
       final userId = 'user_${AppHelper.v4UUIDWithoutDashes()}';
 
@@ -137,6 +143,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         ),
         rt: rt,
         rw: rw,
+        village: village,
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       );
