@@ -3,8 +3,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../core/utils/date_time_converter.dart';
-import '../../../core/utils/number_converter.dart';
 import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste.dart';
@@ -45,8 +45,8 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         failure: none(),
         user: optionOf(user),
         wastePrice: optionOf(currentWastePrice),
-        priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
-        priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
+        priceOrganic: AppHelper.formatToThousandsInt(currentWastePrice.organic),
+        priceInorganic: AppHelper.formatToThousandsInt(currentWastePrice.inorganic),
         isChange: false,
         currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(currentWastePrice.createdAt),
         currentAdminFullName: currentWastePrice.admin.id == user.id ? 'Anda' : currentWastePrice.admin.fullName!,
@@ -117,8 +117,8 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
     );
     final newWastePrice = wastePrice.copyWith(
       id: 'id',
-      organic: NumberConverter.parseToInteger(state.priceOrganic),
-      inorganic: NumberConverter.parseToInteger(state.priceInorganic),
+      organic: AppHelper.parseToInteger(state.priceOrganic),
+      inorganic: AppHelper.parseToInteger(state.priceInorganic),
       createdAt: dateNowEpoch,
       admin: admin,
     );

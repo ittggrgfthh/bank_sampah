@@ -1,5 +1,6 @@
-import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/constant/colors.dart';
 
 class RoundedWarningButton extends StatelessWidget {
   final VoidCallback? buttonTask;
@@ -21,8 +22,7 @@ class RoundedWarningButton extends StatelessWidget {
               const Size.fromHeight(45),
             ),
             shape: MaterialStateProperty.all<OutlinedBorder>(
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
             ),
           ),
         ),

@@ -1,6 +1,6 @@
-import 'package:bank_sampah/domain/entities/waste_price.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../domain/entities/waste_price.dart';
 import 'user_model.dart';
 
 part 'waste_price_model.freezed.dart';

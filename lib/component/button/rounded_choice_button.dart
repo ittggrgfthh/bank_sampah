@@ -1,6 +1,7 @@
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/constant/colors.dart';
+import '../../core/constant/theme.dart';
 
 class RoundedChoiceButton extends StatelessWidget {
   final VoidCallback? onPressed;

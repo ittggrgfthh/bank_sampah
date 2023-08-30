@@ -1,7 +1,7 @@
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
+
+import '../string_extension.dart';
 
 class CustomNumberFormatter extends TextInputFormatter {
   @override

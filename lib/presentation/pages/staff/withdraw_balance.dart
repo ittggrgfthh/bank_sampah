@@ -1,12 +1,12 @@
-import 'package:bank_sampah/component/widget/avatar_image.dart';
-import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/withdraw_balance_list_tile.dart';
+import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
-import '../../../core/utils/currency_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../core/utils/date_time_converter.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
@@ -53,7 +53,7 @@ class WithdrawBalance extends StatelessWidget {
                     photoUrl: users[index].photoUrl,
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
-                    trailing: ['Saldo', CurrencyConverter.intToIDR(users[index].pointBalance.currentBalance)],
+                    trailing: ['Saldo', AppHelper.intToIDR(users[index].pointBalance.currentBalance)],
                     onTap: () => context.goNamed(AppRouterName.staffWithdrawName, extra: users[index]),
                     enabled: users[index].pointBalance.currentBalance > 0 &&
                         (users[index].lastTransactionEpoch == null ||

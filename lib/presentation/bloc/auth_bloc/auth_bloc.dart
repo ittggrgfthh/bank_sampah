@@ -6,12 +6,12 @@ import '../../../core/constant/unauthenticated_reason.dart';
 import '../../../core/failures/failure.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecase/get_signed_in_user.dart';
-import '../../../domain/usecase/sign_out.dart';
 import '../../../domain/usecase/get_user_by_id.dart';
+import '../../../domain/usecase/sign_out.dart';
 
+part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
-part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetSignedInUser getSignedInUser;
@@ -49,8 +49,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                     },
                     (userProfile) {
                       final mergedUser = user.copyWith(
-                        fullName: userProfile?.fullName,
-                        photoUrl: userProfile?.photoUrl,
+                        fullName: userProfile.fullName,
+                        photoUrl: userProfile.photoUrl,
                       );
                       emit(AuthState.authenticated(mergedUser));
                     },

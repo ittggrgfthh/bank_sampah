@@ -3,7 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
-import '../../../core/utils/number_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/report.dart';
 import '../../../domain/entities/waste.dart';
 import '../../../domain/usecase/staff/get_transaction_by_time_span.dart';
@@ -116,12 +116,12 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
           isLoading: false,
           failure: none(),
           report: optionOf(report),
-          totalInorganic: NumberConverter.formatToThousandsInt(totalInorganic),
-          totalOrganic: NumberConverter.formatToThousandsInt(totalOrganic),
-          totalOrganicBalance: NumberConverter.formatToThousandsInt(totalOrganicBalance),
-          totalInorganicBalance: NumberConverter.formatToThousandsInt(totalInorganicBalance),
-          totalWasteStored: NumberConverter.formatToThousandsInt(totalWasteStored),
-          totalWithdrawBalance: NumberConverter.formatToThousandsInt(withdrawBalance),
+          totalInorganic: AppHelper.formatToThousandsInt(totalInorganic),
+          totalOrganic: AppHelper.formatToThousandsInt(totalOrganic),
+          totalOrganicBalance: AppHelper.formatToThousandsInt(totalOrganicBalance),
+          totalInorganicBalance: AppHelper.formatToThousandsInt(totalInorganicBalance),
+          totalWasteStored: AppHelper.formatToThousandsInt(totalWasteStored),
+          totalWithdrawBalance: AppHelper.formatToThousandsInt(withdrawBalance),
         ));
       },
     );

@@ -1,11 +1,11 @@
-import 'package:bank_sampah/domain/usecase/get_user_by_id.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
-import '../../../core/utils/number_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/transaction_waste.dart';
+import '../../../domain/usecase/get_user_by_id.dart';
 import '../../../domain/usecase/user/get_transactions_by_user_id.dart';
 
 part 'warga_home_bloc.freezed.dart';
@@ -42,10 +42,10 @@ class WargaHomeBloc extends Bloc<WargaHomeEvent, WargaHomeState> {
           final totalInorganic = user.pointBalance.waste.inorganic;
           final totalWasteStored = totalOrganic + totalInorganic;
           emit(state.copyWith(
-            totalBalance: NumberConverter.formatToThousandsInt(user.pointBalance.currentBalance),
-            totalOrganic: NumberConverter.formatToThousandsInt(totalOrganic),
-            totalInorganic: NumberConverter.formatToThousandsInt(totalInorganic),
-            totalWasteStored: NumberConverter.formatToThousandsInt(totalWasteStored),
+            totalBalance: AppHelper.formatToThousandsInt(user.pointBalance.currentBalance),
+            totalOrganic: AppHelper.formatToThousandsInt(totalOrganic),
+            totalInorganic: AppHelper.formatToThousandsInt(totalInorganic),
+            totalWasteStored: AppHelper.formatToThousandsInt(totalWasteStored),
           ));
         }
         emit(state.copyWith(

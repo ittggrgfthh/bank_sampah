@@ -1,15 +1,15 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:bank_sampah/component/button/rounded_choice_button.dart';
-import 'package:bank_sampah/component/widget/avatar_image.dart';
-import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../component/button/rounded_choice_button.dart';
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/money_field.dart';
-import '../../../core/constant/constant_data.dart';
+import '../../../component/widget/avatar_image.dart';
+import '../../../core/constant/colors.dart';
+import '../../../core/constant/default_data.dart';
 import '../../../domain/entities/user.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
@@ -223,15 +223,15 @@ class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
       mainAxisSpacing: 20,
       crossAxisSpacing: 20,
       children: List<Widget>.generate(
-        ConstantData.withdrawChoice.length,
+        DefaultData.withdrawChoice.length,
         (index) => RoundedChoiceButton(
-          name: getIt<NumberFormat>().format(ConstantData.withdrawChoice[index]),
+          name: getIt<NumberFormat>().format(DefaultData.withdrawChoice[index]),
           selected: selectedChoice == index,
-          onPressed: widget.balance < ConstantData.withdrawChoice[index]
+          onPressed: widget.balance < DefaultData.withdrawChoice[index]
               ? null
               : () => setState(() {
                     selectedChoice = index;
-                    widget.onSelected?.call(ConstantData.withdrawChoice[index]);
+                    widget.onSelected?.call(DefaultData.withdrawChoice[index]);
                   }),
         ),
       ),

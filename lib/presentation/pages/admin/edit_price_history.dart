@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../component/widget/transaction_histry_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
-import '../../../core/utils/currency_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../core/utils/date_time_converter.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
@@ -50,12 +50,12 @@ class EditPriceHistory extends StatelessWidget {
                       subtitle: Row(
                         children: [
                           RowSubtitle(
-                            text: CurrencyConverter.intToIDR(editWastePriceHistory[index].organic),
+                            text: AppHelper.intToIDR(editWastePriceHistory[index].organic),
                             icon: Icons.eco_rounded,
                             color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
                           ),
                           RowSubtitle(
-                            text: CurrencyConverter.intToIDR(editWastePriceHistory[index].inorganic),
+                            text: AppHelper.intToIDR(editWastePriceHistory[index].inorganic),
                             icon: Icons.shopping_bag_rounded,
                             color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
                           ),

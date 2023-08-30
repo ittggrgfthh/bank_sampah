@@ -1,10 +1,9 @@
-import 'package:bank_sampah/domain/entities/transaction_waste.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
-import 'package:bank_sampah/domain/entities/waste.dart';
-import 'package:bank_sampah/domain/entities/waste_price.dart';
-
 import '../../domain/entities/point_balance.dart';
 import '../../domain/entities/report.dart';
+import '../../domain/entities/transaction_waste.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/entities/waste.dart';
+import '../../domain/entities/waste_price.dart';
 
 class DummyData {
   static final dummyUser = <User>[

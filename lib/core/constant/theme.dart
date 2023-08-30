@@ -1,6 +1,7 @@
-import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
+import 'colors.dart';
 
 class MyTheme {
   static bool isDarkMode = SchedulerBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;

@@ -1,14 +1,14 @@
-import 'package:bank_sampah/domain/usecase/admin/get_all_user_by_role.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/usecase/admin/get_all_user_by_role.dart';
 
+part 'list_user_bloc.freezed.dart';
 part 'list_user_event.dart';
 part 'list_user_state.dart';
-part 'list_user_bloc.freezed.dart';
 
 class ListUserBloc extends Bloc<ListUserEvent, ListUserState> {
   final GetAllUserByRole _getAllUserByRole;

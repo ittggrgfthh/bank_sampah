@@ -1,18 +1,17 @@
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
-import 'package:bank_sampah/core/routing/router.dart';
-import 'package:bank_sampah/core/utils/currency_converter.dart';
-import 'package:bank_sampah/core/utils/date_time_converter.dart';
-import 'package:bank_sampah/domain/entities/transaction_waste.dart';
-import 'package:bank_sampah/injection.dart';
-import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:bank_sampah/presentation/bloc/update_user_form/update_user_form_bloc.dart';
-import 'package:bank_sampah/presentation/bloc/warga_home/warga_home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
+import '../../../core/constant/colors.dart';
+import '../../../core/constant/theme.dart';
+import '../../../core/routing/router.dart';
+import '../../../core/utils/app_helper.dart';
+import '../../../core/utils/date_time_converter.dart';
+import '../../../domain/entities/transaction_waste.dart';
+import '../../../injection.dart';
+import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/warga_home/warga_home_bloc.dart';
 
 class WargaHomePage extends StatelessWidget {
   const WargaHomePage({super.key});
@@ -326,8 +325,8 @@ class _WargaListTile extends StatelessWidget {
           children: [
             Text(
               transaction.storeWaste != null
-                  ? CurrencyConverter.intToIDR(transaction.storeWaste!.earnedBalance)
-                  : CurrencyConverter.intToIDR(transaction.withdrawnBalance!.withdrawn),
+                  ? AppHelper.intToIDR(transaction.storeWaste!.earnedBalance)
+                  : '-${AppHelper.intToIDR(transaction.withdrawnBalance!.withdrawn)}',
               style: TextStyle(
                 color: transaction.storeWaste != null
                     ? Theme.of(context).colorScheme.primary

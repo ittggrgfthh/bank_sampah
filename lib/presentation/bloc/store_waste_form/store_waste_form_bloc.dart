@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/constant/default_data.dart';
 import '../../../core/failures/failure.dart';
-import '../../../core/utils/number_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../domain/entities/user.dart';
@@ -49,8 +49,8 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
       (currentWastePrice) async => emit(state.copyWith(
         isLoading: false,
         failure: none(),
-        priceInorganic: NumberConverter.formatToThousandsInt(currentWastePrice.inorganic),
-        priceOrganic: NumberConverter.formatToThousandsInt(currentWastePrice.organic),
+        priceInorganic: AppHelper.formatToThousandsInt(currentWastePrice.inorganic),
+        priceOrganic: AppHelper.formatToThousandsInt(currentWastePrice.organic),
         transaction: optionOf(defaultTransaction.copyWith.storeWaste?.call(
           wastePrice: currentWastePrice,
         )),
@@ -62,14 +62,14 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     required String organicWeight,
     required String inorganicWeight,
   }) {
-    final priceOrganicInt = NumberConverter.parseToInteger(state.priceOrganic);
-    final priceInorganicInt = NumberConverter.parseToInteger(state.priceInorganic);
+    final priceOrganicInt = AppHelper.parseToInteger(state.priceOrganic);
+    final priceInorganicInt = AppHelper.parseToInteger(state.priceInorganic);
 
-    final organicWeightInt = NumberConverter.parseToInteger(organicWeight);
-    final inorganicWeightInt = NumberConverter.parseToInteger(inorganicWeight);
+    final organicWeightInt = AppHelper.parseToInteger(organicWeight);
+    final inorganicWeightInt = AppHelper.parseToInteger(inorganicWeight);
 
     final newEarnedBalance = (priceOrganicInt * organicWeightInt) + (priceInorganicInt * inorganicWeightInt);
-    return NumberConverter.formatToThousandsInt(newEarnedBalance);
+    return AppHelper.formatToThousandsInt(newEarnedBalance);
   }
 
   Future<void> _handleOrganicWeightChanged(Emitter<StoreWasteFormState> emit, String organicWeight) async {
@@ -98,10 +98,10 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     return transaction.user.copyWith(
       pointBalance: PointBalance(
         userId: transaction.user.id,
-        currentBalance: transaction.user.pointBalance.currentBalance + NumberConverter.parseToInteger(earnedBalance),
+        currentBalance: transaction.user.pointBalance.currentBalance + AppHelper.parseToInteger(earnedBalance),
         waste: Waste(
-          organic: transaction.user.pointBalance.waste.organic + NumberConverter.parseToInteger(organicWeight),
-          inorganic: transaction.user.pointBalance.waste.inorganic + NumberConverter.parseToInteger(inorganicWeight),
+          organic: transaction.user.pointBalance.waste.organic + AppHelper.parseToInteger(organicWeight),
+          inorganic: transaction.user.pointBalance.waste.inorganic + AppHelper.parseToInteger(inorganicWeight),
         ),
       ),
       lastTransactionEpoch: lastTransactionEpoch,
@@ -115,10 +115,10 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     required String priceInorganic,
     required WastePrice wastePrice,
   }) {
-    int organicWeightInt = NumberConverter.parseToInteger(organicWeight);
-    int inorganicWeightInt = NumberConverter.parseToInteger(inorganicWeight);
-    int priceOrganicInt = NumberConverter.parseToInteger(priceOrganic);
-    int priceInorganicInt = NumberConverter.parseToInteger(priceInorganic);
+    int organicWeightInt = AppHelper.parseToInteger(organicWeight);
+    int inorganicWeightInt = AppHelper.parseToInteger(inorganicWeight);
+    int priceOrganicInt = AppHelper.parseToInteger(priceOrganic);
+    int priceInorganicInt = AppHelper.parseToInteger(priceInorganic);
 
     int organicBalanceInt = organicWeightInt * priceOrganicInt;
     int inorganicBalanceInt = inorganicWeightInt * priceInorganicInt;

@@ -1,7 +1,8 @@
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/constant_data.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/constant/colors.dart';
+import '../../core/constant/default_data.dart';
+import '../../core/constant/theme.dart';
 
 class DropdownVillage extends StatefulWidget {
   final String? initial;
@@ -13,8 +14,8 @@ class DropdownVillage extends StatefulWidget {
 }
 
 class _DropdownVillageState extends State<DropdownVillage> {
-  final villages = ConstantData.village;
-  late String valueVillage = widget.initial ?? ConstantData.village.first;
+  final villages = DefaultData.village;
+  late String valueVillage = widget.initial ?? DefaultData.village.first;
 
   @override
   Widget build(BuildContext context) {

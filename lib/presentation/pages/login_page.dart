@@ -1,9 +1,9 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:bank_sampah/component/button/rounded_primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../component/button/rounded_primary_button.dart';
 import '../../component/field/password_field.dart';
 import '../../component/field/phone_field.dart';
 import '../../core/failures/auth_failure_messages.dart';

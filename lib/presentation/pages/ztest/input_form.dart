@@ -1,7 +1,8 @@
-import 'package:bank_sampah/component/button/rounded_no_color_button.dart';
-import 'package:bank_sampah/component/field/password_field.dart';
-import 'package:bank_sampah/component/field/phone_field.dart';
 import 'package:flutter/material.dart';
+
+import '../../../component/button/rounded_no_color_button.dart';
+import '../../../component/field/password_field.dart';
+import '../../../component/field/phone_field.dart';
 
 class InputForm extends StatefulWidget {
   const InputForm({super.key});

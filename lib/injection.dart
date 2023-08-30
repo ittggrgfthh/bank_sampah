@@ -5,19 +5,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import 'data/datasources/transaction_remote_data_source.dart';
-import 'data/datasources/user_local_data_source.dart';
-import 'data/datasources/user_remote_data_source.dart';
-import 'data/datasources/waste_price_remote_data_source.dart';
-import 'data/repositories/auth_facade_impl.dart';
-import 'data/repositories/transaction_repository_impl.dart';
-import 'data/repositories/user_repository_impl.dart';
-import 'data/repositories/waste_price_repository_impl.dart';
-import 'domain/repositories/auth_facade.dart';
-import 'domain/repositories/transaction_repository.dart';
-import 'domain/repositories/user_repository.dart';
-import 'domain/repositories/waste_price_repository.dart';
-
+import 'data/datasources/datasources.dart';
+import 'data/repositories/repositories.dart';
+import 'domain/repositories/repositories.dart';
 import 'domain/usecase/usecase.dart';
 import 'presentation/bloc/bloc.dart';
 

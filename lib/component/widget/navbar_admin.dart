@@ -1,9 +1,10 @@
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
-import 'package:bank_sampah/core/routing/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/constant/colors.dart';
+import '../../core/constant/theme.dart';
+import '../../core/routing/router.dart';
 
 class NavbarAdmin extends StatelessWidget {
   final Widget child;

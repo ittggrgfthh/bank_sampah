@@ -1,6 +1,6 @@
-import 'package:bank_sampah/component/string_extension.dart';
 import 'package:flutter/material.dart';
 
+import '../string_extension.dart';
 import 'money_field.dart';
 
 class NumberField extends StatelessWidget {

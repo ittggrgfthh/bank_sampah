@@ -16,9 +16,9 @@ import '../../../domain/usecase/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
 
+part 'create_user_form_bloc.freezed.dart';
 part 'create_user_form_event.dart';
 part 'create_user_form_state.dart';
-part 'create_user_form_bloc.freezed.dart';
 
 class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> {
   final PickImage pickImage;

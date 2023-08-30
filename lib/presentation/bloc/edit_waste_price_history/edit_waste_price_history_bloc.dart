@@ -1,13 +1,13 @@
-import 'package:bank_sampah/domain/usecase/admin/get_waste_prices.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../domain/entities/waste_price.dart';
+import '../../../domain/usecase/admin/get_waste_prices.dart';
 
+part 'edit_waste_price_history_bloc.freezed.dart';
 part 'edit_waste_price_history_event.dart';
 part 'edit_waste_price_history_state.dart';
-part 'edit_waste_price_history_bloc.freezed.dart';
 
 class EditWastePriceHistoryBloc extends Bloc<EditWastePriceHistoryEvent, EditWastePriceHistoryState> {
   final GetWastePrices _getWastePrices;

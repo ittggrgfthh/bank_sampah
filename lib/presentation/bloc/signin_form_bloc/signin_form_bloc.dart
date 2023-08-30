@@ -1,4 +1,3 @@
-import 'package:bank_sampah/domain/usecase/signin_with_phone_number_and_password.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,10 +5,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../core/failures/auth_failure.dart';
 import '../../../core/failures/value_failure.dart';
 import '../../../core/utils/value_validators.dart';
+import '../../../domain/usecase/signin_with_phone_number_and_password.dart';
 
+part 'signin_form_bloc.freezed.dart';
 part 'signin_form_event.dart';
 part 'signin_form_state.dart';
-part 'signin_form_bloc.freezed.dart';
 
 class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   final SigninWithPhoneNumberAndPassword signinWithPhoneNumberAndPassword;

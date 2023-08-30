@@ -1,8 +1,9 @@
-import 'package:bank_sampah/core/constant/constant_data.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/constant/default_data.dart';
+
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> dummyMonths = ConstantData.months;
+  List<String> dummyMonths = DefaultData.months;
 
   @override
   List<Widget>? buildActions(BuildContext context) {

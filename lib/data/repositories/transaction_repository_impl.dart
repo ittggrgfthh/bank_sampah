@@ -1,9 +1,9 @@
-import 'package:bank_sampah/domain/entities/report.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../core/constant/firebase_exception_codes.dart';
 import '../../core/failures/failure.dart';
+import '../../domain/entities/report.dart';
 import '../../domain/entities/transaction_waste.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../datasources/transaction_remote_data_source.dart';

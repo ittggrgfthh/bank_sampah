@@ -4,14 +4,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/constant/default_data.dart';
 import '../../../core/failures/failure.dart';
-import '../../../core/utils/number_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecase/staff/create_waste_transaction.dart';
 
+part 'withdraw_balance_form_bloc.freezed.dart';
 part 'withdraw_balance_form_event.dart';
 part 'withdraw_balance_form_state.dart';
-part 'withdraw_balance_form_bloc.freezed.dart';
 
 class WithdrawBalanceFormBloc extends Bloc<WithdrawBalanceFormEvent, WithdrawBalanceFormState> {
   final CreateWasteTransaction _createWasteTransaction;
@@ -54,11 +54,11 @@ class WithdrawBalanceFormBloc extends Bloc<WithdrawBalanceFormEvent, WithdrawBal
     Emitter<WithdrawBalanceFormState> emit,
     String withdrwaBalance,
   ) async {
-    int withdrwaBalanceInt = NumberConverter.parseToInteger(withdrwaBalance);
+    int withdrwaBalanceInt = AppHelper.parseToInteger(withdrwaBalance);
     if (withdrwaBalanceInt > state.currentBalance) {
       emit(state.copyWith(
         withdrwaBalanceValidator:
-            optionOf('Saldo tidak mencukupi, minimal Rp${NumberConverter.formatToThousandsInt(state.currentBalance)}!'),
+            optionOf('Saldo tidak mencukupi, minimal Rp${AppHelper.formatToThousandsInt(state.currentBalance)}!'),
         isChanged: false,
         withdrwaBalance: withdrwaBalance,
       ));
@@ -76,7 +76,7 @@ class WithdrawBalanceFormBloc extends Bloc<WithdrawBalanceFormEvent, WithdrawBal
     final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
     final transaction = state.transaction.getOrElse(() => DefaultData.transactionWaste);
 
-    int withdrwaBalance = NumberConverter.parseToInteger(state.withdrwaBalance);
+    int withdrwaBalance = AppHelper.parseToInteger(state.withdrwaBalance);
     if (state.withdrwaBalance == '0') {
       withdrwaBalance = state.withdrawBalanceChoice;
     }

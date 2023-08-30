@@ -1,7 +1,7 @@
-import 'package:bank_sampah/core/constant/constant_data.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constant/colors.dart';
+import '../../core/constant/default_data.dart';
 import '../../core/constant/theme.dart';
 import '../button/rounded_button.dart';
 
@@ -20,7 +20,7 @@ class RoleChoiceChip extends StatefulWidget {
 }
 
 class _RoleChoiceChipState extends State<RoleChoiceChip> {
-  final roles = ConstantData.roles;
+  final roles = DefaultData.roles;
   late String choicedRole = widget.initial!;
 
   final textColor = <Color>[

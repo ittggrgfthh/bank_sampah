@@ -1,13 +1,14 @@
-import 'package:bank_sampah/component/button/rounded_danger_button.dart';
-import 'package:bank_sampah/component/widget/avatar_image.dart';
-import 'package:bank_sampah/component/widget/confirmation_dialog.dart';
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
-import 'package:bank_sampah/injection.dart';
-import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../component/button/rounded_danger_button.dart';
+import '../../component/widget/avatar_image.dart';
+import '../../component/widget/confirmation_dialog.dart';
+import '../../core/constant/colors.dart';
+import '../../core/constant/theme.dart';
+import '../../domain/entities/user.dart';
+import '../../injection.dart';
+import '../bloc/auth_bloc/auth_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   final User user;

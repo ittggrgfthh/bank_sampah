@@ -1,15 +1,15 @@
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:bank_sampah/component/widget/avatar_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/filter_role_choice_chip.dart';
 import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/failure_messages.dart';
 import '../../../core/routing/router.dart';
-import '../../../core/utils/currency_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/create_user_form/create_user_form_bloc.dart';
@@ -109,7 +109,7 @@ class AdminListUserPage extends StatelessWidget {
                                     photoUrl: user.photoUrl,
                                     title: user.fullName ?? 'No Name',
                                     subtitle: '+62 ${user.phoneNumber}',
-                                    trailing: [user.role, CurrencyConverter.intToIDR(user.pointBalance.currentBalance)],
+                                    trailing: [user.role, AppHelper.intToIDR(user.pointBalance.currentBalance)],
                                     enabled: true,
                                     onTap: () => context.goNamed(AppRouterName.adminEditUserName, extra: user),
                                   ),

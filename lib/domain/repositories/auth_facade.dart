@@ -1,7 +1,7 @@
-import '../entities/user.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../core/failures/auth_failure.dart';
+import '../entities/user.dart';
 
 abstract class AuthFacade {
   // Mendapatkan data pengguna yang sudah register dari shared_preferences

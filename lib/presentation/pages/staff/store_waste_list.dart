@@ -1,11 +1,11 @@
-import 'package:bank_sampah/component/widget/avatar_image.dart';
-import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/withdraw_balance_list_tile.dart';
+import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/date_time_converter.dart';
 import '../../../injection.dart';
