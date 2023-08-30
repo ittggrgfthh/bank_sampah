@@ -1,8 +1,12 @@
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:bank_sampah/core/routing/router.dart';
+import 'package:bank_sampah/core/utils/currency_converter.dart';
+import 'package:bank_sampah/core/utils/date_time_converter.dart';
+import 'package:bank_sampah/domain/entities/transaction_waste.dart';
 import 'package:bank_sampah/injection.dart';
 import 'package:bank_sampah/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:bank_sampah/presentation/bloc/update_user_form/update_user_form_bloc.dart';
 import 'package:bank_sampah/presentation/bloc/warga_home/warga_home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,21 +37,27 @@ class WargaHomePage extends StatelessWidget {
         create: (context) => getIt<WargaHomeBloc>()..add(WargaHomeEvent.initialized(warga.id)),
         child: Container(
           padding: const EdgeInsets.all(20),
-          child: Wrap(
-            runSpacing: 10,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(),
               _buildSaldo(context),
-              Text(
-                'Total Sampah Terkumpul (900 kg)',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
+              const SizedBox(height: 10),
+              BlocBuilder<WargaHomeBloc, WargaHomeState>(
+                builder: (context, state) {
+                  final totalWaste = state.totalWasteStored;
+                  return Text(
+                    'Total Sampah Terkumpul ($totalWaste kg)',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                },
               ),
+              const SizedBox(height: 10),
               _buildTotalSampah(context),
-              Container(),
+              const SizedBox(height: 10),
               Text(
                 'Riwayat',
                 style: TextStyle(
@@ -56,7 +66,32 @@ class WargaHomePage extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              _WargaListTile(),
+              const SizedBox(height: 10),
+              BlocBuilder<WargaHomeBloc, WargaHomeState>(
+                builder: (context, state) {
+                  final transactions = state.transactionwaste.toNullable();
+                  if (transactions != null) {
+                    if (transactions.isEmpty) {
+                      return const Text('Tidak ada Transaksi');
+                    }
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: transactions.length,
+                        itemBuilder: (context, index) {
+                          return _WargaListTile(transaction: transactions[index]);
+                        },
+                      ),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -213,7 +248,9 @@ class WargaHomePage extends StatelessWidget {
 }
 
 class _WargaListTile extends StatelessWidget {
-  const _WargaListTile({super.key});
+  final TransactionWaste transaction;
+
+  const _WargaListTile({required this.transaction});
 
   @override
   Widget build(BuildContext context) {
@@ -225,52 +262,78 @@ class _WargaListTile extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(
-          '27 November 2023',
+          DateTimeConverter.millisecondEpochtoString(transaction.createdAt),
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
         ),
-        subtitle: Row(
-          children: [
-            Icon(
-              Icons.eco_rounded,
-              size: 20,
-              color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
-            ),
-            Text(
-              '100kg',
-              style: TextStyle(
-                color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            const SizedBox(width: 5),
-            Icon(
-              Icons.shopping_bag_rounded,
-              size: 20,
-              color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
-            ),
-            Text(
-              '100kg',
-              style: TextStyle(
-                color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
+        subtitle: Builder(builder: (context) {
+          if (transaction.storeWaste != null) {
+            final waste = transaction.storeWaste!.waste;
+            return Row(
+              children: [
+                Visibility(
+                  visible: waste.organic > 0,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.eco_rounded,
+                        size: 20,
+                        color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+                      ),
+                      Text(
+                        '${waste.organic}kg',
+                        style: TextStyle(
+                          color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: waste.inorganic > 0,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.shopping_bag_rounded,
+                        size: 20,
+                        color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+                      ),
+                      Text(
+                        '${waste.inorganic}kg',
+                        style: TextStyle(
+                          color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+          return const Text('Tarik Saldo');
+        }),
         trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'Rp221.000',
+              transaction.storeWaste != null
+                  ? CurrencyConverter.intToIDR(transaction.storeWaste!.earnedBalance)
+                  : CurrencyConverter.intToIDR(transaction.withdrawnBalance!.withdrawn),
               style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color: transaction.storeWaste != null
+                    ? Theme.of(context).colorScheme.primary
+                    : MyTheme.isDarkMode
+                        ? CColors.dangerDark
+                        : CColors.dangerLight,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
@@ -279,7 +342,7 @@ class _WargaListTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Staff Ech Ibang',
+                  transaction.staff.fullName!,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 10,
@@ -292,9 +355,9 @@ class _WargaListTile extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: CColors.shadow),
                   ),
-                  child: const AvatarImage(
-                    photoUrl: '',
-                    username: 'ab',
+                  child: AvatarImage(
+                    photoUrl: transaction.staff.photoUrl,
+                    username: transaction.staff.fullName,
                     size: 16,
                     fontSize: 9,
                   ),
