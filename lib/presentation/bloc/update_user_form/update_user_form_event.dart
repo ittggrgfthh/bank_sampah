@@ -10,5 +10,6 @@ class UpdateUserFormEvent with _$UpdateUserFormEvent {
   const factory UpdateUserFormEvent.passwordChanged(String password) = _PasswordChanged;
   const factory UpdateUserFormEvent.rtChanged(String rt) = _RtChanged;
   const factory UpdateUserFormEvent.rwChanged(String rw) = _RwChanged;
+  const factory UpdateUserFormEvent.villageChanged(String village) = _VillageChanged;
   const factory UpdateUserFormEvent.submitButtonPressed() = _SubmitButtonPressed;
 }

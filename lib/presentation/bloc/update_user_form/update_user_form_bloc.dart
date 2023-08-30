@@ -46,6 +46,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
             role: user.role,
             rt: user.rt,
             rw: user.rw,
+            village: user.village ?? '',
             user: optionOf(user),
             isLoading: false,
           ));
@@ -70,7 +71,6 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
                     isPhoneNumberLoading: false,
                     phoneNumber: validatePhoneNumber(phoneNumber, false),
                     isPhoneNumberExists: false));
-                print(phoneNumber);
               },
               (user) {
                 emit(state.copyWith(
@@ -96,6 +96,9 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
         rwChanged: (rw) async {
           emit(state.copyWith(rw: rw));
         },
+        villageChanged: (village) {
+          emit(state.copyWith(village: village));
+        },
         submitButtonPressed: () async {
           final isPhoneNumberValid = state.phoneNumber.isRight();
           final isPasswordValid = state.password.isRight();
@@ -114,6 +117,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
             final role = state.role;
             final rt = state.rt;
             final rw = state.rw;
+            final village = state.village;
             final user = state.user.toNullable();
             final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
 
@@ -123,6 +127,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
               fullName: fullName,
               role: role,
               password: password,
+              village: village,
               pointBalance: PointBalance(
                 userId: user.id,
                 currentBalance: 0,
@@ -177,7 +182,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
 
     final tempDir = await getTemporaryDirectory();
     final tempFiles = tempDir.listSync().whereType<File>().toList();
-    const maxTempFiles = 100; // Set your desired file limit here
+    const maxTempFiles = 10; // Set your desired file limit here
 
     // Delete older files if the file limit is exceeded
     if (tempFiles.length >= maxTempFiles) {
