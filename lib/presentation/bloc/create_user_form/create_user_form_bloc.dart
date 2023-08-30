@@ -124,7 +124,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final rw = state.rw;
       final village = state.village;
       final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
-      final userId = 'user_${AppHelper.v1UUIDWithoutDashes()}';
+      final userId = 'user_${AppHelper.generateUniqueId()}';
 
       newUser = User(
         id: userId,

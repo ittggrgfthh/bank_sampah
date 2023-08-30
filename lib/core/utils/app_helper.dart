@@ -3,15 +3,12 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
+import 'package:ulid/ulid.dart';
 
 class AppHelper {
-  static String v1UUIDWithoutDashes() {
-    const uuid = Uuid();
-    final v1 = uuid.v1();
-    // final v1WithoutDashes = v1.replaceAll('-', '');
-    // return v1WithoutDashes;
-    return v1;
+  static String generateUniqueId() {
+    final ulid = Ulid();
+    return ulid.toUuid();
   }
 
   static String hashPassword(String password) {
