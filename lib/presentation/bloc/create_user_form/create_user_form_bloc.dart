@@ -11,8 +11,8 @@ import '../../../core/utils/value_validators.dart';
 import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste.dart';
-import '../../../domain/usecase/create_user.dart';
-import '../../../domain/usecase/get_user_by_phone_number.dart';
+import '../../../domain/usecase/admin/create_user.dart';
+import '../../../domain/usecase/auth/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
 

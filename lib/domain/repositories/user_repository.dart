@@ -14,6 +14,7 @@ abstract class UserRepository {
   Future<Either<Failure, User>> getUserById(String userId);
   Future<Either<Failure, User>> getUserByPhoneNumber(String phoneNumber);
   Future<Either<Failure, List<User>>> getAllUserByRole(String role);
+  Future<Either<Failure, User>> updateUser(User user);
 
   // Old method
   Stream<Either<Failure, User?>> getUserProfile(String userId);

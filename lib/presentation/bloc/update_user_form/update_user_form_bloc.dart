@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/failures/value_failure.dart';
@@ -13,13 +13,13 @@ import '../../../core/utils/value_validators.dart';
 import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste.dart';
-import '../../../domain/usecase/get_user_by_phone_number.dart';
+import '../../../domain/usecase/auth/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
 
+part 'update_user_form_bloc.freezed.dart';
 part 'update_user_form_event.dart';
 part 'update_user_form_state.dart';
-part 'update_user_form_bloc.freezed.dart';
 
 class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> {
   final PickImage pickImage;

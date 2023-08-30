@@ -39,8 +39,6 @@ void init() {
   getIt.registerFactory(() => WargaHomeBloc(getIt(), getIt()));
 
   // usecase
-  getIt.registerLazySingleton(() => GetUserProfile(getIt()));
-  getIt.registerLazySingleton(() => CreateUserProfile(getIt()));
   getIt.registerLazySingleton(() => PickImage(getIt(), getIt()));
   getIt.registerLazySingleton(() => UploadProfilePicture(getIt()));
 
@@ -50,6 +48,7 @@ void init() {
   getIt.registerLazySingleton(() => SignOut(getIt()));
   getIt.registerLazySingleton(() => GetUserById(getIt()));
   getIt.registerLazySingleton(() => GetUserByPhoneNumber(getIt()));
+  getIt.registerLazySingleton(() => UpdateUser(getIt()));
 
   getIt.registerLazySingleton(() => GetAllUserByRole(getIt()));
   // usecase - harga limbah organik dan an-organik

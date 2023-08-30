@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../core/failures/auth_failure.dart';
-import '../repositories/auth_facade.dart';
+import '../../../core/failures/auth_failure.dart';
+import '../../repositories/auth_facade.dart';
 
 class SigninWithPhoneNumberAndPassword {
   const SigninWithPhoneNumberAndPassword(this.authFacade);

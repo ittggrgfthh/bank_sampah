@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../core/failures/auth_failure.dart';
 import '../../../core/failures/value_failure.dart';
 import '../../../core/utils/value_validators.dart';
-import '../../../domain/usecase/signin_with_phone_number_and_password.dart';
+import '../../../domain/usecase/auth/signin_with_phone_number_and_password.dart';
 
 part 'signin_form_bloc.freezed.dart';
 part 'signin_form_event.dart';

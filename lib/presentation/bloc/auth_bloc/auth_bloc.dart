@@ -5,9 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../core/constant/unauthenticated_reason.dart';
 import '../../../core/failures/failure.dart';
 import '../../../domain/entities/user.dart';
-import '../../../domain/usecase/get_signed_in_user.dart';
-import '../../../domain/usecase/get_user_by_id.dart';
-import '../../../domain/usecase/sign_out.dart';
+import '../../../domain/usecase/auth/get_signed_in_user.dart';
+import '../../../domain/usecase/auth/get_user_by_id.dart';
+import '../../../domain/usecase/auth/sign_out.dart';
 
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';

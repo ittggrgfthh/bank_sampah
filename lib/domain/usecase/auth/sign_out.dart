@@ -1,4 +1,4 @@
-import '../repositories/auth_facade.dart';
+import '../../repositories/auth_facade.dart';
 
 class SignOut {
   const SignOut(this.authFacade);

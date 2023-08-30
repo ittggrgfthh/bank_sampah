@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/transaction_waste.dart';
-import '../../../domain/usecase/get_user_by_id.dart';
+import '../../../domain/usecase/auth/get_user_by_id.dart';
 import '../../../domain/usecase/user/get_transactions_by_user_id.dart';
 
 part 'warga_home_bloc.freezed.dart';

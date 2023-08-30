@@ -42,6 +42,21 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<Failure, User>> updateUser(User user) async {
+    try {
+      final userModel = await _userRemoteDataSource.updateUser(UserModel.formDomain(user));
+      return right(userModel.toDomain());
+    } on FirebaseException catch (e) {
+      if (e.code == FirebaseExceptionCodes.unavailable) {
+        return left(const Failure.timeout());
+      }
+      return left(Failure.unexpected(e.toString()));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> createUserProfile(User user) async {
     try {
       await _userRemoteDataSource.createUserProfile(UserModel.formDomain(user));
