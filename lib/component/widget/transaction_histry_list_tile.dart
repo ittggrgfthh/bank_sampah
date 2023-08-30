@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
+import 'avatar_image.dart';
 
 class TransactionHitoryListTile extends StatelessWidget {
   final String title;
@@ -26,26 +26,11 @@ class TransactionHitoryListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       enabled: enabled,
-      leading: Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: photoUrl == null || photoUrl == '' ? Colors.blueAccent : Colors.transparent,
-        ),
-        child: CircleAvatar(
-          radius: 50,
-          backgroundColor: Colors.transparent,
-          backgroundImage: photoUrl != null ? CachedNetworkImageProvider(photoUrl!) : null,
-          child: photoUrl == null || photoUrl == ''
-              ? Text(
-                  title[0].toUpperCase() + title[1].toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                )
-              : Container(),
-        ),
+      leading: AvatarImage(
+        photoUrl: photoUrl,
+        username: title,
+        size: 40,
+        fontSize: 12,
       ),
       onTap: onTap,
       title: Text(
