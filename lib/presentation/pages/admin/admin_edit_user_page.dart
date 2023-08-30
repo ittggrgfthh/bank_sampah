@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:bank_sampah/core/constant/constant_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -118,9 +119,13 @@ class AdminEditUserPage extends StatelessWidget {
                     );
                   },
                 ),
-                DropdownVillage(
-                  onChanged: (village) => print(village),
-                ),
+                Builder(builder: (context) {
+                  return DropdownVillage(
+                    initial: user.village ?? ConstantData.village.first,
+                    onChanged: (village) =>
+                        context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.villageChanged(village)),
+                  );
+                }),
                 const SizedBox(height: 25),
                 Row(
                   children: [
