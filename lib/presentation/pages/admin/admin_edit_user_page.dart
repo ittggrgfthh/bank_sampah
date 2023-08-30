@@ -17,6 +17,7 @@ import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
 import '../../../domain/entities/user.dart';
 import '../../../injection.dart';
+import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/update_user_form/update_user_form_bloc.dart';
 
 class AdminEditUserPage extends StatelessWidget {
@@ -34,13 +35,14 @@ class AdminEditUserPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => getIt<UpdateUserFormBloc>()..add(UpdateUserFormEvent.initial(user)),
         child: BlocListener<UpdateUserFormBloc, UpdateUserFormState>(
+          listenWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
           listener: (context, state) {
             state.failureOrSuccessOption.fold(
               () => null,
               (failureOrSuccess) => failureOrSuccess.fold(
                 (failure) => FlushbarHelper.createError(message: 'Terjadi Kesalahan').show(context),
                 (_) {
-                  context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.initial(user));
+                  context.read<ListUserBloc>().add(const ListUserEvent.initialized('semua'));
                   context.pop();
                 },
               ),
@@ -231,15 +233,6 @@ class AdminEditUserPage extends StatelessWidget {
                 BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
                   buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
                   builder: (context, state) {
-                    state.failureOrSuccessOption.fold(
-                      () => null,
-                      (failureOrSuccess) => failureOrSuccess.fold(
-                        (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
-                        (_) {
-                          context.pop();
-                        },
-                      ),
-                    );
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

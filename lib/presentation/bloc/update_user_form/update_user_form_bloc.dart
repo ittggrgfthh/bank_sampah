@@ -9,10 +9,10 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/failures/value_failure.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../core/utils/value_validators.dart';
-import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
-import '../../../domain/entities/waste.dart';
+import '../../../domain/usecase/admin/update_user.dart';
 import '../../../domain/usecase/auth/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
@@ -25,11 +25,13 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
   final PickImage pickImage;
   final GetUserByPhoneNumber getUserByPhoneNumber;
   final UploadProfilePicture uploadProfilePicture;
+  final UpdateUser updateUser;
 
   UpdateUserFormBloc(
     this.pickImage,
     this.getUserByPhoneNumber,
     this.uploadProfilePicture,
+    this.updateUser,
   ) : super(UpdateUserFormState.initial()) {
     on<UpdateUserFormEvent>((event, emit) async {
       await event.when(
@@ -121,24 +123,14 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
             final user = state.user.toNullable();
             final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
 
-            updatedUser = User(
-              id: user!.id,
+            updatedUser = user!.copyWith(
               phoneNumber: phoneNumber,
               fullName: fullName,
+              password: user.password != password ? AppHelper.hashPassword(password) : password,
               role: role,
-              password: password,
-              village: village,
-              pointBalance: PointBalance(
-                userId: user.id,
-                currentBalance: 0,
-                waste: const Waste(
-                  organic: 0,
-                  inorganic: 0,
-                ),
-              ),
               rt: rt,
               rw: rw,
-              createdAt: user.createdAt,
+              village: village,
               updatedAt: dateNowEpoch,
             );
 
@@ -163,6 +155,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
               updatedUser = updatedUser.copyWith(photoUrl: failureOrPath.getRight().toNullable());
             }
             //send user to update
+            failureOrSuccess = await updateUser(updatedUser);
           }
 
           emit(state.copyWith(
