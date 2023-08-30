@@ -4,8 +4,9 @@ import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class DropdownVillage extends StatefulWidget {
+  final String? initial;
   final Function(String village)? onChanged;
-  const DropdownVillage({super.key, required this.onChanged});
+  const DropdownVillage({super.key, required this.onChanged, this.initial});
 
   @override
   State<DropdownVillage> createState() => _DropdownVillageState();
@@ -13,7 +14,8 @@ class DropdownVillage extends StatefulWidget {
 
 class _DropdownVillageState extends State<DropdownVillage> {
   final villages = ConstantData.village;
-  String valueVillage = ConstantData.village.first;
+  late String valueVillage = widget.initial ?? ConstantData.village.first;
+
   @override
   Widget build(BuildContext context) {
     widget.onChanged?.call(valueVillage);
