@@ -22,7 +22,6 @@ class AdminListUserPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Daftar Pengguna'),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
           AvatarImage(
             photoUrl: admin.photoUrl,
             username: admin.fullName,

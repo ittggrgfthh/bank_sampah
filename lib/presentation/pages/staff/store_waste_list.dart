@@ -24,12 +24,6 @@ class StoreWasteListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Simpan Sampah'),
         actions: [
-          IconButton(
-              icon: const Icon(Icons.search_rounded, size: 32),
-              onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              }),
-          IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
           AvatarImage(
             onTap: () =>
                 context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}', extra: staff),

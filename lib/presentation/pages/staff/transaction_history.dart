@@ -22,8 +22,6 @@ class TransactionHistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Riwayat Transaksi'),
         actions: [
-          IconButton(icon: const Icon(Icons.search_rounded, size: 32), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.notifications_rounded, size: 32), onPressed: () {}),
           AvatarImage(
             photoUrl: staff.photoUrl,
             username: staff.fullName,
