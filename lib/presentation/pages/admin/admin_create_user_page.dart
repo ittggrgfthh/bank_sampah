@@ -15,7 +15,7 @@ import '../../../component/widget/upload_photo.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../injection.dart';
-import '../../bloc/create_user_form/create_user_form_bloc.dart';
+import '../../bloc/bloc.dart';
 
 class AdminCreateUserPage extends StatelessWidget {
   const AdminCreateUserPage({super.key});
@@ -37,6 +37,7 @@ class AdminCreateUserPage extends StatelessWidget {
               (failureOrSuccess) => failureOrSuccess.fold(
                 (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
                 (_) {
+                  context.read<ListUserBloc>().add(const ListUserEvent.initialized('semua'));
                   context.pop();
                 },
               ),

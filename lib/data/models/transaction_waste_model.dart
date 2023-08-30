@@ -19,7 +19,7 @@ class TransactionWasteModel with _$TransactionWasteModel {
     required UserModel staff,
     @JsonKey(name: 'store_waste') StoreWasteModel? storeWaste,
     @JsonKey(name: 'withdrawn_balance') WithdrawnBalanceModel? withdrawnBalance,
-    required List<HistoryWasteModel> historyUpdate,
+    @JsonKey(name: 'history_store_waste') required List<HistoryStoreWasteModel> historyStoreWaste,
   }) = _TransactionWasteModel;
 
   const TransactionWasteModel._();
@@ -35,7 +35,7 @@ class TransactionWasteModel with _$TransactionWasteModel {
       staff: staff.toDomain(),
       withdrawnBalance: withdrawnBalance?.toDomain(),
       storeWaste: storeWaste?.toDomain(),
-      historyUpdate: historyUpdate.map((history) => history.toDomain()).toList(),
+      historyStoreWaste: historyStoreWaste.map((history) => history.toDomain()).toList(),
     );
   }
 
@@ -49,7 +49,8 @@ class TransactionWasteModel with _$TransactionWasteModel {
       withdrawnBalance:
           transaction.withdrawnBalance == null ? null : WithdrawnBalanceModel.formDomain(transaction.withdrawnBalance!),
       storeWaste: transaction.storeWaste == null ? null : StoreWasteModel.formDomain(transaction.storeWaste!),
-      historyUpdate: transaction.historyUpdate.map((history) => HistoryWasteModel.formDomain(history)).toList(),
+      historyStoreWaste:
+          transaction.historyStoreWaste.map((history) => HistoryStoreWasteModel.formDomain(history)).toList(),
     );
   }
 }
@@ -61,7 +62,7 @@ class StoreWasteModel with _$StoreWasteModel {
     @JsonKey(name: 'earned_balance') required int earnedBalance,
     required WasteModel waste,
     @JsonKey(name: 'waste_balance') required WasteModel wasteBalance,
-    required WastePriceModel wastePrice,
+    @JsonKey(name: 'waste_price') required WastePriceModel wastePrice,
   }) = _StoreWasteModel;
 
   const StoreWasteModel._();
@@ -118,26 +119,26 @@ class WithdrawnBalanceModel with _$WithdrawnBalanceModel {
 }
 
 @freezed
-class HistoryWasteModel with _$HistoryWasteModel {
+class HistoryStoreWasteModel with _$HistoryStoreWasteModel {
   @JsonSerializable(explicitToJson: true)
-  const factory HistoryWasteModel({
+  const factory HistoryStoreWasteModel({
     @JsonKey(name: 'store_waste') required StoreWasteModel storeWaste,
     @JsonKey(name: 'updated_at') required int updatedAt,
   }) = _HistoryWasteModel;
 
-  const HistoryWasteModel._();
+  const HistoryStoreWasteModel._();
 
-  factory HistoryWasteModel.fromJson(Map<String, dynamic> json) => _$HistoryWasteModelFromJson(json);
+  factory HistoryStoreWasteModel.fromJson(Map<String, dynamic> json) => _$HistoryStoreWasteModelFromJson(json);
 
-  HistoryWaste toDomain() {
-    return HistoryWaste(
+  HistoryStoreWaste toDomain() {
+    return HistoryStoreWaste(
       storeWaste: storeWaste.toDomain(),
       updatedAt: updatedAt,
     );
   }
 
-  static HistoryWasteModel formDomain(HistoryWaste history) {
-    return HistoryWasteModel(
+  static HistoryStoreWasteModel formDomain(HistoryStoreWaste history) {
+    return HistoryStoreWasteModel(
       storeWaste: StoreWasteModel.formDomain(history.storeWaste),
       updatedAt: history.updatedAt,
     );

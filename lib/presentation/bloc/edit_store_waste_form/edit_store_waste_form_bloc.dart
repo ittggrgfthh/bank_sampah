@@ -183,12 +183,12 @@ class EditStoreWasteFormBloc extends Bloc<EditStoreWasteFormEvent, EditStoreWast
         wastePrice: transaction.storeWaste!.wastePrice,
       ),
       withdrawnBalance: null,
-      historyUpdate: [
-        HistoryWaste(
+      historyStoreWaste: [
+        HistoryStoreWaste(
           storeWaste: transaction.storeWaste!,
           updatedAt: dateNowEpoch,
         ),
-        ...transaction.historyUpdate,
+        ...transaction.historyStoreWaste,
       ],
     );
 

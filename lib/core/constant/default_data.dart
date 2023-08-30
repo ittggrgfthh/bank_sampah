@@ -67,7 +67,7 @@ class DefaultData {
     ),
     withdrawnBalance: withdrawnBalance,
     storeWaste: storeWaste,
-    historyUpdate: [],
+    historyStoreWaste: [],
   );
 
   static final months = <String>[

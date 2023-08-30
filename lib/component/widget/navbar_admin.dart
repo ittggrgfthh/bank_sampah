@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
 import '../../core/routing/router.dart';
+import '../../injection.dart';
+import '../../presentation/bloc/list_user/list_user_bloc.dart';
 
 class NavbarAdmin extends StatelessWidget {
   final Widget child;
@@ -13,58 +16,61 @@ class NavbarAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          boxShadow: [
-            BoxShadow(
-                color: Theme.of(context).colorScheme.primary,
-                spreadRadius: 2,
-                blurRadius: 1,
-                offset: const Offset(0, 2)),
-          ],
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.primaryDark,
-          items: [
-            BottomNavigationBarItem(
-              label: 'Laporan',
-              icon: SvgPicture.asset(
-                'assets/images/add-form.svg',
-                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+    return BlocProvider(
+      create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('semua')),
+      child: Scaffold(
+        body: child,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            boxShadow: [
+              BoxShadow(
+                  color: Theme.of(context).colorScheme.primary,
+                  spreadRadius: 2,
+                  blurRadius: 1,
+                  offset: const Offset(0, 2)),
+            ],
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.primaryDark,
+            items: [
+              BottomNavigationBarItem(
+                label: 'Laporan',
+                icon: SvgPicture.asset(
+                  'assets/images/add-form.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/add-form-active.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
               ),
-              activeIcon: SvgPicture.asset(
-                'assets/images/add-form-active.svg',
-                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              BottomNavigationBarItem(
+                label: 'Buat User',
+                icon: SvgPicture.asset(
+                  'assets/images/add-user.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/add-user-active.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              label: 'Buat User',
-              icon: SvgPicture.asset(
-                'assets/images/add-user.svg',
-                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+              BottomNavigationBarItem(
+                label: 'Edit Harga',
+                icon: SvgPicture.asset(
+                  'assets/images/edit-balance.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/edit-balance-active.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                ),
               ),
-              activeIcon: SvgPicture.asset(
-                'assets/images/add-user-active.svg',
-                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: 'Edit Harga',
-              icon: SvgPicture.asset(
-                'assets/images/edit-balance.svg',
-                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-              ),
-              activeIcon: SvgPicture.asset(
-                'assets/images/edit-balance-active.svg',
-                colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-              ),
-            ),
-          ],
-          onTap: (index) => _onTap(context, index),
-          currentIndex: _calculatedSelectedIndex(context),
+            ],
+            onTap: (index) => _onTap(context, index),
+            currentIndex: _calculatedSelectedIndex(context),
+          ),
         ),
       ),
     );

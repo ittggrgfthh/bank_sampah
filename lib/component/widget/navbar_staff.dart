@@ -18,14 +18,15 @@ class NavbarStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('warga')),
         ),
         BlocProvider(
-          create: (context) => getIt<TransactionHistoryBloc>()..add(TransactionHistoryEvent.initialized(staff.id)),
+          create: (context) =>
+              getIt<TransactionHistoryBloc>()..add(TransactionHistoryEvent.initialized(staff?.id ?? 'null_staff')),
         ),
       ],
       child: Scaffold(

@@ -182,7 +182,7 @@ class DummyData {
           ),
         ),
       ),
-      historyUpdate: <HistoryWaste>[],
+      historyStoreWaste: <HistoryStoreWaste>[],
     ),
     const TransactionWaste(
       id: '02',
@@ -260,7 +260,7 @@ class DummyData {
           ),
         ),
       ),
-      historyUpdate: <HistoryWaste>[],
+      historyStoreWaste: <HistoryStoreWaste>[],
     ),
   ];
 
