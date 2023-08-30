@@ -1,3 +1,4 @@
+import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class AvatarImage extends StatelessWidget {
       width: size,
       height: size,
       child: Material(
-        shape: const CircleBorder(),
+        shape: const CircleBorder(side: BorderSide(color: CColors.shadow)),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: InkWell(
           onTap: onTap,
