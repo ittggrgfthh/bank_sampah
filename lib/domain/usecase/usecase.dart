@@ -9,6 +9,7 @@ export 'auth/get_user_by_id.dart';
 export 'auth/get_user_by_phone_number.dart';
 export 'auth/sign_out.dart';
 export 'auth/signin_with_phone_number_and_password.dart';
+export 'get_transactions_filter.dart';
 export 'pick_image.dart';
 export 'staff/create_waste_transaction.dart';
 export 'staff/get_transaction_by_time_span.dart';

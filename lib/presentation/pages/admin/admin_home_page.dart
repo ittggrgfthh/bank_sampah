@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../component/button/rounded_button.dart';
 import '../../../component/button/rounded_dropdown_button.dart';
 import '../../../component/widget/avatar_image.dart';
+import '../../../component/widget/dropdown_village.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
@@ -50,6 +51,13 @@ class AdminHomePage extends StatelessWidget {
                   },
                 );
               }),
+              const SizedBox(height: 10),
+              Builder(builder: (context) {
+                return DropdownVillage(onChanged: (village) {
+                  context.read<ReportBloc>().add(ReportEvent.chooseVillage(village));
+                });
+              }),
+              const SizedBox(height: 10),
               _buildSaldoDitarik(context),
               const SizedBox(height: 10),
               BlocSelector<ReportBloc, ReportState, String>(

@@ -11,4 +11,5 @@ abstract class TransactionRepository {
   Future<Either<Failure, List<TransactionWaste>>> getTransactionsByStaffId(String staffId);
   Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUserId(String userId);
   Future<Either<Failure, List<TransactionWaste>>> getTransactionsByTimeSpan(TimeSpan timeSpan);
+  Future<Either<Failure, List<TransactionWaste>>> getTransactionsFilter(Map<String, dynamic> filter);
 }

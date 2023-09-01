@@ -23,6 +23,20 @@ abstract class TransactionRemoteDataSource {
 
   /// Mendapatkan semua transaksi berdasarkan rentang waktu
   Future<List<TransactionWasteModel>> getTransactionsByTimeSpan(int startEpoch, int endEpoch);
+
+  /// Mendapatkan semua transaksi yang di filter
+  /// ```dart
+  /// int startEpoch = 129319293192391; // lebih dari sama dengan
+  /// int endEpoch = 0102310230102312; // kurang dari
+  /// String staffId = 'random-string-staff-id';
+  /// String userId = 'randomg-string-user-id';
+  /// List<String> villages = ['Banyubiru'];
+  ///
+  /// Fungsi dibawah tidak bisa digunakan
+  /// List<String> rts = ['001', '002', '003']
+  /// List<String> rws = ['005', '007'],
+  /// ```
+  Future<List<TransactionWasteModel>> getTransactionsFilter(Map<String, dynamic> filter);
 }
 
 class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
@@ -126,6 +140,53 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
           .orderBy('created_at', descending: true)
           .get();
       return querySnapshot.docs.map((e) => e.data()).toList();
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<TransactionWasteModel>> getTransactionsFilter(Map<String, dynamic> filter) async {
+    final transactionRef = _firestore.transactionColRef.withConverter<TransactionWasteModel>(
+      fromFirestore: (snapshot, options) => TransactionWasteModel.fromJson(snapshot.data()!),
+      toFirestore: (value, options) => value.toJson(),
+    );
+    try {
+      final int startEpoch = filter['startEpoch'] ?? 0;
+      var query = transactionRef.where('created_at', isGreaterThanOrEqualTo: startEpoch);
+
+      if (filter.containsKey("endEpoch")) {
+        final int endEpoch = filter["endEpoch"];
+        query = query.where('created_at', isLessThan: endEpoch);
+      }
+
+      if (filter.containsKey("staffId")) {
+        final String staffId = filter["staffId"];
+        query = query.where('staff.id', isEqualTo: staffId);
+      }
+
+      if (filter.containsKey("userId")) {
+        final String userId = filter["userId"];
+        query = query.where('user.id', isEqualTo: userId);
+      }
+
+      if (filter.containsKey("villages")) {
+        final List<String> villages = filter["villages"];
+        query = query.where('user.village', whereIn: villages);
+      }
+      // tidak bisa menggunakan whereIn secara bersamaan T_T
+      // if (filter.containsKey("rts")) {
+      //   print(filter);
+      //   final List<String> rts = filter["rts"];
+      //   query = query.where('user.rt', whereIn: rts);
+      // }
+      // if (filter.containsKey("rws")) {
+      //   final List<String> rws = filter["rws"];
+      //   query = query.where('user.rw', whereIn: rws);
+      // }
+
+      final result = await query.orderBy('created_at', descending: true).get();
+      return result.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw ServerException();
     }

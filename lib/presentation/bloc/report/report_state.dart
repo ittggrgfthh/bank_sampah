@@ -12,6 +12,8 @@ class ReportState with _$ReportState {
     required String totalInorganic,
     required String totalOrganicBalance,
     required String totalInorganicBalance,
+    required TimeSpan timeSpan,
+    required String village,
   }) = _ReportState;
 
   factory ReportState.initial() => ReportState(
@@ -24,5 +26,7 @@ class ReportState with _$ReportState {
         totalInorganic: '0',
         totalOrganicBalance: '0',
         totalInorganicBalance: '0',
+        timeSpan: const TimeSpan(start: 0, end: 999999999999999),
+        village: 'Banyubiru',
       );
 }

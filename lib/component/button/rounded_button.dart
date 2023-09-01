@@ -36,19 +36,29 @@ class RoundedButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor:
-              selected ? MaterialStateProperty.all<Color>(textColor) : MaterialStateProperty.all<Color>(color),
+          backgroundColor: onPressed == null
+              ? MaterialStateProperty.all<Color>(Colors.grey)
+              : selected
+                  ? MaterialStateProperty.all<Color>(textColor)
+                  : MaterialStateProperty.all<Color>(color),
           foregroundColor:
               selected ? MaterialStateProperty.all<Color>(color) : MaterialStateProperty.all<Color>(textColor),
         ),
         onPressed: onPressed,
-        child: Text(
-          name,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        child: onPressed == null
+            ? Transform.scale(
+                scale: 0.7,
+                child: CircularProgressIndicator(
+                  color: color,
+                ),
+              )
+            : Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
       ),
     );
   }

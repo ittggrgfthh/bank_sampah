@@ -61,6 +61,7 @@ void init() {
   getIt.registerLazySingleton(() => GetTransactionsByTimeSpan(getIt()));
   getIt.registerLazySingleton(() => UpdateWasteTransaction(getIt()));
   getIt.registerLazySingleton(() => GetTransactionsByUserId(getIt()));
+  getIt.registerLazySingleton(() => GetTransactionsFilter(getIt()));
 
   // repository
   getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));

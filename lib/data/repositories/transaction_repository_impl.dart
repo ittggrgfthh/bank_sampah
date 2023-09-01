@@ -103,4 +103,19 @@ class TransactionRepositoryImpl implements TransactionRepository {
       return left(Failure.unexpected(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TransactionWaste>>> getTransactionsFilter(Map<String, dynamic> filter) async {
+    try {
+      final result = await _transactionRemoteDataSource.getTransactionsFilter(filter);
+      return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
+    } on FirebaseException catch (e) {
+      if (e.code == FirebaseExceptionCodes.unavailable) {
+        return left(const Failure.timeout());
+      }
+      return left(Failure.unexpected(e.toString()));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
 }

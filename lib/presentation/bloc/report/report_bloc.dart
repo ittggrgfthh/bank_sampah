@@ -6,26 +6,43 @@ import '../../../core/failures/failure.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/report.dart';
 import '../../../domain/entities/waste.dart';
-import '../../../domain/usecase/staff/get_transaction_by_time_span.dart';
+import '../../../domain/usecase/get_transactions_filter.dart';
 
 part 'report_bloc.freezed.dart';
 part 'report_event.dart';
 part 'report_state.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
-  final GetTransactionsByTimeSpan _getTransactionsByTimeSpan;
-  ReportBloc(this._getTransactionsByTimeSpan) : super(ReportState.initial()) {
+  final GetTransactionsFilter _getTransactionsFilter;
+  ReportBloc(this._getTransactionsFilter) : super(ReportState.initial()) {
     on<ReportEvent>((event, emit) async {
       await event.when(
         chooseTimeRange: (timeSpan) => _handleChooseTimeRange(emit, timeSpan),
+        chooseVillage: (village) => _handleChooseVillage(emit, village),
       );
     });
   }
 
   Future<void> _handleChooseTimeRange(Emitter<ReportState> emit, TimeSpan timeSpan) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, timeSpan: timeSpan));
+    await processReport(emit, timeSpan, state.village);
+  }
 
-    final failureOrSuccess = await _getTransactionsByTimeSpan(timeSpan);
+  Future<void> _handleChooseVillage(Emitter<ReportState> emit, String village) async {
+    emit(state.copyWith(isLoading: true, village: village));
+    await processReport(emit, state.timeSpan, village);
+  }
+
+  Future<void> processReport(Emitter<ReportState> emit, TimeSpan timeSpan, String village) async {
+    Map<String, dynamic> filter = {
+      'startEpoch': timeSpan.start,
+      'endEpoch': timeSpan.end,
+      'villages': [village],
+      // 'staffId': 'user_0000487f-1a80-05b3-e19b-deae8ea0207a',
+      // 'userId': 'user_00004880-539f-4e32-d999-0a6afa67ea7f',
+    };
+
+    final failureOrSuccess = await _getTransactionsFilter(filter);
     failureOrSuccess.fold(
       (failure) => emit(state.copyWith(
         isLoading: false,
@@ -106,7 +123,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         Report report = Report(
           createdAt: DateTime.now().millisecondsSinceEpoch,
           createdAtCity: 'Semarang',
-          village: 'Ini Desa',
+          village: village,
           rowsReport: rowsReport,
           total: totalRowReport,
           timeSpan: timeSpan.copyWith(end: timeSpan.end - 1000),
