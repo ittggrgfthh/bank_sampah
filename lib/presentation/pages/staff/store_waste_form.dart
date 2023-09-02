@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/number_field.dart';
 import '../../../component/widget/single_list_tile.dart';
-import '../../../domain/entities/user.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
@@ -14,14 +13,14 @@ import '../../bloc/store_waste_form/store_waste_form_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
 
 class StoreWasteFormPage extends StatelessWidget {
-  final User user;
-  const StoreWasteFormPage({super.key, required this.user});
+  final String userId;
+  const StoreWasteFormPage({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     final staff = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return BlocProvider(
-      create: (context) => getIt<StoreWasteFormBloc>()..add(StoreWasteFormEvent.initialized(user, staff)),
+      create: (context) => getIt<StoreWasteFormBloc>()..add(StoreWasteFormEvent.initialized(userId, staff)),
       child: BlocListener<StoreWasteFormBloc, StoreWasteFormState>(
         listener: (context, state) {
           state.failureOrSuccessOption.fold(
@@ -50,11 +49,32 @@ class StoreWasteFormPage extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: SingleListTile(
-                      photoUrl: user.photoUrl,
-                      title: user.fullName ?? 'No Name',
-                      subtitle: Text('+62 ${user.phoneNumber}'),
-                      trailing: const Icon(Icons.chevron_right_rounded),
+                    child: BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
+                      builder: (context, state) {
+                        return state.transaction.fold(() {
+                          return state.failure.fold(
+                            () => const CircularProgressIndicator(),
+                            (failure) {
+                              return failure.when(
+                                timeout: () {
+                                  return const Text('Timeout');
+                                },
+                                unexpected: (message, error, stackTrace) {
+                                  return const Text('Terjadi kesalahan!');
+                                },
+                              );
+                            },
+                          );
+                        }, (transaction) {
+                          final user = transaction.user;
+                          return SingleListTile(
+                            photoUrl: user.photoUrl,
+                            title: user.fullName ?? 'No Name',
+                            subtitle: Text('+62 ${user.phoneNumber}'),
+                            trailing: const Icon(Icons.chevron_right_rounded),
+                          );
+                        });
+                      },
                     ),
                   ),
                   Container(
@@ -85,17 +105,46 @@ class StoreWasteFormPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
                   buildWhen: (previous, current) {
-                    return previous.isLoading != current.isLoading || previous.isChange != current.isChange;
+                    return previous.isLoading != current.isLoading ||
+                        previous.isChange != current.isChange ||
+                        previous.user != current.user;
                   },
                   builder: (context, state) {
-                    return RoundedPrimaryButton(
-                      isChanged: !state.isChange,
-                      isLoading: state.isLoading,
-                      buttonName: 'Simpan Sampah',
-                      onPressed: () {
-                        context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
-                      },
-                    );
+                    final user = state.user.toNullable();
+                    if (user != null) {
+                      final lastTransactionEpoch = user.lastTransactionEpoch ?? DateTime.now().millisecondsSinceEpoch;
+                      const treeMinute = 5 * 60 * 1000;
+                      final duration =
+                          (((lastTransactionEpoch + treeMinute) - DateTime.now().millisecondsSinceEpoch) / 1000);
+                      if (duration > 0) {
+                        return RoundedPrimaryButton(
+                          key: UniqueKey(),
+                          isChanged: !state.isChange,
+                          isLoading: state.isLoading,
+                          buttonName: 'Simpan Sampah',
+                          cooldownDuration: Duration(seconds: duration.toInt()),
+                          onPressed: () {
+                            context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
+                          },
+                        );
+                      } else {
+                        return RoundedPrimaryButton(
+                          isChanged: !state.isChange,
+                          isLoading: state.isLoading,
+                          buttonName: 'Simpan Sampah',
+                          onPressed: () {
+                            context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
+                          },
+                        );
+                      }
+                    } else {
+                      return RoundedPrimaryButton(
+                        isChanged: !state.isChange,
+                        isLoading: state.isLoading,
+                        buttonName: 'Gagal Memuat User',
+                        onPressed: null,
+                      );
+                    }
                   },
                 ),
               ],

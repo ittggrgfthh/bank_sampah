@@ -7,7 +7,6 @@ import '../../../component/widget/transaction_histry_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../core/utils/date_time_converter.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/edit_waste_price_history/edit_waste_price_history_bloc.dart';
@@ -46,7 +45,7 @@ class EditPriceHistory extends StatelessWidget {
                       ),
                     ),
                     child: ListTile(
-                      title: Text(DateTimeConverter.millisecondEpochtoString(editWastePriceHistory[index].createdAt)),
+                      title: Text(AppHelper.millisecondEpochtoString(editWastePriceHistory[index].createdAt)),
                       subtitle: Row(
                         children: [
                           RowSubtitle(

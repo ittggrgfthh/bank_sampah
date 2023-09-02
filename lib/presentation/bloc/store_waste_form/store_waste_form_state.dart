@@ -5,6 +5,7 @@ class StoreWasteFormState with _$StoreWasteFormState {
   const factory StoreWasteFormState({
     required bool isLoading,
     required Option<Failure> failure,
+    required Option<User> user,
     required Option<TransactionWaste> transaction,
     required String organicWeight,
     required String inorganicWeight,
@@ -18,6 +19,7 @@ class StoreWasteFormState with _$StoreWasteFormState {
   factory StoreWasteFormState.initial() => StoreWasteFormState(
         isLoading: false,
         failure: none(),
+        user: none(),
         transaction: none(),
         organicWeight: '0',
         inorganicWeight: '0',

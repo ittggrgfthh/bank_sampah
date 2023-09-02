@@ -31,7 +31,7 @@ void init() {
 
   getIt.registerFactory(() => UpdateUserFormBloc(getIt(), getIt(), getIt(), getIt()));
   // bloc - staff
-  getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt()));
+  getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt(), getIt()));
   getIt.registerFactory(() => TransactionHistoryBloc(getIt()));
   getIt.registerFactory(() => EditStoreWasteFormBloc(getIt()));
   getIt.registerFactory(() => WithdrawBalanceFormBloc(getIt()));

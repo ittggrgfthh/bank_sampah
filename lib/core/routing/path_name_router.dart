@@ -28,7 +28,7 @@ class AppRouterName {
   static const String staffWasteTransactionPath = '/waste';
   static const String staffWasteTransactionName = 'transaction-waste';
 
-  static const String staffStoreWastePath = 'store';
+  static const String staffStoreWastePath = 'store/:userId';
   static const String staffStoreWasteName = 'store';
 
   static const String staffHistoryTransactionPath = '/history';

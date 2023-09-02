@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../core/utils/date_time_converter.dart';
 import '../../../domain/entities/point_balance.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste.dart';
@@ -48,7 +47,7 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         priceOrganic: AppHelper.formatToThousandsInt(currentWastePrice.organic),
         priceInorganic: AppHelper.formatToThousandsInt(currentWastePrice.inorganic),
         isChange: false,
-        currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(currentWastePrice.createdAt),
+        currentTimeAgo: AppHelper.timeAgoFromMillisecond(currentWastePrice.createdAt),
         currentAdminFullName: currentWastePrice.admin.id == user.id ? 'Anda' : currentWastePrice.admin.fullName!,
       )),
     );
@@ -133,7 +132,7 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         wastePrice: optionOf(newWastePrice),
         failure: none(),
         isChange: false,
-        currentTimeAgo: DateTimeConverter.timeAgoFromMillisecond(newWastePrice.createdAt),
+        currentTimeAgo: AppHelper.timeAgoFromMillisecond(newWastePrice.createdAt),
         currentAdminFullName: 'Anda',
       )),
     );

@@ -9,22 +9,7 @@ import '../../domain/entities/transaction_waste.dart';
 import '../../domain/entities/user.dart';
 import '../../injection.dart';
 import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
-import '../../presentation/pages/admin/admin_create_user_page.dart';
-import '../../presentation/pages/admin/admin_edit_user_page.dart';
-import '../../presentation/pages/admin/admin_home_page.dart';
-import '../../presentation/pages/admin/admin_list_user_page.dart';
-import '../../presentation/pages/admin/edit_price_history.dart';
-import '../../presentation/pages/admin/edit_waste_price.dart';
-import '../../presentation/pages/login_page.dart';
-import '../../presentation/pages/profile_page.dart';
-import '../../presentation/pages/staff/edit_store_waste_form.dart';
-import '../../presentation/pages/staff/store_waste_form.dart';
-import '../../presentation/pages/staff/store_waste_list.dart';
-import '../../presentation/pages/staff/transaction_history.dart';
-import '../../presentation/pages/staff/withdraw_balance.dart';
-import '../../presentation/pages/staff/withdraw_balance_form.dart';
-import '../../presentation/pages/warga/warga_home_page.dart';
-import '../../presentation/pages/ztest/home_page.dart';
+import '../../presentation/pages/pages.dart';
 
 part "path_name_router.dart";
 
@@ -44,6 +29,8 @@ final router = GoRouter(
       name: AppRouterName.loginName,
       builder: (context, state) => const LoginPage(),
     ),
+
+    /// Admin
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => NavbarAdmin(child: child),
@@ -102,6 +89,8 @@ final router = GoRouter(
         ),
       ],
     ),
+
+    /// Staff
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => NavbarStaff(child: child),
@@ -114,7 +103,9 @@ final router = GoRouter(
             GoRoute(
               path: AppRouterName.staffStoreWastePath,
               name: AppRouterName.staffStoreWasteName,
-              builder: (context, state) => StoreWasteFormPage(user: state.extra as User),
+              builder: (context, state) => StoreWasteFormPage(
+                userId: state.pathParameters['userId'] ?? '',
+              ),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,

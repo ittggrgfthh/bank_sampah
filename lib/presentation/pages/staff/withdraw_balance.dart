@@ -7,7 +7,6 @@ import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../core/utils/date_time_converter.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
@@ -55,7 +54,7 @@ class WithdrawBalance extends StatelessWidget {
                     onTap: () => context.goNamed(AppRouterName.staffWithdrawName, extra: users[index]),
                     enabled: users[index].pointBalance.currentBalance > 0 &&
                         (users[index].lastTransactionEpoch == null ||
-                            !DateTimeConverter.isWithin5Minutes(users[index].lastTransactionEpoch ?? 0)),
+                            !AppHelper.isWithin5Minutes(users[index].lastTransactionEpoch ?? 0)),
                   ),
                 ),
               );

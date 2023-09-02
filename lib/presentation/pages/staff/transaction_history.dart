@@ -7,7 +7,7 @@ import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/transaction_histry_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
-import '../../../core/utils/date_time_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
@@ -63,8 +63,7 @@ class TransactionHistoryPage extends StatelessWidget {
                       ),
                     ),
                     child: TransactionHitoryListTile(
-                      enabled:
-                          transaction.storeWaste != null && DateTimeConverter.isWithin5Minutes(transaction.createdAt),
+                      enabled: transaction.storeWaste != null && AppHelper.isWithin5Minutes(transaction.createdAt),
                       title: transaction.user.fullName!,
                       photoUrl: transaction.user.photoUrl,
                       subtitle: [
@@ -75,7 +74,7 @@ class TransactionHistoryPage extends StatelessWidget {
                             : getIt<NumberFormat>().format(transaction.withdrawnBalance!.withdrawn),
                       ],
                       trailing: [
-                        DateTimeConverter.timeAgoFromMillisecond(transaction.createdAt),
+                        AppHelper.timeAgoFromMillisecond(transaction.createdAt),
                         transaction.storeWaste == null
                             ? '-'
                             : getIt<NumberFormat>().format(transaction.storeWaste!.earnedBalance),

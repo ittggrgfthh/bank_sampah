@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
-import '../../../core/utils/date_time_converter.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/report.dart';
 import 'pdf_api.dart';
 
@@ -27,7 +27,7 @@ class PdfReportApi {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Dibuat: ${report.createdAtCity}, ${DateTimeConverter.millisecondEpochtoString(report.createdAt)}',
+          'Dibuat: ${report.createdAtCity}, ${AppHelper.millisecondEpochtoString(report.createdAt)}',
         ),
         SizedBox(height: 0.6 * PdfPageFormat.cm),
         Text(
@@ -35,7 +35,7 @@ class PdfReportApi {
         ),
         SizedBox(height: 0.6 * PdfPageFormat.cm),
         Text(
-          'Rentang Waktu: ${DateTimeConverter.millisecondEpochtoDay(report.timeSpan.start)}, ${DateTimeConverter.millisecondEpochtoString(report.timeSpan.start)} - ${DateTimeConverter.millisecondEpochtoDay(report.timeSpan.end)}, ${DateTimeConverter.millisecondEpochtoString(report.timeSpan.end)}',
+          'Rentang Waktu: ${AppHelper.millisecondEpochtoDay(report.timeSpan.start)}, ${AppHelper.millisecondEpochtoString(report.timeSpan.start)} - ${AppHelper.millisecondEpochtoDay(report.timeSpan.end)}, ${AppHelper.millisecondEpochtoString(report.timeSpan.end)}',
         ),
         SizedBox(height: 0.6 * PdfPageFormat.cm),
       ],

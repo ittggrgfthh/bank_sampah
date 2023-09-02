@@ -7,7 +7,6 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../core/utils/date_time_converter.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
@@ -260,7 +259,7 @@ class _WargaListTile extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(
-          DateTimeConverter.millisecondEpochtoString(transaction.createdAt),
+          AppHelper.millisecondEpochtoString(transaction.createdAt),
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontSize: 14,

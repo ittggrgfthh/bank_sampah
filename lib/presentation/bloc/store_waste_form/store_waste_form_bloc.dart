@@ -11,6 +11,7 @@ import '../../../domain/entities/user.dart';
 import '../../../domain/entities/waste.dart';
 import '../../../domain/entities/waste_price.dart';
 import '../../../domain/usecase/admin/get_current_waste_price.dart';
+import '../../../domain/usecase/auth/get_user_by_id.dart';
 import '../../../domain/usecase/staff/create_waste_transaction.dart';
 
 part 'store_waste_form_bloc.freezed.dart';
@@ -20,13 +21,15 @@ part 'store_waste_form_state.dart';
 class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> {
   final GetCurrentWastePrice _getCurrentWastePrice;
   final CreateWasteTransaction _createWasteTransaction;
+  final GetUserById _getUserById;
   StoreWasteFormBloc(
     this._getCurrentWastePrice,
     this._createWasteTransaction,
+    this._getUserById,
   ) : super(StoreWasteFormState.initial()) {
     on<StoreWasteFormEvent>((event, emit) async {
       await event.when(
-        initialized: (user, staff) => _handleInitialized(emit, user, staff),
+        initialized: (userId, staff) => _handleInitialized(emit, userId, staff),
         organicWeightChanged: (organicWeight) => _handleOrganicWeightChanged(emit, organicWeight),
         inorganicWeightChanged: (inorganicWeight) => _handleInorganicWeightChanged(emit, inorganicWeight),
         submitButtonPressed: () => _submitButtonPressed(emit),
@@ -34,12 +37,36 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     });
   }
 
-  Future<void> _handleInitialized(Emitter<StoreWasteFormState> emit, User user, User staff) async {
+  Future<void> _handleInitialized(Emitter<StoreWasteFormState> emit, String userId, User staff) async {
     emit(state.copyWith(isLoading: true));
-    final defaultTransaction = DefaultData.transactionWaste.copyWith(
-      user: user,
-      staff: staff,
+    final failureOrSuccessUser = await _getUserById(userId);
+
+    failureOrSuccessUser.fold(
+      (failure) => emit(state.copyWith(
+        isLoading: false,
+        failure: optionOf(failure),
+      )),
+      (user) => emit(state.copyWith(
+        isLoading: false,
+        user: optionOf(user),
+      )),
     );
+
+    if (failureOrSuccessUser.isLeft()) {
+      return;
+    }
+
+    final user = state.user.toNullable();
+
+    if (user == null) {
+      return;
+    }
+
+    final defaultTransaction = DefaultData.transactionWaste.copyWith(
+      staff: staff,
+      user: user,
+    );
+
     final failureOrSuccess = await _getCurrentWastePrice();
     failureOrSuccess.fold(
       (failure) => emit(state.copyWith(
