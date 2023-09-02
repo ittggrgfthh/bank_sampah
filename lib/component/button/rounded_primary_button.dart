@@ -44,7 +44,7 @@ class _RoundedPrimaryButtonState extends State<RoundedPrimaryButton> {
   @override
   Widget build(BuildContext context) {
     final Color buttonBackgroundColor =
-        widget.isLoading || widget.isChanged ? Colors.blueGrey : Theme.of(context).colorScheme.primary;
+        widget.isLoading || widget.isChanged || _isOnCooldown ? Colors.blueGrey : Theme.of(context).colorScheme.primary;
     final Color buttonPrimaryColor = Theme.of(context).colorScheme.background;
     return Theme(
       data: Theme.of(context).copyWith(

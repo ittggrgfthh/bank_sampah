@@ -89,4 +89,21 @@ class AppHelper {
 
     return (differenceMillisecondsEpoch / (1000 * 60)) < 5;
   }
+
+  static Duration? getDurationLastTransactionEpoch(int? lastTransactionEpoch) {
+    if (lastTransactionEpoch == null) {
+      return null;
+    }
+
+    /// 5 menit * 60 detik * 1000 milidetik
+    const durationCanEdit = 5 * 60 * 1000;
+
+    final duration = (lastTransactionEpoch + durationCanEdit) - DateTime.now().millisecondsSinceEpoch;
+
+    if (duration <= 0) {
+      return null;
+    }
+
+    return Duration(milliseconds: duration);
+  }
 }

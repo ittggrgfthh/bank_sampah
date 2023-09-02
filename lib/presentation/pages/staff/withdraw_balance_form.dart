@@ -10,7 +10,7 @@ import '../../../component/field/money_field.dart';
 import '../../../component/widget/avatar_image.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
-import '../../../domain/entities/user.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
@@ -18,8 +18,8 @@ import '../../bloc/transaction_history/transaction_history_bloc.dart';
 import '../../bloc/withdraw_balance_form/withdraw_balance_form_bloc.dart';
 
 class WithdrawBalanceForm extends StatelessWidget {
-  final User user;
-  const WithdrawBalanceForm({super.key, required this.user});
+  final String userId;
+  const WithdrawBalanceForm({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class WithdrawBalanceForm extends StatelessWidget {
         ),
       ),
       body: BlocProvider(
-        create: (context) => getIt<WithdrawBalanceFormBloc>()..add(WithdrawBalanceFormEvent.initialized(user, staff)),
+        create: (context) => getIt<WithdrawBalanceFormBloc>()..add(WithdrawBalanceFormEvent.initialized(userId, staff)),
         child: BlocListener<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
           listenWhen: (previous, current) => previous.isLoading != current.isLoading,
           listener: (context, state) {
@@ -53,7 +53,7 @@ class WithdrawBalanceForm extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              _buildHeader(context, user),
+              _buildHeader(context),
               const SizedBox(height: 10),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -67,9 +67,11 @@ class WithdrawBalanceForm extends StatelessWidget {
                 ),
               ),
               BlocBuilder<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
+                buildWhen: (previous, current) => previous.user != current.user,
                 builder: (context, state) {
+                  final user = state.user.toNullable();
                   return WithdrawChoiceChip(
-                    balance: user.pointBalance.currentBalance,
+                    balance: user == null ? 0 : user.pointBalance.currentBalance,
                     onSelected: (value) {
                       context
                           .read<WithdrawBalanceFormBloc>()
@@ -103,14 +105,31 @@ class WithdrawBalanceForm extends StatelessWidget {
               const SizedBox(height: 20),
               BlocBuilder<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
                 buildWhen: (previous, current) =>
-                    previous.isLoading != current.isLoading || previous.isChanged != current.isChanged,
+                    previous.isLoading != current.isLoading ||
+                    previous.isChanged != current.isChanged ||
+                    previous.user != current.user,
                 builder: (context, state) {
-                  return RoundedPrimaryButton(
-                    isLoading: state.isLoading,
-                    isChanged: !state.isChanged,
-                    buttonName: 'Tarik Saldo',
-                    onPressed: () {
-                      context.read<WithdrawBalanceFormBloc>().add(const WithdrawBalanceFormEvent.submitButtonPressed());
+                  return state.user.fold(
+                    () => RoundedPrimaryButton(
+                      isChanged: !state.isChanged,
+                      isLoading: state.isLoading,
+                      buttonName: 'Gagal Memuat User',
+                      onPressed: null,
+                    ),
+                    (user) {
+                      final Duration? duration = AppHelper.getDurationLastTransactionEpoch(user.lastTransactionEpoch);
+                      return RoundedPrimaryButton(
+                        key: duration == null ? null : UniqueKey(),
+                        isLoading: state.isLoading,
+                        isChanged: !state.isChanged,
+                        buttonName: 'Tarik Saldo',
+                        cooldownDuration: duration,
+                        onPressed: () {
+                          context
+                              .read<WithdrawBalanceFormBloc>()
+                              .add(const WithdrawBalanceFormEvent.submitButtonPressed());
+                        },
+                      );
                     },
                   );
                 },
@@ -122,77 +141,86 @@ class WithdrawBalanceForm extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, User user) {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Theme.of(context).colorScheme.primary,
       ),
-      child: Row(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: CColors.shadow),
-            ),
-            child: AvatarImage(
-              photoUrl: user.photoUrl,
-              username: user.fullName,
-              size: 100,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            direction: Axis.vertical,
-            spacing: 10,
+      child: BlocBuilder<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
+        buildWhen: (previous, current) => previous.user != current.user,
+        builder: (context, state) {
+          final user = state.user.toNullable();
+          if (user == null) {
+            return const Text('Gagal Memuat User');
+          }
+          return Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.fullName!,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    '+62 ${user.phoneNumber}',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: CColors.shadow),
+                ),
+                child: AvatarImage(
+                  photoUrl: user.photoUrl,
+                  username: user.fullName,
+                  size: 100,
+                ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(width: 10),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.start,
+                direction: Axis.vertical,
+                spacing: 10,
                 children: [
-                  Text(
-                    'Saldo',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.fullName!,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        '+62 ${user.phoneNumber}',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    getIt<NumberFormat>().format(user.pointBalance.currentBalance),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.background,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Saldo',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        getIt<NumberFormat>().format(user.pointBalance.currentBalance),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.background,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               )
             ],
-          )
-        ],
+          );
+        },
       ),
     );
   }

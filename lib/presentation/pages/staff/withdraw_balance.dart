@@ -51,10 +51,8 @@ class WithdrawBalance extends StatelessWidget {
                     title: users[index].fullName ?? 'No Name',
                     subtitle: '+62 ${users[index].phoneNumber}',
                     trailing: ['Saldo', AppHelper.intToIDR(users[index].pointBalance.currentBalance)],
-                    onTap: () => context.goNamed(AppRouterName.staffWithdrawName, extra: users[index]),
-                    enabled: users[index].pointBalance.currentBalance > 0 &&
-                        (users[index].lastTransactionEpoch == null ||
-                            !AppHelper.isWithin5Minutes(users[index].lastTransactionEpoch ?? 0)),
+                    onTap: () =>
+                        context.goNamed(AppRouterName.staffWithdrawName, pathParameters: {'userId': users[index].id}),
                   ),
                 ),
               );

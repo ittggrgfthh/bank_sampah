@@ -40,7 +40,7 @@ class AppRouterName {
   static const String staffBalanceTransactionPath = '/balance';
   static const String staffBalanceTransactionName = 'transaction-balance';
 
-  static const String staffWithdrawPath = 'withdraw';
+  static const String staffWithdrawPath = 'withdraw/:userId';
   static const String staffWithdrawName = 'withdraw';
 
   static const String wargaHomePath = '/warga';

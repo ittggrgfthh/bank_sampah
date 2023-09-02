@@ -7,6 +7,7 @@ import '../../../core/failures/failure.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../domain/entities/user.dart';
+import '../../../domain/usecase/auth/get_user_by_id.dart';
 import '../../../domain/usecase/staff/create_waste_transaction.dart';
 
 part 'withdraw_balance_form_bloc.freezed.dart';
@@ -15,10 +16,14 @@ part 'withdraw_balance_form_state.dart';
 
 class WithdrawBalanceFormBloc extends Bloc<WithdrawBalanceFormEvent, WithdrawBalanceFormState> {
   final CreateWasteTransaction _createWasteTransaction;
-  WithdrawBalanceFormBloc(this._createWasteTransaction) : super(WithdrawBalanceFormState.initial()) {
+  final GetUserById _getUserById;
+  WithdrawBalanceFormBloc(
+    this._createWasteTransaction,
+    this._getUserById,
+  ) : super(WithdrawBalanceFormState.initial()) {
     on<WithdrawBalanceFormEvent>((event, emit) async {
       await event.when(
-        initialized: (user, staff) => _handleInitialized(emit, user, staff),
+        initialized: (userId, staff) => _handleInitialized(emit, userId, staff),
         withdrawBalanceChoiceChanged: (withdrawBalanceChoice) =>
             _handleWithdrawBalanceChoiceChanged(emit, withdrawBalanceChoice),
         withdrwaBalanceChanged: (withdrwaBalance) => _handleWithdrwaBalanceChanged(emit, withdrwaBalance),
@@ -27,12 +32,35 @@ class WithdrawBalanceFormBloc extends Bloc<WithdrawBalanceFormEvent, WithdrawBal
     });
   }
 
-  Future<void> _handleInitialized(Emitter<WithdrawBalanceFormState> emit, User user, User staff) async {
+  Future<void> _handleInitialized(Emitter<WithdrawBalanceFormState> emit, String userId, User staff) async {
     emit(state.copyWith(isLoading: true));
+    final failureOrSuccessUser = await _getUserById(userId);
+
+    failureOrSuccessUser.fold(
+        (failure) => emit(state.copyWith(
+              isLoading: false,
+              failure: optionOf(failure),
+            )),
+        (user) => emit(state.copyWith(
+              isLoading: false,
+              user: optionOf(user),
+            )));
+
+    if (failureOrSuccessUser.isLeft()) {
+      return;
+    }
+
+    final user = state.user.toNullable();
+
+    if (user == null) {
+      return;
+    }
+
     final defaultTransaction = DefaultData.transactionWaste.copyWith(
       user: user,
       staff: staff,
     );
+
     emit(state.copyWith(
       isLoading: false,
       transaction: optionOf(defaultTransaction),

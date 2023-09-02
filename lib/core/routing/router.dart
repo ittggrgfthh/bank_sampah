@@ -103,9 +103,7 @@ final router = GoRouter(
             GoRoute(
               path: AppRouterName.staffStoreWastePath,
               name: AppRouterName.staffStoreWasteName,
-              builder: (context, state) => StoreWasteFormPage(
-                userId: state.pathParameters['userId'] ?? '',
-              ),
+              builder: (context, state) => StoreWasteFormPage(userId: state.pathParameters['userId'] ?? ''),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
@@ -139,7 +137,7 @@ final router = GoRouter(
             GoRoute(
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => WithdrawBalanceForm(user: state.extra as User),
+              builder: (context, state) => WithdrawBalanceForm(userId: state.pathParameters['userId'] ?? ''),
             ),
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/number_field.dart';
 import '../../../component/widget/single_list_tile.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
@@ -106,45 +107,31 @@ class StoreWasteFormPage extends StatelessWidget {
                 BlocBuilder<StoreWasteFormBloc, StoreWasteFormState>(
                   buildWhen: (previous, current) {
                     return previous.isLoading != current.isLoading ||
-                        previous.isChange != current.isChange ||
+                        previous.isChanged != current.isChanged ||
                         previous.user != current.user;
                   },
                   builder: (context, state) {
-                    final user = state.user.toNullable();
-                    if (user != null) {
-                      final lastTransactionEpoch = user.lastTransactionEpoch ?? DateTime.now().millisecondsSinceEpoch;
-                      const treeMinute = 5 * 60 * 1000;
-                      final duration =
-                          (((lastTransactionEpoch + treeMinute) - DateTime.now().millisecondsSinceEpoch) / 1000);
-                      if (duration > 0) {
-                        return RoundedPrimaryButton(
-                          key: UniqueKey(),
-                          isChanged: !state.isChange,
-                          isLoading: state.isLoading,
-                          buttonName: 'Simpan Sampah',
-                          cooldownDuration: Duration(seconds: duration.toInt()),
-                          onPressed: () {
-                            context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
-                          },
-                        );
-                      } else {
-                        return RoundedPrimaryButton(
-                          isChanged: !state.isChange,
-                          isLoading: state.isLoading,
-                          buttonName: 'Simpan Sampah',
-                          onPressed: () {
-                            context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
-                          },
-                        );
-                      }
-                    } else {
-                      return RoundedPrimaryButton(
-                        isChanged: !state.isChange,
+                    return state.user.fold(
+                      () => RoundedPrimaryButton(
+                        isChanged: !state.isChanged,
                         isLoading: state.isLoading,
                         buttonName: 'Gagal Memuat User',
                         onPressed: null,
-                      );
-                    }
+                      ),
+                      (user) {
+                        final Duration? duration = AppHelper.getDurationLastTransactionEpoch(user.lastTransactionEpoch);
+                        return RoundedPrimaryButton(
+                          key: duration == null ? null : UniqueKey(),
+                          isChanged: !state.isChanged,
+                          isLoading: state.isLoading,
+                          buttonName: 'Simpan Sampah',
+                          cooldownDuration: duration,
+                          onPressed: () {
+                            context.read<StoreWasteFormBloc>().add(const StoreWasteFormEvent.submitButtonPressed());
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               ],

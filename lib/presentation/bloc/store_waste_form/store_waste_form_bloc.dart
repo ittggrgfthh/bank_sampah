@@ -103,7 +103,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     emit(state.copyWith(
       organicWeight: organicWeight,
       earnedBalance: _earnedBalance(organicWeight: organicWeight, inorganicWeight: state.inorganicWeight),
-      isChange: organicWeight != "0" || state.inorganicWeight != "0",
+      isChanged: organicWeight != "0" || state.inorganicWeight != "0",
     ));
   }
 
@@ -111,7 +111,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
     emit(state.copyWith(
       inorganicWeight: inorganicWeight,
       earnedBalance: _earnedBalance(organicWeight: state.organicWeight, inorganicWeight: inorganicWeight),
-      isChange: state.organicWeight != "0" || inorganicWeight != "0",
+      isChanged: state.organicWeight != "0" || inorganicWeight != "0",
     ));
   }
 
@@ -201,7 +201,7 @@ class StoreWasteFormBloc extends Bloc<StoreWasteFormEvent, StoreWasteFormState> 
       (_) => emit(state.copyWith(
         isLoading: false,
         failure: none(),
-        isChange: false,
+        isChanged: false,
         transaction: optionOf(newTransaction),
         failureOrSuccessOption: optionOf(failureOrSuccess),
         organicWeight: '0',

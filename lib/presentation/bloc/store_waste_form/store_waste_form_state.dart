@@ -12,7 +12,7 @@ class StoreWasteFormState with _$StoreWasteFormState {
     required String priceOrganic,
     required String priceInorganic,
     required String earnedBalance,
-    required bool isChange,
+    required bool isChanged,
     required Option<Either<Failure, Unit>> failureOrSuccessOption,
   }) = _StoreWasteFormState;
 
@@ -26,7 +26,7 @@ class StoreWasteFormState with _$StoreWasteFormState {
         priceOrganic: '...',
         priceInorganic: '...',
         earnedBalance: '0',
-        isChange: false,
+        isChanged: false,
         failureOrSuccessOption: none(),
       );
 }
