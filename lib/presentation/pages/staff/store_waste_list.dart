@@ -1,4 +1,5 @@
 import 'package:bank_sampah/component/button/rounded_button.dart';
+import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:bank_sampah/core/constant/default_data.dart';
 import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
@@ -119,11 +120,10 @@ class StoreWasteListPage extends StatelessWidget {
                             bottom: BorderSide(color: CColors.shadow),
                           ),
                         ),
-                        child: WithdrawBalanceListTile(
-                          title: users[index].fullName ?? 'No Name',
-                          subtitle: '+62 ${users[index].phoneNumber}',
-                          trailing: ['Saldo', getIt<NumberFormat>().format(users[index].pointBalance.currentBalance)],
-                          photoUrl: users[index].photoUrl,
+                        child: CustomListTile(
+                          isStoreWaste: true,
+                          user: users[index],
+                          enabled: true,
                           onTap: () => context
                               .goNamed(AppRouterName.staffStoreWasteName, pathParameters: {'userId': users[index].id}),
                         ),

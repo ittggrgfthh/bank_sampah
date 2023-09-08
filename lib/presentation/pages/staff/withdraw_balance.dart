@@ -1,12 +1,11 @@
+import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
-import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
-import '../../../core/utils/app_helper.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
@@ -46,11 +45,10 @@ class WithdrawBalance extends StatelessWidget {
                       bottom: BorderSide(color: CColors.shadow),
                     ),
                   ),
-                  child: WithdrawBalanceListTile(
-                    photoUrl: users[index].photoUrl,
-                    title: users[index].fullName ?? 'No Name',
-                    subtitle: '+62 ${users[index].phoneNumber}',
-                    trailing: ['Saldo', AppHelper.intToIDR(users[index].pointBalance.currentBalance)],
+                  child: CustomListTile(
+                    enabled: true,
+                    isWithdrawBalance: true,
+                    user: users[index],
                     onTap: () =>
                         context.goNamed(AppRouterName.staffWithdrawName, pathParameters: {'userId': users[index].id}),
                   ),

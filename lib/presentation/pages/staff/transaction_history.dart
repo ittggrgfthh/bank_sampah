@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../component/widget/avatar_image.dart';
-import '../../../component/widget/transaction_histry_list_tile.dart';
+import '../../../component/widget/custom_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
 
@@ -62,23 +60,11 @@ class TransactionHistoryPage extends StatelessWidget {
                         bottom: BorderSide(color: CColors.shadow),
                       ),
                     ),
-                    child: TransactionHitoryListTile(
+                    child: CustomListTile(
                       enabled: transaction.storeWaste != null && AppHelper.isWithin5Minutes(transaction.createdAt),
-                      title: transaction.user.fullName!,
-                      photoUrl: transaction.user.photoUrl,
-                      subtitle: [
-                        transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.organic.toString(),
-                        transaction.storeWaste == null ? '0' : transaction.storeWaste!.waste.inorganic.toString(),
-                        transaction.withdrawnBalance == null
-                            ? '0'
-                            : getIt<NumberFormat>().format(transaction.withdrawnBalance!.withdrawn),
-                      ],
-                      trailing: [
-                        AppHelper.timeAgoFromMillisecond(transaction.createdAt),
-                        transaction.storeWaste == null
-                            ? '-'
-                            : getIt<NumberFormat>().format(transaction.storeWaste!.earnedBalance),
-                      ],
+                      user: transaction.user,
+                      transaction: transaction,
+                      isTransactionHistory: true,
                       onTap: () => context.goNamed(AppRouterName.staffEditHistoryName, extra: transaction),
                     ),
                   );

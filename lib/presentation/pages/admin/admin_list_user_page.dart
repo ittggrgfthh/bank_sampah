@@ -1,3 +1,4 @@
+import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -77,11 +78,9 @@ class AdminListUserPage extends StatelessWidget {
                                 bottom: BorderSide(color: CColors.shadow),
                               ),
                             ),
-                            child: WithdrawBalanceListTile(
-                              photoUrl: user.photoUrl,
-                              title: user.fullName ?? 'No Name',
-                              subtitle: '+62 ${user.phoneNumber}',
-                              trailing: [user.role, AppHelper.intToIDR(user.pointBalance.currentBalance)],
+                            child: CustomListTile(
+                              isListUser: true,
+                              user: user,
                               enabled: true,
                               onTap: () => context.goNamed(AppRouterName.adminEditUserName, extra: user),
                             ),
