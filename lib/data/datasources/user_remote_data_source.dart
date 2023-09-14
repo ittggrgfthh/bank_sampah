@@ -73,6 +73,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     );
     final userDocRef = _firestore.userDocRef(newUserModel.id);
     final pointBalanceDocRef = _firestore.pointBalanceDocRef(newUserModel.id);
+    final rwDocRef = _firestore.rwDocRef(newUserModel.rw);
+    final rtDocRef = _firestore.rtDocRef(newUserModel.rt);
 
     final newPointBalance = PointBalanceModel(
       userId: newUserModel.id,
@@ -85,6 +87,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
     batch.set(userDocRef, newUserModel.copyWith(pointBalance: newPointBalance).toJson());
     batch.set(pointBalanceDocRef, newPointBalance.toJson());
+    batch.set(rwDocRef, {'rw': newUserModel.rw});
+    batch.set(rtDocRef, {'rt': newUserModel.rt});
 
     try {
       final querySnapshot =
@@ -223,9 +227,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     final batch = _firestore.batch();
     final userDocRef = _firestore.userDocRef(userModel.id);
     final pointBalanceDocRef = _firestore.pointBalanceDocRef(userModel.id);
+    final rwDocRef = _firestore.rwDocRef(userModel.rw);
+    final rtDocRef = _firestore.rtDocRef(userModel.rt);
     try {
       batch.set(userDocRef, userModel.toJson());
       batch.set(pointBalanceDocRef, userModel.toJson());
+      batch.set(rwDocRef, {'rw': userModel.rw});
+      batch.set(rtDocRef, {'rt': userModel.rt});
       await batch.commit();
       return await getUserById(userModel.id);
     } catch (e) {
