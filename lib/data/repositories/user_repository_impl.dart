@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bank_sampah/data/models/filter_user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../core/constant/firebase_exception_codes.dart';
 import '../../core/failures/failure.dart';
+import '../../domain/entities/filter_user.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_remote_data_source.dart';
@@ -117,6 +119,21 @@ class UserRepositoryImpl implements UserRepository {
       }
 
       return right(listUserModel.map((userModel) => userModel.toDomain()).toList());
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<User>>> getFilteredUsers(FilterUser filterUser) async {
+    try {
+      final result = await _userRemoteDataSource.getFilteredUsers(FilterUserModel.formDomain(filterUser));
+      return right(result.map((userModel) => userModel.toDomain()).toList());
+    } on FirebaseException catch (e) {
+      if (e.code == FirebaseExceptionCodes.unavailable) {
+        return left(const Failure.timeout());
+      }
+      return left(Failure.unexpected(e.toString()));
     } catch (e) {
       return left(Failure.unexpected(e.toString()));
     }

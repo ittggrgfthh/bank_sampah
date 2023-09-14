@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bank_sampah/data/models/filter_user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
@@ -40,7 +41,7 @@ abstract class UserRemoteDataSource {
   // Mendapatkan semua pengguna berdasarkan role
   Future<List<UserModel>> getAllUserByRole(String role);
 
-  // Mendapatkan semua pengguna berdasarkan role
+  // Mendapatkan semua pengguna berdasarkan phoneNumber
   Future<UserModel> getUserByPhoneNumber(String phoneNumber);
 
   // Menunggah foto profil penggguna
@@ -48,6 +49,9 @@ abstract class UserRemoteDataSource {
     required File picture,
     required String userId,
   });
+
+  /// Mendapatkan semua pengguna sesuai dengan filter
+  Future<List<UserModel>> getFilteredUsers(FilterUserModel filterUserModel);
 
   // Old method
   Stream<UserModel?> getUserProfile(String userId);
@@ -241,6 +245,54 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         throw ServerException();
       }
       return querySnapshot.docs.first.data();
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<UserModel>> getFilteredUsers(FilterUserModel filterUserModel) async {
+    final userRef = _firestore.userColRef.withConverter<UserModel>(
+      fromFirestore: (snapshot, options) => UserModel.fromJson(snapshot.data()!),
+      toFirestore: (value, options) => value.toJson(),
+    );
+
+    try {
+      Query<UserModel> query = userRef;
+      print(filterUserModel);
+
+      // Filter berdasarkan userId jika tersedia
+      if (filterUserModel.userId != null) {
+        query = query.where('id', isEqualTo: filterUserModel.userId);
+      }
+
+      // Filter berdasarkan fullName jika tersedia
+      if (filterUserModel.fullName != null) {
+        query = query.where('full_name', isEqualTo: filterUserModel.fullName);
+      }
+
+      // Filter berdasarkan roles jika tersedia
+      if (filterUserModel.role != null) {
+        query = query.where('role', isEqualTo: filterUserModel.role);
+      }
+
+      // Filter berdasarkan villages jika tersedia
+      if (filterUserModel.villages != null && filterUserModel.villages!.isNotEmpty) {
+        query = query.where('village', whereIn: filterUserModel.villages);
+      }
+
+      // // Filter berdasarkan rts jika tersedia
+      // if (filterUserModel.rts != null && filterUserModel.rts!.isNotEmpty) {
+      //   query = query.where('rt', whereIn: filterUserModel.rts);
+      // }
+
+      // // Filter berdasarkan rws jika tersedia
+      // if (filterUserModel.rws != null && filterUserModel.rws!.isNotEmpty) {
+      //   query = query.where('rw', whereIn: filterUserModel.rws);
+      // }
+
+      final result = await query.get();
+      return result.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw ServerException();
     }

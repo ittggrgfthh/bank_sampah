@@ -51,6 +51,7 @@ void init() {
   getIt.registerLazySingleton(() => UpdateUser(getIt()));
 
   getIt.registerLazySingleton(() => GetAllUserByRole(getIt()));
+  getIt.registerLazySingleton(() => GetFilteredUsers(getIt()));
   // usecase - harga limbah organik dan an-organik
   getIt.registerLazySingleton(() => CreateWastePrice(getIt()));
   getIt.registerLazySingleton(() => GetCurrentWastePrice(getIt()));

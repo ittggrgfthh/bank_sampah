@@ -17,3 +17,4 @@ export 'staff/get_transactions_by_staff_id.dart';
 export 'staff/update_waste_transaction.dart';
 export 'upload_profile_picture.dart';
 export 'user/get_transactions_by_user_id.dart';
+export 'admin/get_filtered_users.dart';
