@@ -15,14 +15,13 @@ import '../../../component/widget/upload_photo.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
-import '../../../domain/entities/user.dart';
 import '../../../injection.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/update_user_form/update_user_form_bloc.dart';
 
 class AdminEditUserPage extends StatelessWidget {
-  final User user;
-  const AdminEditUserPage({super.key, required this.user});
+  final String userId;
+  const AdminEditUserPage({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class AdminEditUserPage extends StatelessWidget {
         title: const Text('Edit User'),
       ),
       body: BlocProvider(
-        create: (context) => getIt<UpdateUserFormBloc>()..add(UpdateUserFormEvent.initial(user)),
+        create: (context) => getIt<UpdateUserFormBloc>()..add(UpdateUserFormEvent.initial(userId)),
         child: BlocListener<UpdateUserFormBloc, UpdateUserFormState>(
           listenWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
           listener: (context, state) {
@@ -121,13 +120,17 @@ class AdminEditUserPage extends StatelessWidget {
                     );
                   },
                 ),
-                Builder(builder: (context) {
-                  return DropdownVillage(
-                    initial: user.village ?? DefaultData.village.first,
-                    onChanged: (village) =>
-                        context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.villageChanged(village)),
-                  );
-                }),
+                BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                  buildWhen: (previous, current) => previous.user != current.user,
+                  builder: (context, state) {
+                    final village = state.user.toNullable()?.village ?? DefaultData.village.first;
+                    return DropdownVillage(
+                      initial: village,
+                      onChanged: (village) =>
+                          context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.villageChanged(village)),
+                    );
+                  },
+                ),
                 const SizedBox(height: 25),
                 Row(
                   children: [
@@ -215,14 +218,18 @@ class AdminEditUserPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Builder(builder: (context) {
-                          return RoleChoiceChip(
-                            initial: user.role,
-                            onSelected: (selectedRole) {
-                              context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.roleChanged(selectedRole));
-                            },
-                          );
-                        }),
+                        BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                          buildWhen: (previous, current) => previous.user != current.user,
+                          builder: (context, state) {
+                            final role = state.user.toNullable()?.role ?? DefaultData.roles.first;
+                            return RoleChoiceChip(
+                              initial: role,
+                              onSelected: (selectedRole) {
+                                context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.roleChanged(selectedRole));
+                              },
+                            );
+                          },
+                        )
                       ],
                     ),
                   ],

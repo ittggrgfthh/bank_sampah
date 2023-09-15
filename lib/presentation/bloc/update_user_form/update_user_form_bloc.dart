@@ -13,6 +13,7 @@ import '../../../core/utils/app_helper.dart';
 import '../../../core/utils/value_validators.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecase/admin/update_user.dart';
+import '../../../domain/usecase/auth/get_user_by_id.dart';
 import '../../../domain/usecase/auth/get_user_by_phone_number.dart';
 import '../../../domain/usecase/pick_image.dart';
 import '../../../domain/usecase/upload_profile_picture.dart';
@@ -26,32 +27,41 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
   final GetUserByPhoneNumber getUserByPhoneNumber;
   final UploadProfilePicture uploadProfilePicture;
   final UpdateUser updateUser;
+  final GetUserById getUserById;
 
   UpdateUserFormBloc(
     this.pickImage,
     this.getUserByPhoneNumber,
     this.uploadProfilePicture,
     this.updateUser,
+    this.getUserById,
   ) : super(UpdateUserFormState.initial()) {
     on<UpdateUserFormEvent>((event, emit) async {
       await event.when(
-        initial: (user) async {
+        initial: (userId) async {
           emit(state.copyWith(isLoading: true));
-          if (user.photoUrl != null) {
-            File profilePicture = await urlToFile(user.photoUrl!);
-            emit(state.copyWith(profilePictureOption: optionOf(profilePicture)));
-          }
-          emit(state.copyWith(
-            fullName: validateName(user.fullName!),
-            password: validatePassword(user.password, 8),
-            phoneNumber: validatePhoneNumber(user.phoneNumber, false),
-            role: user.role,
-            rt: user.rt,
-            rw: user.rw,
-            village: user.village ?? '',
-            user: optionOf(user),
-            isLoading: false,
-          ));
+          final failureOrSuccess = await getUserById(userId);
+
+          failureOrSuccess.fold(
+            (failure) => emit(state.copyWith(isLoading: false)),
+            (user) async {
+              if (user.photoUrl != null) {
+                File profilePicture = await urlToFile(user.photoUrl!);
+                emit(state.copyWith(profilePictureOption: optionOf(profilePicture)));
+              }
+              emit(state.copyWith(
+                fullName: validateName(user.fullName!),
+                password: validatePassword(user.password, 8),
+                phoneNumber: validatePhoneNumber(user.phoneNumber, false),
+                role: user.role,
+                rt: user.rt,
+                rw: user.rw,
+                village: user.village ?? '',
+                user: optionOf(user),
+                isLoading: false,
+              ));
+            },
+          );
         },
         imagePickerOpened: () async {
           final picture = await pickImage();

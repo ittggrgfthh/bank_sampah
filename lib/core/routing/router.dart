@@ -65,7 +65,7 @@ final router = GoRouter(
             GoRoute(
               path: AppRouterName.adminEditUserPath,
               name: AppRouterName.adminEditUserName,
-              builder: (context, state) => AdminEditUserPage(user: state.extra as User),
+              builder: (context, state) => AdminEditUserPage(userId: state.pathParameters['userId'] ?? ''),
             ),
           ],
         ),

@@ -2,7 +2,7 @@ part of 'update_user_form_bloc.dart';
 
 @freezed
 class UpdateUserFormEvent with _$UpdateUserFormEvent {
-  const factory UpdateUserFormEvent.initial(User user) = _Initial;
+  const factory UpdateUserFormEvent.initial(String userId) = _Initial;
   const factory UpdateUserFormEvent.imagePickerOpened() = _ImagePickerOpened;
   const factory UpdateUserFormEvent.phoneNumberChanged(String phoneNumber) = _PhoneNumberChanged;
   const factory UpdateUserFormEvent.fullNameChanged(String fullName) = _FullNameChanged;

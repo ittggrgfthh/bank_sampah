@@ -5,10 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/filter_role_choice_chip.dart';
-import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
-import '../../../core/utils/app_helper.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
@@ -82,7 +80,8 @@ class AdminListUserPage extends StatelessWidget {
                               isListUser: true,
                               user: user,
                               enabled: true,
-                              onTap: () => context.goNamed(AppRouterName.adminEditUserName, extra: user),
+                              onTap: () => context.goNamed(AppRouterName.adminEditUserName,
+                                  pathParameters: {'userId': users[index].id}),
                             ),
                           );
                         });
