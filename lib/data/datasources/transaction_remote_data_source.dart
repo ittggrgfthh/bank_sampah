@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/utils/app_helper.dart';
 import '../../core/utils/exception.dart';
 import '../../core/utils/firebase_extensions.dart';
+import '../models/filter_transaction_waste_model.dart';
 import '../models/transaction_waste_model.dart';
 
 abstract class TransactionRemoteDataSource {
@@ -36,7 +37,7 @@ abstract class TransactionRemoteDataSource {
   /// List<String> rts = ['001', '002', '003']
   /// List<String> rws = ['005', '007'],
   /// ```
-  Future<List<TransactionWasteModel>> getTransactionsFilter(Map<String, dynamic> filter);
+  Future<List<TransactionWasteModel>> getFilteredTransactions(FilterTransactionWasteModel filter);
 }
 
 class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
@@ -146,34 +147,35 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
   }
 
   @override
-  Future<List<TransactionWasteModel>> getTransactionsFilter(Map<String, dynamic> filter) async {
+  Future<List<TransactionWasteModel>> getFilteredTransactions(FilterTransactionWasteModel filter) async {
     final transactionRef = _firestore.transactionColRef.withConverter<TransactionWasteModel>(
       fromFirestore: (snapshot, options) => TransactionWasteModel.fromJson(snapshot.data()!),
       toFirestore: (value, options) => value.toJson(),
     );
     try {
-      final int startEpoch = filter['startEpoch'] ?? 0;
-      var query = transactionRef.where('created_at', isGreaterThanOrEqualTo: startEpoch);
+      Query<TransactionWasteModel> query = transactionRef;
+      print(filter);
 
-      if (filter.containsKey("endEpoch")) {
-        final int endEpoch = filter["endEpoch"];
-        query = query.where('created_at', isLessThan: endEpoch);
+      if (filter.startEpoch != null) {
+        query = query.where('created_at', isGreaterThanOrEqualTo: filter.startEpoch);
       }
 
-      if (filter.containsKey("staffId")) {
-        final String staffId = filter["staffId"];
-        query = query.where('staff.id', isEqualTo: staffId);
+      if (filter.endEpoch != null) {
+        query = query.where('created_at', isLessThan: filter.endEpoch);
       }
 
-      if (filter.containsKey("userId")) {
-        final String userId = filter["userId"];
-        query = query.where('user.id', isEqualTo: userId);
+      if (filter.staffId != null) {
+        query = query.where('staff.id', isEqualTo: filter.staffId);
       }
 
-      if (filter.containsKey("villages")) {
-        final List<String> villages = filter["villages"];
-        query = query.where('user.village', whereIn: villages);
+      if (filter.userId != null) {
+        query = query.where('user.id', isEqualTo: filter.staffId);
       }
+
+      if (filter.villages != null && filter.villages!.isNotEmpty) {
+        query = query.where('user.village', whereIn: filter.villages);
+      }
+
       // tidak bisa menggunakan whereIn secara bersamaan T_T
       // if (filter.containsKey("rts")) {
       //   print(filter);
@@ -185,7 +187,11 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
       //   query = query.where('user.rw', whereIn: rws);
       // }
 
-      final result = await query.orderBy('created_at', descending: true).get();
+      if (filter.startEpoch != null) {
+        query = query.orderBy('created_at', descending: true);
+      }
+
+      final result = await query.get();
       return result.docs.map((e) => e.data()).toList();
     } catch (e) {
       throw ServerException();

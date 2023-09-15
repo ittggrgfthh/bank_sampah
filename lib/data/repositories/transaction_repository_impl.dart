@@ -3,10 +3,12 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../core/constant/firebase_exception_codes.dart';
 import '../../core/failures/failure.dart';
+import '../../domain/entities/filter_transaction_waste.dart';
 import '../../domain/entities/report.dart';
 import '../../domain/entities/transaction_waste.dart';
 import '../../domain/repositories/transaction_repository.dart';
 import '../datasources/transaction_remote_data_source.dart';
+import '../models/filter_transaction_waste_model.dart';
 import '../models/transaction_waste_model.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
@@ -105,9 +107,10 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsFilter(Map<String, dynamic> filter) async {
+  Future<Either<Failure, List<TransactionWaste>>> getFilteredTransactions(FilterTransactionWaste filter) async {
     try {
-      final result = await _transactionRemoteDataSource.getTransactionsFilter(filter);
+      final result =
+          await _transactionRemoteDataSource.getFilteredTransactions(FilterTransactionWasteModel.formDomain(filter));
       return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {

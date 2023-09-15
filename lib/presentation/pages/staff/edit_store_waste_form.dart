@@ -147,6 +147,13 @@ class _EditStoreWasteFormState extends State<EditStoreWasteForm> {
   final TextEditingController _priceInorganicController = TextEditingController();
 
   @override
+  void dispose() {
+    _priceOrganicController.dispose();
+    _priceInorganicController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bank_sampah/data/models/filter_user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,6 +11,7 @@ import '../../domain/entities/filter_user.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_remote_data_source.dart';
+import '../models/filter_user_model.dart';
 import '../models/user_model.dart';
 
 /// class yang menghubungkan dengan repository yang ada pada domain
@@ -125,9 +125,9 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, List<User>>> getFilteredUsers(FilterUser filterUser) async {
+  Future<Either<Failure, List<User>>> getFilteredUsers(FilterUser filter) async {
     try {
-      final result = await _userRemoteDataSource.getFilteredUsers(FilterUserModel.formDomain(filterUser));
+      final result = await _userRemoteDataSource.getFilteredUsers(FilterUserModel.formDomain(filter));
       return right(result.map((userModel) => userModel.toDomain()).toList());
     } on FirebaseException catch (e) {
       if (e.code == FirebaseExceptionCodes.unavailable) {

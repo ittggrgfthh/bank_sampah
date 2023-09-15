@@ -9,7 +9,7 @@ part 'filter_user_model.g.dart';
 class FilterUserModel with _$FilterUserModel {
   @JsonSerializable(explicitToJson: true)
   const factory FilterUserModel({
-    String? userId,
+    @JsonKey(name: 'user_id') String? userId,
     @JsonKey(name: 'full_name') String? fullName,
     String? role,
     List<String>? villages,

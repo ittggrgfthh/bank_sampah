@@ -19,20 +19,38 @@ import '../../../injection.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/update_user_form/update_user_form_bloc.dart';
 
-class AdminEditUserPage extends StatelessWidget {
+class AdminEditUserPage extends StatefulWidget {
   final String userId;
   const AdminEditUserPage({super.key, required this.userId});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+  State<AdminEditUserPage> createState() => _AdminEditUserPageState();
+}
 
+class _AdminEditUserPageState extends State<AdminEditUserPage> {
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _rtController = TextEditingController();
+  final TextEditingController _rwController = TextEditingController();
+
+  @override
+  void dispose() {
+    _phoneNumberController.dispose();
+    _nameController.dispose();
+    _rtController.dispose();
+    _rwController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit User'),
       ),
       body: BlocProvider(
-        create: (context) => getIt<UpdateUserFormBloc>()..add(UpdateUserFormEvent.initial(userId)),
+        create: (context) => getIt<UpdateUserFormBloc>()..add(UpdateUserFormEvent.initial(widget.userId)),
         child: BlocListener<UpdateUserFormBloc, UpdateUserFormState>(
           listenWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,
           listener: (context, state) {
@@ -56,11 +74,10 @@ class AdminEditUserPage extends StatelessWidget {
                 BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
                   buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                   builder: (context, state) {
-                    final TextEditingController phoneNumberController = TextEditingController();
                     String phoneNumber = state.phoneNumber.getOrElse((l) => '0');
-                    phoneNumberController.text = phoneNumber;
+                    _phoneNumberController.text = phoneNumber;
                     return PhoneField(
-                      controller: phoneNumberController,
+                      controller: _phoneNumberController,
                       suffixIcon: state.isPhoneNumberLoading
                           ? Padding(
                               padding: const EdgeInsets.all(5.0),
@@ -88,11 +105,10 @@ class AdminEditUserPage extends StatelessWidget {
                 BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
                   buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                   builder: (context, state) {
-                    final TextEditingController nameController = TextEditingController();
                     String fullName = state.fullName.getOrElse((l) => 'kosong');
-                    nameController.text = fullName;
+                    _nameController.text = fullName;
                     return NameField(
-                      controller: nameController,
+                      controller: _nameController,
                       onChanged: (value) {
                         context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.fullNameChanged(value));
                       },
@@ -137,11 +153,11 @@ class AdminEditUserPage extends StatelessWidget {
                     SizedBox(
                       width: (MediaQuery.of(context).size.width / 2) - 25,
                       child: BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                        buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                         builder: (context, state) {
-                          final TextEditingController rtController = TextEditingController();
-                          rtController.text = state.rt;
+                          _rtController.text = state.rt;
                           return RtrwField(
-                            controller: rtController,
+                            controller: _rtController,
                             label: 'RT',
                             hintText: '005',
                             helperText: '',
@@ -156,11 +172,11 @@ class AdminEditUserPage extends StatelessWidget {
                     SizedBox(
                       width: (MediaQuery.of(context).size.width / 2) - 25,
                       child: BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                        buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                         builder: (context, state) {
-                          final TextEditingController rwController = TextEditingController();
-                          rwController.text = state.rw;
+                          _rwController.text = state.rw;
                           return RtrwField(
-                            controller: rwController,
+                            controller: _rwController,
                             label: 'RW',
                             hintText: '007',
                             helperText: '',
@@ -219,9 +235,14 @@ class AdminEditUserPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
-                          buildWhen: (previous, current) => previous.user != current.user,
+                          buildWhen: (previous, current) => previous.isLoading != current.isLoading,
                           builder: (context, state) {
-                            final role = state.user.toNullable()?.role ?? DefaultData.roles.first;
+                            final role = state.user.toNullable()?.role;
+                            if (role == null) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
                             return RoleChoiceChip(
                               initial: role,
                               onSelected: (selectedRole) {

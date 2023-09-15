@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/app_helper.dart';
+import '../../../domain/entities/filter_transaction_waste.dart';
 import '../../../domain/entities/report.dart';
 import '../../../domain/entities/waste.dart';
 import '../../../domain/usecase/get_transactions_filter.dart';
@@ -34,13 +35,11 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   }
 
   Future<void> processReport(Emitter<ReportState> emit, TimeSpan timeSpan, String village) async {
-    Map<String, dynamic> filter = {
-      'startEpoch': timeSpan.start,
-      'endEpoch': timeSpan.end,
-      'villages': [village],
-      // 'staffId': 'user_0000487f-1a80-05b3-e19b-deae8ea0207a',
-      // 'userId': 'user_00004880-539f-4e32-d999-0a6afa67ea7f',
-    };
+    FilterTransactionWaste filter = FilterTransactionWaste(
+      startEpoch: timeSpan.start,
+      endEpoch: timeSpan.end,
+      villages: [village],
+    );
 
     final failureOrSuccess = await _getTransactionsFilter(filter);
     failureOrSuccess.fold(
