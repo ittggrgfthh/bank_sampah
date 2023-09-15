@@ -5,13 +5,10 @@ import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../component/widget/avatar_image.dart';
-import '../../../component/widget/withdraw_balance_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
-import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
@@ -53,7 +50,8 @@ class StoreWasteListPage extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) => BuildModal(
-                        item: DefaultData.village,
+                        items: DefaultData.village,
+                        initial: ['Kebumen', 'Gedong'],
                         title: 'Filter Desa',
                         onSelectedChanged: (value) => print(value),
                       ),
@@ -69,7 +67,8 @@ class StoreWasteListPage extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) => BuildModal(
-                        item: const ['001', '002', '003', '004'],
+                        initial: ['001', '003'],
+                        items: const ['001', '002', '003', '004'],
                         title: 'Filter RW',
                         onSelectedChanged: (value) => print(value),
                       ),
@@ -86,7 +85,8 @@ class StoreWasteListPage extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) => BuildModal(
-                        item: const ['001', '002', '003', '004'],
+                        initial: ['002', '003'],
+                        items: const ['001', '002', '003', '004'],
                         title: 'Filter RW',
                         onSelectedChanged: (value) => print(value),
                       ),
@@ -186,12 +186,15 @@ class FilterButton extends StatelessWidget {
 }
 
 class BuildModal extends StatefulWidget {
-  final List<String> item;
+  final List<String> items;
+  final List<String> initial;
   final String title;
+
   final void Function(List<String>) onSelectedChanged;
   const BuildModal({
     super.key,
-    required this.item,
+    required this.items,
+    required this.initial,
     required this.title,
     required this.onSelectedChanged,
   });
@@ -207,14 +210,20 @@ class _BuildModalState extends State<BuildModal> {
   @override
   void initState() {
     super.initState();
-    selectedValues = List<bool>.generate(widget.item.length, (index) => false);
+    selectedValues = List<bool>.generate(widget.items.length, (index) => false);
+    for (var item in widget.initial) {
+      int index = widget.items.indexOf(item);
+      if (index != -1) {
+        selectedValues[index] = true;
+      }
+    }
   }
 
   void updateSelectedOptions() {
     List<String> selectedOptions = [];
     for (int i = 0; i < selectedValues.length; i++) {
       if (selectedValues[i] != null) {
-        selectedOptions.add(widget.item[i]);
+        selectedOptions.add(widget.items[i]);
       }
     }
     widget.onSelectedChanged(selectedOptions); // Call the callback with selected options.
@@ -241,11 +250,11 @@ class _BuildModalState extends State<BuildModal> {
             Expanded(
               child: ListView.builder(
                 controller: controller,
-                itemCount: widget.item.length,
+                itemCount: widget.items.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
                     title: Text(
-                      widget.item[index],
+                      widget.items[index],
                       style: TextStyle(color: Theme.of(context).colorScheme.primary),
                     ),
                     value: selectedValues[index],
@@ -253,15 +262,48 @@ class _BuildModalState extends State<BuildModal> {
                       selectedValues[index] = value;
 
                       if (selectedValues[index]!) {
-                        selectedOption.add(widget.item[index]);
+                        selectedOption.add(widget.items[index]);
                       } else {
-                        selectedOption.remove(widget.item[index]);
+                        selectedOption.remove(widget.items[index]);
                       }
                     }),
                   );
                 },
               ),
             ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: RoundedButton(
+                    name: 'Pilih Semua',
+                    onPressed: () => setState(() {
+                      for (int i = 0; i < selectedValues.length; i++) {
+                        selectedValues[i] = true;
+                      }
+                    }),
+                    selected: false,
+                    color: Theme.of(context).colorScheme.background,
+                    textColor: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: RoundedButton(
+                    name: 'Reset Pilihan',
+                    onPressed: () => setState(() {
+                      for (int i = 0; i < selectedValues.length; i++) {
+                        selectedValues[i] = false;
+                      }
+                    }),
+                    selected: false,
+                    color: Theme.of(context).colorScheme.background,
+                    textColor: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
             RoundedButton(
               name: 'Terapkan',
               onPressed: () {
