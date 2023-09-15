@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fpdart/fpdart.dart';
 
 import '../../core/failures/failure.dart';
+import '../entities/filter_user.dart';
 import '../entities/user.dart';
 
 abstract class UserRepository {
@@ -15,6 +16,7 @@ abstract class UserRepository {
   Future<Either<Failure, User>> getUserByPhoneNumber(String phoneNumber);
   Future<Either<Failure, List<User>>> getAllUserByRole(String role);
   Future<Either<Failure, User>> updateUser(User user);
+  Future<Either<Failure, List<User>>> getFilteredUsers(FilterUser filterUser);
 
   // Old method
   Stream<Either<Failure, User?>> getUserProfile(String userId);
