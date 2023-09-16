@@ -51,29 +51,11 @@ class StoreWasteListPage extends StatelessWidget {
                       context: context,
                       builder: (context) => BuildModal(
                         items: DefaultData.village,
-                        initial: ['Kebumen', 'Gedong'],
+                        initial: const ['Kebumen', 'Gedong'],
                         title: 'Filter Desa',
                         onSelectedChanged: (value) => print(value),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 26,
-                  child: FilterButton(
-                    label: 'RW',
-                    onPressed: () => showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) => BuildModal(
-                        initial: ['001', '003'],
-                        items: const ['001', '002', '003', '004'],
-                        title: 'Filter RW',
-                        onSelectedChanged: (value) => print(value),
-                      ),
-                    ),
-                    backgroundColor: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
                   ),
                 ),
                 SizedBox(
@@ -85,7 +67,25 @@ class StoreWasteListPage extends StatelessWidget {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) => BuildModal(
-                        initial: ['002', '003'],
+                        initial: const ['002', '003'],
+                        items: const ['001', '002', '003', '004'],
+                        title: 'Filter RW',
+                        onSelectedChanged: (value) => print(value),
+                      ),
+                    ),
+                    backgroundColor: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+                  ),
+                ),
+                SizedBox(
+                  height: 26,
+                  child: FilterButton(
+                    label: 'RW',
+                    onPressed: () => showModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) => BuildModal(
+                        initial: const ['001', '003'],
                         items: const ['001', '002', '003', '004'],
                         title: 'Filter RW',
                         onSelectedChanged: (value) => print(value),
@@ -222,7 +222,7 @@ class _BuildModalState extends State<BuildModal> {
   void updateSelectedOptions() {
     List<String> selectedOptions = [];
     for (int i = 0; i < selectedValues.length; i++) {
-      if (selectedValues[i] != null) {
+      if (selectedValues[i] == true) {
         selectedOptions.add(widget.items[i]);
       }
     }
@@ -307,7 +307,7 @@ class _BuildModalState extends State<BuildModal> {
             RoundedButton(
               name: 'Terapkan',
               onPressed: () {
-                widget.onSelectedChanged.call(selectedOption);
+                updateSelectedOptions();
               },
               selected: true,
               color: Theme.of(context).colorScheme.background,
