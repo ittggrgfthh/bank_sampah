@@ -59,7 +59,7 @@ dependencies:
 
 # splash screen
 flutter_native_splash:
-  web: false
+  web: true
   android: true
   color: "#F8FDFF"
   color_dark: "#020617"
