@@ -9,6 +9,7 @@ import '../../../component/widget/single_list_tile.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
 import '../../bloc/edit_store_waste_form/edit_store_waste_form_bloc.dart';
+import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
 
@@ -27,7 +28,8 @@ class EditStoreWasteFormPage extends StatelessWidget {
             (failureOrSuccess) => failureOrSuccess.fold(
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
-                context.read<ListUserBloc>().add(const ListUserEvent.initialized('warga'));
+                final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+                context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                 context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(transaction.staff.id));
                 context.pop();
               },

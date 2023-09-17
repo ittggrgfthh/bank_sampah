@@ -6,8 +6,10 @@ import 'package:go_router/go_router.dart';
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
 import '../../core/routing/router.dart';
+import '../../domain/entities/filter_user.dart';
 import '../../injection.dart';
 import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
+import '../../presentation/bloc/filter_user/filter_user_bloc.dart';
 import '../../presentation/bloc/list_user/list_user_bloc.dart';
 import '../../presentation/bloc/transaction_history/transaction_history_bloc.dart';
 
@@ -19,10 +21,13 @@ class NavbarStaff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user);
+    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt<ListUserBloc>()..add(const ListUserEvent.initialized('warga')),
+          create: (context) => getIt<ListUserBloc>()
+            ..add(ListUserEvent.initialized(filterUser ?? const FilterUser(userId: 'null_filter'))),
         ),
         BlocProvider(
           create: (context) =>

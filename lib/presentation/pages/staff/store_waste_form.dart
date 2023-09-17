@@ -9,6 +9,7 @@ import '../../../component/widget/single_list_tile.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/store_waste_form/store_waste_form_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
@@ -20,6 +21,7 @@ class StoreWasteFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final staff = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
     return BlocProvider(
       create: (context) => getIt<StoreWasteFormBloc>()..add(StoreWasteFormEvent.initialized(userId, staff)),
       child: BlocListener<StoreWasteFormBloc, StoreWasteFormState>(
@@ -29,7 +31,7 @@ class StoreWasteFormPage extends StatelessWidget {
             (failureOrSuccess) => failureOrSuccess.fold(
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
-                context.read<ListUserBloc>().add(const ListUserEvent.initialized('warga'));
+                context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                 context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(staff.id));
                 context.pop();
               },

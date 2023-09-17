@@ -16,6 +16,7 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
 import '../../../injection.dart';
+import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/update_user_form/update_user_form_bloc.dart';
 
@@ -59,7 +60,8 @@ class _AdminEditUserPageState extends State<AdminEditUserPage> {
               (failureOrSuccess) => failureOrSuccess.fold(
                 (failure) => FlushbarHelper.createError(message: 'Terjadi Kesalahan').show(context),
                 (_) {
-                  context.read<ListUserBloc>().add(const ListUserEvent.initialized('semua'));
+                  final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+                  context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                   context.pop();
                 },
               ),
