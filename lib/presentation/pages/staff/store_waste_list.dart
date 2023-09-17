@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/button/rounded_button.dart';
+import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/custom_list_tile.dart';
 import '../../../core/constant/colors.dart';
@@ -35,22 +36,33 @@ class StoreWasteListPage extends StatelessWidget {
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 5,
-              children: [
-                SizedBox(
-                  height: 26,
-                  child: FilterButton(
-                    label: 'Desa',
-                    onPressed: () => showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) => BlocBuilder<FilterUserBloc, FilterUserState>(
-                        builder: (context, state) {
-                          return state.maybeWhen(
-                            loaded: (filter) {
-                              return BuildModal(
+            child: BlocBuilder<FilterUserBloc, FilterUserState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  error: (message) {
+                    return Wrap(spacing: 5, children: [
+                      Text(message),
+                      RoundedPrimaryButton(
+                        buttonName: 'Refresh filter',
+                        onPressed: () {
+                          context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
+                        },
+                      )
+                    ]);
+                  },
+                  loaded: (filter) {
+                    return Wrap(
+                      spacing: 5,
+                      children: [
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            label: 'Desa',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => BuildModal(
                                 items: DefaultData.village,
                                 initial: filter.villages ?? [],
                                 title: 'Filter Desa',
@@ -63,59 +75,79 @@ class StoreWasteListPage extends StatelessWidget {
                                       .add(ListUserEvent.filterChanged(filter.copyWith(villages: value)));
                                   context.pop();
                                 },
-                              );
-                            },
-                            orElse: () => const Center(
-                              child: Text('Error Load Filter'),
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            label: 'RT',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => BuildModal(
+                                initial: filter.rts ?? [],
+                                items: const ['001', '002', '003', '004'],
+                                title: 'Filter RW',
+                                onSelectedChanged: (value) {
+                                  context
+                                      .read<FilterUserBloc>()
+                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rts: value)));
+                                  context
+                                      .read<ListUserBloc>()
+                                      .add(ListUserEvent.filterChanged(filter.copyWith(rts: value)));
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                            backgroundColor: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            label: 'RW',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => BuildModal(
+                                initial: filter.rws ?? [],
+                                items: const ['001', '002', '003', '004'],
+                                title: 'Filter RW',
+                                onSelectedChanged: (value) {
+                                  context
+                                      .read<FilterUserBloc>()
+                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rws: value)));
+                                  context
+                                      .read<ListUserBloc>()
+                                      .add(ListUserEvent.filterChanged(filter.copyWith(rws: value)));
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                            backgroundColor: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
+                          ),
+                        ),
+                        Container(
+                          height: 26,
+                          width: 1,
+                          color: CColors.shadow,
+                        ),
+                      ],
+                    );
+                  },
+                  orElse: () => const Wrap(
+                    spacing: 5,
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('loading filter'),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 26,
-                  child: FilterButton(
-                    label: 'RT',
-                    onPressed: () => showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) => BuildModal(
-                        initial: const ['002', '003'],
-                        items: const ['001', '002', '003', '004'],
-                        title: 'Filter RW',
-                        onSelectedChanged: (value) => print(value),
-                      ),
-                    ),
-                    backgroundColor: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
-                  ),
-                ),
-                SizedBox(
-                  height: 26,
-                  child: FilterButton(
-                    label: 'RW',
-                    onPressed: () => showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) => BuildModal(
-                        initial: const ['001', '003'],
-                        items: const ['001', '002', '003', '004'],
-                        title: 'Filter RW',
-                        onSelectedChanged: (value) => print(value),
-                      ),
-                    ),
-                    backgroundColor: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
-                  ),
-                ),
-                Container(
-                  height: 26,
-                  width: 1,
-                  color: CColors.shadow,
-                ),
-              ],
+                );
+              },
             ),
           ),
           Expanded(

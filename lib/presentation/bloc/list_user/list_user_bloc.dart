@@ -18,13 +18,13 @@ class ListUserBloc extends Bloc<ListUserEvent, ListUserState> {
     on<ListUserEvent>((event, emit) async {
       await event.when(
         initialized: (filter) => _handleInitialized(emit, filter),
-        filterChanged: (FilterUser filter) => _handleRoleChanged(emit, filter),
+        filterChanged: (FilterUser filter) => _handleFilterChanged(emit, filter),
         usersReceived: (failureOrUsers) => _handleUsersReceived(emit, failureOrUsers),
       );
     });
   }
 
-  Future<void> _handleInitialized(Emitter<ListUserState> emit, FilterUser filter) async {
+  Future<void> _getUsers(Emitter<ListUserState> emit, FilterUser filter) async {
     emit(const ListUserState.loadInProgress());
     final users = await _getFilteredUsers(filter);
     users.fold(
@@ -41,14 +41,12 @@ class ListUserBloc extends Bloc<ListUserEvent, ListUserState> {
     );
   }
 
-  Future<void> _handleRoleChanged(Emitter<ListUserState> emit, FilterUser filter) async {
-    emit(const ListUserState.loadInProgress());
-    // final users = await _getAllUserByRole(role);
-    final users = await _getFilteredUsers(filter);
-    users.fold(
-      (failure) => emit(ListUserState.loadFailure(failure)),
-      (users) => emit(ListUserState.loadSuccess(users)),
-    );
+  Future<void> _handleInitialized(Emitter<ListUserState> emit, FilterUser filter) async {
+    await _getUsers(emit, filter);
+  }
+
+  Future<void> _handleFilterChanged(Emitter<ListUserState> emit, FilterUser filter) async {
+    await _getUsers(emit, filter);
   }
 
   Future<void> _handleUsersReceived(Emitter<ListUserState> emit, Either<Failure, List<User>> failureOrUsers) async {

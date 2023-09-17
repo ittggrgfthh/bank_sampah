@@ -8,8 +8,7 @@ import '../../component/field/password_field.dart';
 import '../../component/field/phone_field.dart';
 import '../../core/failures/auth_failure_messages.dart';
 import '../../injection.dart';
-import '../bloc/auth_bloc/auth_bloc.dart';
-import '../bloc/signin_form_bloc/signin_form_bloc.dart';
+import '../bloc/bloc.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -31,6 +30,7 @@ class LoginPage extends StatelessWidget {
               ),
               (_) {
                 context.read<AuthBloc>().add(const AuthEvent.authCheckRequested());
+                context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
                 return null;
               },
             ),
