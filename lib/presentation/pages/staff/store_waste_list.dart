@@ -222,15 +222,22 @@ class BuildModal extends StatefulWidget {
 class _BuildModalState extends State<BuildModal> {
   List<bool?> selectedValues = [];
   List<String> selectedOption = [];
+  bool? isCheckAll = false;
 
   @override
   void initState() {
     super.initState();
     selectedValues = List<bool>.generate(widget.items.length, (index) => false);
-    for (var item in widget.initial) {
-      int index = widget.items.indexOf(item);
-      if (index != -1) {
-        selectedValues[index] = true;
+    initial();
+  }
+
+  void initial() {
+    if (widget.initial != []) {
+      for (var item in widget.initial) {
+        int index = widget.items.indexOf(item);
+        if (index != -1) {
+          selectedValues[index] = true;
+        }
       }
     }
   }
@@ -247,91 +254,106 @@ class _BuildModalState extends State<BuildModal> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(builder: (_, controller) {
-      return Container(
-        color: Theme.of(context).colorScheme.background,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                controller: controller,
-                itemCount: widget.items.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    title: Text(
-                      widget.items[index],
-                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.95,
+      maxChildSize: 0.95,
+      minChildSize: 0.4,
+      builder: (_, controller) {
+        return Container(
+          color: Theme.of(context).colorScheme.background,
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
                     ),
-                    value: selectedValues[index],
-                    onChanged: (value) => setState(() {
-                      selectedValues[index] = value;
-
-                      if (selectedValues[index]!) {
-                        selectedOption.add(widget.items[index]);
-                      } else {
-                        selectedOption.remove(widget.items[index]);
-                      }
-                    }),
-                  );
-                },
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Pilih Semua',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Checkbox(
+                        value: isCheckAll,
+                        onChanged: (value) => setState(() {
+                          isCheckAll = value;
+                          for (int i = 0; i < selectedValues.length; i++) {
+                            selectedValues[i] = value;
+                          }
+                        }),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: RoundedButton(
-                    name: 'Pilih Semua',
-                    onPressed: () => setState(() {
-                      for (int i = 0; i < selectedValues.length; i++) {
-                        selectedValues[i] = true;
-                      }
-                    }),
-                    selected: false,
-                    color: Theme.of(context).colorScheme.background,
-                    textColor: Theme.of(context).colorScheme.primary,
-                  ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: ListView.builder(
+                  controller: controller,
+                  itemCount: widget.items.length,
+                  itemBuilder: (context, index) {
+                    return CheckboxListTile(
+                      title: Text(
+                        widget.items[index],
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      ),
+                      value: selectedValues[index],
+                      onChanged: (value) => setState(() {
+                        selectedValues[index] = value;
+
+                        if (selectedValues[index]!) {
+                          selectedOption.add(widget.items[index]);
+                        } else {
+                          selectedOption.remove(widget.items[index]);
+                        }
+                      }),
+                    );
+                  },
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: RoundedButton(
-                    name: 'Reset Pilihan',
-                    onPressed: () => setState(() {
-                      for (int i = 0; i < selectedValues.length; i++) {
-                        selectedValues[i] = false;
-                      }
-                    }),
-                    selected: false,
-                    color: Theme.of(context).colorScheme.background,
-                    textColor: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: RoundedButton(
+                      name: 'Batal',
+                      onPressed: () => context.pop(),
+                      selected: false,
+                      color: Theme.of(context).colorScheme.background,
+                      textColor: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 5),
-            RoundedButton(
-              name: 'Terapkan',
-              onPressed: () {
-                updateSelectedOptions();
-              },
-              selected: true,
-              color: Theme.of(context).colorScheme.background,
-              textColor: Theme.of(context).colorScheme.primary,
-            ),
-          ],
-        ),
-      );
-    });
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: RoundedButton(
+                      name: 'Terapkan',
+                      onPressed: () {
+                        updateSelectedOptions();
+                      },
+                      selected: true,
+                      color: Theme.of(context).colorScheme.background,
+                      textColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
