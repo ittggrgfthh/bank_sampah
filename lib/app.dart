@@ -6,15 +6,24 @@ import 'core/constant/theme.dart';
 import 'core/routing/router.dart';
 import 'injection.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'presentation/bloc/filter_user/filter_user_bloc.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      lazy: false,
-      create: (context) => getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (context) => getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => getIt<FilterUserBloc>()..add(const FilterUserEvent.filterLoaded()),
+        ),
+      ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: MyTheme.lightMode.copyWith(inputDecorationTheme: MyInputTheme().theme(context)),

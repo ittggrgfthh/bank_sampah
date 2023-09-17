@@ -25,7 +25,7 @@ class EditWastePrice extends StatelessWidget {
           AvatarImage(
             photoUrl: admin.photoUrl,
             username: admin.fullName,
-            onTap: () => context.go('${AppRouterName.adminReportPath}/${AppRouterName.profilePath}', extra: admin),
+            onTap: () => context.goNamed(AppRouterName.profileName),
           ),
           const SizedBox(width: 15),
         ],

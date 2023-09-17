@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../../component/widget/navbar_admin.dart';
 import '../../component/widget/navbar_staff.dart';
 import '../../domain/entities/transaction_waste.dart';
-import '../../domain/entities/user.dart';
 import '../../injection.dart';
 import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
 import '../../presentation/pages/pages.dart';
@@ -29,6 +28,11 @@ final router = GoRouter(
       name: AppRouterName.loginName,
       builder: (context, state) => const LoginPage(),
     ),
+    GoRoute(
+      path: AppRouterName.profilePath,
+      name: AppRouterName.profileName,
+      builder: (context, state) => const ProfilePage(),
+    ),
 
     /// Admin
     ShellRoute(
@@ -39,24 +43,12 @@ final router = GoRouter(
           path: AppRouterName.adminReportPath,
           name: AppRouterName.adminReportName,
           pageBuilder: (context, state) => const NoTransitionPage(child: AdminHomePage()),
-          routes: [
-            GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
-              path: AppRouterName.profilePath,
-              builder: (context, state) => ProfilePage(user: state.extra as User),
-            ),
-          ],
         ),
         GoRoute(
           path: AppRouterName.adminListUsersPath,
           name: AppRouterName.adminListUsersName,
           pageBuilder: (context, state) => const NoTransitionPage(child: AdminListUserPage()),
           routes: [
-            GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
-              path: AppRouterName.profilePath,
-              builder: (context, state) => ProfilePage(user: state.extra as User),
-            ),
             GoRoute(
               path: AppRouterName.adminCreateUserPath,
               name: AppRouterName.adminCreateUserName,
@@ -80,11 +72,6 @@ final router = GoRouter(
               name: AppRouterName.adminWastePriceLogName,
               builder: (context, state) => const EditPriceHistory(),
             ),
-            GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
-              path: AppRouterName.profilePath,
-              builder: (context, state) => ProfilePage(user: state.extra as User),
-            ),
           ],
         ),
       ],
@@ -105,11 +92,6 @@ final router = GoRouter(
               name: AppRouterName.staffStoreWasteName,
               builder: (context, state) => StoreWasteFormPage(userId: state.pathParameters['userId'] ?? ''),
             ),
-            GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
-              path: AppRouterName.profilePath,
-              builder: (context, state) => ProfilePage(user: state.extra as User),
-            ),
           ],
         ),
         GoRoute(
@@ -121,11 +103,6 @@ final router = GoRouter(
               path: AppRouterName.staffEditHistoryPath,
               name: AppRouterName.staffEditHistoryName,
               builder: (context, state) => EditStoreWasteFormPage(transaction: state.extra as TransactionWaste),
-            ),
-            GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
-              path: AppRouterName.profilePath,
-              builder: (context, state) => ProfilePage(user: state.extra as User),
             ),
           ],
         ),
@@ -139,11 +116,6 @@ final router = GoRouter(
               name: AppRouterName.staffWithdrawName,
               builder: (context, state) => WithdrawBalanceForm(userId: state.pathParameters['userId'] ?? ''),
             ),
-            GoRoute(
-              parentNavigatorKey: _rootNavigatorKey,
-              path: AppRouterName.profilePath,
-              builder: (context, state) => ProfilePage(user: state.extra as User),
-            ),
           ],
         ),
       ],
@@ -152,17 +124,10 @@ final router = GoRouter(
       path: AppRouterName.wargaHomePath,
       name: AppRouterName.wargaHomeName,
       builder: (context, state) => const WargaHomePage(),
-      routes: [
-        GoRoute(
-          parentNavigatorKey: _rootNavigatorKey,
-          path: AppRouterName.profilePath,
-          builder: (context, state) => ProfilePage(user: state.extra as User),
-        ),
-      ],
     ),
   ],
   redirect: (_, state) async {
-    final String? a = await getIt<AuthBloc>().state.when(
+    final String? path = await getIt<AuthBloc>().state.when(
       authenticated: (user) async {
         if (state.matchedLocation == AppRouterName.loginPath || state.matchedLocation == AppRouterName.rootPath) {
           switch (user.role) {
@@ -186,7 +151,7 @@ final router = GoRouter(
         return null;
       },
     );
-    return a;
+    return path;
   },
   refreshListenable: _RefreshStream(getIt<AuthBloc>().stream),
   debugLogDiagnostics: true,

@@ -1,9 +1,9 @@
-import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
+import '../../../component/widget/custom_list_tile.dart';
 import '../../../component/widget/filter_role_choice_chip.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
@@ -24,7 +24,7 @@ class AdminListUserPage extends StatelessWidget {
           AvatarImage(
             photoUrl: admin.photoUrl,
             username: admin.fullName,
-            onTap: () => context.go('${AppRouterName.adminListUsersPath}/${AppRouterName.profilePath}', extra: admin),
+            onTap: () => context.goNamed(AppRouterName.profileName),
           ),
           const SizedBox(width: 15),
         ],

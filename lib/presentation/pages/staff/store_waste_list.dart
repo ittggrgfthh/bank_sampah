@@ -1,13 +1,13 @@
-import 'package:bank_sampah/component/button/rounded_button.dart';
-import 'package:bank_sampah/component/widget/custom_list_tile.dart';
-import 'package:bank_sampah/core/constant/default_data.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../component/button/rounded_button.dart';
 import '../../../component/widget/avatar_image.dart';
+import '../../../component/widget/custom_list_tile.dart';
 import '../../../core/constant/colors.dart';
+import '../../../core/constant/default_data.dart';
+import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
@@ -24,8 +24,7 @@ class StoreWasteListPage extends StatelessWidget {
         title: const Text('Simpan Sampah'),
         actions: [
           AvatarImage(
-            onTap: () =>
-                context.go('${AppRouterName.staffWasteTransactionPath}/${AppRouterName.profilePath}', extra: staff),
+            onTap: () => context.goNamed(AppRouterName.profileName),
             photoUrl: staff.photoUrl,
             username: staff.fullName,
           ),

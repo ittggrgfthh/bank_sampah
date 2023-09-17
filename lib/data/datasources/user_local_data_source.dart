@@ -20,6 +20,14 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   @override
   Future<void> saveLoggedInUser(UserModel user) async {
     final sharedPreferences = await SharedPreferences.getInstance();
+    FilterUserModel filterUserModel = FilterUserModel(villages: [user.village ?? 'Banyubiru']);
+    switch (user.role) {
+      case 'staff':
+        filterUserModel = filterUserModel.copyWith(role: 'warga');
+        break;
+      default:
+    }
+    await saveUserFilter(filterUserModel);
     final userJson = user.toJson();
     await sharedPreferences.setString(_loggedInUserKey, jsonEncode(userJson));
   }
