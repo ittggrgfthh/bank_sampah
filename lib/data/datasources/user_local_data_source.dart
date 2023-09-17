@@ -20,6 +20,16 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   @override
   Future<void> saveLoggedInUser(UserModel user) async {
     final sharedPreferences = await SharedPreferences.getInstance();
+    FilterUserModel filterUserModel = FilterUserModel(villages: [user.village ?? 'Banyubiru']);
+    print(user);
+    switch (user.role) {
+      case 'staff':
+        filterUserModel = filterUserModel.copyWith(role: 'warga');
+        break;
+      default:
+    }
+    print(filterUserModel);
+    await saveUserFilter(filterUserModel);
     final userJson = user.toJson();
     await sharedPreferences.setString(_loggedInUserKey, jsonEncode(userJson));
   }
@@ -38,6 +48,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   @override
   Future<void> clearLoggedInUser() async {
     final sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.remove(_userFilterKey);
     await sharedPreferences.remove(_loggedInUserKey);
   }
 
@@ -52,6 +63,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   Future<FilterUserModel?> getUserFilter() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final userFilterJson = sharedPreferences.getString(_userFilterKey);
+    print(userFilterJson);
     if (userFilterJson != null) {
       final userFilterMap = jsonDecode(userFilterJson) as Map<String, dynamic>;
       return FilterUserModel.fromJson(userFilterMap);

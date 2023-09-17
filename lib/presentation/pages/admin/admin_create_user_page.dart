@@ -37,7 +37,8 @@ class AdminCreateUserPage extends StatelessWidget {
               (failureOrSuccess) => failureOrSuccess.fold(
                 (failure) => FlushbarHelper.createError(message: 'Terjadi kesalahan').show(context),
                 (_) {
-                  context.read<ListUserBloc>().add(const ListUserEvent.initialized('semua'));
+                  final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+                  context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                   context.pop();
                 },
               ),

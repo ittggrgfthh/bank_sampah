@@ -1,9 +1,9 @@
-import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
+import '../../../component/widget/custom_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
@@ -22,8 +22,7 @@ class WithdrawBalance extends StatelessWidget {
           AvatarImage(
             photoUrl: staff.photoUrl,
             username: staff.fullName,
-            onTap: () =>
-                context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}', extra: staff),
+            onTap: () => context.goNamed(AppRouterName.profileName),
           ),
           const SizedBox(width: 15),
         ],

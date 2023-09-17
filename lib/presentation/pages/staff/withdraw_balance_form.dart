@@ -13,6 +13,7 @@ import '../../../core/constant/default_data.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
 import '../../bloc/withdraw_balance_form/withdraw_balance_form_bloc.dart';
@@ -43,7 +44,8 @@ class WithdrawBalanceForm extends StatelessWidget {
               (failureOrSuccess) => failureOrSuccess.fold(
                 (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
                 (_) {
-                  context.read<ListUserBloc>().add(const ListUserEvent.initialized('warga'));
+                  final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+                  context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                   context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(staff.id));
                   context.pop();
                 },

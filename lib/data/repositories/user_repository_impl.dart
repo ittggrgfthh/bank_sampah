@@ -10,6 +10,7 @@ import '../../core/failures/failure.dart';
 import '../../domain/entities/filter_user.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
+import '../datasources/user_local_data_source.dart';
 import '../datasources/user_remote_data_source.dart';
 import '../models/filter_user_model.dart';
 import '../models/user_model.dart';
@@ -17,8 +18,9 @@ import '../models/user_model.dart';
 /// class yang menghubungkan dengan repository yang ada pada domain
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource _userRemoteDataSource;
+  final UserLocalDataSource _userLocalDataSource;
 
-  UserRepositoryImpl(this._userRemoteDataSource);
+  UserRepositoryImpl(this._userRemoteDataSource, this._userLocalDataSource);
 
   @override
   Stream<Either<Failure, User?>> getUserProfile(String userId) async* {
@@ -134,6 +136,29 @@ class UserRepositoryImpl implements UserRepository {
         return left(const Failure.timeout());
       }
       return left(Failure.unexpected(e.toString()));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FilterUser>> getUserFilter() async {
+    try {
+      final filter = await _userLocalDataSource.getUserFilter();
+      if (filter != null) {
+        return right(filter.toDomain());
+      }
+      return left(const Failure.unexpected('User filter not found'));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveUserFilter(FilterUser filter) async {
+    try {
+      await _userLocalDataSource.saveUserFilter(FilterUserModel.formDomain(filter));
+      return right(unit);
     } catch (e) {
       return left(Failure.unexpected(e.toString()));
     }

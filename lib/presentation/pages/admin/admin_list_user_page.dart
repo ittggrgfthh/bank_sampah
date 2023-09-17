@@ -1,13 +1,14 @@
-import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
+import '../../../component/widget/custom_list_tile.dart';
 import '../../../component/widget/filter_role_choice_chip.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
 class AdminListUserPage extends StatelessWidget {
@@ -16,6 +17,7 @@ class AdminListUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final admin = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +26,7 @@ class AdminListUserPage extends StatelessWidget {
           AvatarImage(
             photoUrl: admin.photoUrl,
             username: admin.fullName,
-            onTap: () => context.go('${AppRouterName.adminListUsersPath}/${AppRouterName.profilePath}', extra: admin),
+            onTap: () => context.goNamed(AppRouterName.profileName),
           ),
           const SizedBox(width: 15),
         ],
@@ -47,7 +49,8 @@ class AdminListUserPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: FilterRoleChoiceChip(
                   onSelected: (selectedRole) {
-                    context.read<ListUserBloc>().add(ListUserEvent.roleChanged(selectedRole));
+                    context.read<ListUserBloc>().add(ListUserEvent.filterChanged(
+                        filterUser.copyWith(role: selectedRole == 'semua' ? null : selectedRole)));
                   },
                 ),
               );

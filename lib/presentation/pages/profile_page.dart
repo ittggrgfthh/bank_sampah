@@ -6,21 +6,20 @@ import '../../component/widget/avatar_image.dart';
 import '../../component/widget/confirmation_dialog.dart';
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
-import '../../domain/entities/user.dart';
 import '../../injection.dart';
 import '../bloc/auth_bloc/auth_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
-  final User user;
-  const ProfilePage({super.key, required this.user});
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
         leading: IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () => context.go('/'),
           icon: const Icon(Icons.chevron_left_rounded),
         ),
       ),

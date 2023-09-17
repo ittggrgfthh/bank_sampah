@@ -23,6 +23,7 @@ void init() {
         signOut: getIt(),
         getUserById: getIt(),
       ));
+  getIt.registerLazySingleton(() => FilterUserBloc(getIt(), getIt()));
 
   // bloc - admin
   getIt.registerFactory(() => ReportBloc(getIt()));
@@ -50,8 +51,11 @@ void init() {
   getIt.registerLazySingleton(() => GetUserByPhoneNumber(getIt()));
   getIt.registerLazySingleton(() => UpdateUser(getIt()));
 
+  // usecase - user
   getIt.registerLazySingleton(() => GetAllUserByRole(getIt()));
   getIt.registerLazySingleton(() => GetFilteredUsers(getIt()));
+  getIt.registerLazySingleton(() => GetUserFilter(getIt()));
+  getIt.registerLazySingleton(() => SaveUserFilter(getIt()));
   // usecase - harga limbah organik dan an-organik
   getIt.registerLazySingleton(() => CreateWastePrice(getIt()));
   getIt.registerLazySingleton(() => GetCurrentWastePrice(getIt()));
@@ -65,7 +69,7 @@ void init() {
   getIt.registerLazySingleton(() => GetTransactionsFilter(getIt()));
 
   // repository
-  getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt(), getIt()));
   getIt.registerLazySingleton<AuthFacade>(() => AuthFacadeImpl(getIt(), getIt()));
   // repository - waste
   getIt.registerLazySingleton<WastePriceRepository>(() => WastePriceRepositoryImpl(getIt()));

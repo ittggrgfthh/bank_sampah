@@ -17,6 +17,8 @@ abstract class UserRepository {
   Future<Either<Failure, List<User>>> getAllUserByRole(String role);
   Future<Either<Failure, User>> updateUser(User user);
   Future<Either<Failure, List<User>>> getFilteredUsers(FilterUser filter);
+  Future<Either<Failure, FilterUser>> getUserFilter();
+  Future<Either<Failure, Unit>> saveUserFilter(FilterUser filter);
 
   // Old method
   Stream<Either<Failure, User?>> getUserProfile(String userId);

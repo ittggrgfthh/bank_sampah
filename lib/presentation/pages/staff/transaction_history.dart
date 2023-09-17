@@ -23,8 +23,7 @@ class TransactionHistoryPage extends StatelessWidget {
           AvatarImage(
             photoUrl: staff.photoUrl,
             username: staff.fullName,
-            onTap: () =>
-                context.go('${AppRouterName.staffHistoryTransactionPath}/${AppRouterName.profilePath}', extra: staff),
+            onTap: () => context.goNamed(AppRouterName.profileName),
           ),
           const SizedBox(width: 15),
         ],

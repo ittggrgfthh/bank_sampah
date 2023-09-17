@@ -25,7 +25,7 @@ class WargaHomePage extends StatelessWidget {
           AvatarImage(
             photoUrl: warga.photoUrl,
             username: warga.fullName,
-            onTap: () => context.go('${AppRouterName.wargaHomePath}/${AppRouterName.profilePath}', extra: warga),
+            onTap: () => context.goNamed(AppRouterName.profileName),
           ),
           const SizedBox(width: 15),
         ],
