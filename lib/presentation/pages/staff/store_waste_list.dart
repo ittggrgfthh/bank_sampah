@@ -297,7 +297,7 @@ class _BuildModalState extends State<BuildModal> {
       minChildSize: 0.4,
       builder: (_, controller) {
         return Container(
-          color: Theme.of(context).colorScheme.background,
+          color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,7 +369,7 @@ class _BuildModalState extends State<BuildModal> {
                       name: 'Batal',
                       onPressed: () => context.pop(),
                       selected: false,
-                      color: Theme.of(context).colorScheme.background,
+                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                       textColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
@@ -381,7 +381,7 @@ class _BuildModalState extends State<BuildModal> {
                         updateSelectedOptions();
                       },
                       selected: true,
-                      color: Theme.of(context).colorScheme.background,
+                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                       textColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
