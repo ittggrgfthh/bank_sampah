@@ -259,11 +259,14 @@ class _BuildModalState extends State<BuildModal> {
   @override
   void initState() {
     super.initState();
-    selectedValues = List<bool>.generate(widget.items.length, (index) => false);
+
     initial();
   }
 
   void initial() {
+    //generate list bool
+    selectedValues = List<bool>.generate(widget.items.length, (index) => false);
+    //check if there is filter that was on
     if (widget.initial != []) {
       for (var item in widget.initial) {
         int index = widget.items.indexOf(item);
@@ -272,6 +275,8 @@ class _BuildModalState extends State<BuildModal> {
         }
       }
     }
+    // check all item in selectedValue, return true if all selectedValues was true
+    isCheckAll = selectedValues.every((element) => element == true);
   }
 
   void updateSelectedOptions() {
