@@ -13,6 +13,8 @@ class FilterTransactionWaste with _$FilterTransactionWaste {
     List<String>? villages,
     List<String>? rts,
     List<String>? rws,
+    @Default(false) bool isStoreWaste,
+    @Default(false) bool isWithdrawBalance,
   }) = _FilterTransactionWaste;
 
   const FilterTransactionWaste._();

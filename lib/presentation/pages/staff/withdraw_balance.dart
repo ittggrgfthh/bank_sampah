@@ -40,18 +40,18 @@ class WithdrawBalance extends StatelessWidget {
             child: BlocBuilder<FilterUserBloc, FilterUserState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  error: (message) {
+                  loadFailure: (message) {
                     return Wrap(spacing: 5, children: [
                       Text(message),
                       RoundedPrimaryButton(
                         buttonName: 'Refresh filter',
                         onPressed: () {
-                          context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
+                          context.read<FilterUserBloc>().add(const FilterUserEvent.loaded());
                         },
                       )
                     ]);
                   },
-                  loaded: (filter) {
+                  loadSuccess: (filter) {
                     return Wrap(
                       spacing: 5,
                       children: [
@@ -70,7 +70,7 @@ class WithdrawBalance extends StatelessWidget {
                                 onSelectedChanged: (value) {
                                   context
                                       .read<FilterUserBloc>()
-                                      .add(FilterUserEvent.filterSaved(filter.copyWith(villages: value)));
+                                      .add(FilterUserEvent.apply(filter.copyWith(villages: value)));
                                   context
                                       .read<ListUserBloc>()
                                       .add(ListUserEvent.filterChanged(filter.copyWith(villages: value)));
@@ -95,7 +95,7 @@ class WithdrawBalance extends StatelessWidget {
                                 onSelectedChanged: (value) {
                                   context
                                       .read<FilterUserBloc>()
-                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rts: value)));
+                                      .add(FilterUserEvent.apply(filter.copyWith(rts: value)));
                                   context
                                       .read<ListUserBloc>()
                                       .add(ListUserEvent.filterChanged(filter.copyWith(rts: value)));
@@ -121,7 +121,7 @@ class WithdrawBalance extends StatelessWidget {
                                 onSelectedChanged: (value) {
                                   context
                                       .read<FilterUserBloc>()
-                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rws: value)));
+                                      .add(FilterUserEvent.apply(filter.copyWith(rws: value)));
                                   context
                                       .read<ListUserBloc>()
                                       .add(ListUserEvent.filterChanged(filter.copyWith(rws: value)));

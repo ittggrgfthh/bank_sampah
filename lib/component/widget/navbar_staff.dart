@@ -20,7 +20,7 @@ class NavbarStaff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
     return MultiBlocProvider(
       providers: [
         BlocProvider(

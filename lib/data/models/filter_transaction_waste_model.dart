@@ -17,6 +17,8 @@ class FilterTransactionWasteModel with _$FilterTransactionWasteModel {
     List<String>? villages,
     List<String>? rts,
     List<String>? rws,
+    @JsonKey(name: 'is_store_waste') @Default(false) bool isStoreWaste,
+    @JsonKey(name: 'is_withdraw_balance') @Default(false) bool isWithdrawBalance,
   }) = _FilterTransactionWaste;
 
   const FilterTransactionWasteModel._();
@@ -34,6 +36,8 @@ class FilterTransactionWasteModel with _$FilterTransactionWasteModel {
       villages: villages,
       rts: rts,
       rws: rws,
+      isStoreWaste: isStoreWaste,
+      isWithdrawBalance: isWithdrawBalance,
     );
   }
 
@@ -47,6 +51,8 @@ class FilterTransactionWasteModel with _$FilterTransactionWasteModel {
       villages: filterTransactionWaste.villages,
       rts: filterTransactionWaste.rts,
       rws: filterTransactionWaste.rws,
+      isStoreWaste: filterTransactionWaste.isStoreWaste,
+      isWithdrawBalance: filterTransactionWaste.isWithdrawBalance,
     );
   }
 }

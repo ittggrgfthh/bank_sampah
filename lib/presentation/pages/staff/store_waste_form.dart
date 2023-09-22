@@ -21,7 +21,7 @@ class StoreWasteFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final staff = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-    final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+    final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
     return BlocProvider(
       create: (context) => getIt<StoreWasteFormBloc>()..add(StoreWasteFormEvent.initialized(userId, staff)),
       child: BlocListener<StoreWasteFormBloc, StoreWasteFormState>(

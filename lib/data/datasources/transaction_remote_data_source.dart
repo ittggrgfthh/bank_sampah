@@ -176,6 +176,14 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
         query = query.where('user.village', whereIn: filter.villages);
       }
 
+      if (filter.isStoreWaste == true && filter.isWithdrawBalance == false) {
+        query = query.where('store_waste', isNull: false);
+      }
+
+      if (filter.isWithdrawBalance == true && filter.isStoreWaste == false) {
+        query = query.where('withdraw_balance', isNull: false);
+      }
+
       // tidak bisa menggunakan whereIn secara bersamaan T_T
       // if (filter.containsKey("rts")) {
       //   print(filter);

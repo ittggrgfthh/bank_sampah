@@ -22,7 +22,6 @@ class AdminListUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final admin = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -54,18 +53,18 @@ class AdminListUserPage extends StatelessWidget {
             child: BlocBuilder<FilterUserBloc, FilterUserState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  error: (message) {
+                  loadFailure: (message) {
                     return Wrap(spacing: 5, children: [
                       Text(message),
                       RoundedPrimaryButton(
                         buttonName: 'Refresh filter',
                         onPressed: () {
-                          context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
+                          context.read<FilterUserBloc>().add(const FilterUserEvent.loaded());
                         },
                       )
                     ]);
                   },
-                  loaded: (filter) {
+                  loadSuccess: (filter) {
                     return Wrap(
                       spacing: 5,
                       children: [
@@ -83,10 +82,10 @@ class AdminListUserPage extends StatelessWidget {
                                 items: const ['semua', 'warga', 'staff', 'admin'],
                                 title: 'Filter User',
                                 onSelectedChanged: (selectedItem) {
-                                  context.read<FilterUserBloc>().add(FilterUserEvent.filterSaved(
+                                  context.read<FilterUserBloc>().add(FilterUserEvent.apply(
                                       filter.copyWith(role: selectedItem == 'semua' ? null : selectedItem)));
                                   context.read<ListUserBloc>().add(ListUserEvent.filterChanged(
-                                      filterUser.copyWith(role: selectedItem == 'semua' ? null : selectedItem)));
+                                      filter.copyWith(role: selectedItem == 'semua' ? null : selectedItem)));
                                   context.pop();
                                 },
                               ),
@@ -108,7 +107,7 @@ class AdminListUserPage extends StatelessWidget {
                                 onSelectedChanged: (value) {
                                   context
                                       .read<FilterUserBloc>()
-                                      .add(FilterUserEvent.filterSaved(filter.copyWith(villages: value)));
+                                      .add(FilterUserEvent.apply(filter.copyWith(villages: value)));
                                   context
                                       .read<ListUserBloc>()
                                       .add(ListUserEvent.filterChanged(filter.copyWith(villages: value)));
@@ -133,7 +132,7 @@ class AdminListUserPage extends StatelessWidget {
                                 onSelectedChanged: (value) {
                                   context
                                       .read<FilterUserBloc>()
-                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rts: value)));
+                                      .add(FilterUserEvent.apply(filter.copyWith(rts: value)));
                                   context
                                       .read<ListUserBloc>()
                                       .add(ListUserEvent.filterChanged(filter.copyWith(rts: value)));
@@ -159,7 +158,7 @@ class AdminListUserPage extends StatelessWidget {
                                 onSelectedChanged: (value) {
                                   context
                                       .read<FilterUserBloc>()
-                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rws: value)));
+                                      .add(FilterUserEvent.apply(filter.copyWith(rws: value)));
                                   context
                                       .read<ListUserBloc>()
                                       .add(ListUserEvent.filterChanged(filter.copyWith(rws: value)));

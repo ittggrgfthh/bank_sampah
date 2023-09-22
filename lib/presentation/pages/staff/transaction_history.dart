@@ -41,18 +41,18 @@ class TransactionHistoryPage extends StatelessWidget {
             child: BlocBuilder<FilterUserBloc, FilterUserState>(
               builder: (context, state) {
                 return state.maybeWhen(
-                  error: (message) {
+                  loadFailure: (message) {
                     return Wrap(spacing: 5, children: [
                       Text(message),
                       RoundedPrimaryButton(
                         buttonName: 'Refresh filter',
                         onPressed: () {
-                          context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
+                          context.read<FilterUserBloc>().add(const FilterUserEvent.loaded());
                         },
                       )
                     ]);
                   },
-                  loaded: (filter) {
+                  loadSuccess: (filter) {
                     return Wrap(
                       spacing: 5,
                       children: [

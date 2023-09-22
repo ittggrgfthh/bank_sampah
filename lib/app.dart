@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           lazy: false,
-          create: (context) => getIt<FilterUserBloc>()..add(const FilterUserEvent.filterLoaded()),
+          create: (context) => getIt<FilterUserBloc>()..add(const FilterUserEvent.loaded()),
         ),
       ],
       child: MaterialApp.router(

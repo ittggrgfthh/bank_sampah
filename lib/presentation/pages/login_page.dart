@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
               ),
               (_) {
                 context.read<AuthBloc>().add(const AuthEvent.authCheckRequested());
-                context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
+                context.read<FilterUserBloc>().add(const FilterUserEvent.loaded());
                 return null;
               },
             ),

@@ -289,19 +289,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         query = query.where('village', whereIn: filter.villages);
       }
 
-      // // Filter berdasarkan rts jika tersedia
-      // if (filterUserModel.rts != null && filterUserModel.rts!.isNotEmpty) {
-      //   query = query.where('rt', whereIn: filterUserModel.rts);
-      // }
-
-      // // Filter berdasarkan rws jika tersedia
-      // if (filterUserModel.rws != null && filterUserModel.rws!.isNotEmpty) {
-      //   query = query.where('rw', whereIn: filterUserModel.rws);
-      // }
-
       final result = await query.get();
       return result.docs.map((e) => e.data()).toList();
     } catch (e) {
+      print(e);
       throw ServerException();
     }
   }

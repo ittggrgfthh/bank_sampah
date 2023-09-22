@@ -17,7 +17,7 @@ class NavbarAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
     return BlocProvider(
       create: (context) => getIt<ListUserBloc>()..add(ListUserEvent.initialized(filterUser)),
       child: Scaffold(

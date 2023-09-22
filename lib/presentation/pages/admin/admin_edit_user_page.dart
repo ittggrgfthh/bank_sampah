@@ -60,7 +60,7 @@ class _AdminEditUserPageState extends State<AdminEditUserPage> {
               (failureOrSuccess) => failureOrSuccess.fold(
                 (failure) => FlushbarHelper.createError(message: 'Terjadi Kesalahan').show(context),
                 (_) {
-                  final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+                  final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
                   context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                   context.pop();
                 },

@@ -28,7 +28,7 @@ class EditStoreWasteFormPage extends StatelessWidget {
             (failureOrSuccess) => failureOrSuccess.fold(
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
-                final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loaded: (filter) => filter)!;
+                final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
                 context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
                 context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(transaction.staff.id));
                 context.pop();
