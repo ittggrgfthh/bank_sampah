@@ -267,7 +267,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
     try {
       Query<UserModel> query = userRef;
-      print(filter);
+      print("remote: $filter");
 
       // Filter berdasarkan userId jika tersedia
       if (filter.userId != null) {
@@ -292,7 +292,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final result = await query.get();
       return result.docs.map((e) => e.data()).toList();
     } catch (e) {
-      print(e);
       throw ServerException();
     }
   }

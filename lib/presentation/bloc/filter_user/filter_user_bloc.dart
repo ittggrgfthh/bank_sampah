@@ -41,7 +41,7 @@ class FilterUserBloc extends Bloc<FilterUserEvent, FilterUserState> {
       (faiure) => emit(const FilterUserState.loadFailure('Gagal menyimpan filter')),
       (_) => emit(FilterUserState.loadSuccess(filter)),
     );
-    print(filter);
+    print(state);
   }
 
   Future<void> _handleReset(Emitter<FilterUserState> emit) async {

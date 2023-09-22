@@ -6,6 +6,7 @@ import 'core/constant/theme.dart';
 import 'core/routing/router.dart';
 import 'injection.dart';
 import 'presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'presentation/bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import 'presentation/bloc/filter_user/filter_user_bloc.dart';
 
 class MyApp extends StatelessWidget {
@@ -22,6 +23,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (context) => getIt<FilterUserBloc>()..add(const FilterUserEvent.loaded()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => getIt<FilterTransactionWasteBloc>()..add(const FilterTransactionWasteEvent.loaded()),
         ),
       ],
       child: MaterialApp.router(

@@ -7,14 +7,16 @@ import '../../domain/entities/filter_transaction_waste.dart';
 import '../../domain/entities/report.dart';
 import '../../domain/entities/transaction_waste.dart';
 import '../../domain/repositories/transaction_repository.dart';
+import '../datasources/transaction_local_data_source.dart';
 import '../datasources/transaction_remote_data_source.dart';
 import '../models/filter_transaction_waste_model.dart';
 import '../models/transaction_waste_model.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
   final TransactionRemoteDataSource _transactionRemoteDataSource;
+  final TransactionLocalDataSource _transactionLocalDataSource;
 
-  TransactionRepositoryImpl(this._transactionRemoteDataSource);
+  TransactionRepositoryImpl(this._transactionRemoteDataSource, this._transactionLocalDataSource);
 
   @override
   Future<Either<Failure, Unit>> createTransaction(TransactionWaste transaction) async {
@@ -117,6 +119,26 @@ class TransactionRepositoryImpl implements TransactionRepository {
         return left(const Failure.timeout());
       }
       return left(Failure.unexpected(e.toString()));
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FilterTransactionWaste>> getTransactionWasteFilter() async {
+    try {
+      final filter = await _transactionLocalDataSource.getTransactionFilter();
+      return right(filter.toDomain());
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveTransactionWasteFilter(FilterTransactionWaste filter) async {
+    try {
+      await _transactionLocalDataSource.saveTransactionFilter(FilterTransactionWasteModel.formDomain(filter));
+      return right(unit);
     } catch (e) {
       return left(Failure.unexpected(e.toString()));
     }

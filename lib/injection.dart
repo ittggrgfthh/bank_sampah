@@ -24,6 +24,7 @@ void init() {
         getUserById: getIt(),
       ));
   getIt.registerLazySingleton(() => FilterUserBloc(getIt(), getIt()));
+  getIt.registerLazySingleton(() => FilterTransactionWasteBloc(getIt(), getIt()));
 
   // bloc - admin
   getIt.registerFactory(() => ReportBloc(getIt()));
@@ -36,6 +37,7 @@ void init() {
   getIt.registerFactory(() => TransactionHistoryBloc(getIt()));
   getIt.registerFactory(() => EditStoreWasteFormBloc(getIt()));
   getIt.registerFactory(() => WithdrawBalanceFormBloc(getIt(), getIt()));
+
   // bloc - warga
   getIt.registerFactory(() => WargaHomeBloc(getIt(), getIt()));
 
@@ -67,19 +69,23 @@ void init() {
   getIt.registerLazySingleton(() => UpdateWasteTransaction(getIt()));
   getIt.registerLazySingleton(() => GetTransactionsByUserId(getIt()));
   getIt.registerLazySingleton(() => GetTransactionsFilter(getIt()));
+  getIt.registerLazySingleton(() => GetTransactionWasteFilter(getIt()));
+  getIt.registerLazySingleton(() => SaveTransactionWasteFilter(getIt()));
 
-  // repository
-  getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt(), getIt()));
+  // repository - user
   getIt.registerLazySingleton<AuthFacade>(() => AuthFacadeImpl(getIt(), getIt()));
+  getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt(), getIt()));
   // repository - waste
   getIt.registerLazySingleton<WastePriceRepository>(() => WastePriceRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt(), getIt()));
 
-  // datasource
-  getIt.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(getIt(), getIt()));
+  // datasource - user
   getIt.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImpl());
+  getIt.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(getIt(), getIt()));
   // datasource - waste
   getIt.registerLazySingleton<WastePriceRemoteDataSource>(() => WastePriceRemoteDataSourceImpl(getIt()));
+  // datasource - transaction
+  getIt.registerLazySingleton<TransactionLocalDataSource>(() => TransactionLocalDataSourceImpl());
   getIt.registerLazySingleton<TransactionRemoteDataSource>(() => TransactionRemoteDataSourceImpl(getIt()));
 
   // external

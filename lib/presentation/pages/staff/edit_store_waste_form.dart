@@ -9,6 +9,7 @@ import '../../../component/widget/single_list_tile.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
 import '../../bloc/edit_store_waste_form/edit_store_waste_form_bloc.dart';
+import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
@@ -30,7 +31,10 @@ class EditStoreWasteFormPage extends StatelessWidget {
               (_) {
                 final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
                 context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
-                context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(transaction.staff.id));
+                final filterTransactionWaste =
+                    getIt<FilterTransactionWasteBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
+                context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.filterChanged(
+                    filterTransactionWaste.copyWith(staffId: transaction.staff.id)));
                 context.pop();
               },
             ),

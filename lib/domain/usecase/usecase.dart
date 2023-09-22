@@ -16,6 +16,8 @@ export 'staff/create_waste_transaction.dart';
 export 'staff/get_transaction_by_time_span.dart';
 export 'staff/get_transactions_by_staff_id.dart';
 export 'staff/update_waste_transaction.dart';
+export 'transaction/get_transaction_waste_filter.dart';
+export 'transaction/save_transaction_waste_filter.dart';
 export 'upload_profile_picture.dart';
 export 'user/get_transactions_by_user_id.dart';
 export 'user/get_user_filter.dart';

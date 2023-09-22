@@ -97,7 +97,7 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.staffHistoryTransactionPath,
           name: AppRouterName.staffHistoryTransactionName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: TransactionHistoryPage()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: StaffTransactionHistoryPage()),
           routes: [
             GoRoute(
               path: AppRouterName.staffEditHistoryPath,

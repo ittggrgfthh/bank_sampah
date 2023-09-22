@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../entities/filter_user.dart';
-import '../../repositories/repositories.dart';
+import '../../repositories/user_repository.dart';
 
 class SaveUserFilter {
   const SaveUserFilter(this._userRepository);

@@ -7,7 +7,7 @@ import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
 import '../../core/routing/router.dart';
 import '../../injection.dart';
-import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
+import '../../presentation/bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../presentation/bloc/filter_user/filter_user_bloc.dart';
 import '../../presentation/bloc/list_user/list_user_bloc.dart';
 import '../../presentation/bloc/transaction_history/transaction_history_bloc.dart';
@@ -19,15 +19,11 @@ class NavbarStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final staff = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
     final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => getIt<ListUserBloc>()..add(ListUserEvent.initialized(filterUser)),
-        ),
-        BlocProvider(
-          create: (context) => getIt<TransactionHistoryBloc>()..add(TransactionHistoryEvent.initialized(staff.id)),
         ),
       ],
       child: Scaffold(

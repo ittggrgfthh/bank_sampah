@@ -13,9 +13,9 @@ import '../../../core/constant/default_data.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
-import '../../bloc/transaction_history/transaction_history_bloc.dart';
 import '../../bloc/withdraw_balance_form/withdraw_balance_form_bloc.dart';
 
 class WithdrawBalanceForm extends StatelessWidget {
@@ -45,8 +45,12 @@ class WithdrawBalanceForm extends StatelessWidget {
                 (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
                 (_) {
                   final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
+                  final filterTransactionWaste =
+                      getIt<FilterTransactionWasteBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
                   context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
-                  context.read<TransactionHistoryBloc>().add(TransactionHistoryEvent.initialized(staff.id));
+                  context.read<FilterTransactionWasteBloc>().add(FilterTransactionWasteEvent.apply(
+                      filterTransactionWaste.copyWith(
+                          staffId: staff.id, endEpoch: DateTime.now().millisecondsSinceEpoch + 5000)));
                   context.pop();
                 },
               ),

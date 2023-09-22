@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/filter_transaction_waste_model.dart';
 import '../models/filter_user_model.dart';
 import '../models/user_model.dart';
 
@@ -11,25 +12,35 @@ abstract class UserLocalDataSource {
   Future<void> clearLoggedInUser();
   Future<void> saveUserFilter(FilterUserModel filterUserModel);
   Future<FilterUserModel?> getUserFilter();
+  Future<void> saveTransactionFilter(FilterTransactionWasteModel filterTransactionWasteModel);
 }
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
   static const String _loggedInUserKey = 'logged_in_user';
   static const String _userFilterKey = 'user_filter';
+  static const String _transactionFilterKey = 'transaction_filter';
 
   @override
   Future<void> saveLoggedInUser(UserModel user) async {
     final sharedPreferences = await SharedPreferences.getInstance();
     FilterUserModel filterUserModel = FilterUserModel(villages: [user.village ?? 'Banyubiru']);
-    print(user);
+
+    final dateTime = DateTime.now();
+    FilterTransactionWasteModel filterTransactionWasteModel = FilterTransactionWasteModel(
+      startEpoch: dateTime.copyWith(month: dateTime.month - 1).millisecondsSinceEpoch,
+      endEpoch: dateTime.millisecondsSinceEpoch,
+    );
     switch (user.role) {
       case 'staff':
         filterUserModel = filterUserModel.copyWith(role: 'warga');
+        filterTransactionWasteModel = filterTransactionWasteModel.copyWith(staffId: user.id);
         break;
+      case 'warga':
+        filterTransactionWasteModel = filterTransactionWasteModel.copyWith(userId: user.id);
       default:
     }
-    print(filterUserModel);
     await saveUserFilter(filterUserModel);
+    await saveTransactionFilter(filterTransactionWasteModel);
     final userJson = user.toJson();
     await sharedPreferences.setString(_loggedInUserKey, jsonEncode(userJson));
   }
@@ -50,6 +61,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.remove(_userFilterKey);
     await sharedPreferences.remove(_loggedInUserKey);
+    await sharedPreferences.remove(_transactionFilterKey);
   }
 
   @override
@@ -63,11 +75,18 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   Future<FilterUserModel?> getUserFilter() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final userFilterJson = sharedPreferences.getString(_userFilterKey);
-    print(userFilterJson);
+    print("getUserFilter: $userFilterJson");
     if (userFilterJson != null) {
       final userFilterMap = jsonDecode(userFilterJson) as Map<String, dynamic>;
       return FilterUserModel.fromJson(userFilterMap);
     }
     return null;
+  }
+
+  @override
+  Future<void> saveTransactionFilter(FilterTransactionWasteModel filterTransactionWasteModel) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final transactionFilterJson = filterTransactionWasteModel.toJson();
+    await sharedPreferences.setString(_transactionFilterKey, jsonEncode(transactionFilterJson));
   }
 }

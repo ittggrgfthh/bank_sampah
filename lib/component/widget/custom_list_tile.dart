@@ -1,11 +1,11 @@
-import 'package:bank_sampah/component/widget/avatar_image.dart';
-import 'package:bank_sampah/core/constant/colors.dart';
-import 'package:bank_sampah/core/constant/theme.dart';
-import 'package:bank_sampah/domain/entities/transaction_waste.dart';
-import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/constant/colors.dart';
+import '../../core/constant/theme.dart';
 import '../../core/utils/app_helper.dart';
+import '../../domain/entities/transaction_waste.dart';
+import '../../domain/entities/user.dart';
+import 'avatar_image.dart';
 
 class CustomListTile extends StatelessWidget {
   final User user;
@@ -142,6 +142,7 @@ class CustomListTile extends StatelessWidget {
       );
 
   Widget listTileTransaction(BuildContext context) => ListTile(
+        enabled: enabled,
         onTap: onTap,
         leading: AvatarImage(
           photoUrl: user.photoUrl,

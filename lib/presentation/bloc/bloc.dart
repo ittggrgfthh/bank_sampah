@@ -3,6 +3,7 @@ export 'create_user_form/create_user_form_bloc.dart';
 export 'edit_store_waste_form/edit_store_waste_form_bloc.dart';
 export 'edit_waste_price/edit_waste_price_bloc.dart';
 export 'edit_waste_price_history/edit_waste_price_history_bloc.dart';
+export 'filter_transaction_waste/filter_transaction_waste_bloc.dart';
 export 'filter_user/filter_user_bloc.dart';
 export 'list_user/list_user_bloc.dart';
 export 'report/report_bloc.dart';

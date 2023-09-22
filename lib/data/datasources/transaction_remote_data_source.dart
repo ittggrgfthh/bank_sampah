@@ -154,7 +154,7 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
     );
     try {
       Query<TransactionWasteModel> query = transactionRef;
-      print(filter);
+      print("remote: $filter");
 
       if (filter.startEpoch != null) {
         query = query.where('created_at', isGreaterThanOrEqualTo: filter.startEpoch);
@@ -202,6 +202,7 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
       final result = await query.get();
       return result.docs.map((e) => e.data()).toList();
     } catch (e) {
+      print("remote-transaction: $e");
       throw ServerException();
     }
   }

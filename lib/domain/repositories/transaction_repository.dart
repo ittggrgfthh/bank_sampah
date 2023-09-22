@@ -13,4 +13,7 @@ abstract class TransactionRepository {
   Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUserId(String userId);
   Future<Either<Failure, List<TransactionWaste>>> getTransactionsByTimeSpan(TimeSpan timeSpan);
   Future<Either<Failure, List<TransactionWaste>>> getFilteredTransactions(FilterTransactionWaste filter);
+
+  Future<Either<Failure, FilterTransactionWaste>> getTransactionWasteFilter();
+  Future<Either<Failure, Unit>> saveTransactionWasteFilter(FilterTransactionWaste filter);
 }

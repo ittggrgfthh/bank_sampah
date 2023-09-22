@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class RoundedPrimaryButton extends StatefulWidget {
@@ -44,7 +45,7 @@ class _RoundedPrimaryButtonState extends State<RoundedPrimaryButton> {
   @override
   Widget build(BuildContext context) {
     final Color buttonBackgroundColor =
-        widget.isLoading || widget.isChanged || _isOnCooldown ? Colors.blueGrey : Theme.of(context).colorScheme.primary;
+        widget.isLoading || widget.isChanged || _isOnCooldown ? Colors.grey : Theme.of(context).colorScheme.primary;
     final Color buttonPrimaryColor = Theme.of(context).colorScheme.background;
     return Theme(
       data: Theme.of(context).copyWith(

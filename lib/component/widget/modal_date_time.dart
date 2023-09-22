@@ -1,9 +1,9 @@
-import 'package:bank_sampah/core/utils/app_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
+import '../../core/utils/app_helper.dart';
 import '../button/rounded_button.dart';
 
 class ModalDateTime extends StatefulWidget {
@@ -111,8 +111,6 @@ class _ModalDateTimeState extends State<ModalDateTime> {
                         int dateEnd = AppHelper.stringToMillisecondEpoch(endController.text);
 
                         widget.onSelectedChanged(dateStart, dateEnd);
-                        print(dateStart);
-                        print(dateEnd);
                       },
                       selected: true,
                       color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
