@@ -60,7 +60,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           _ProfileListTile(title: 'Telepon', subtitle: '+62 ${user.phoneNumber}', onTap: () {}),
-          _ProfileListTile(title: 'Ganti Password', subtitle: 'diperbarui 29 Mei 2023', onTap: () {}),
           const SizedBox(height: 100),
           RoundedDangerButton(
             buttonName: 'Keluar',
@@ -99,7 +98,6 @@ class _ProfileListTile extends StatelessWidget {
       child: ListTile(
         title: Text(title),
         subtitle: Text(subtitle),
-        trailing: const Icon(Icons.chevron_right_rounded),
         onTap: onTap,
       ),
     );
