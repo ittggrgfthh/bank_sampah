@@ -60,6 +60,12 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           _ProfileListTile(title: 'Telepon', subtitle: '+62 ${user.phoneNumber}', onTap: () {}),
+          const SizedBox(height: 5),
+          _ProfileListTile(title: 'Desa', subtitle: user.village.toString(), onTap: () {}),
+          const SizedBox(height: 5),
+          _ProfileListTile(title: 'RT', subtitle: user.rt.toString(), onTap: () {}),
+          const SizedBox(height: 5),
+          _ProfileListTile(title: 'RW', subtitle: user.rw.toString(), onTap: () {}),
           const SizedBox(height: 100),
           RoundedDangerButton(
             buttonName: 'Keluar',
