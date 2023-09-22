@@ -52,6 +52,10 @@ class AppHelper {
     return DateFormat('EEEE').format(dateTime);
   }
 
+  static int stringToMillisecondEpoch(String dateTime) {
+    return DateTime.parse(dateTime).millisecondsSinceEpoch;
+  }
+
   static String timeAgoFromMillisecond(int millisecondsSinceEpoch) {
     DateTime itemDateTime = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
     DateTime now = DateTime.now();
