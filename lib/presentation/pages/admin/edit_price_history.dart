@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/transaction_histry_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
@@ -64,47 +64,20 @@ class EditPriceHistory extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: editWastePriceHistory[index].admin.photoUrl == null ||
-                                      editWastePriceHistory[index].admin.photoUrl == ''
-                                  ? Colors.blueAccent
-                                  : Colors.transparent,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: editWastePriceHistory[index].admin.photoUrl != null
-                                  ? CachedNetworkImageProvider(editWastePriceHistory[index].admin.photoUrl!)
-                                  : null,
-                              child: editWastePriceHistory[index].admin.photoUrl == null ||
-                                      editWastePriceHistory[index].admin.photoUrl == ''
-                                  ? Text(
-                                      editWastePriceHistory[index].admin.fullName![0].toUpperCase() +
-                                          editWastePriceHistory[index].admin.fullName![1].toUpperCase(),
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                      ),
-                                    )
-                                  : Container(),
-                            ),
+                          AvatarImage(
+                            photoUrl: editWastePriceHistory[index].admin.photoUrl,
+                            username: editWastePriceHistory[index].admin.fullName,
+                            size: 20,
                           ),
-                          Container(
-                            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2.5),
-                            child: Expanded(
-                              child: Text(
-                                admin.id == editWastePriceHistory[index].admin.id
-                                    ? 'Anda'
-                                    : 'Admin ${editWastePriceHistory[index].admin.fullName}',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w300,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
+                          Text(
+                            admin.id == editWastePriceHistory[index].admin.id
+                                ? 'Anda'
+                                : 'Admin ${editWastePriceHistory[index].admin.fullName}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w300,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           )
                         ],
