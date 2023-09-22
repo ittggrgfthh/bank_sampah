@@ -73,7 +73,7 @@ class CustomListTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  user.rw,
+                  user.rt,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w300,
@@ -91,7 +91,7 @@ class CustomListTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  user.rt,
+                  user.rw,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w300,
@@ -283,7 +283,7 @@ class CustomListTile extends StatelessWidget {
               ],
             );
           }
-          return Column(
+          return const Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [],

@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/widget/avatar_image.dart';
 import '../../../component/widget/custom_list_tile.dart';
-import '../../../component/widget/filter_role_choice_chip.dart';
+import '../../../component/widget/filter_button.dart';
+import '../../../component/widget/modal_checkbox.dart';
+import '../../../component/widget/modal_radio_button.dart';
 import '../../../core/constant/colors.dart';
+import '../../../core/constant/default_data.dart';
+import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
@@ -43,18 +48,141 @@ class AdminListUserPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BlocBuilder<ListUserBloc, ListUserState>(
-            builder: (context, state) {
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: FilterRoleChoiceChip(
-                  onSelected: (selectedRole) {
-                    context.read<ListUserBloc>().add(ListUserEvent.filterChanged(
-                        filterUser.copyWith(role: selectedRole == 'semua' ? null : selectedRole)));
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: BlocBuilder<FilterUserBloc, FilterUserState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  error: (message) {
+                    return Wrap(spacing: 5, children: [
+                      Text(message),
+                      RoundedPrimaryButton(
+                        buttonName: 'Refresh filter',
+                        onPressed: () {
+                          context.read<FilterUserBloc>().add(const FilterUserEvent.filterLoaded());
+                        },
+                      )
+                    ]);
                   },
-                ),
-              );
-            },
+                  loaded: (filter) {
+                    return Wrap(
+                      spacing: 5,
+                      children: [
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            backgroundColor: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
+                            label: filter.role ?? 'Semua',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => ModalRadioButton(
+                                initial: filter.role ?? 'semua',
+                                items: const ['semua', 'warga', 'staff', 'admin'],
+                                title: 'Filter User',
+                                onSelectedChanged: (selectedItem) {
+                                  context.read<FilterUserBloc>().add(FilterUserEvent.filterSaved(
+                                      filter.copyWith(role: selectedItem == 'semua' ? null : selectedItem)));
+                                  context.read<ListUserBloc>().add(ListUserEvent.filterChanged(
+                                      filterUser.copyWith(role: selectedItem == 'semua' ? null : selectedItem)));
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            label: 'Desa (${filter.villages?.length ?? 0})',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => ModalCheckBox(
+                                items: DefaultData.village,
+                                initial: filter.villages ?? [],
+                                title: 'Filter Desa',
+                                onSelectedChanged: (value) {
+                                  context
+                                      .read<FilterUserBloc>()
+                                      .add(FilterUserEvent.filterSaved(filter.copyWith(villages: value)));
+                                  context
+                                      .read<ListUserBloc>()
+                                      .add(ListUserEvent.filterChanged(filter.copyWith(villages: value)));
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            label: 'RT (${filter.rts?.length ?? 0})',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => ModalCheckBox(
+                                initial: filter.rts ?? [],
+                                items: const ['001', '002', '003', '004'],
+                                title: 'Filter RT',
+                                onSelectedChanged: (value) {
+                                  context
+                                      .read<FilterUserBloc>()
+                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rts: value)));
+                                  context
+                                      .read<ListUserBloc>()
+                                      .add(ListUserEvent.filterChanged(filter.copyWith(rts: value)));
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                            backgroundColor: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                          child: FilterButton(
+                            label: 'RW (${filter.rws?.length ?? 0})',
+                            onPressed: () => showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => ModalCheckBox(
+                                initial: filter.rws ?? [],
+                                items: const ['001', '002', '003', '004'],
+                                title: 'Filter RW',
+                                onSelectedChanged: (value) {
+                                  context
+                                      .read<FilterUserBloc>()
+                                      .add(FilterUserEvent.filterSaved(filter.copyWith(rws: value)));
+                                  context
+                                      .read<ListUserBloc>()
+                                      .add(ListUserEvent.filterChanged(filter.copyWith(rws: value)));
+                                  context.pop();
+                                },
+                              ),
+                            ),
+                            backgroundColor: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  orElse: () => const Wrap(
+                    spacing: 5,
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('loading filter'),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
           const SizedBox(
             height: 16,

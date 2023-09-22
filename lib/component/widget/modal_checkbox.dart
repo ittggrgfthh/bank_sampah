@@ -10,7 +10,7 @@ class ModalCheckBox extends StatefulWidget {
   final List<String> initial;
   final String title;
 
-  final void Function(List<String>) onSelectedChanged;
+  final void Function(List<String> selectedItem) onSelectedChanged;
   const ModalCheckBox({
     super.key,
     required this.items,
