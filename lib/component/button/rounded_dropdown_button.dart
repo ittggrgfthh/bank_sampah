@@ -1,3 +1,5 @@
+import 'package:bank_sampah/core/constant/colors.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class RoundedDropdownButton extends StatelessWidget {
@@ -17,7 +19,7 @@ class RoundedDropdownButton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
+        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -30,6 +32,7 @@ class RoundedDropdownButton extends StatelessWidget {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          dropdownColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
           items: items.map((item) => buildMenuItem(context, item)).toList(),
           onChanged: onChanged,
           value: value,

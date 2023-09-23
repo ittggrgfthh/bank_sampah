@@ -51,13 +51,12 @@ class AdminHomePage extends StatelessWidget {
                   },
                 );
               }),
-              const SizedBox(height: 10),
               Builder(builder: (context) {
                 return DropdownVillage(onChanged: (village) {
                   context.read<ReportBloc>().add(ReportEvent.chooseVillage(village));
                 });
               }),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               _buildSaldoDitarik(context),
               const SizedBox(height: 10),
               BlocSelector<ReportBloc, ReportState, String>(
