@@ -1,4 +1,3 @@
-import 'package:bank_sampah/presentation/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +11,9 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
+import '../../../domain/entities/user.dart';
+import '../../bloc/bloc.dart';
+import '../search_user.dart';
 
 class WithdrawBalance extends StatelessWidget {
   const WithdrawBalance({super.key});
@@ -23,6 +25,13 @@ class WithdrawBalance extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Tarik Saldo'),
         actions: [
+          IconButton(
+            onPressed: () {
+              final List<User> users = context.read<ListUserBloc>().state.whenOrNull(loadSuccess: (users) => users)!;
+              showSearch(context: context, delegate: SearchUser(users: users, isWithdrawBalance: true));
+            },
+            icon: const Icon(Icons.search_rounded),
+          ),
           AvatarImage(
             photoUrl: staff.photoUrl,
             username: staff.fullName,

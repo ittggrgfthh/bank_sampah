@@ -11,7 +11,9 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
+import '../../../domain/entities/user.dart';
 import '../../bloc/bloc.dart';
+import '../search_user.dart';
 
 class StoreWasteListPage extends StatelessWidget {
   const StoreWasteListPage({super.key});
@@ -23,6 +25,13 @@ class StoreWasteListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Simpan Sampah'),
         actions: [
+          IconButton(
+            onPressed: () {
+              final List<User> users = context.read<ListUserBloc>().state.whenOrNull(loadSuccess: (users) => users)!;
+              showSearch(context: context, delegate: SearchUser(users: users, isStoreWaste: true));
+            },
+            icon: const Icon(Icons.search_rounded),
+          ),
           AvatarImage(
             onTap: () => context.goNamed(AppRouterName.profileName),
             photoUrl: staff.photoUrl,

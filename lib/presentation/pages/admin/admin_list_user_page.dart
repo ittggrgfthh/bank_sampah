@@ -12,9 +12,11 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
+import '../../../domain/entities/user.dart';
 import '../../bloc/auth_bloc/auth_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
+import '../search_user.dart';
 
 class AdminListUserPage extends StatelessWidget {
   const AdminListUserPage({super.key});
@@ -27,6 +29,13 @@ class AdminListUserPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Daftar Pengguna'),
         actions: [
+          IconButton(
+            onPressed: () {
+              final List<User> users = context.read<ListUserBloc>().state.whenOrNull(loadSuccess: (users) => users)!;
+              showSearch(context: context, delegate: SearchUser(users: users, isListUser: true));
+            },
+            icon: const Icon(Icons.search_rounded),
+          ),
           AvatarImage(
             photoUrl: admin.photoUrl,
             username: admin.fullName,
