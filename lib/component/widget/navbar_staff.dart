@@ -7,10 +7,8 @@ import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
 import '../../core/routing/router.dart';
 import '../../injection.dart';
-import '../../presentation/bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../presentation/bloc/filter_user/filter_user_bloc.dart';
 import '../../presentation/bloc/list_user/list_user_bloc.dart';
-import '../../presentation/bloc/transaction_history/transaction_history_bloc.dart';
 
 class NavbarStaff extends StatelessWidget {
   final Widget child;

@@ -8,8 +8,8 @@ import '../button/rounded_button.dart';
 
 class ModalDateTime extends StatefulWidget {
   final String title;
-  final String startDate;
-  final String endDate;
+  final int startDate;
+  final int endDate;
   final void Function(int startDate, int endDate) onSelectedChanged;
 
   const ModalDateTime({
@@ -28,116 +28,128 @@ class _ModalDateTimeState extends State<ModalDateTime> {
   @override
   void initState() {
     super.initState();
-    startController.text = widget.startDate;
-    endController.text = widget.endDate;
+    startController.text = AppHelper.millisecondEpochtoString(widget.startDate);
+    endController.text = AppHelper.millisecondEpochtoString(widget.endDate);
+    startEpoch = widget.startDate;
+    endEpoch = widget.endDate;
   }
 
   TextEditingController startController = TextEditingController();
   TextEditingController endController = TextEditingController();
+  late int startEpoch;
+  late int endEpoch;
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.95,
-      maxChildSize: 0.95,
-      minChildSize: 0.4,
-      builder: (_, controller) {
-        return Container(
-          color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.title,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: startController,
-                onTap: () => _selectDate(type: 'start'),
-                decoration: const InputDecoration(
-                  labelText: 'Tanggal Mulai',
-                  filled: true,
-                  prefixIcon: Icon(Icons.calendar_today_rounded),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => context.pop(),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.95,
+        maxChildSize: 0.95,
+        minChildSize: 0.4,
+        builder: (_, controller) {
+          return Container(
+            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
                   ),
                 ),
-                readOnly: true,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: endController,
-                onTap: () => _selectDate(type: 'end'),
-                decoration: const InputDecoration(
-                  labelText: 'Tanggal Berakhir',
-                  filled: true,
-                  prefixIcon: Icon(Icons.calendar_today_rounded),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
-                  ),
-                ),
-                readOnly: true,
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: RoundedButton(
-                      name: 'Batal',
-                      onPressed: () => context.pop(),
-                      selected: false,
-                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                      textColor: Theme.of(context).colorScheme.primary,
+                const SizedBox(height: 20),
+                TextField(
+                  controller: startController,
+                  onTap: () => _selectDate(type: 'start'),
+                  decoration: const InputDecoration(
+                    labelText: 'Tanggal Mulai',
+                    filled: true,
+                    prefixIcon: Icon(Icons.calendar_today_rounded),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: RoundedButton(
-                      name: 'Terapkan',
-                      onPressed: () {
-                        int dateStart = AppHelper.stringToMillisecondEpoch(startController.text);
-                        int dateEnd = AppHelper.stringToMillisecondEpoch(endController.text);
-
-                        widget.onSelectedChanged(dateStart, dateEnd);
-                      },
-                      selected: true,
-                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                      textColor: Theme.of(context).colorScheme.primary,
+                  readOnly: true,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: endController,
+                  onTap: () => _selectDate(type: 'end'),
+                  decoration: const InputDecoration(
+                    labelText: 'Tanggal Berakhir',
+                    filled: true,
+                    prefixIcon: Icon(Icons.calendar_today_rounded),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+                  readOnly: true,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RoundedButton(
+                        name: 'Batal',
+                        onPressed: () => context.pop(),
+                        selected: false,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                        textColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: RoundedButton(
+                        name: 'Terapkan',
+                        onPressed: () {
+                          widget.onSelectedChanged(startEpoch, endEpoch);
+                        },
+                        selected: true,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                        textColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
   Future<void> _selectDate({required String type}) async {
     DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: type == 'start'
+          ? DateTime.fromMillisecondsSinceEpoch(widget.startDate)
+          : type == 'end'
+              ? DateTime.fromMillisecondsSinceEpoch(widget.endDate)
+              : DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
 
     if (picked != null && type == 'start') {
-      startController.text = picked.toString().split(" ")[0];
+      startEpoch = picked.millisecondsSinceEpoch;
+      startController.text = AppHelper.millisecondEpochtoString(picked.millisecondsSinceEpoch);
     } else if (picked != null && type == 'end') {
-      endController.text = picked.toString().split(" ")[0];
+      DateTime updatedDateTime = picked.copyWith(hour: 23, minute: 59, second: 59);
+      endEpoch = updatedDateTime.millisecondsSinceEpoch;
+      endController.text = AppHelper.millisecondEpochtoString(picked.millisecondsSinceEpoch);
     }
   }
 }

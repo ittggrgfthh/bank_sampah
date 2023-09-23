@@ -53,7 +53,7 @@ class AppHelper {
   }
 
   static int stringToMillisecondEpoch(String dateTime) {
-    return DateTime.parse(dateTime).millisecondsSinceEpoch;
+    return DateFormat('dd MMMM yyyy').parse(dateTime).millisecondsSinceEpoch;
   }
 
   static String timeAgoFromMillisecond(int millisecondsSinceEpoch) {

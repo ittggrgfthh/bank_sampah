@@ -59,29 +59,32 @@ class StaffTransactionHistoryPage extends StatelessWidget {
                       ]);
                     },
                     loadSuccess: (filter) {
+                      DateTime now = DateTime.now();
+                      String startEpoch = AppHelper.millisecondEpochtoString(filter.startEpoch!);
+                      String endEpoch = AppHelper.millisecondEpochtoString(filter.endEpoch!);
                       return Wrap(
                         spacing: 5,
                         children: [
                           SizedBox(
                             height: 26,
                             child: FilterButton(
-                              label: 'Pilih Rentang Waktu',
+                              label: '$startEpoch - $endEpoch',
                               onPressed: () => showModalBottomSheet(
                                 backgroundColor: Colors.transparent,
                                 isScrollControlled: true,
                                 context: context,
                                 builder: (context) => ModalDateTime(
-                                  startDate: '2023-09-18',
-                                  endDate: '2023-09-20',
+                                  startDate: filter.startEpoch ?? now.millisecondsSinceEpoch,
+                                  endDate: filter.endEpoch ?? now.millisecondsSinceEpoch,
                                   title: 'Filter Waktu',
                                   onSelectedChanged: (startEpoch, endEpoch) {
                                     final newFilter = filter.copyWith(startEpoch: startEpoch, endEpoch: endEpoch);
                                     context
                                         .read<FilterTransactionWasteBloc>()
                                         .add(FilterTransactionWasteEvent.apply(newFilter));
-                                    context
-                                        .read<TransactionHistoryBloc>()
-                                        .add(TransactionHistoryEvent.filterChanged(newFilter));
+                                    // context
+                                    //     .read<TransactionHistoryBloc>()
+                                    //     .add(TransactionHistoryEvent.filterChanged(newFilter));
                                     context.pop();
                                   },
                                 ),
