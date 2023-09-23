@@ -9,7 +9,7 @@ export 'profile_page.dart';
 export 'staff/edit_store_waste_form.dart';
 export 'staff/store_waste_form.dart';
 export 'staff/store_waste_list.dart';
-export 'staff/staff_transaction_history.dart';
+export 'staff/staff_transaction_history_page.dart';
 export 'staff/withdraw_balance.dart';
 export 'staff/withdraw_balance_form.dart';
 export 'warga/warga_home_page.dart';
