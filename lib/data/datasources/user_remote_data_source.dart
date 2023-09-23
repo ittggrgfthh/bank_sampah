@@ -270,7 +270,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
     try {
       Query<UserModel> query = userRef;
-      print("remote: $filter");
+      // print("remote: $filter");
 
       // Filter berdasarkan userId jika tersedia
       if (filter.userId != null) {

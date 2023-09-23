@@ -75,7 +75,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   Future<FilterUserModel?> getUserFilter() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final userFilterJson = sharedPreferences.getString(_userFilterKey);
-    print("getUserFilter: $userFilterJson");
+    // print("getUserFilter: $userFilterJson");
     if (userFilterJson != null) {
       final userFilterMap = jsonDecode(userFilterJson) as Map<String, dynamic>;
       return FilterUserModel.fromJson(userFilterMap);
