@@ -5,6 +5,7 @@ class AuthFailureMessages {
   static const weakPassword = 'Kata sandinya terlalu mudah.';
   static const invalidEmailOrPassword = 'Email atau kata sandi kamu salah.';
   static const invalidPhoneNumberOrPassword = 'Nomor telepon atau kata sandi kamu salah.';
+  static const invalidPassword = 'Kata sandi kamu salah.';
   static const invalidEmail = 'Yahh, email yang kamu tulis ngga terdaftar.';
   static const invalidPhoneNumber = 'Yahh, nomor telepon yang kamu tulis ngga terdaftar.';
   static const timeout = 'Waktu habis. Coba cek koneksi internetmu ya.';

@@ -1,4 +1,4 @@
-import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +25,7 @@ class LoginPage extends StatelessWidget {
             (failureOrSuccess) => failureOrSuccess.fold(
               (failure) => failure.maybeWhen(
                 invalidPhoneNumberOrPassword: () => AuthFailureMessages.invalidPhoneNumberOrPassword,
+                invalidPassword: () => AuthFailureMessages.invalidPassword,
                 timeout: () => AuthFailureMessages.timeout,
                 orElse: () => AuthFailureMessages.unexpected,
               ),
@@ -37,7 +38,17 @@ class LoginPage extends StatelessWidget {
           );
 
           if (errorMessage != null) {
-            FlushbarHelper.createError(message: errorMessage).show(context);
+            Flushbar(
+              message: errorMessage,
+              flushbarPosition: FlushbarPosition.TOP,
+              duration: const Duration(seconds: 3),
+              icon: Icon(
+                Icons.warning,
+                size: 28.0,
+                color: Colors.red[300],
+              ),
+              leftBarIndicatorColor: Colors.red[300],
+            ).show(context);
           }
         },
         buildWhen: (previous, current) => previous.errorMessagesShown != current.errorMessagesShown,

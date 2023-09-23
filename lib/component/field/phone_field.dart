@@ -31,6 +31,7 @@ class NumberTextInputFormatter extends TextInputFormatter {
 
 class PhoneField extends StatefulWidget {
   final TextEditingController? controller;
+  final String? initialValue;
   final TextInputAction textInputAction;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
@@ -43,6 +44,7 @@ class PhoneField extends StatefulWidget {
     this.onChanged,
     this.validator,
     this.suffixIcon,
+    this.initialValue,
   });
 
   @override
@@ -54,6 +56,7 @@ class _PhoneFieldState extends State<PhoneField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: widget.initialValue,
       controller: widget.controller,
       validator: widget.validator,
       onChanged: (value) {

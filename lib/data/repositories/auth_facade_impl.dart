@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../core/failures/auth_failure.dart';
+import '../../core/utils/app_helper.dart';
 import '../../core/utils/exception.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_facade.dart';
@@ -28,11 +29,13 @@ class AuthFacadeImpl implements AuthFacade {
     required String password,
   }) async {
     try {
-      final userRemote = await _userRemoteDataSource.getUserByPhoneNumberAndPassword(
-        phoneNumber: phoneNumber,
-        password: password,
-      );
-      await _userLocalDataSource.saveLoggedInUser(userRemote);
+      final result = await _userRemoteDataSource.getUserByPhoneNumber(phoneNumber);
+
+      if (result.password != AppHelper.hashPassword(password)) {
+        return left(const AuthFailure.invalidPassword());
+      }
+
+      await _userLocalDataSource.saveLoggedInUser(result);
       return right<AuthFailure, Unit>(unit);
     } on AuthException catch (_) {
       return left(const AuthFailure.invalidPhoneNumberOrPassword());

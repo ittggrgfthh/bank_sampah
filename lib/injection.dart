@@ -54,7 +54,6 @@ void init() {
   getIt.registerLazySingleton(() => UpdateUser(getIt()));
 
   // usecase - user
-  getIt.registerLazySingleton(() => GetAllUserByRole(getIt()));
   getIt.registerLazySingleton(() => GetFilteredUsers(getIt()));
   getIt.registerLazySingleton(() => GetUserFilter(getIt()));
   getIt.registerLazySingleton(() => SaveUserFilter(getIt()));

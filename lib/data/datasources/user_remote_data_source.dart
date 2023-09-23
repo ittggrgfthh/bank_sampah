@@ -104,6 +104,26 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
+  Future<UserModel> getUserByPhoneNumber(String phoneNumber) async {
+    final userRef = _firestore.userColRef.withConverter<UserModel>(
+      fromFirestore: (snapshot, options) => UserModel.fromJson(snapshot.data()!),
+      toFirestore: (value, options) => value.toJson(),
+    );
+    try {
+      final querySnapshot = await userRef.where('phone_number', isEqualTo: phoneNumber).get();
+      if (querySnapshot.docs.isEmpty) {
+        throw AuthException('Nomor telepon tidak ditemukan!');
+      }
+      return querySnapshot.docs.first.data();
+    } catch (e) {
+      if (e is AuthException) {
+        throw AuthException(e.toString());
+      }
+      throw ServerException();
+    }
+  }
+
+  @override
   Future<UserModel> getUserByPhoneNumberAndPassword({required String phoneNumber, required String password}) async {
     final userRef = _firestore.userColRef.withConverter<UserModel>(
       fromFirestore: (snapshot, options) => UserModel.fromJson(snapshot.data()!),
@@ -236,23 +256,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       batch.set(rtDocRef, {'rt': userModel.rt});
       await batch.commit();
       return await getUserById(userModel.id);
-    } catch (e) {
-      throw ServerException();
-    }
-  }
-
-  @override
-  Future<UserModel> getUserByPhoneNumber(String phoneNumber) async {
-    final userRef = _firestore.userColRef.withConverter<UserModel>(
-      fromFirestore: (snapshot, options) => UserModel.fromJson(snapshot.data()!),
-      toFirestore: (value, options) => value.toJson(),
-    );
-    try {
-      final querySnapshot = await userRef.where('phone_number', isEqualTo: phoneNumber).get();
-      if (querySnapshot.docs.isEmpty) {
-        throw ServerException();
-      }
-      return querySnapshot.docs.first.data();
     } catch (e) {
       throw ServerException();
     }

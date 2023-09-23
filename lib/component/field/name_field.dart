@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class NameField extends StatelessWidget {
   final TextEditingController? controller;
+  final String? initialValue;
   final TextInputAction textInputAction;
   final String labelText;
   final String helperText;
@@ -20,11 +21,13 @@ class NameField extends StatelessWidget {
     this.helperText = '',
     this.onChanged,
     this.validator,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       controller: controller,
       validator: validator,
       keyboardType: keyboardType,

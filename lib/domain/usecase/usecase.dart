@@ -1,6 +1,5 @@
 export 'admin/create_user.dart';
 export 'admin/create_waste_price.dart';
-export 'admin/get_all_user_by_role.dart';
 export 'admin/get_current_waste_price.dart';
 export 'admin/get_filtered_users.dart';
 export 'admin/get_waste_prices.dart';
