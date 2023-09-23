@@ -63,106 +63,110 @@ class _BuildModalState extends State<ModalCheckBox> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.95,
-      maxChildSize: 0.95,
-      minChildSize: 0.4,
-      builder: (_, controller) {
-        return Container(
-          color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Pilih Semua',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => context.pop(),
+      child: DraggableScrollableSheet(
+        initialChildSize: 0.95,
+        maxChildSize: 0.95,
+        minChildSize: 0.4,
+        builder: (_, controller) {
+          return Container(
+            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
                       ),
-                      Checkbox(
-                        value: isCheckAll,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Pilih Semua',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Checkbox(
+                          value: isCheckAll,
+                          onChanged: (value) => setState(() {
+                            isCheckAll = value;
+                            for (int i = 0; i < selectedValues.length; i++) {
+                              selectedValues[i] = value;
+                            }
+                          }),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: widget.items.length,
+                    itemBuilder: (context, index) {
+                      return CheckboxListTile(
+                        title: Text(
+                          widget.items[index],
+                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                        ),
+                        value: selectedValues[index],
                         onChanged: (value) => setState(() {
-                          isCheckAll = value;
-                          for (int i = 0; i < selectedValues.length; i++) {
-                            selectedValues[i] = value;
+                          selectedValues[index] = value;
+
+                          if (selectedValues[index]!) {
+                            selectedOption.add(widget.items[index]);
+                          } else {
+                            selectedOption.remove(widget.items[index]);
                           }
                         }),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  controller: controller,
-                  itemCount: widget.items.length,
-                  itemBuilder: (context, index) {
-                    return CheckboxListTile(
-                      title: Text(
-                        widget.items[index],
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                      ),
-                      value: selectedValues[index],
-                      onChanged: (value) => setState(() {
-                        selectedValues[index] = value;
-
-                        if (selectedValues[index]!) {
-                          selectedOption.add(widget.items[index]);
-                        } else {
-                          selectedOption.remove(widget.items[index]);
-                        }
-                      }),
-                    );
-                  },
                 ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: RoundedButton(
-                      name: 'Batal',
-                      onPressed: () => context.pop(),
-                      selected: false,
-                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                      textColor: Theme.of(context).colorScheme.primary,
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RoundedButton(
+                        name: 'Batal',
+                        onPressed: () => context.pop(),
+                        selected: false,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                        textColor: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: RoundedButton(
-                      name: 'Terapkan',
-                      onPressed: () {
-                        updateSelectedOptions();
-                      },
-                      selected: true,
-                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                      textColor: Theme.of(context).colorScheme.primary,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: RoundedButton(
+                        name: 'Terapkan',
+                        onPressed: () {
+                          updateSelectedOptions();
+                        },
+                        selected: true,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                        textColor: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

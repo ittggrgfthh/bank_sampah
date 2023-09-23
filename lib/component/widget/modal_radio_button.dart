@@ -34,78 +34,82 @@ class _BuildModalState extends State<ModalRadioButton> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      maxChildSize: 0.95,
-      minChildSize: 0.4,
-      builder: (_, controller) {
-        return Container(
-          color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.title,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => context.pop(),
+      child: DraggableScrollableSheet(
+        maxChildSize: 0.95,
+        minChildSize: 0.4,
+        builder: (_, controller) {
+          return Container(
+            color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  controller: controller,
-                  itemCount: widget.items.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
-                      title: Text(
-                        widget.items[index],
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: widget.items.length,
+                    itemBuilder: (context, index) {
+                      return RadioListTile(
+                        title: Text(
+                          widget.items[index],
+                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                        ),
+                        groupValue: selectedValues,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValues = value;
+                          });
+                        },
+                        value: index,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RoundedButton(
+                        name: 'Batal',
+                        onPressed: () => context.pop(),
+                        selected: false,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                        textColor: Theme.of(context).colorScheme.primary,
                       ),
-                      groupValue: selectedValues,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedValues = value;
-                        });
-                      },
-                      value: index,
-                    );
-                  },
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: RoundedButton(
+                        name: 'Terapkan',
+                        onPressed: () {
+                          if (selectedValues != null) {
+                            widget.onSelectedChanged(widget.items[selectedValues!]);
+                          }
+                        },
+                        selected: true,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                        textColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: RoundedButton(
-                      name: 'Batal',
-                      onPressed: () => context.pop(),
-                      selected: false,
-                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                      textColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: RoundedButton(
-                      name: 'Terapkan',
-                      onPressed: () {
-                        if (selectedValues != null) {
-                          widget.onSelectedChanged(widget.items[selectedValues!]);
-                        }
-                      },
-                      selected: true,
-                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-                      textColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
