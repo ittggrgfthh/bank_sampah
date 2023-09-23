@@ -121,13 +121,13 @@ class StaffTransactionHistoryPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '(>_<、)',
+                                  '(T _ T)',
                                   style: TextStyle(
                                     fontSize: 36,
                                   ),
                                 ),
                                 SizedBox(height: 5),
-                                Text('Tidak ada transaksi!'),
+                                Text('Tidak ada transaksi, coba ubah filternya dulu!'),
                               ],
                             ),
                           );

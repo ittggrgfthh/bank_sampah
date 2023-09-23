@@ -13,7 +13,6 @@ import '../../../component/widget/dropdown_village.dart';
 import '../../../component/widget/roles_choice_chip.dart';
 import '../../../component/widget/upload_photo.dart';
 import '../../../core/constant/colors.dart';
-import '../../../core/constant/default_data.dart';
 import '../../../core/constant/theme.dart';
 import '../../../injection.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
