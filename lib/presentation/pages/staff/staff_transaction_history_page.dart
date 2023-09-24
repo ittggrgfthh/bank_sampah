@@ -159,7 +159,7 @@ class StaffTransactionHistoryPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '(ノ_<、)',
+                              '(T _ T)',
                               style: TextStyle(
                                 fontSize: 36,
                               ),

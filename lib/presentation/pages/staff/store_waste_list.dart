@@ -32,10 +32,13 @@ class StoreWasteListPage extends StatelessWidget {
             },
             icon: const Icon(Icons.search_rounded),
           ),
-          AvatarImage(
-            onTap: () => context.goNamed(AppRouterName.profileName),
-            photoUrl: staff.photoUrl,
-            username: staff.fullName,
+          Hero(
+            tag: 'profile',
+            child: AvatarImage(
+              onTap: () => context.goNamed(AppRouterName.profileName),
+              photoUrl: staff.photoUrl,
+              username: staff.fullName,
+            ),
           ),
           const SizedBox(width: 15),
         ],

@@ -6,15 +6,18 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
+import 'avatar_image.dart';
 
 class UploadPhoto extends StatelessWidget {
   final void Function()? onTap;
   final Option<File> file;
+  final String? photoUrl;
 
   const UploadPhoto({
     super.key,
     required this.onTap,
     required this.file,
+    this.photoUrl,
   });
 
   @override
@@ -33,11 +36,13 @@ class UploadPhoto extends StatelessWidget {
         ),
         child: Center(
           child: file.fold(
-            () => SvgPicture.asset(
-              'assets/images/no-image.svg',
-              colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-              height: 100,
-            ),
+            () => photoUrl == null
+                ? SvgPicture.asset(
+                    'assets/images/no-image.svg',
+                    colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                    height: 100,
+                  )
+                : AvatarImage(photoUrl: photoUrl, size: 152),
             (file) => ClipOval(
               child: Image.file(
                 file,

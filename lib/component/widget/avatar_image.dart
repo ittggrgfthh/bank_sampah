@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class AvatarImage extends StatelessWidget {
   final String? photoUrl;
-  final bool isLoading;
   final String? username;
   final double? size;
   final double? fontSize;
@@ -12,9 +11,8 @@ class AvatarImage extends StatelessWidget {
 
   const AvatarImage({
     super.key,
-    required this.photoUrl,
-    required this.username,
-    this.isLoading = false,
+    this.photoUrl,
+    this.username,
     this.size = 32,
     this.fontSize = 14,
     this.onTap,
@@ -30,30 +28,27 @@ class AvatarImage extends StatelessWidget {
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: InkWell(
           onTap: onTap,
-          child: isLoading
-              ? Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Transform.scale(
-                    scale: 0.7,
-                    child: const CircularProgressIndicator(),
+          child: photoUrl == '' || photoUrl == null
+              ? Center(
+                  child: Text(
+                    '${username?[0].toUpperCase()}${username?[1].toUpperCase()}',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 )
-              : photoUrl == '' || photoUrl == null
-                  ? Center(
-                      child: Text(
-                        '${username?[0].toUpperCase()}${username?[1].toUpperCase()}',
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    )
-                  : Ink.image(
-                      width: 32,
-                      height: 32,
-                      image: CachedNetworkImageProvider(photoUrl!),
+              : CachedNetworkImage(
+                  imageUrl: photoUrl!,
+                  placeholder: (context, url) => Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Transform.scale(
+                      scale: 0.7,
+                      child: const CircularProgressIndicator(),
                     ),
+                  ),
+                ),
         ),
       ),
     );

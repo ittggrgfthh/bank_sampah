@@ -31,10 +31,13 @@ class ProfilePage extends StatelessWidget {
               border: Border.all(color: CColors.shadow),
               shape: BoxShape.circle,
             ),
-            child: AvatarImage(
-              photoUrl: user.photoUrl,
-              username: user.fullName,
-              size: 100,
+            child: Hero(
+              tag: 'profile',
+              child: AvatarImage(
+                photoUrl: user.photoUrl,
+                username: user.fullName,
+                size: 100,
+              ),
             ),
           ),
           const SizedBox(height: 10),

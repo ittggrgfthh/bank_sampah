@@ -187,8 +187,13 @@ class AdminEditUserPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
+                          buildWhen: (previous, current) =>
+                              previous.profilePictureOption != current.profilePictureOption ||
+                              previous.user != current.user,
                           builder: (context, state) {
+                            final user = state.user.toNullable();
                             return UploadPhoto(
+                              photoUrl: user?.photoUrl,
                               file: state.profilePictureOption,
                               onTap: () =>
                                   context.read<UpdateUserFormBloc>().add(const UpdateUserFormEvent.imagePickerOpened()),

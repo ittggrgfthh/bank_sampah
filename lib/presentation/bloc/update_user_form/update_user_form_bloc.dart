@@ -45,10 +45,6 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
           failureOrSuccess.fold(
             (failure) => emit(state.copyWith(isLoading: false)),
             (user) async {
-              if (user.photoUrl != null) {
-                File profilePicture = await urlToFile(user.photoUrl!);
-                emit(state.copyWith(profilePictureOption: optionOf(profilePicture)));
-              }
               emit(state.copyWith(
                 fullName: validateName(user.fullName!),
                 password: validatePassword(user.password, 8),
