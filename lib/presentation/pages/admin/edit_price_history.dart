@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../component/widget/avatar_image.dart';
-import '../../../component/widget/transaction_histry_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/utils/app_helper.dart';
@@ -96,6 +95,45 @@ class EditPriceHistory extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class RowSubtitle extends StatelessWidget {
+  const RowSubtitle({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.color,
+  });
+
+  final String text;
+  final IconData icon;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 18,
+          color: color,
+        ),
+        const SizedBox(
+          width: 2,
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            color: color,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        )
+      ],
     );
   }
 }
