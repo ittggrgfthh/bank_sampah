@@ -68,7 +68,7 @@ flutter_native_splash:
 
   android_12:
     image: "assets/images/splash-screen.png"
-    image_dark: "assets/images/splash-screen.png"
+    image_dark: "assets/images/splash.png"
     color: "#F8FDFF"
     color_dark: "#020617"
 
@@ -95,7 +95,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/tong-sampah.png"
+  image_path: "assets/images/logo.png"
   remove_alpha_ios: true
 
 # flutter_gen:
