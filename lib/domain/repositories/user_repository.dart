@@ -22,4 +22,5 @@ abstract class UserRepository {
   /// mendapatkan filter user
   Future<Either<Failure, FilterUser>> getUserFilter();
   Future<Either<Failure, Unit>> saveUserFilter(FilterUser filter);
+  Future<Either<Failure, FilterUser>> resetDefaultUserFilter();
 }

@@ -7,7 +7,7 @@ import '../../component/widget/navbar_admin.dart';
 import '../../component/widget/navbar_staff.dart';
 import '../../domain/entities/transaction_waste.dart';
 import '../../injection.dart';
-import '../../presentation/bloc/auth_bloc/auth_bloc.dart';
+import '../../presentation/bloc/auth/auth_bloc.dart';
 import '../../presentation/pages/pages.dart';
 
 part "path_name_router.dart";
@@ -21,7 +21,7 @@ final router = GoRouter(
     GoRoute(
       path: AppRouterName.rootPath,
       name: AppRouterName.rootName,
-      builder: (context, state) => const MyHomePage(),
+      builder: (context, state) => const SplashScreen(),
     ),
     GoRoute(
       path: AppRouterName.loginPath,
@@ -42,35 +42,35 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.adminReportPath,
           name: AppRouterName.adminReportName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: AdminHomePage()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: AdminReportPage()),
         ),
         GoRoute(
           path: AppRouterName.adminListUsersPath,
           name: AppRouterName.adminListUsersName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: AdminListUserPage()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: AdminUserListPage()),
           routes: [
             GoRoute(
               path: AppRouterName.adminCreateUserPath,
               name: AppRouterName.adminCreateUserName,
-              builder: (context, state) => const AdminCreateUserPage(),
+              builder: (context, state) => const AdminUserCreateForm(),
             ),
             GoRoute(
               path: AppRouterName.adminEditUserPath,
               name: AppRouterName.adminEditUserName,
-              builder: (context, state) => AdminEditUserPage(userId: state.pathParameters['userId'] ?? ''),
+              builder: (context, state) => AdminUserUpdateForm(userId: state.pathParameters['userId'] ?? ''),
             ),
           ],
         ),
         GoRoute(
           path: AppRouterName.adminWastePricePath,
           name: AppRouterName.adminWastePriceName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: EditWastePrice()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: AdminEditWastePriceForm()),
           routes: [
             GoRoute(
               parentNavigatorKey: _rootNavigatorKey,
               path: AppRouterName.adminWastePriceLogPath,
               name: AppRouterName.adminWastePriceLogName,
-              builder: (context, state) => const EditPriceHistory(),
+              builder: (context, state) => const AdminEditWastePriceHistoryPage(),
             ),
           ],
         ),
@@ -85,12 +85,12 @@ final router = GoRouter(
         GoRoute(
           path: AppRouterName.staffWasteTransactionPath,
           name: AppRouterName.staffWasteTransactionName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: StoreWasteListPage()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: StaffStoreWasteListPage()),
           routes: [
             GoRoute(
               path: AppRouterName.staffStoreWastePath,
               name: AppRouterName.staffStoreWasteName,
-              builder: (context, state) => StoreWasteFormPage(userId: state.pathParameters['userId'] ?? ''),
+              builder: (context, state) => StaffStoreWasteCreateForm(userId: state.pathParameters['userId'] ?? ''),
             ),
           ],
         ),
@@ -102,19 +102,19 @@ final router = GoRouter(
             GoRoute(
               path: AppRouterName.staffEditHistoryPath,
               name: AppRouterName.staffEditHistoryName,
-              builder: (context, state) => EditStoreWasteFormPage(transaction: state.extra as TransactionWaste),
+              builder: (context, state) => StaffStoreWasteUpdateForm(transaction: state.extra as TransactionWaste),
             ),
           ],
         ),
         GoRoute(
           path: AppRouterName.staffBalanceTransactionPath,
           name: AppRouterName.staffBalanceTransactionName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: WithdrawBalance()),
+          pageBuilder: (context, state) => const NoTransitionPage(child: StaffWithdrawBalanceListPage()),
           routes: [
             GoRoute(
               path: AppRouterName.staffWithdrawPath,
               name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => WithdrawBalanceForm(userId: state.pathParameters['userId'] ?? ''),
+              builder: (context, state) => StaffWithdrawBalanceCreateForm(userId: state.pathParameters['userId'] ?? ''),
             ),
           ],
         ),

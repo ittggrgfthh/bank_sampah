@@ -8,15 +8,15 @@ import '../../../component/field/number_field.dart';
 import '../../../component/widget/single_list_tile.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/store_waste_form/store_waste_form_bloc.dart';
 
-class StoreWasteFormPage extends StatelessWidget {
+class StaffStoreWasteCreateForm extends StatelessWidget {
   final String userId;
-  const StoreWasteFormPage({super.key, required this.userId});
+  const StaffStoreWasteCreateForm({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {

@@ -19,9 +19,9 @@ import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/update_user_form/update_user_form_bloc.dart';
 
-class AdminEditUserPage extends StatelessWidget {
+class AdminUserUpdateForm extends StatelessWidget {
   final String userId;
-  const AdminEditUserPage({super.key, required this.userId});
+  const AdminUserUpdateForm({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {

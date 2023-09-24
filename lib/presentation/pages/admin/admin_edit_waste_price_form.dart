@@ -9,11 +9,11 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/edit_waste_price/edit_waste_price_bloc.dart';
 
-class EditWastePrice extends StatelessWidget {
-  const EditWastePrice({super.key});
+class AdminEditWastePriceForm extends StatelessWidget {
+  const AdminEditWastePriceForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,13 @@ class EditWastePrice extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Edit Harga'),
         actions: [
-          AvatarImage(
-            photoUrl: admin.photoUrl,
-            username: admin.fullName,
-            onTap: () => context.goNamed(AppRouterName.profileName),
+          Hero(
+            tag: 'profile',
+            child: AvatarImage(
+              photoUrl: admin.photoUrl,
+              username: admin.fullName,
+              onTap: () => context.goNamed(AppRouterName.profileName),
+            ),
           ),
           const SizedBox(width: 15),
         ],
@@ -38,12 +41,13 @@ class EditWastePrice extends StatelessWidget {
             runSpacing: 20,
             children: [
               _buildHeader(context),
-              const EditWastePriceForm(),
+              const EditWastePriceBody(),
               BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
                 buildWhen: (previous, current) {
                   return previous.isChange != current.isChange || previous.isLoading != current.isLoading;
                 },
                 builder: (context, state) {
+                  print(state.isChange);
                   return RoundedPrimaryButton(
                       isLoading: state.isLoading,
                       isChanged: !state.isChange,
@@ -127,25 +131,10 @@ class EditWastePrice extends StatelessWidget {
   }
 }
 
-class EditWastePriceForm extends StatefulWidget {
-  const EditWastePriceForm({
+class EditWastePriceBody extends StatelessWidget {
+  const EditWastePriceBody({
     super.key,
   });
-
-  @override
-  State<EditWastePriceForm> createState() => _EditWastePriceFormState();
-}
-
-class _EditWastePriceFormState extends State<EditWastePriceForm> {
-  final TextEditingController _priceOrganicController = TextEditingController();
-  final TextEditingController _priceInorganicController = TextEditingController();
-
-  @override
-  void dispose() {
-    _priceOrganicController.dispose();
-    _priceInorganicController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,15 +143,12 @@ class _EditWastePriceFormState extends State<EditWastePriceForm> {
       children: [
         const Text('Organik (Rp)'),
         BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
-          buildWhen: (previous, current) =>
-              previous.priceOrganic != current.priceOrganic || previous.isLoading != current.isLoading,
+          buildWhen: (previous, current) => previous.isLoading != current.isLoading,
           builder: (context, state) {
-            if (!state.isChange) {
-              _priceOrganicController.text = state.priceOrganic;
-            }
             return MoneyField(
+              key: state.isLoading ? null : const Key('organic'),
+              initialValue: state.priceOrganic,
               isLoading: state.isLoading,
-              controller: _priceOrganicController,
               suffixText: 'per kg',
               onChanged: (value) {
                 context.read<EditWastePriceBloc>().add(EditWastePriceEvent.priceOrganicChanged(value));
@@ -172,15 +158,12 @@ class _EditWastePriceFormState extends State<EditWastePriceForm> {
         ),
         const Text('An-Organik (Rp)'),
         BlocBuilder<EditWastePriceBloc, EditWastePriceState>(
-          buildWhen: (previous, current) =>
-              previous.priceInorganic != current.priceInorganic || previous.isLoading != current.isLoading,
+          buildWhen: (previous, current) => previous.isLoading != current.isLoading,
           builder: (context, state) {
-            if (!state.isChange) {
-              _priceInorganicController.text = state.priceInorganic;
-            }
             return MoneyField(
+              key: state.isLoading ? null : const Key('inorganic'),
+              initialValue: state.priceInorganic,
               isLoading: state.isLoading,
-              controller: _priceInorganicController,
               suffixText: 'per kg',
               onChanged: (value) {
                 context.read<EditWastePriceBloc>().add(EditWastePriceEvent.priceInorganicChanged(value));

@@ -13,9 +13,9 @@ import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 
-class EditStoreWasteFormPage extends StatelessWidget {
+class StaffStoreWasteUpdateForm extends StatelessWidget {
   final TransactionWaste transaction;
-  const EditStoreWasteFormPage({super.key, required this.transaction});
+  const StaffStoreWasteUpdateForm({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {

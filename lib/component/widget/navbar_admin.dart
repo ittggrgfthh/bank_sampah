@@ -48,7 +48,7 @@ class NavbarAdmin extends StatelessWidget {
                 ),
               ),
               BottomNavigationBarItem(
-                label: 'Buat User',
+                label: 'Pengguna',
                 icon: SvgPicture.asset(
                   'assets/images/add-user.svg',
                   colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),

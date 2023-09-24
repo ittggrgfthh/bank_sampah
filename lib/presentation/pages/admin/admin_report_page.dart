@@ -13,13 +13,13 @@ import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
 import '../../../domain/entities/report.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/report/report_bloc.dart';
-import 'pdf_api.dart';
-import 'pdf_report_api.dart';
+import '../pdf/pdf_api.dart';
+import '../pdf/pdf_report_api.dart';
 
-class AdminHomePage extends StatelessWidget {
-  const AdminHomePage({super.key});
+class AdminReportPage extends StatelessWidget {
+  const AdminReportPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,13 @@ class AdminHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Admin Home'),
         actions: [
-          AvatarImage(
-            photoUrl: admin.photoUrl,
-            username: admin.fullName,
-            onTap: () => context.goNamed(AppRouterName.profileName),
+          Hero(
+            tag: 'profile',
+            child: AvatarImage(
+              photoUrl: admin.photoUrl,
+              username: admin.fullName,
+              onTap: () => context.goNamed(AppRouterName.profileName),
+            ),
           ),
           const SizedBox(width: 15),
         ],

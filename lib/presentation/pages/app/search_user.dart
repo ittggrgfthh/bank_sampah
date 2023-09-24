@@ -2,8 +2,8 @@ import 'package:bank_sampah/component/widget/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/routing/router.dart';
-import '../../domain/entities/user.dart';
+import '../../../core/routing/router.dart';
+import '../../../domain/entities/user.dart';
 
 class SearchUser extends SearchDelegate {
   final List<User> users;

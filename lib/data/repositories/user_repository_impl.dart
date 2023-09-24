@@ -103,10 +103,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<Failure, FilterUser>> getUserFilter() async {
     try {
       final filter = await _userLocalDataSource.getUserFilter();
-      if (filter != null) {
-        return right(filter.toDomain());
-      }
-      return left(const Failure.unexpected('User filter not found'));
+      return right(filter.toDomain());
     } catch (e) {
       return left(Failure.unexpected(e.toString()));
     }
@@ -117,6 +114,16 @@ class UserRepositoryImpl implements UserRepository {
     try {
       await _userLocalDataSource.saveUserFilter(FilterUserModel.formDomain(filter));
       return right(unit);
+    } catch (e) {
+      return left(Failure.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FilterUser>> resetDefaultUserFilter() async {
+    try {
+      final result = await _userLocalDataSource.resetDefaultUserFilter();
+      return right(result.toDomain());
     } catch (e) {
       return left(Failure.unexpected(e.toString()));
     }

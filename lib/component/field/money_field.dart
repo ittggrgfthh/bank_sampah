@@ -29,6 +29,7 @@ class MoneyField extends StatelessWidget {
   final String? Function(String? value)? validator;
   final void Function()? onTap;
   final String? hintText;
+  final String? initialValue;
 
   const MoneyField({
     super.key,
@@ -39,12 +40,14 @@ class MoneyField extends StatelessWidget {
     this.suffixText,
     this.validator,
     this.hintText,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       enabled: !isLoading,
+      initialValue: initialValue,
       onTap: onTap,
       controller: controller,
       keyboardType: TextInputType.number,

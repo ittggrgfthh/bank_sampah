@@ -11,9 +11,11 @@ part 'filter_user_state.dart';
 class FilterUserBloc extends Bloc<FilterUserEvent, FilterUserState> {
   final GetUserFilter _getUserFilter;
   final SaveUserFilter _saveUserFilter;
+  final ResetDefaultUserFilter _resetDefaultUserFilter;
   FilterUserBloc(
     this._getUserFilter,
     this._saveUserFilter,
+    this._resetDefaultUserFilter,
   ) : super(const FilterUserState.initial()) {
     on<FilterUserEvent>((event, emit) async {
       await event.when(
@@ -31,14 +33,13 @@ class FilterUserBloc extends Bloc<FilterUserEvent, FilterUserState> {
       (failure) => emit(const FilterUserState.loadFailure('Gagal memuat filter')),
       (filter) => emit(FilterUserState.loadSuccess(filter)),
     );
-    // print(state);
   }
 
   Future<void> _handleApply(Emitter<FilterUserState> emit, FilterUser filter) async {
     emit(const FilterUserState.loadInProgress());
     final failureOrSuccess = await _saveUserFilter(filter);
     failureOrSuccess.fold(
-      (faiure) => emit(const FilterUserState.loadFailure('Gagal menyimpan filter')),
+      (failure) => emit(const FilterUserState.loadFailure('Gagal menyimpan filter')),
       (_) => emit(FilterUserState.loadSuccess(filter)),
     );
     // print(state);
@@ -46,6 +47,10 @@ class FilterUserBloc extends Bloc<FilterUserEvent, FilterUserState> {
 
   Future<void> _handleReset(Emitter<FilterUserState> emit) async {
     emit(const FilterUserState.loadInProgress());
-    emit(const FilterUserState.initial());
+    final failureOrSuccess = await _resetDefaultUserFilter();
+    failureOrSuccess.fold(
+      (failure) => emit(const FilterUserState.loadFailure('Gagal memuat filter')),
+      (filter) => emit(FilterUserState.loadSuccess(filter)),
+    );
   }
 }

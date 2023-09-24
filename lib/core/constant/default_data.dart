@@ -107,4 +107,9 @@ class DefaultData {
     'staff',
     'admin',
   ];
+
+  static final rtrw = List<String>.generate(20, (int index) {
+    final number = (index + 1).toString().padLeft(3, '0');
+    return number;
+  });
 }

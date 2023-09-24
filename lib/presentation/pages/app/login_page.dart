@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../component/button/rounded_primary_button.dart';
-import '../../component/field/password_field.dart';
-import '../../component/field/phone_field.dart';
-import '../../core/failures/auth_failure_messages.dart';
-import '../../injection.dart';
-import '../bloc/bloc.dart';
+import '../../../component/button/rounded_primary_button.dart';
+import '../../../component/field/password_field.dart';
+import '../../../component/field/phone_field.dart';
+import '../../../core/failures/auth_failure_messages.dart';
+import '../../../injection.dart';
+import '../../bloc/bloc.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

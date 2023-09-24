@@ -48,6 +48,12 @@ class AvatarImage extends StatelessWidget {
                       child: const CircularProgressIndicator(),
                     ),
                   ),
+                  errorWidget: (context, url, error) {
+                    return Icon(
+                      Icons.error_outline_rounded,
+                      size: size,
+                    );
+                  },
                 ),
         ),
       ),

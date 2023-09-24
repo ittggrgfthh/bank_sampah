@@ -41,7 +41,7 @@ class NavbarStaff extends StatelessWidget {
             backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.primaryDark,
             items: [
               BottomNavigationBarItem(
-                label: 'Simpan Sampah',
+                label: 'Depo Sampah',
                 icon: SvgPicture.asset(
                   'assets/images/add-form.svg',
                   colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
@@ -52,7 +52,7 @@ class NavbarStaff extends StatelessWidget {
                 ),
               ),
               BottomNavigationBarItem(
-                label: 'Riwayat Transaksi',
+                label: 'Transaksi',
                 icon: SvgPicture.asset(
                   'assets/images/transaction-history.svg',
                   colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),

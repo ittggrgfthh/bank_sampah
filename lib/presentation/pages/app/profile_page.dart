@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../component/button/rounded_danger_button.dart';
-import '../../component/widget/avatar_image.dart';
-import '../../component/widget/confirmation_dialog.dart';
-import '../../core/constant/colors.dart';
-import '../../core/constant/theme.dart';
-import '../../injection.dart';
-import '../bloc/auth_bloc/auth_bloc.dart';
+import '../../../component/button/rounded_danger_button.dart';
+import '../../../component/widget/avatar_image.dart';
+import '../../../component/widget/confirmation_dialog.dart';
+import '../../../core/constant/colors.dart';
+import '../../../core/constant/theme.dart';
+import '../../../injection.dart';
+import '../../bloc/auth/auth_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

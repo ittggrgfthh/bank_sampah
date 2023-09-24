@@ -9,7 +9,7 @@ import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/warga_home/warga_home_bloc.dart';
 
 class WargaHomePage extends StatelessWidget {
@@ -22,10 +22,13 @@ class WargaHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home Warga'),
         actions: [
-          AvatarImage(
-            photoUrl: warga.photoUrl,
-            username: warga.fullName,
-            onTap: () => context.goNamed(AppRouterName.profileName),
+          Hero(
+            tag: 'profile',
+            child: AvatarImage(
+              photoUrl: warga.photoUrl,
+              username: warga.fullName,
+              onTap: () => context.goNamed(AppRouterName.profileName),
+            ),
           ),
           const SizedBox(width: 15),
         ],

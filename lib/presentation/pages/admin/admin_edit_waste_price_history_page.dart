@@ -7,11 +7,11 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/edit_waste_price_history/edit_waste_price_history_bloc.dart';
 
-class EditPriceHistory extends StatelessWidget {
-  const EditPriceHistory({super.key});
+class AdminEditWastePriceHistoryPage extends StatelessWidget {
+  const AdminEditWastePriceHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {

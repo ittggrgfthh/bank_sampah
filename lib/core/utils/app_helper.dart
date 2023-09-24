@@ -1,9 +1,20 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:ulid/ulid.dart';
+
+import '../../component/widget/filter_button.dart';
+import '../../component/widget/modal_checkbox.dart';
+import '../../domain/entities/filter_user.dart';
+import '../../presentation/bloc/filter_user/filter_user_bloc.dart';
+import '../constant/colors.dart';
+import '../constant/default_data.dart';
+import '../constant/theme.dart';
 
 class AppHelper {
   static String generateUniqueId() {
@@ -109,5 +120,84 @@ class AppHelper {
     }
 
     return Duration(milliseconds: duration);
+  }
+
+  static String generateFilterText(List<String>? items, String placeholder) {
+    if (items != null) {
+      if (items.length == 1) {
+        return items[0];
+      } else if (items.length > 1) {
+        final hiddenCount = items.length - 1;
+        return '${items[0]} (+$hiddenCount)';
+      }
+    }
+    return placeholder;
+  }
+
+  static List<Widget> defaultFilterUser(BuildContext context, FilterUser filter) {
+    return [
+      SizedBox(
+        height: 26,
+        child: FilterButton(
+          label: AppHelper.generateFilterText(filter.villages, 'Desa'),
+          onPressed: () => showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => ModalCheckBox(
+              items: DefaultData.village,
+              initial: filter.villages ?? [],
+              title: 'Filter Desa',
+              onSelectedChanged: (value) {
+                context.read<FilterUserBloc>().add(FilterUserEvent.apply(filter.copyWith(villages: value)));
+                context.pop();
+              },
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 26,
+        child: FilterButton(
+          label: AppHelper.generateFilterText(filter.rts, 'RT'),
+          onPressed: () => showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => ModalCheckBox(
+              initial: filter.rts ?? [],
+              items: DefaultData.rtrw,
+              title: 'Filter RT',
+              onSelectedChanged: (value) {
+                context.read<FilterUserBloc>().add(FilterUserEvent.apply(filter.copyWith(rts: value)));
+                context.pop();
+              },
+            ),
+          ),
+          backgroundColor: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
+        ),
+      ),
+      SizedBox(
+        height: 26,
+        child: FilterButton(
+          label: AppHelper.generateFilterText(filter.rws, 'RW'),
+          onPressed: () => showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => ModalCheckBox(
+              initial: filter.rws ?? [],
+              items: DefaultData.rtrw,
+              title: 'Filter RW',
+              onSelectedChanged: (value) {
+                context.read<FilterUserBloc>().add(FilterUserEvent.apply(filter.copyWith(rws: value)));
+                context.pop();
+              },
+            ),
+          ),
+          backgroundColor: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
+        ),
+      ),
+    ];
   }
 }

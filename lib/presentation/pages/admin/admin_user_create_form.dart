@@ -17,8 +17,8 @@ import '../../../core/constant/theme.dart';
 import '../../../injection.dart';
 import '../../bloc/bloc.dart';
 
-class AdminCreateUserPage extends StatelessWidget {
-  const AdminCreateUserPage({super.key});
+class AdminUserCreateForm extends StatelessWidget {
+  const AdminUserCreateForm({super.key});
 
   @override
   Widget build(BuildContext context) {

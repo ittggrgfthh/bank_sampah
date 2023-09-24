@@ -11,13 +11,16 @@ abstract class UserLocalDataSource {
   Future<UserModel?> getLoggedInUser();
   Future<void> clearLoggedInUser();
   Future<void> saveUserFilter(FilterUserModel filterUserModel);
-  Future<FilterUserModel?> getUserFilter();
+  Future<FilterUserModel> getUserFilter();
   Future<void> saveTransactionFilter(FilterTransactionWasteModel filterTransactionWasteModel);
+  Future<FilterUserModel> resetDefaultUserFilter();
 }
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
   static const String _loggedInUserKey = 'logged_in_user';
+  static const String _userFilterDefaultKey = 'user_filter_default';
   static const String _userFilterKey = 'user_filter';
+  static const String _transactionFilterDefaultKey = 'transaction_filter_default';
   static const String _transactionFilterKey = 'transaction_filter';
 
   @override
@@ -39,6 +42,10 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
         filterTransactionWasteModel = filterTransactionWasteModel.copyWith(userId: user.id);
       default:
     }
+
+    final userFilterJson = filterUserModel.toJson();
+    await sharedPreferences.setString(_userFilterDefaultKey, jsonEncode(userFilterJson));
+
     await saveUserFilter(filterUserModel);
     await saveTransactionFilter(filterTransactionWasteModel);
     final userJson = user.toJson();
@@ -61,6 +68,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.remove(_userFilterKey);
     await sharedPreferences.remove(_loggedInUserKey);
+    await sharedPreferences.remove(_transactionFilterDefaultKey);
     await sharedPreferences.remove(_transactionFilterKey);
   }
 
@@ -72,21 +80,37 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   }
 
   @override
-  Future<FilterUserModel?> getUserFilter() async {
+  Future<FilterUserModel> getUserFilter() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final userFilterJson = sharedPreferences.getString(_userFilterKey);
-    // print("getUserFilter: $userFilterJson");
     if (userFilterJson != null) {
       final userFilterMap = jsonDecode(userFilterJson) as Map<String, dynamic>;
       return FilterUserModel.fromJson(userFilterMap);
+    } else {
+      return resetDefaultUserFilter();
     }
-    return null;
   }
 
   @override
   Future<void> saveTransactionFilter(FilterTransactionWasteModel filterTransactionWasteModel) async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final transactionFilterJson = filterTransactionWasteModel.toJson();
+    await sharedPreferences.setString(_transactionFilterDefaultKey, jsonEncode(transactionFilterJson));
     await sharedPreferences.setString(_transactionFilterKey, jsonEncode(transactionFilterJson));
+  }
+
+  @override
+  Future<FilterUserModel> resetDefaultUserFilter() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final userFilterDefaultString = sharedPreferences.getString(_userFilterDefaultKey);
+
+    if (userFilterDefaultString != null) {
+      sharedPreferences.setString(_userFilterKey, userFilterDefaultString);
+      return FilterUserModel.fromJson(jsonDecode(userFilterDefaultString));
+    } else {
+      const filterUserModelDefault = FilterUserModel(villages: ['Banyubiru'], role: 'warga');
+      sharedPreferences.setString(_userFilterDefaultKey, jsonEncode(filterUserModelDefault.toJson()));
+      return filterUserModelDefault;
+    }
   }
 }

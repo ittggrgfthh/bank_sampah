@@ -39,6 +39,7 @@ class FilterUserModel with _$FilterUserModel {
       role: filterUser.role,
       villages: filterUser.villages,
       rts: filterUser.rts,
+      rws: filterUser.rws,
     );
   }
 }

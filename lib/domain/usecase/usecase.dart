@@ -21,3 +21,4 @@ export 'upload_profile_picture.dart';
 export 'user/get_transactions_by_user_id.dart';
 export 'user/get_user_filter.dart';
 export 'user/save_user_filter.dart';
+export 'user/reset_default_user_filter.dart';

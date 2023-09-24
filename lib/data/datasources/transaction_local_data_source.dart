@@ -7,10 +7,12 @@ import '../models/filter_transaction_waste_model.dart';
 abstract class TransactionLocalDataSource {
   Future<void> saveTransactionFilter(FilterTransactionWasteModel filterTransactionWasteModel);
   Future<FilterTransactionWasteModel> getTransactionFilter();
+  Future<FilterTransactionWasteModel> resetDefaultTransactionFilter();
 }
 
 class TransactionLocalDataSourceImpl implements TransactionLocalDataSource {
   static const String _transactionFilterKey = 'transaction_filter';
+  static const String _transactionFilterDefaultKey = 'transaction_filter_default';
 
   @override
   Future<void> saveTransactionFilter(FilterTransactionWasteModel filterTransactionWasteModel) async {
@@ -26,23 +28,35 @@ class TransactionLocalDataSourceImpl implements TransactionLocalDataSource {
     if (transactionFilterJson != null) {
       final transactionFilterMap = jsonDecode(transactionFilterJson) as Map<String, dynamic>;
       return FilterTransactionWasteModel.fromJson(transactionFilterMap);
+    } else {
+      return resetDefaultTransactionFilter();
     }
+  }
 
-    final dateTime = DateTime.now();
+  @override
+  Future<FilterTransactionWasteModel> resetDefaultTransactionFilter() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final transactionFilterDefaultString = sharedPreferences.getString(_transactionFilterDefaultKey);
+    if (transactionFilterDefaultString != null) {
+      sharedPreferences.setString(_transactionFilterKey, transactionFilterDefaultString);
+      return FilterTransactionWasteModel.fromJson(jsonDecode(transactionFilterDefaultString));
+    } else {
+      final dateTime = DateTime.now();
+      Map<String, dynamic> json = {
+        'user_id': null,
+        'staff_id': null,
+        'full_name': null,
+        'start_epoch': dateTime.copyWith(month: dateTime.month - 1).millisecondsSinceEpoch,
+        'end_epoch': dateTime.millisecondsSinceEpoch,
+        'villages': [],
+        'rts': [],
+        'rws': [],
+        'is_store_waste': false,
+        'is_withdraw_balance': false,
+      };
 
-    Map<String, dynamic> json = {
-      'user_id': null,
-      'staff_id': null,
-      'full_name': null,
-      'start_epoch': dateTime.copyWith(month: dateTime.month - 1).millisecondsSinceEpoch,
-      'end_epoch': dateTime.millisecondsSinceEpoch,
-      'villages': [],
-      'rts': [],
-      'rws': [],
-      'is_store_waste': false,
-      'is_withdraw_balance': false,
-    };
-
-    return FilterTransactionWasteModel.fromJson(json);
+      sharedPreferences.setString(_transactionFilterDefaultKey, jsonEncode(json));
+      return FilterTransactionWasteModel.fromJson(json);
+    }
   }
 }

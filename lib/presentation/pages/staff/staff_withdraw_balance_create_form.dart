@@ -12,15 +12,15 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/default_data.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
 import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/withdraw_balance_form/withdraw_balance_form_bloc.dart';
 
-class WithdrawBalanceForm extends StatelessWidget {
+class StaffWithdrawBalanceCreateForm extends StatelessWidget {
   final String userId;
-  const WithdrawBalanceForm({super.key, required this.userId});
+  const StaffWithdrawBalanceCreateForm({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {

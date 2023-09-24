@@ -11,7 +11,7 @@ import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
-import '../../bloc/auth_bloc/auth_bloc.dart';
+import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/transaction_history/transaction_history_bloc.dart';
 
@@ -27,10 +27,13 @@ class StaffTransactionHistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Riwayat Transaksi'),
         actions: [
-          AvatarImage(
-            photoUrl: staff.photoUrl,
-            username: staff.fullName,
-            onTap: () => context.goNamed(AppRouterName.profileName),
+          Hero(
+            tag: 'profile',
+            child: AvatarImage(
+              photoUrl: staff.photoUrl,
+              username: staff.fullName,
+              onTap: () => context.goNamed(AppRouterName.profileName),
+            ),
           ),
           const SizedBox(width: 15),
         ],

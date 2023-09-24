@@ -55,8 +55,12 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
 
   Future<void> _handlePriceOrganicChanged(Emitter<EditWastePriceState> emit, String priceOrganic) async {
     state.wastePrice.fold(() => null, (wastePrice) {
-      if (priceOrganic == wastePrice.organic.toString()) {
-        emit(state.copyWith(isChange: false));
+      if (priceOrganic == AppHelper.formatToThousandsInt(wastePrice.organic) &&
+          state.priceInorganic == AppHelper.formatToThousandsInt(wastePrice.inorganic)) {
+        emit(state.copyWith(
+          priceOrganic: priceOrganic,
+          isChange: false,
+        ));
       } else {
         emit(state.copyWith(
           priceOrganic: priceOrganic,
@@ -68,8 +72,12 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
 
   Future<void> _handlePriceInorganicChanged(Emitter<EditWastePriceState> emit, String priceInorganic) async {
     state.wastePrice.fold(() => null, (wastePrice) {
-      if (priceInorganic == wastePrice.inorganic.toString()) {
-        emit(state.copyWith(isChange: false));
+      if (priceInorganic == AppHelper.formatToThousandsInt(wastePrice.inorganic) &&
+          state.priceOrganic == AppHelper.formatToThousandsInt(wastePrice.organic)) {
+        emit(state.copyWith(
+          priceInorganic: priceInorganic,
+          isChange: false,
+        ));
       } else {
         emit(state.copyWith(
           priceInorganic: priceInorganic,

@@ -27,12 +27,17 @@ class FilterButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               label,
               style: const TextStyle(
                 fontSize: 12,
               ),
+            ),
+            const Icon(
+              Icons.expand_more_rounded,
+              size: 18,
             ),
           ],
         ),

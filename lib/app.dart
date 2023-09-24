@@ -5,7 +5,7 @@ import 'component/my_input_theme.dart';
 import 'core/constant/theme.dart';
 import 'core/routing/router.dart';
 import 'injection.dart';
-import 'presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'presentation/bloc/auth/auth_bloc.dart';
 import 'presentation/bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import 'presentation/bloc/filter_user/filter_user_bloc.dart';
 
