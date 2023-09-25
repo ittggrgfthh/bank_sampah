@@ -9,9 +9,7 @@ import '../../../component/widget/single_list_tile.dart';
 import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/auth/auth_bloc.dart';
-import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
-import '../../bloc/list_user/list_user_bloc.dart';
 import '../../bloc/store_waste_form/store_waste_form_bloc.dart';
 
 class StaffStoreWasteCreateForm extends StatelessWidget {
@@ -30,12 +28,7 @@ class StaffStoreWasteCreateForm extends StatelessWidget {
             (failureOrSuccess) => failureOrSuccess.fold(
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
-                final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
-                final filterTransactionWaste =
-                    getIt<FilterTransactionWasteBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
-                context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
-                context.read<FilterTransactionWasteBloc>().add(FilterTransactionWasteEvent.apply(filterTransactionWaste
-                    .copyWith(staffId: staff.id, endEpoch: DateTime.now().millisecondsSinceEpoch + 5000)));
+                context.read<FilterUserBloc>().add(const FilterUserEvent.loaded());
                 context.pop();
               },
             ),
@@ -176,16 +169,11 @@ class StaffStoreWasteCreateForm extends StatelessWidget {
   }
 }
 
-class StoreWasteForm extends StatefulWidget {
+class StoreWasteForm extends StatelessWidget {
   const StoreWasteForm({
     super.key,
   });
 
-  @override
-  State<StoreWasteForm> createState() => _StoreWasteFormState();
-}
-
-class _StoreWasteFormState extends State<StoreWasteForm> {
   @override
   Widget build(BuildContext context) {
     return Column(

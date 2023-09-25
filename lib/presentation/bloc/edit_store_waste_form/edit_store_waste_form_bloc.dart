@@ -192,6 +192,13 @@ class EditStoreWasteFormBloc extends Bloc<EditStoreWasteFormEvent, EditStoreWast
       ],
     );
 
+    if (AppHelper.isWithin5Minutes(newTransaction.createdAt)) {
+      emit(state.copyWith(
+        isLoading: false,
+        failure: optionOf(const Failure.unexpected('Sudah melebihi waktu yang sudah ditentukan!')),
+      ));
+    }
+
     final failureOrSuccess = await _updateWasteTransaction(newTransaction);
     failureOrSuccess.fold(
       (failure) => emit(state.copyWith(

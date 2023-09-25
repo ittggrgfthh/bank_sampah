@@ -9,9 +9,7 @@ import '../../../component/widget/single_list_tile.dart';
 import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
 import '../../bloc/edit_store_waste_form/edit_store_waste_form_bloc.dart';
-import '../../bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../bloc/filter_user/filter_user_bloc.dart';
-import '../../bloc/list_user/list_user_bloc.dart';
 
 class StaffStoreWasteUpdateForm extends StatelessWidget {
   final TransactionWaste transaction;
@@ -28,12 +26,7 @@ class StaffStoreWasteUpdateForm extends StatelessWidget {
             (failureOrSuccess) => failureOrSuccess.fold(
               (failure) => FlushbarHelper.createError(message: "Terjadi kesalahan").show(context),
               (_) {
-                final filterUser = getIt<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
-                final filterTransactionWaste =
-                    getIt<FilterTransactionWasteBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
-                context.read<ListUserBloc>().add(ListUserEvent.initialized(filterUser));
-                context.read<FilterTransactionWasteBloc>().add(FilterTransactionWasteEvent.apply(
-                    filterTransactionWaste.copyWith(endEpoch: DateTime.now().millisecondsSinceEpoch + 5000)));
+                context.read<FilterUserBloc>().add(const FilterUserEvent.reset());
                 context.pop();
               },
             ),

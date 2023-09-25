@@ -47,7 +47,6 @@ class AdminEditWastePriceForm extends StatelessWidget {
                   return previous.isChange != current.isChange || previous.isLoading != current.isLoading;
                 },
                 builder: (context, state) {
-                  print(state.isChange);
                   return RoundedPrimaryButton(
                       isLoading: state.isLoading,
                       isChanged: !state.isChange,

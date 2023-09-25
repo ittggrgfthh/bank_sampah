@@ -7,8 +7,10 @@ import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
 import '../../core/routing/router.dart';
 import '../../injection.dart';
+import '../../presentation/bloc/filter_transaction_waste/filter_transaction_waste_bloc.dart';
 import '../../presentation/bloc/filter_user/filter_user_bloc.dart';
 import '../../presentation/bloc/list_user/list_user_bloc.dart';
+import '../../presentation/bloc/transaction_history/transaction_history_bloc.dart';
 
 class NavbarStaff extends StatelessWidget {
   final Widget child;
@@ -17,11 +19,15 @@ class NavbarStaff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filterUser = context.read<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
+    final filterU = context.read<FilterUserBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
+    final filterT = context.read<FilterTransactionWasteBloc>().state.whenOrNull(loadSuccess: (filter) => filter)!;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt<ListUserBloc>()..add(ListUserEvent.initialized(filterUser)),
+          create: (context) => getIt<ListUserBloc>()..add(ListUserEvent.initialized(filterU)),
+        ),
+        BlocProvider(
+          create: (context) => getIt<TransactionHistoryBloc>()..add(TransactionHistoryEvent.filterChanged(filterT)),
         ),
       ],
       child: Scaffold(

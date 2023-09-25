@@ -42,7 +42,18 @@ class FilterTransactionWasteBloc extends Bloc<FilterTransactionWasteEvent, Filte
   }
 
   Future<void> _handleReset(Emitter<FilterTransactionWasteState> emit) async {
-    emit(const FilterTransactionWasteState.loadInProgress());
-    emit(const FilterTransactionWasteState.initial());
+    await state.maybeWhen(
+      loadSuccess: (filter) async {
+        emit(const FilterTransactionWasteState.loadInProgress());
+        final dateTime = DateTime.now();
+        await _handleApply(
+            emit,
+            filter.copyWith(
+              startEpoch: dateTime.copyWith(month: dateTime.month - 1).millisecondsSinceEpoch,
+              endEpoch: dateTime.millisecondsSinceEpoch + 10000,
+            ));
+      },
+      orElse: () {},
+    );
   }
 }
