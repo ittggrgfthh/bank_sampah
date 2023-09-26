@@ -55,3 +55,4 @@ app.*.map.json
 .vscode/
 
 *.env
+/obfuscate/
