@@ -42,3 +42,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase specific
+**/android/app/google-services.json
+**/ios/Runner/GoogleService-Info.plist
+
+# build_runner generated files
+*.freezed.dart
+*.g.dart
+
+# vscode
+.vscode/
+
+*.env
+/obfuscate/
