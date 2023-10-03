@@ -1,4 +1,4 @@
-package com.example.bank_sampah
+package id.my.charapon.banksampah
 
 import io.flutter.embedding.android.FlutterActivity
 

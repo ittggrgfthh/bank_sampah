@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -45,17 +48,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBC6GldkLCZC9O1OrfEvqNNvrZu95YJLlk',
-    appId: '1:938179980284:web:7295a61c064c76ae062079',
+    appId: '1:938179980284:web:499a070e0cc33c78062079',
     messagingSenderId: '938179980284',
     projectId: 'banksampah-b3d01',
     authDomain: 'banksampah-b3d01.firebaseapp.com',
     storageBucket: 'banksampah-b3d01.appspot.com',
-    measurementId: 'G-HXFHLY5K5N',
+    measurementId: 'G-QLVFK493VV',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDXJpqhDX8Uj3vZGzY26hJ4cxwMU6Zk4H0',
-    appId: '1:938179980284:android:cece2402bf1dfb2e062079',
+    appId: '1:938179980284:android:a083e4c3e9214aef062079',
     messagingSenderId: '938179980284',
     projectId: 'banksampah-b3d01',
     storageBucket: 'banksampah-b3d01.appspot.com',
@@ -63,21 +66,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBV5dZi3uFXiQ1o2b18VXhPSY7yOBD717g',
-    appId: '1:938179980284:ios:31f5800cc5eeb188062079',
+    appId: '1:938179980284:ios:0bc5d14806452fa1062079',
     messagingSenderId: '938179980284',
     projectId: 'banksampah-b3d01',
     storageBucket: 'banksampah-b3d01.appspot.com',
     iosClientId: '938179980284-lh5pbkvfamv41ikv59tj92o3266p957q.apps.googleusercontent.com',
     iosBundleId: 'com.example.bankSampah',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBV5dZi3uFXiQ1o2b18VXhPSY7yOBD717g',
-    appId: '1:938179980284:ios:9cc90de613eedd8b062079',
-    messagingSenderId: '938179980284',
-    projectId: 'banksampah-b3d01',
-    storageBucket: 'banksampah-b3d01.appspot.com',
-    iosClientId: '938179980284-6nb3mhvhuore3lj8d80gqc8teq2hv84g.apps.googleusercontent.com',
-    iosBundleId: 'com.example.bankSampah.RunnerTests',
   );
 }

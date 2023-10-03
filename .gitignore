@@ -56,3 +56,7 @@ app.*.map.json
 
 *.env
 /obfuscate/
+
+# deployment related
+key.properties
+app/upload-keystore.jks
