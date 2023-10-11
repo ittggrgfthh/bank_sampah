@@ -28,7 +28,7 @@ Either<ValueFailure<String>, String> validatePassword(String input, int minLengt
   if (input.length >= minLength) {
     return right(input);
   } else {
-    return left(ValueFailure(input, message: 'Panjang kata sandi harus >= $minLength'));
+    return left(ValueFailure(input, message: 'Panjang kata sandi harus lebih dari $minLength huruf'));
   }
 }
 
@@ -38,6 +38,6 @@ Either<ValueFailure<String>, String> validateName(String input) {
   if (input.length >= minLength) {
     return right(input);
   } else {
-    return left(ValueFailure(input, message: 'Panjang nama harus >= $minLength'));
+    return left(ValueFailure(input, message: 'Panjang nama harus lebih dari $minLength huruf'));
   }
 }

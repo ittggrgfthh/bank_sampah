@@ -26,6 +26,7 @@ class AdminUserUpdateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    // final debouncer = Debouncer(milliseconds: 500);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit User'),
@@ -54,10 +55,11 @@ class AdminUserUpdateForm extends StatelessWidget {
               children: <Widget>[
                 const SizedBox(height: 10),
                 BlocBuilder<UpdateUserFormBloc, UpdateUserFormState>(
-                  buildWhen: (previous, current) => previous.user != current.user,
+                  buildWhen: (previous, current) =>
+                      previous.user != current.user || previous.isPhoneNumberExists != current.isPhoneNumberExists,
                   builder: (context, state) {
                     return PhoneField(
-                      key: state.phoneNumber.isLeft() ? const Key('phone') : null,
+                      key: state.user.toNullable() == null ? null : const Key('phone'),
                       initialValue: state.phoneNumber.toNullable(),
                       suffixIcon: state.isPhoneNumberLoading
                           ? Padding(
@@ -71,7 +73,9 @@ class AdminUserUpdateForm extends StatelessWidget {
                               ? const Icon(Icons.error)
                               : null,
                       onChanged: (value) {
+                        // debouncer.run(() {
                         context.read<UpdateUserFormBloc>().add(UpdateUserFormEvent.phoneNumberChanged(value));
+                        // });
                       },
                       validator: (_) {
                         return state.phoneNumber.fold(

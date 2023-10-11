@@ -1,11 +1,9 @@
+import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/failures/value_failure.dart';
@@ -68,27 +66,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
           );
           emit(state.copyWith(profilePictureOption: profilPictureOption));
         },
-        phoneNumberChanged: (phoneNumber) async {
-          if (phoneNumber.length >= 11) {
-            emit(state.copyWith(isPhoneNumberLoading: true));
-            final failureOrSuccess = await getUserByPhoneNumber(phoneNumber);
-
-            failureOrSuccess.fold(
-              (failure) {
-                emit(state.copyWith(
-                    isPhoneNumberLoading: false,
-                    phoneNumber: validatePhoneNumber(phoneNumber, false),
-                    isPhoneNumberExists: false));
-              },
-              (user) {
-                emit(state.copyWith(
-                    isPhoneNumberLoading: false,
-                    phoneNumber: validatePhoneNumber(phoneNumber, true),
-                    isPhoneNumberExists: true));
-              },
-            );
-          }
-        },
+        phoneNumberChanged: (phoneNumber) => _handlePhoneNumberChanged(emit, phoneNumber),
         fullNameChanged: (fullName) async {
           emit(state.copyWith(fullName: validateName(fullName)));
         },
@@ -107,96 +85,105 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
         villageChanged: (village) {
           emit(state.copyWith(village: village));
         },
-        submitButtonPressed: () async {
-          final isPhoneNumberValid = state.phoneNumber.isRight();
-          final isPasswordValid = state.password.isRight();
-          final isFullNameValid = state.fullName.isRight();
-
-          Either<Failure, String>? failureOrPath;
-          Either<Failure, User>? failureOrSuccess;
-          late User updatedUser;
-
-          if (isPhoneNumberValid && isPasswordValid && isFullNameValid) {
-            emit(state.copyWith(isSubmitting: true, failureOrSuccessOption: none()));
-
-            final phoneNumber = state.phoneNumber.getOrElse((l) => '');
-            final fullName = state.fullName.getOrElse((l) => '');
-            final password = state.password.getOrElse((l) => '');
-            final role = state.role;
-            final rt = state.rt;
-            final rw = state.rw;
-            final village = state.village;
-            final user = state.user.toNullable();
-            final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
-
-            updatedUser = user!.copyWith(
-              phoneNumber: phoneNumber,
-              fullName: fullName,
-              password: user.password != password ? AppHelper.hashPassword(password) : password,
-              role: role,
-              rt: rt,
-              rw: rw,
-              village: village,
-              updatedAt: dateNowEpoch,
-            );
-
-            if (state.profilePictureOption.isSome()) {
-              final picture = state.profilePictureOption.toNullable()!;
-
-              failureOrPath = await uploadProfilePicture(
-                picture: picture,
-                userId: user.id,
-              );
-
-              if (failureOrPath.isLeft()) {
-                emit(state.copyWith(
-                  isSubmitting: false,
-                  errorMessagesShown: true,
-                  failureOrSuccessOption: optionOf(
-                    left<Failure, User>(failureOrPath.getLeft().toNullable()!),
-                  ),
-                ));
-                return;
-              }
-              updatedUser = updatedUser.copyWith(photoUrl: failureOrPath.getRight().toNullable());
-            }
-            //send user to update
-            failureOrSuccess = await updateUser(updatedUser);
-          }
-
-          emit(state.copyWith(
-            isSubmitting: false,
-            errorMessagesShown: true,
-            failureOrSuccessOption: optionOf(failureOrSuccess),
-          ));
-        },
+        submitButtonPressed: () => _handleSubmitButtonPressed(emit),
       );
     });
   }
-  Future<File> urlToFile(String imageUrl) async {
-    final http.Response responseData = await http.get(Uri.parse(imageUrl));
-    Uint8List uint8list = responseData.bodyBytes;
-    var buffer = uint8list.buffer;
-    ByteData byteData = ByteData.view(buffer);
 
-    final tempDir = await getTemporaryDirectory();
-    final tempFiles = tempDir.listSync().whereType<File>().toList();
-    const maxTempFiles = 10; // Set your desired file limit here
+  Future<void> _handlePhoneNumberChanged(Emitter<UpdateUserFormState> emit, String phoneNumber) async {
+    if (phoneNumber.length >= 11) {
+      emit(state.copyWith(isPhoneNumberLoading: true));
 
-    // Delete older files if the file limit is exceeded
-    if (tempFiles.length >= maxTempFiles) {
-      tempFiles.sort((a, b) => a.lastModifiedSync().compareTo(b.lastModifiedSync()));
-      final filesToDelete = tempFiles.sublist(0, tempFiles.length - maxTempFiles + 1);
-      for (final file in filesToDelete) {
-        await file.delete();
+      final user = state.user.toNullable();
+      if (user != null && user.phoneNumber == phoneNumber) {
+        return emit(state.copyWith(
+          isPhoneNumberLoading: false,
+          phoneNumber: validatePhoneNumber(phoneNumber, false),
+          isPhoneNumberExists: false,
+        ));
       }
+
+      // print('phoneNumber: $phoneNumber');
+      final failureOrSuccess = await getUserByPhoneNumber(phoneNumber);
+
+      failureOrSuccess.fold(
+        (failure) {
+          emit(state.copyWith(
+              isPhoneNumberLoading: false,
+              phoneNumber: validatePhoneNumber(phoneNumber, false),
+              isPhoneNumberExists: false));
+        },
+        (user) {
+          emit(state.copyWith(
+              isPhoneNumberLoading: false,
+              phoneNumber: validatePhoneNumber(phoneNumber, true),
+              isPhoneNumberExists: true));
+        },
+      );
+    }
+  }
+
+  Future<void> _handleSubmitButtonPressed(Emitter<UpdateUserFormState> emit) async {
+    final isPhoneNumberValid = state.phoneNumber.isRight();
+    final isPasswordValid = state.password.isRight();
+    final isFullNameValid = state.fullName.isRight();
+
+    Either<Failure, String>? failureOrPath;
+    Either<Failure, User>? failureOrSuccess;
+    late User updatedUser;
+
+    if (isPhoneNumberValid && isPasswordValid && isFullNameValid) {
+      emit(state.copyWith(isSubmitting: true, failureOrSuccessOption: none()));
+
+      final phoneNumber = state.phoneNumber.getOrElse((l) => '');
+      final fullName = state.fullName.getOrElse((l) => '');
+      final password = state.password.getOrElse((l) => '');
+      final role = state.role;
+      final rt = state.rt;
+      final rw = state.rw;
+      final village = state.village;
+      final user = state.user.toNullable();
+      final dateNowEpoch = DateTime.now().millisecondsSinceEpoch;
+
+      updatedUser = user!.copyWith(
+        phoneNumber: phoneNumber,
+        fullName: fullName,
+        password: user.password != password ? AppHelper.hashPassword(password) : password,
+        role: role,
+        rt: rt,
+        rw: rw,
+        village: village,
+        updatedAt: dateNowEpoch,
+      );
+
+      if (state.profilePictureOption.isSome()) {
+        final picture = state.profilePictureOption.toNullable()!;
+
+        failureOrPath = await uploadProfilePicture(
+          picture: picture,
+          userId: user.id,
+        );
+
+        if (failureOrPath.isLeft()) {
+          emit(state.copyWith(
+            isSubmitting: false,
+            errorMessagesShown: true,
+            failureOrSuccessOption: optionOf(
+              left<Failure, User>(failureOrPath.getLeft().toNullable()!),
+            ),
+          ));
+          return;
+        }
+        updatedUser = updatedUser.copyWith(photoUrl: failureOrPath.getRight().toNullable());
+      }
+      //send user to update
+      failureOrSuccess = await updateUser(updatedUser);
     }
 
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final tempFile = File('${tempDir.path}/temp_image_$timestamp.jpg');
-
-    await tempFile.writeAsBytes(buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-    return tempFile;
+    emit(state.copyWith(
+      isSubmitting: false,
+      errorMessagesShown: true,
+      failureOrSuccessOption: optionOf(failureOrSuccess),
+    ));
   }
 }

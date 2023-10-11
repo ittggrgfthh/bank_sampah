@@ -7,6 +7,7 @@ import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/field/password_field.dart';
 import '../../../component/field/phone_field.dart';
 import '../../../core/failures/auth_failure_messages.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/bloc.dart';
 
@@ -90,6 +91,7 @@ class _LoginPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final debouncer = Debouncer(milliseconds: 500);
     return Form(
       autovalidateMode: errorMessagesShown ? AutovalidateMode.always : AutovalidateMode.disabled,
       child: SingleChildScrollView(
@@ -120,7 +122,9 @@ class _LoginPageBody extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             PhoneField(
-              onChanged: (email) => context.read<SignInFormBloc>().add(SignInFormEvent.phoneNumberChanged(email)),
+              onChanged: (phone) => debouncer.run(() {
+                context.read<SignInFormBloc>().add(SignInFormEvent.phoneNumberChanged(phone));
+              }),
               validator: (_) {
                 return context.read<SignInFormBloc>().state.phoneNumber.fold(
                       (failure) => failure.message,

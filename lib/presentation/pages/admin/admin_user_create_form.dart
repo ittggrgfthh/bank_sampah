@@ -14,6 +14,7 @@ import '../../../component/widget/roles_choice_chip.dart';
 import '../../../component/widget/upload_photo.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
+import '../../../core/utils/app_helper.dart';
 import '../../../injection.dart';
 import '../../bloc/bloc.dart';
 
@@ -23,6 +24,7 @@ class AdminUserCreateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final debouncer = Debouncer(milliseconds: 500);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tambah User'),
@@ -65,7 +67,9 @@ class AdminUserCreateForm extends StatelessWidget {
                               ? const Icon(Icons.error)
                               : null,
                       onChanged: (value) {
-                        context.read<CreateUserFormBloc>().add(CreateUserFormEvent.phoneNumberChanged(value));
+                        debouncer.run(() {
+                          context.read<CreateUserFormBloc>().add(CreateUserFormEvent.phoneNumberChanged(value));
+                        });
                       },
                       validator: (_) {
                         return state.phoneNumber.fold(
