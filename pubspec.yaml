@@ -63,12 +63,12 @@ flutter_native_splash:
   android: true
   color: "#F8FDFF"
   color_dark: "#020617"
-  image: "assets/images/logo-kabupaten.png"
-  image_dark: "assets/images/logo-kabupaten.png"
+  image: "assets/images/splash-screen.png"
+  image_dark: "assets/images/splash-screen.png"
 
   android_12:
-    image: "assets/images/logo-kabupaten.png"
-    image_dark: "assets/images/logo-kabupaten.png"
+    image: "assets/images/splash-screen.png"
+    image_dark: "assets/images/splash-screen.png"
     color: "#F8FDFF"
     color_dark: "#020617"
 
