@@ -1,3 +1,4 @@
+import 'package:bank_sampah/presentation/widgets/transaction_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -132,12 +133,10 @@ class StaffTransactionHistoryPage extends StatelessWidget {
                                 bottom: BorderSide(color: CColors.shadow),
                               ),
                             ),
-                            child: CustomListTile(
+                            child: TransactionListTile.transactionHistory(
                               enabled:
                                   transaction.storeWaste != null && AppHelper.isWithin5Minutes(transaction.createdAt),
-                              user: transaction.user,
                               transaction: transaction,
-                              isTransactionHistory: true,
                               onTap: () => context.goNamed(AppRouterName.staffEditHistoryName, extra: transaction),
                             ),
                           );

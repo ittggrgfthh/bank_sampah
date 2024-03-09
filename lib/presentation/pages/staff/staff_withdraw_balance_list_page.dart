@@ -1,3 +1,4 @@
+import 'package:bank_sampah/presentation/widgets/user_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -107,9 +108,8 @@ class StaffWithdrawBalanceListPage extends StatelessWidget {
                               bottom: BorderSide(color: CColors.shadow),
                             ),
                           ),
-                          child: CustomListTile(
+                          child: UserListTile.withdrawBalance(
                             enabled: true,
-                            isWithdrawBalance: true,
                             user: users[index],
                             onTap: () => context
                                 .goNamed(AppRouterName.staffWithdrawName, pathParameters: {'userId': users[index].id}),

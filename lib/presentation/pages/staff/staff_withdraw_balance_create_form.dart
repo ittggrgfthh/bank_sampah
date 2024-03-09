@@ -242,6 +242,7 @@ class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
 
   @override
   Widget build(BuildContext context) {
+    print(selectedChoice);
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 2,

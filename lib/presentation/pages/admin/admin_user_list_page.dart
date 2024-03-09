@@ -1,3 +1,4 @@
+import 'package:bank_sampah/presentation/widgets/user_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -153,8 +154,7 @@ class AdminUserListPage extends StatelessWidget {
                                   bottom: BorderSide(color: CColors.shadow),
                                 ),
                               ),
-                              child: CustomListTile(
-                                isListUser: true,
+                              child: UserListTile.listUser(
                                 user: user,
                                 enabled: true,
                                 onTap: () => context.goNamed(AppRouterName.adminEditUserName,

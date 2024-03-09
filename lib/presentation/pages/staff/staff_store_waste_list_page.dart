@@ -1,4 +1,5 @@
 import 'package:bank_sampah/presentation/widgets/failure_info.dart';
+import 'package:bank_sampah/presentation/widgets/user_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -107,8 +108,7 @@ class StaffStoreWasteListPage extends StatelessWidget {
                               bottom: BorderSide(color: CColors.shadow),
                             ),
                           ),
-                          child: CustomListTile(
-                            isStoreWaste: true,
+                          child: UserListTile.storeWaste(
                             user: users[index],
                             enabled: true,
                             onTap: () => context.goNamed(AppRouterName.staffStoreWasteName,
