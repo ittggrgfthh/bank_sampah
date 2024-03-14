@@ -68,7 +68,7 @@ class StaffWithdrawBalanceCreateForm extends StatelessWidget {
                 buildWhen: (previous, current) => previous.user != current.user,
                 builder: (context, state) {
                   final user = state.user.toNullable();
-                  return WithdrawChoiceChip(
+                  return WithdrawBalanceForm(
                     balance: user == null ? 0 : user.pointBalance.currentBalance,
                     onSelected: (value) {
                       context
@@ -202,20 +202,20 @@ class StaffWithdrawBalanceCreateForm extends StatelessWidget {
   }
 }
 
-class WithdrawChoiceChip extends StatefulWidget {
+class WithdrawBalanceForm extends StatefulWidget {
   final Function(int value)? onSelected;
   final int balance;
-  const WithdrawChoiceChip({
+  const WithdrawBalanceForm({
     super.key,
     this.onSelected,
     this.balance = 1000000,
   });
 
   @override
-  State<WithdrawChoiceChip> createState() => _WithdrawChoiceChipState();
+  State<WithdrawBalanceForm> createState() => _WithdrawChoiceChipState();
 }
 
-class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
+class _WithdrawChoiceChipState extends State<WithdrawBalanceForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   int? selectedChoice;
 
