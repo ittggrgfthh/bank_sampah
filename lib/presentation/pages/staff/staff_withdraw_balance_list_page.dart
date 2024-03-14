@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../component/button/rounded_primary_button.dart';
 import '../../../component/widget/avatar_image.dart';
-import '../../../component/widget/custom_list_tile.dart';
 import '../../../core/constant/colors.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';

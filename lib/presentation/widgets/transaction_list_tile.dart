@@ -1,4 +1,3 @@
-import 'package:bank_sampah/domain/entities/user.dart';
 import 'package:flutter/material.dart';
 
 import '../../component/widget/avatar_image.dart';

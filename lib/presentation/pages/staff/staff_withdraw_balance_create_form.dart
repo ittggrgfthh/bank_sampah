@@ -23,7 +23,7 @@ class StaffWithdrawBalanceCreateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final staff = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tarik Saldo'),
@@ -77,28 +77,6 @@ class StaffWithdrawBalanceCreateForm extends StatelessWidget {
                     },
                   );
                 },
-              ),
-              const SizedBox(height: 20),
-              Form(
-                key: formKey,
-                autovalidateMode: AutovalidateMode.always,
-                child: Builder(builder: (context) {
-                  return MoneyField(
-                    hintText: 'Atau masukan nominal disini!',
-                    validator: (_) {
-                      return context
-                          .read<WithdrawBalanceFormBloc>()
-                          .state
-                          .withdrwaBalanceValidator
-                          .fold(() => null, (t) => t);
-                    },
-                    onChanged: (value) {
-                      context
-                          .read<WithdrawBalanceFormBloc>()
-                          .add(WithdrawBalanceFormEvent.withdrwaBalanceChanged(value));
-                    },
-                  );
-                }),
               ),
               const SizedBox(height: 20),
               BlocBuilder<WithdrawBalanceFormBloc, WithdrawBalanceFormState>(
@@ -238,30 +216,55 @@ class WithdrawChoiceChip extends StatefulWidget {
 }
 
 class _WithdrawChoiceChipState extends State<WithdrawChoiceChip> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   int? selectedChoice;
 
   @override
   Widget build(BuildContext context) {
-    print(selectedChoice);
-    return GridView.count(
-      shrinkWrap: true,
-      crossAxisCount: 2,
-      childAspectRatio: 3.5,
-      mainAxisSpacing: 20,
-      crossAxisSpacing: 20,
-      children: List<Widget>.generate(
-        DefaultData.withdrawChoice.length,
-        (index) => RoundedChoiceButton(
-          name: getIt<NumberFormat>().format(DefaultData.withdrawChoice[index]),
-          selected: selectedChoice == index,
-          onPressed: widget.balance < DefaultData.withdrawChoice[index]
-              ? null
-              : () => setState(() {
-                    selectedChoice = index;
-                    widget.onSelected?.call(DefaultData.withdrawChoice[index]);
-                  }),
+    return Column(
+      children: [
+        GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          childAspectRatio: 3.5,
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          children: List<Widget>.generate(
+            DefaultData.withdrawChoice.length,
+            (index) => RoundedChoiceButton(
+              name: getIt<NumberFormat>().format(DefaultData.withdrawChoice[index]),
+              selected: selectedChoice == index,
+              onPressed: widget.balance < DefaultData.withdrawChoice[index]
+                  ? null
+                  : () => setState(() {
+                        selectedChoice = index;
+                        widget.onSelected?.call(DefaultData.withdrawChoice[index]);
+                      }),
+            ),
+          ),
         ),
-      ),
+        const SizedBox(height: 20),
+        Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.always,
+          child: Builder(builder: (context) {
+            return MoneyField(
+              hintText: 'Atau masukan nominal disini!',
+              validator: (_) {
+                return context
+                    .read<WithdrawBalanceFormBloc>()
+                    .state
+                    .withdrwaBalanceValidator
+                    .fold(() => null, (t) => t);
+              },
+              onTap: () => setState(() => selectedChoice = null),
+              onChanged: (value) {
+                context.read<WithdrawBalanceFormBloc>().add(WithdrawBalanceFormEvent.withdrwaBalanceChanged(value));
+              },
+            );
+          }),
+        ),
+      ],
     );
   }
 }
