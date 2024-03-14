@@ -25,6 +25,7 @@ class MoneyField extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final bool isLoading;
+  final FocusNode? focusNode;
   final String? suffixText;
   final String? Function(String? value)? validator;
   final void Function()? onTap;
@@ -36,6 +37,7 @@ class MoneyField extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.isLoading = false,
+    this.focusNode,
     this.onTap,
     this.suffixText,
     this.validator,
@@ -48,6 +50,7 @@ class MoneyField extends StatelessWidget {
     return TextFormField(
       enabled: !isLoading,
       initialValue: initialValue,
+      focusNode: focusNode,
       onTap: onTap,
       controller: controller,
       keyboardType: TextInputType.number,

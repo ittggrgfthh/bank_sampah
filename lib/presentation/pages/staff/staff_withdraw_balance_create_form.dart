@@ -217,6 +217,7 @@ class WithdrawBalanceForm extends StatefulWidget {
 
 class _WithdrawChoiceChipState extends State<WithdrawBalanceForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  FocusNode focusNode = FocusNode();
   int? selectedChoice;
 
   @override
@@ -237,6 +238,7 @@ class _WithdrawChoiceChipState extends State<WithdrawBalanceForm> {
               onPressed: widget.balance < DefaultData.withdrawChoice[index]
                   ? null
                   : () => setState(() {
+                        focusNode.unfocus();
                         selectedChoice = index;
                         widget.onSelected?.call(DefaultData.withdrawChoice[index]);
                       }),
@@ -250,6 +252,7 @@ class _WithdrawChoiceChipState extends State<WithdrawBalanceForm> {
           child: Builder(builder: (context) {
             return MoneyField(
               hintText: 'Atau masukan nominal disini!',
+              focusNode: focusNode,
               validator: (_) {
                 return context
                     .read<WithdrawBalanceFormBloc>()
