@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -66,7 +67,7 @@ class _ModalDateTimeState extends State<ModalDateTime> {
                 const SizedBox(height: 20),
                 TextField(
                   controller: startController,
-                  onTap: () => _selectDate(type: 'start'),
+                  onTap: () => _selectCupertinoDate(type: 'start'),
                   decoration: const InputDecoration(
                     labelText: 'Tanggal Mulai',
                     filled: true,
@@ -83,7 +84,7 @@ class _ModalDateTimeState extends State<ModalDateTime> {
                 const SizedBox(height: 10),
                 TextField(
                   controller: endController,
-                  onTap: () => _selectDate(type: 'end'),
+                  onTap: () => _selectCupertinoDate(type: 'end'),
                   decoration: const InputDecoration(
                     labelText: 'Tanggal Berakhir',
                     filled: true,
@@ -131,25 +132,33 @@ class _ModalDateTimeState extends State<ModalDateTime> {
     );
   }
 
-  Future<void> _selectDate({required String type}) async {
-    DateTime? picked = await showDatePicker(
+  Future<void> _selectCupertinoDate({required String type}) async {
+    DateTime? pickedDate;
+    await showCupertinoModalPopup(
       context: context,
-      initialDate: type == 'start'
-          ? DateTime.fromMillisecondsSinceEpoch(widget.startDate)
-          : type == 'end'
-              ? DateTime.fromMillisecondsSinceEpoch(widget.endDate)
-              : DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      builder: (context) => SizedBox(
+        height: 250,
+        child: CupertinoDatePicker(
+          onDateTimeChanged: (DateTime newDate) => pickedDate = newDate,
+          backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+          initialDateTime: type == 'start'
+              ? DateTime.fromMillisecondsSinceEpoch(widget.startDate)
+              : type == 'end'
+                  ? DateTime.fromMillisecondsSinceEpoch(widget.endDate)
+                  : DateTime.now(),
+          use24hFormat: true,
+          mode: CupertinoDatePickerMode.date,
+        ),
+      ),
     );
 
-    if (picked != null && type == 'start') {
-      startEpoch = picked.millisecondsSinceEpoch;
-      startController.text = AppHelper.millisecondEpochtoString(picked.millisecondsSinceEpoch);
-    } else if (picked != null && type == 'end') {
-      DateTime updatedDateTime = picked.copyWith(hour: 23, minute: 59, second: 59);
+    if (pickedDate != null && type == 'start') {
+      startEpoch = pickedDate!.millisecondsSinceEpoch;
+      startController.text = AppHelper.millisecondEpochtoString(pickedDate!.millisecondsSinceEpoch);
+    } else if (pickedDate != null && type == 'end') {
+      DateTime updatedDateTime = pickedDate!.copyWith(hour: 23, minute: 59, second: 59);
       endEpoch = updatedDateTime.millisecondsSinceEpoch;
-      endController.text = AppHelper.millisecondEpochtoString(picked.millisecondsSinceEpoch);
+      endController.text = AppHelper.millisecondEpochtoString(pickedDate!.millisecondsSinceEpoch);
     }
   }
 }
