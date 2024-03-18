@@ -153,12 +153,16 @@ class StaffWithdrawBalanceCreateForm extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        user.fullName!,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.background,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: Text(
+                          user.fullName!,
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Theme.of(context).colorScheme.background,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                       Text(
