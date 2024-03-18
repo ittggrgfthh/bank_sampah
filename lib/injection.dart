@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'data/datasources/datasources.dart';
 import 'data/repositories/repositories.dart';
@@ -106,4 +107,5 @@ void init() {
         decimalDigits: 0,
         symbol: 'Rp',
       ));
+  getIt.registerLazySingleton(() => Supabase.instance.client);
 }
