@@ -56,6 +56,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     final hashPassword = HashFacade().make(userModel.password);
     final newUserModel = userModel.copyWith(
       password: hashPassword,
+      role: userModel.role.toUpperCase(),
     );
     try {
       final user = await _supabaseClient.from('users').insert(newUserModel.toJson()).select().single();
@@ -162,6 +163,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       // Filter berdasarkan villages jika tersedia
       if (filter.villages != null && filter.villages!.isNotEmpty) {
         query = query.inFilter('village', filter.villages!);
+      }
+
+      if (filter.rts != null && filter.rts!.isNotEmpty) {
+        query = query.inFilter('rt', filter.rts!);
+      }
+
+      if (filter.rws != null && filter.rws!.isNotEmpty) {
+        query = query.inFilter('rw', filter.rws!);
       }
 
       final users = await query;
