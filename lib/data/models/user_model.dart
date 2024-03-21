@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../domain/entities/point_balance.dart';
 import '../../domain/entities/user.dart';
-import 'point_balance_model.dart';
+import '../../domain/entities/waste.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
@@ -12,28 +12,21 @@ class UserModel with _$UserModel {
   @JsonSerializable(explicitToJson: true)
   const factory UserModel({
     required String id,
+    @JsonKey(name: 'full_name') required String fullName,
     @JsonKey(name: 'phone_number') required String phoneNumber,
-    @Default('warga') String role,
+    @Default('WARGA') String role,
     required String password,
-    @JsonKey(name: 'full_name') String? fullName,
-    @JsonKey(name: 'photo_url') String? photoUrl,
-    @JsonKey(name: 'point_balance') required PointBalanceModel pointBalance,
-    required String rt,
-    required String rw,
+    @JsonKey(name: 'photo_profile') String? photoProfile,
+    String? rt,
+    String? rw,
+    String? village,
     @JsonKey(name: 'created_at') required int createdAt,
     @JsonKey(name: 'updated_at') required int updatedAt,
-    @JsonKey(name: 'last_transaction_epoch') int? lastTransactionEpoch,
-    String? village,
   }) = _UserModel;
 
   const UserModel._();
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
-
-  factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) =>
-      UserModel.fromJson(doc.data()!).copyWith(id: doc.id);
-
-  factory UserModel.fromFirestoreQuery(Object object) => UserModel.fromJson(object as Map<String, dynamic>);
 
   factory UserModel.formDomain(User user) {
     return UserModel(
@@ -41,15 +34,13 @@ class UserModel with _$UserModel {
       phoneNumber: user.phoneNumber,
       role: user.role,
       password: user.password,
-      fullName: user.fullName,
-      photoUrl: user.photoUrl,
-      pointBalance: PointBalanceModel.formDomain(user.pointBalance),
+      fullName: user.fullName ?? '',
+      photoProfile: user.photoUrl,
       rt: user.rt,
       rw: user.rw,
+      village: user.village,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      lastTransactionEpoch: user.lastTransactionEpoch,
-      village: user.village,
     );
   }
 
@@ -60,14 +51,21 @@ class UserModel with _$UserModel {
       role: role,
       password: password,
       fullName: fullName,
-      photoUrl: photoUrl,
-      pointBalance: pointBalance.toDomain(),
-      rt: rt,
-      rw: rw,
+      photoUrl: photoProfile,
+      pointBalance: const PointBalance(
+        currentBalance: 0,
+        userId: "",
+        waste: Waste(
+          inorganic: 0,
+          organic: 0,
+        ),
+      ),
+      rt: rt!,
+      rw: rw!,
+      village: village,
       createdAt: createdAt,
       updatedAt: updatedAt,
-      lastTransactionEpoch: lastTransactionEpoch,
-      village: village,
+      lastTransactionEpoch: 0,
     );
   }
 }

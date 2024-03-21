@@ -58,7 +58,7 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
       batch.set(userDocRef, newTransaction.user.toJson());
       // jika ingin menggunakan update untuk spesifik key daripada set. Kurang tau soal performa.
       // batch.update(userDocRef, {'point_balance': newTransaction.user.pointBalance.toJson()});
-      batch.set(pointBalanceDocRef, newTransaction.user.pointBalance.toJson());
+      // batch.set(pointBalanceDocRef, newTransaction.user.pointBalance.toJson());
       batch.set(transactionDocRef, newTransaction.toJson());
       await batch.commit();
     } catch (e) {
@@ -114,14 +114,14 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
   Future<void> updateTransaction(TransactionWasteModel transaction) async {
     final batch = _firestore.batch();
     final userDocRef = _firestore.userDocRef(transaction.user.id);
-    final pointBalanceDocRef = _firestore.pointBalanceDocRef(transaction.user.id);
+    // final pointBalanceDocRef = _firestore.pointBalanceDocRef(transaction.user.id);
     final transactionDocRef = _firestore.transactionDocRef(transaction.id);
 
     try {
       batch.set(userDocRef, transaction.user.toJson());
       // jika ingin menggunakan update untuk spesifik key daripada set. Kurang tau soal performa.
       // batch.update(userDocRef, {'point_balance': newTransaction.user.pointBalance.toJson()});
-      batch.set(pointBalanceDocRef, transaction.user.pointBalance.toJson());
+      // batch.set(pointBalanceDocRef, transaction.user.pointBalance.toJson());
       batch.set(transactionDocRef, transaction.toJson());
       await batch.commit();
     } catch (e) {

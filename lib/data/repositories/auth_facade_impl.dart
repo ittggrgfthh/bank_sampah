@@ -37,7 +37,7 @@ class AuthFacadeImpl implements AuthFacade {
 
       await _userLocalDataSource.saveLoggedInUser(result);
       return right<AuthFailure, Unit>(unit);
-    } on AuthException catch (_) {
+    } on MyAuthException catch (_) {
       return left(const AuthFailure.invalidPhoneNumberOrPassword());
     } catch (e) {
       return left(AuthFailure.unexpected(e.toString()));

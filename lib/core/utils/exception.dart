@@ -1,9 +1,9 @@
 class ServerException implements Exception {}
 
-class AuthException implements Exception {
+class MyAuthException implements Exception {
   final String message;
 
-  AuthException(this.message);
+  MyAuthException(this.message);
 }
 
 class DatabaseException implements Exception {
