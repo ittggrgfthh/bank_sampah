@@ -1,7 +1,7 @@
+import 'package:bank_sampah/core/utils/hash.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../core/failures/auth_failure.dart';
-import '../../core/utils/app_helper.dart';
 import '../../core/utils/exception.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_facade.dart';
@@ -31,7 +31,7 @@ class AuthFacadeImpl implements AuthFacade {
     try {
       final result = await _userRemoteDataSource.getUserByPhoneNumber(phoneNumber);
 
-      if (result.password != AppHelper.hashPassword(password)) {
+      if (!HashFacade().check(password, result.password)) {
         return left(const AuthFailure.invalidPassword());
       }
 

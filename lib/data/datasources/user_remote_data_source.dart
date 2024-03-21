@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as p;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/constant/firebase_storage_paths.dart';
-import '../../core/utils/app_helper.dart';
 import '../../core/utils/exception.dart';
 import '../../core/utils/hash.dart';
 import '../models/filter_user_model.dart';
@@ -55,16 +53,12 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> createUser(UserModel userModel) async {
-    final hashPassword = Hash().make(userModel.password);
+    final hashPassword = HashFacade().make(userModel.password);
     final newUserModel = userModel.copyWith(
       password: hashPassword,
     );
     try {
-      final user = await _supabaseClient
-          .from('users')
-          .insert(newUserModel.toJson())
-          .select()
-          .single();
+      final user = await _supabaseClient.from('users').insert(newUserModel.toJson()).select().single();
       return UserModel.fromJson(user);
     } catch (e) {
       throw ServerException();
@@ -74,11 +68,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> getUserByPhoneNumber(String phoneNumber) async {
     try {
-      final user = await _supabaseClient
-          .from('users')
-          .select()
-          .eq('phone_number', phoneNumber)
-          .single();
+      final user = await _supabaseClient.from('users').select().eq('phone_number', phoneNumber).single();
       if (user.isEmpty) {
         throw MyAuthException('Nomor telepon tidak ditemukan!');
       }
@@ -92,10 +82,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<String> uploadProfilePicture(
-      {required File picture, required String userId}) async {
-    final path =
-        '${FirebaseStoragePaths.profilePicture}/$userId${p.extension(picture.path)}';
+  Future<String> uploadProfilePicture({required File picture, required String userId}) async {
+    final path = '${FirebaseStoragePaths.profilePicture}/$userId${p.extension(picture.path)}';
 
     final uploadTask = await _firebaseStorage.ref(path).putFile(picture);
     final downloadUrl = await uploadTask.ref.getDownloadURL();
@@ -124,10 +112,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<List<UserModel>> getAllUserByRole(String role) async {
     try {
-      final users = await _supabaseClient
-          .from('users')
-          .select()
-          .eq('role', role.toUpperCase());
+      final users = await _supabaseClient.from('users').select().eq('role', role.toUpperCase());
       return users.map((user) => UserModel.fromJson(user)).toList();
     } catch (e) {
       throw ServerException();
@@ -137,11 +122,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> getUserById(String userId) async {
     try {
-      final user = await _supabaseClient
-          .from('users')
-          .select()
-          .eq('id', userId)
-          .single();
+      final user = await _supabaseClient.from('users').select().eq('id', userId).single();
       return UserModel.fromJson(user);
     } catch (e) {
       throw ServerException();
@@ -151,12 +132,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<UserModel> updateUser(UserModel userModel) async {
     try {
-      final user = await _supabaseClient
-          .from('users')
-          .update(userModel.toJson())
-          .eq('id', userModel.id)
-          .select()
-          .single();
+      final user =
+          await _supabaseClient.from('users').update(userModel.toJson()).eq('id', userModel.id).select().single();
       return UserModel.fromJson(user);
     } catch (e) {
       throw ServerException();

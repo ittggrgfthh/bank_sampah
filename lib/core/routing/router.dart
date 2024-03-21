@@ -131,11 +131,11 @@ final router = GoRouter(
       authenticated: (user) async {
         if (state.matchedLocation == AppRouterName.loginPath || state.matchedLocation == AppRouterName.rootPath) {
           switch (user.role) {
-            case 'warga':
+            case 'WARGA':
               return AppRouterName.wargaHomePath;
-            case 'staff':
+            case 'STAFF':
               return AppRouterName.staffWasteTransactionPath;
-            case 'admin':
+            case 'ADMIN':
               return AppRouterName.adminReportPath;
             default:
               return AppRouterName.loginPath;

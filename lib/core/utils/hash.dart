@@ -2,19 +2,19 @@
 import 'package:dbcrypt/dbcrypt.dart';
 
 // Definisi kelas Hash
-class Hash {
+class HashFacade {
   /// Instance tunggal dari kelas Hash (Singleton)
-  static final Hash _instance = Hash._internal(DBCrypt());
+  static final HashFacade _instance = HashFacade._internal(DBCrypt());
 
   /// Variabel instance DBCrypt yang tidak dapat diubah setelah inisialisasi
   final DBCrypt _dbCrypt;
 
   /// Konstruktor pribadi untuk mencegah instansiasi langsung dari luar kelas
   /// - @param dbCrypt: Instance dari kelas DBCrypt yang akan digunakan untuk hashing
-  Hash._internal(this._dbCrypt);
+  HashFacade._internal(this._dbCrypt);
 
   /// Factory constructor untuk mendapatkan instance tunggal dari kelas Hash
-  factory Hash() {
+  factory HashFacade() {
     return _instance;
   }
 

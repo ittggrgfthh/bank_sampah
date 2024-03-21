@@ -98,6 +98,7 @@ void init() {
 
   // ==============
   // external
+  getIt.registerLazySingleton(() => Supabase.instance.client);
   getIt.registerLazySingleton(() => FirebaseFirestore.instance);
   getIt.registerLazySingleton(() => FirebaseStorage.instance);
   getIt.registerLazySingleton(() => ImagePicker());
@@ -107,5 +108,4 @@ void init() {
         decimalDigits: 0,
         symbol: 'Rp',
       ));
-  getIt.registerLazySingleton(() => Supabase.instance.client);
 }
