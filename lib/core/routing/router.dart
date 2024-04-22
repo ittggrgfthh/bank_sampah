@@ -76,50 +76,6 @@ final router = GoRouter(
         ),
       ],
     ),
-
-    /// Staff
-    ShellRoute(
-      navigatorKey: _shellNavigatorKey,
-      builder: (context, state, child) => NavbarStaff(child: child),
-      routes: [
-        GoRoute(
-          path: AppRouterName.staffWasteTransactionPath,
-          name: AppRouterName.staffWasteTransactionName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: StaffStoreWasteListPage()),
-          routes: [
-            GoRoute(
-              path: AppRouterName.staffStoreWastePath,
-              name: AppRouterName.staffStoreWasteName,
-              builder: (context, state) => StaffStoreWasteCreateForm(userId: state.pathParameters['userId'] ?? ''),
-            ),
-          ],
-        ),
-        GoRoute(
-          path: AppRouterName.staffHistoryTransactionPath,
-          name: AppRouterName.staffHistoryTransactionName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: StaffTransactionHistoryPage()),
-          routes: [
-            GoRoute(
-              path: AppRouterName.staffEditHistoryPath,
-              name: AppRouterName.staffEditHistoryName,
-              builder: (context, state) => StaffStoreWasteUpdateForm(transaction: state.extra as TransactionWaste),
-            ),
-          ],
-        ),
-        GoRoute(
-          path: AppRouterName.staffBalanceTransactionPath,
-          name: AppRouterName.staffBalanceTransactionName,
-          pageBuilder: (context, state) => const NoTransitionPage(child: StaffWithdrawBalanceListPage()),
-          routes: [
-            GoRoute(
-              path: AppRouterName.staffWithdrawPath,
-              name: AppRouterName.staffWithdrawName,
-              builder: (context, state) => StaffWithdrawBalanceCreateForm(userId: state.pathParameters['userId'] ?? ''),
-            ),
-          ],
-        ),
-      ],
-    ),
     GoRoute(
       path: AppRouterName.wargaHomePath,
       name: AppRouterName.wargaHomeName,
