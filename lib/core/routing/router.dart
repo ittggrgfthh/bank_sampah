@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../component/widget/navbar_admin.dart';
-import '../../component/widget/navbar_staff.dart';
-import '../../domain/entities/transaction_waste.dart';
 import '../../injection.dart';
 import '../../presentation/bloc/auth/auth_bloc.dart';
 import '../../presentation/pages/pages.dart';

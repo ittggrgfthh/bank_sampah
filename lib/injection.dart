@@ -34,12 +34,6 @@ void init() {
   getIt.registerFactory(() => EditWastePriceBloc(getIt(), getIt()));
   getIt.registerFactory(() => EditWastePriceHistoryBloc(getIt()));
 
-  // bloc - staff
-  getIt.registerFactory(() => StoreWasteFormBloc(getIt(), getIt(), getIt()));
-  getIt.registerFactory(() => TransactionHistoryBloc(getIt()));
-  getIt.registerFactory(() => EditStoreWasteFormBloc(getIt()));
-  getIt.registerFactory(() => WithdrawBalanceFormBloc(getIt(), getIt()));
-
   // bloc - warga
   getIt.registerFactory(() => WargaHomeBloc(getIt(), getIt()));
 
