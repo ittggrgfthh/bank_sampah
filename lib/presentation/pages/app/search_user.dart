@@ -1,4 +1,4 @@
-import 'package:bank_sampah/component/widget/custom_list_tile.dart';
+import 'package:bank_sampah/presentation/widgets/user_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,15 +7,9 @@ import '../../../domain/entities/user.dart';
 
 class SearchUser extends SearchDelegate {
   final List<User> users;
-  final bool? isWithdrawBalance;
-  final bool? isListUser;
-  final bool? isStoreWaste;
 
   SearchUser({
     required this.users,
-    this.isListUser,
-    this.isStoreWaste,
-    this.isWithdrawBalance,
   });
 
   @override
@@ -53,21 +47,10 @@ class SearchUser extends SearchDelegate {
 
     return ListView.builder(
       itemCount: matchQuery.length,
-      itemBuilder: (context, index) => CustomListTile(
+      itemBuilder: (context, index) => UserListTile.listUser(
         user: matchQuery[index],
         enabled: true,
-        isListUser: isListUser,
-        isStoreWaste: isStoreWaste,
-        isWithdrawBalance: isWithdrawBalance,
-        onTap: () {
-          if (isStoreWaste == true) {
-            context.goNamed(AppRouterName.staffStoreWasteName, pathParameters: {'userId': matchQuery[index].id});
-          } else if (isWithdrawBalance == true) {
-            context.goNamed(AppRouterName.staffWithdrawName, pathParameters: {'userId': matchQuery[index].id});
-          } else if (isListUser == true) {
-            context.goNamed(AppRouterName.adminEditUserName, pathParameters: {'userId': matchQuery[index].id});
-          }
-        },
+        onTap: () => context.goNamed(AppRouterName.adminEditUserName, pathParameters: {'userId': matchQuery[index].id}),
       ),
     );
   }

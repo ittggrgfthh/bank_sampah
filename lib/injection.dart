@@ -62,10 +62,7 @@ void init() {
   getIt.registerLazySingleton(() => CreateWastePrice(getIt()));
   getIt.registerLazySingleton(() => GetWastePrices(getIt()));
   // usecase - transaction
-  getIt.registerLazySingleton(() => CreateWasteTransaction(getIt()));
-  getIt.registerLazySingleton(() => UpdateWasteTransaction(getIt()));
-  getIt.registerLazySingleton(() => GetTransactionsByStaffId(getIt()));
-  getIt.registerLazySingleton(() => GetTransactionsByTimeSpan(getIt()));
+
   getIt.registerLazySingleton(() => GetTransactionsByUserId(getIt()));
   getIt.registerLazySingleton(() => GetTransactionsFilter(getIt()));
   // usecase - filter

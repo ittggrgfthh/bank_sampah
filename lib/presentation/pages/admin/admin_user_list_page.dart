@@ -32,7 +32,7 @@ class AdminUserListPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               final List<User> users = context.read<ListUserBloc>().state.whenOrNull(loadSuccess: (users) => users)!;
-              showSearch(context: context, delegate: SearchUser(users: users, isListUser: true));
+              showSearch(context: context, delegate: SearchUser(users: users));
             },
             icon: const Icon(Icons.search_rounded),
           ),
