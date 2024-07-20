@@ -1,4 +1,7 @@
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../core/constant/colors.dart';
 
 class MyInputTheme {
   TextStyle _buildTextStyle(
@@ -25,26 +28,26 @@ class MyInputTheme {
         // isDense: true,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         // constraints: const BoxConstraints(maxWidth: 150),
-        enabledBorder: _buildBorder(Theme.of(context).colorScheme.primary),
-        errorBorder: _buildBorder(Theme.of(context).colorScheme.error),
-        focusedErrorBorder: _buildBorder(Theme.of(context).colorScheme.primary),
-        // border: _buildBorder(Theme.of(context).colorScheme.tertiary),
-        focusedBorder: _buildBorder(Theme.of(context).colorScheme.primary),
-        disabledBorder: _buildBorder(Theme.of(context).colorScheme.outline),
+        enabledBorder: _buildBorder(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, borderWidth: 2),
+        errorBorder: _buildBorder(MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight),
+        focusedErrorBorder: _buildBorder(MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight),
+        // border: _buildBorder(Theme.of(context).colorScheme.primary, borderWidth: 2),
+        focusedBorder: _buildBorder(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, borderWidth: 2),
+        disabledBorder: _buildBorder(CColors.shadow),
 
         //TextStyle
-        suffixStyle: _buildTextStyle(Theme.of(context).primaryColor),
-        counterStyle: _buildTextStyle(Theme.of(context).primaryColor, size: 12),
-        floatingLabelStyle: _buildTextStyle(Theme.of(context).primaryColor),
-        errorStyle: _buildTextStyle(Theme.of(context).colorScheme.error, size: 12),
-        helperStyle: _buildTextStyle(Theme.of(context).primaryColor, size: 12),
+        suffixStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
+        counterStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, size: 12),
+        floatingLabelStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
+        errorStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight, size: 12),
+        helperStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, size: 12),
         hintStyle: _buildTextStyle(
-          Theme.of(context).colorScheme.primary.withAlpha(100),
+          MyTheme.isDarkMode ? CColors.primaryDark.withAlpha(100) : CColors.primaryLight.withAlpha(100),
           size: 16,
           fontWeight: FontWeight.w400,
         ),
-        labelStyle: _buildTextStyle(Theme.of(context).primaryColor),
-        prefixStyle: _buildTextStyle(Theme.of(context).colorScheme.primary),
-        prefixIconColor: Theme.of(context).colorScheme.primary,
+        labelStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
+        prefixStyle: _buildTextStyle(MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
+        prefixIconColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
       );
 }

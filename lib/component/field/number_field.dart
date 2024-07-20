@@ -4,20 +4,26 @@ import '../string_extension.dart';
 import 'money_field.dart';
 
 class NumberField extends StatelessWidget {
-  final String label;
+  final Widget? label;
   final TextEditingController? controller;
-  final Widget? icon;
+  final Widget? prefix;
   final String? helperText;
+  final String? hintText;
+  final String? initialValue;
   final ValueChanged<String>? onChanged;
+  final List<Widget>? postfix;
   final bool isLoading;
   const NumberField({
     super.key,
     this.controller,
-    this.icon,
+    this.prefix,
     this.helperText,
+    this.hintText,
+    this.initialValue,
     this.onChanged,
+    this.postfix,
     this.isLoading = false,
-    required this.label,
+    this.label,
   });
 
   @override
@@ -34,25 +40,18 @@ class NumberField extends StatelessWidget {
         }
         return null;
       },
+      initialValue: initialValue,
       onChanged: onChanged,
       inputFormatters: [ThousandsFormatter()],
       decoration: InputDecoration(
-        label: Text(label),
+        label: label,
         enabled: !isLoading,
+        hintText: hintText,
         helperText: helperText ?? '',
-        prefix: icon,
+        prefix: prefix,
         suffixIcon: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'kg',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
+          children: postfix ?? [const SizedBox.shrink()],
         ),
       ),
     );

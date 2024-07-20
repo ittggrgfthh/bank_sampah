@@ -42,6 +42,8 @@ dependencies:
   image_cropper: ^5.0.0
   image_picker: ^1.0.1
   cached_network_image: ^3.2.3
+  camera: ^0.10.5+9
+  image: ^4.1.6
 
   # ui
   another_flushbar: ^1.12.30
