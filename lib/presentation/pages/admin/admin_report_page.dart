@@ -60,8 +60,6 @@ class AdminReportPage extends StatelessWidget {
                 });
               }),
               const SizedBox(height: 20),
-              _buildSaldoDitarik(context),
-              const SizedBox(height: 10),
               BlocSelector<ReportBloc, ReportState, String>(
                 selector: (state) {
                   return state.totalWasteStored;
@@ -113,54 +111,6 @@ class AdminReportPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSaldoDitarik(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.wallet_rounded,
-                color: Theme.of(context).colorScheme.background,
-                size: 20,
-              ),
-              Text(
-                'Total Saldo ditarik',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.background,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                ),
-              )
-            ],
-          ),
-          BlocSelector<ReportBloc, ReportState, String>(
-            selector: (state) {
-              return state.totalWithdrawBalance;
-            },
-            builder: (context, totalWithdrawBalance) {
-              return Text(
-                'Rp$totalWithdrawBalance',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.background,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
-              );
-            },
-          ),
-        ],
       ),
     );
   }

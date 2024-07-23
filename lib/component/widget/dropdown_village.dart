@@ -46,7 +46,7 @@ class _DropdownVillageStyle extends StatelessWidget {
       decoration: BoxDecoration(
         color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1),
+        border: Border.all(color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, width: 2),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(

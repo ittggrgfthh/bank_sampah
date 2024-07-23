@@ -21,14 +21,7 @@ class RoundedDropdownButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.primary,
-            offset: const Offset(1, 1),
-            blurRadius: 0.5,
-            spreadRadius: 0.2,
-          ),
-        ],
+        border: Border.all(color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, width: 1),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
