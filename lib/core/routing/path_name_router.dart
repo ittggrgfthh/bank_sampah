@@ -13,7 +13,7 @@ class AppRouterName {
   static const String adminListUsersPath = '/list-user';
   static const String adminListUsersName = 'list-user';
 
-  static const String adminCreateUserPath = 'create';
+  static const String adminCreateUserPath = 'create-user';
   static const String adminCreateUserName = 'create-user';
 
   static const String adminEditUserPath = 'update/:userId';
@@ -25,23 +25,8 @@ class AppRouterName {
   static const String adminWastePriceLogPath = 'log';
   static const String adminWastePriceLogName = 'waste-price-log';
 
-  static const String staffWasteTransactionPath = '/waste';
-  static const String staffWasteTransactionName = 'transaction-waste';
-
-  static const String staffStoreWastePath = 'store/:userId';
-  static const String staffStoreWasteName = 'store';
-
-  static const String staffHistoryTransactionPath = '/history';
-  static const String staffHistoryTransactionName = 'transaction-history';
-
-  static const String staffEditHistoryPath = 'edit';
-  static const String staffEditHistoryName = 'edit-history';
-
-  static const String staffBalanceTransactionPath = '/balance';
-  static const String staffBalanceTransactionName = 'transaction-balance';
-
-  static const String staffWithdrawPath = 'withdraw/:userId';
-  static const String staffWithdrawName = 'withdraw';
+  static const String adminCreateInorganicWastePath = 'create-inorganic';
+  static const String adminCreateInorganicWasteName = 'create-inorganic';
 
   static const String wargaHomePath = '/warga';
   static const String wargaHomeName = 'warga';

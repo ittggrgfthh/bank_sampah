@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bank_sampah/presentation/pages/admin/admin_inorganic_waste_create_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -70,6 +71,11 @@ final router = GoRouter(
               name: AppRouterName.adminWastePriceLogName,
               builder: (context, state) => const AdminEditWastePriceHistoryPage(),
             ),
+            GoRoute(
+              path: AppRouterName.adminCreateInorganicWastePath,
+              name: AppRouterName.adminCreateInorganicWasteName,
+              builder: (context, state) => const AdminInorganicWasteCreateForm(),
+            ),
           ],
         ),
       ],
@@ -87,8 +93,6 @@ final router = GoRouter(
           switch (user.role) {
             case 'WARGA':
               return AppRouterName.wargaHomePath;
-            case 'STAFF':
-              return AppRouterName.staffWasteTransactionPath;
             case 'ADMIN':
               return AppRouterName.adminReportPath;
             default:

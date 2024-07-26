@@ -1,3 +1,5 @@
+import 'package:bank_sampah/core/constant/colors.dart';
+import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
 
 class NameField extends StatelessWidget {
@@ -34,7 +36,7 @@ class NameField extends StatelessWidget {
       textInputAction: textInputAction,
       onChanged: onChanged,
       style: TextStyle(
-        color: Theme.of(context).colorScheme.primary,
+        color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
       ),
       decoration: InputDecoration(
         labelText: labelText,

@@ -99,24 +99,6 @@ class _WargaHomePageState extends State<WargaHomePage> {
               textColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
             ),
             _whitespace(),
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     RoundedButton(
-            //       name: 'Tambahkan Foto (opsional)',
-            //       onPressed: () => _onCameraView((pickedImage, path) {
-            //         setState(() {
-            //           imagePicked = pickedImage;
-            //           imagePath = path;
-            //         });
-            //       }),
-            //       selected: false,
-            //       color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-            //       textColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-            //     ),
-            //   ],
-            // ),
             imagePath != ''
                 ? Image.file(File(imagePath.toString()), fit: BoxFit.contain)
                 : Container(

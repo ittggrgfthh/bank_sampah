@@ -33,6 +33,15 @@ class AdminEditWastePriceForm extends StatelessWidget {
           const SizedBox(width: 15),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.goNamed(AppRouterName.adminCreateInorganicWasteName);
+        },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.background,
+        child: const Icon(Icons.add_rounded, size: 32),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: BlocProvider(
@@ -48,12 +57,13 @@ class AdminEditWastePriceForm extends StatelessWidget {
                 },
                 builder: (context, state) {
                   return RoundedPrimaryButton(
-                      isLoading: state.isLoading,
-                      isChanged: !state.isChange,
-                      buttonName: 'Simpan',
-                      onPressed: () {
-                        context.read<EditWastePriceBloc>().add(const EditWastePriceEvent.submitButtonPressed());
-                      });
+                    isLoading: state.isLoading,
+                    isChanged: !state.isChange,
+                    buttonName: 'Simpan',
+                    onPressed: () {
+                      context.read<EditWastePriceBloc>().add(const EditWastePriceEvent.submitButtonPressed());
+                    },
+                  );
                 },
               ),
             ],

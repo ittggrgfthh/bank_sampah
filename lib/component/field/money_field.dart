@@ -31,6 +31,7 @@ class MoneyField extends StatelessWidget {
   final void Function()? onTap;
   final String? hintText;
   final String? initialValue;
+  final String? labelText;
 
   const MoneyField({
     super.key,
@@ -43,6 +44,7 @@ class MoneyField extends StatelessWidget {
     this.validator,
     this.hintText,
     this.initialValue,
+    this.labelText,
   });
 
   @override
@@ -58,6 +60,7 @@ class MoneyField extends StatelessWidget {
       inputFormatters: [ThousandsFormatter()],
       onChanged: onChanged,
       decoration: InputDecoration(
+        labelText: labelText,
         hintText: hintText,
         helperText: "",
         prefixIcon: isLoading
