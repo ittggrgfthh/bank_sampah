@@ -7,18 +7,20 @@ part 'user.freezed.dart';
 @freezed
 class User with _$User {
   const factory User({
-    required String id,
+    required int id,
     required String phoneNumber,
     required String role,
     required String password,
     String? fullName,
-    String? photoUrl,
-    required PointBalance pointBalance,
     required String rt,
     required String rw,
+    String? photoUrl,
+    required int balance,
+    required int totalOrganicWeight,
+    required int totalInorganicWeight,
+    required int totalWasteWeight,
     required int createdAt,
     required int updatedAt,
-    int? lastTransactionEpoch,
     String? village,
   }) = _User;
 

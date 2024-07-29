@@ -38,11 +38,11 @@ class WargaHomeBloc extends Bloc<WargaHomeEvent, WargaHomeState> {
       )),
       (transactions) {
         if (user != null) {
-          final totalOrganic = user.pointBalance.waste.organic;
-          final totalInorganic = user.pointBalance.waste.inorganic;
+          final totalOrganic = user.totalOrganicWeight;
+          final totalInorganic = user.totalInorganicWeight;
           final totalWasteStored = totalOrganic + totalInorganic;
           emit(state.copyWith(
-            totalBalance: AppHelper.formatToThousandsInt(user.pointBalance.currentBalance),
+            totalBalance: AppHelper.formatToThousandsInt(user.balance),
             totalOrganic: AppHelper.formatToThousandsInt(totalOrganic),
             totalInorganic: AppHelper.formatToThousandsInt(totalInorganic),
             totalWasteStored: AppHelper.formatToThousandsInt(totalWasteStored),

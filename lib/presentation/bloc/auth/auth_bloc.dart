@@ -38,11 +38,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 late final String oldUserId;
 
                 state.maybeWhen(
-                  authenticated: (oldUser) => oldUserId = oldUser.id,
+                  authenticated: (oldUser) => oldUserId = oldUser.id.toString(),
                   orElse: () => oldUserId = '',
                 );
                 if (oldUserId != user.id && user.fullName == null) {
-                  final userOrFailure = await getUserById(user.id);
+                  final userOrFailure = await getUserById(user.id.toString());
                   userOrFailure.fold(
                     (_) {
                       emit(const AuthState.unauthenticated(UnauthenticatedReason.failedToLoadProfile));

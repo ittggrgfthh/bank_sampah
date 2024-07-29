@@ -161,7 +161,7 @@ class UpdateUserFormBloc extends Bloc<UpdateUserFormEvent, UpdateUserFormState> 
 
         failureOrPath = await uploadProfilePicture(
           picture: picture,
-          userId: user.id,
+          userId: user.id.toString(),
         );
 
         if (failureOrPath.isLeft()) {

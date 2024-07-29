@@ -19,13 +19,19 @@ class DefaultData {
   );
 
   static final user = User(
-    id: 'id-default-warga',
+    id: 0,
     phoneNumber: 'phoneNumber',
     role: 'warga',
     password: 'password',
-    pointBalance: pointBalance,
+    balance: 0,
+    fullName: 'fullName',
     rt: 'rt',
     rw: 'rw',
+    village: 'village',
+    photoUrl: 'photoUrl',
+    totalInorganicWeight: 0,
+    totalOrganicWeight: 0,
+    totalWasteWeight: 0,
     createdAt: nowDateEpoch,
     updatedAt: nowDateEpoch,
   );
@@ -36,7 +42,7 @@ class DefaultData {
     inorganic: 3000,
     createdAt: nowDateEpoch,
     admin: user.copyWith(
-      id: 'id-default-admin',
+      id: 0,
       role: 'admin',
     ),
   );
@@ -59,10 +65,10 @@ class DefaultData {
     createdAt: nowDateEpoch,
     updatedAt: nowDateEpoch,
     user: user.copyWith(
-      id: 'id-default-warga',
+      id: 0,
     ),
     staff: user.copyWith(
-      id: 'id-default-staff',
+      id: 1,
       role: 'staff',
     ),
     withdrawnBalance: withdrawnBalance,

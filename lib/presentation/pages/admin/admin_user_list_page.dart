@@ -157,7 +157,7 @@ class AdminUserListPage extends StatelessWidget {
                                 user: user,
                                 enabled: true,
                                 onTap: () => context.goNamed(AppRouterName.adminEditUserName,
-                                    pathParameters: {'userId': users[index].id}),
+                                    pathParameters: {'userId': users[index].id.toString()}),
                               ),
                             );
                           });

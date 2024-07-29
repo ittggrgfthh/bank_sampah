@@ -94,21 +94,19 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
 
     final admin = state.user.getOrElse(
       () => User(
-        id: 'id',
+        id: 0,
         phoneNumber: 'phoneNumber',
         role: 'admin',
         password: 'password',
         fullName: 'fullName',
-        pointBalance: const PointBalance(
-          userId: 'id',
-          currentBalance: 0,
-          waste: Waste(
-            organic: 0,
-            inorganic: 0,
-          ),
-        ),
+        balance: 0,
+        photoUrl: '',
+        village: 'village',
         rt: 'rt',
         rw: 'rw',
+        totalInorganicWeight: 0,
+        totalOrganicWeight: 0,
+        totalWasteWeight: 0,
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       ),

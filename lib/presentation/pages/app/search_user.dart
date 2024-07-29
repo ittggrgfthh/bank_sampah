@@ -50,7 +50,8 @@ class SearchUser extends SearchDelegate {
       itemBuilder: (context, index) => UserListTile.listUser(
         user: matchQuery[index],
         enabled: true,
-        onTap: () => context.goNamed(AppRouterName.adminEditUserName, pathParameters: {'userId': matchQuery[index].id}),
+        onTap: () => context
+            .goNamed(AppRouterName.adminEditUserName, pathParameters: {'userId': matchQuery[index].id.toString()}),
       ),
     );
   }

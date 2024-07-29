@@ -122,7 +122,7 @@ class UserListTile extends StatelessWidget {
             builder: (context) {
               if (isWithdrawBalance == true) {
                 return Text(
-                  AppHelper.intToIDR(user.pointBalance.currentBalance),
+                  AppHelper.intToIDR(user.balance),
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w300,

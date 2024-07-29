@@ -127,23 +127,19 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
       final userId = AppHelper.generateUniqueId();
 
       newUser = User(
-        id: userId,
+        id: 1,
         phoneNumber: phoneNumber,
         role: role,
         password: password,
         fullName: fullName,
         photoUrl: null,
-        pointBalance: PointBalance(
-          userId: userId,
-          currentBalance: 0,
-          waste: const Waste(
-            organic: 0,
-            inorganic: 0,
-          ),
-        ),
+        balance: 100000,
         rt: rt,
         rw: rw,
         village: village,
+        totalOrganicWeight: 10,
+        totalInorganicWeight: 10,
+        totalWasteWeight: 20,
         createdAt: dateNowEpoch,
         updatedAt: dateNowEpoch,
       );
@@ -154,7 +150,7 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
 
         failureOrPath = await uploadProfilePicture(
           picture: picture,
-          userId: newUser.id,
+          userId: newUser.id.toString(),
         );
 
         // upload failed

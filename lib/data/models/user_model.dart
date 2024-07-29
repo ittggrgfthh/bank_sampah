@@ -30,7 +30,7 @@ class UserModel with _$UserModel {
 
   factory UserModel.formDomain(User user) {
     return UserModel(
-      id: user.id,
+      id: user.id.toString(),
       phoneNumber: user.phoneNumber,
       role: user.role,
       password: user.password,
@@ -46,26 +46,21 @@ class UserModel with _$UserModel {
 
   User toDomain() {
     return User(
-      id: id,
+      id: 0,
       phoneNumber: phoneNumber,
       role: role,
       password: password,
       fullName: fullName,
       photoUrl: photoProfile,
-      pointBalance: const PointBalance(
-        currentBalance: 0,
-        userId: "",
-        waste: Waste(
-          inorganic: 0,
-          organic: 0,
-        ),
-      ),
+      balance: 0,
       rt: rt!,
       rw: rw!,
       village: village,
+      totalInorganicWeight: 0,
+      totalOrganicWeight: 0,
+      totalWasteWeight: 0,
       createdAt: createdAt,
       updatedAt: updatedAt,
-      lastTransactionEpoch: 0,
     );
   }
 }

@@ -47,7 +47,7 @@ class _WargaHomePageState extends State<WargaHomePage> {
         ],
       ),
       body: BlocProvider(
-        create: (context) => getIt<WargaHomeBloc>()..add(WargaHomeEvent.initialized(warga.id)),
+        create: (context) => getIt<WargaHomeBloc>()..add(WargaHomeEvent.initialized(warga.id.toString())),
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
