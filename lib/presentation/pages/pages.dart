@@ -7,5 +7,5 @@ export 'admin/admin_edit_waste_price_form.dart';
 export 'app/login_page.dart';
 export 'app/profile_page.dart';
 
-export 'warga/warga_home_page.dart';
+export 'warga/warga_create_transaction.dart';
 export 'app/splash_screen.dart';

@@ -31,6 +31,9 @@ class AppRouterName {
   static const String wargaHomePath = '/warga';
   static const String wargaHomeName = 'warga';
 
+  static const String wargaCreateTransactionPath = '/warga-transaction';
+  static const String wargaCreateTransactionName = 'warga-transaction';
+
   static const String profilePath = '/profile';
   static const String profileName = 'profile';
 }

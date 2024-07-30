@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:bank_sampah/component/widget/navbar_warga.dart';
 import 'package:bank_sampah/presentation/pages/admin/admin_inorganic_waste_create_form.dart';
+import 'package:bank_sampah/presentation/pages/warga/warga_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -80,10 +82,21 @@ final router = GoRouter(
         ),
       ],
     ),
-    GoRoute(
-      path: AppRouterName.wargaHomePath,
-      name: AppRouterName.wargaHomeName,
-      builder: (context, state) => const WargaHomePage(),
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) => NavbarWarga(child: child),
+      routes: [
+        GoRoute(
+          path: AppRouterName.wargaHomePath,
+          name: AppRouterName.wargaHomeName,
+          pageBuilder: (context, state) => const NoTransitionPage(child: WargaHomePage()),
+        ),
+        GoRoute(
+          path: AppRouterName.wargaCreateTransactionPath,
+          name: AppRouterName.wargaCreateTransactionName,
+          pageBuilder: (context, state) => const NoTransitionPage(child: WargaCreateTransaction()),
+        ),
+      ],
     ),
   ],
   redirect: (_, state) async {
