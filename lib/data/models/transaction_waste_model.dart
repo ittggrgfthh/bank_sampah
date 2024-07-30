@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../domain/entities/transaction_waste.dart';
+import '../../domain/entities/transaction.dart';
 import 'user_model.dart';
 import 'waste_model.dart';
 import 'waste_price_model.dart';
@@ -26,31 +26,57 @@ class TransactionWasteModel with _$TransactionWasteModel {
 
   factory TransactionWasteModel.fromJson(Map<String, dynamic> json) => _$TransactionWasteModelFromJson(json);
 
-  TransactionWaste toDomain() {
-    return TransactionWaste(
-      id: id,
+  Transaction toDomain() {
+    return Transaction(
+      id: 0,
       createdAt: createdAt,
       updatedAt: updatedAt,
-      user: user.toDomain(),
-      staff: staff.toDomain(),
-      withdrawnBalance: withdrawnBalance?.toDomain(),
-      storeWaste: storeWaste?.toDomain(),
-      historyStoreWaste: historyStoreWaste.map((history) => history.toDomain()).toList(),
+      warga: user.toDomain(),
+      admin: staff.toDomain(),
+      imageUrl: '',
+      totalInorganicPrice: 0,
+      totalInorganicWeight: 0,
+      totalOrganicPrice: 0,
+      totalOrganicWeight: 0,
+      totalPrice: 0,
+      totalWeight: 0,
+      isVerified: false,
     );
   }
 
-  static TransactionWasteModel formDomain(TransactionWaste transaction) {
+  static TransactionWasteModel formDomain(Transaction transaction) {
     return TransactionWasteModel(
-      id: transaction.id,
+      id: transaction.id.toString(),
       createdAt: transaction.createdAt,
       updatedAt: transaction.updatedAt,
-      user: UserModel.formDomain(transaction.user),
-      staff: UserModel.formDomain(transaction.staff),
-      withdrawnBalance:
-          transaction.withdrawnBalance == null ? null : WithdrawnBalanceModel.formDomain(transaction.withdrawnBalance!),
-      storeWaste: transaction.storeWaste == null ? null : StoreWasteModel.formDomain(transaction.storeWaste!),
-      historyStoreWaste:
-          transaction.historyStoreWaste.map((history) => HistoryStoreWasteModel.formDomain(history)).toList(),
+      user: UserModel.formDomain(transaction.warga),
+      staff: UserModel.formDomain(transaction.admin),
+      withdrawnBalance: const WithdrawnBalanceModel(balance: 0, withdrawn: 0, currentBalance: 0),
+      storeWaste: const StoreWasteModel(
+        earnedBalance: 0,
+        waste: WasteModel(organic: 0, inorganic: 0),
+        wasteBalance: WasteModel(organic: 0, inorganic: 0),
+        wastePrice: WastePriceModel(
+          id: '1',
+          organic: 0,
+          inorganic: 0,
+          createdAt: 0,
+          admin: UserModel(
+            id: '1',
+            fullName: 'Asep Garong',
+            password: 'password',
+            phoneNumber: '28138217381238',
+            photoProfile: '',
+            role: 'admin',
+            rt: '1',
+            rw: '2',
+            village: 'Banyubiru',
+            createdAt: 0,
+            updatedAt: 0,
+          ),
+        ),
+      ),
+      historyStoreWaste: [],
     );
   }
 }

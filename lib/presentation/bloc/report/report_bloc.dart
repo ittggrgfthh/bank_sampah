@@ -50,51 +50,48 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       (transactions) {
         int totalOrganic = 0;
         int totalInorganic = 0;
+        int totalOrganicPrice = 0;
+        int totalInorganicPrice = 0;
         int totalOrganicBalance = 0;
         int totalInorganicBalance = 0;
-        int withdrawBalance = 0;
+        int balance = 0;
 
         List<RowReport> rowsReport = [];
 
         for (var transaction in transactions) {
-          if (transaction.storeWaste != null) {
-            totalOrganic += transaction.storeWaste!.waste.organic;
-            totalInorganic += transaction.storeWaste!.waste.inorganic;
-            totalOrganicBalance += transaction.storeWaste!.wasteBalance.organic;
-            totalInorganicBalance += transaction.storeWaste!.wasteBalance.inorganic;
+          if (transaction.isVerified == true) {
+            totalOrganic += transaction.totalOrganicWeight;
+            totalInorganic += transaction.totalInorganicWeight;
+            totalOrganicPrice += transaction.totalOrganicPrice;
+            totalInorganicPrice += transaction.totalInorganicPrice;
           }
 
-          if (transaction.withdrawnBalance != null) {
-            withdrawBalance += transaction.withdrawnBalance!.withdrawn;
+          if (transaction.totalPrice != 0) {
+            balance += transaction.totalPrice;
           }
 
           int existingIndex =
-              rowsReport.indexWhere((row) => row.rt == transaction.user.rt && row.rw == transaction.user.rw);
+              rowsReport.indexWhere((row) => row.rt == transaction.warga.rt && row.rw == transaction.warga.rw);
           if (existingIndex != -1) {
             RowReport existingRow = rowsReport[existingIndex];
             // Update the existingRow with new data from transaction
-            if (transaction.storeWaste != null) {
+            if (transaction.totalWeight != 0) {
               existingRow = existingRow.copyWith(
                 waste: Waste(
-                  organic: transaction.storeWaste!.waste.organic + existingRow.waste.organic,
-                  inorganic: transaction.storeWaste!.waste.inorganic + existingRow.waste.inorganic,
+                  organic: transaction.totalOrganicWeight + existingRow.waste.organic,
+                  inorganic: transaction.totalInorganicWeight + existingRow.waste.inorganic,
                 ),
-              );
-            }
-
-            if (transaction.withdrawnBalance != null) {
-              existingRow = existingRow.copyWith(
-                withdrawBalance: transaction.withdrawnBalance!.withdrawn + existingRow.withdrawBalance,
               );
             }
 
             rowsReport[existingIndex] = existingRow;
           } else {
-            Waste rowWaste = transaction.storeWaste?.waste ?? const Waste(organic: 0, inorganic: 0);
-            int rowWithdrawBalance = transaction.withdrawnBalance?.withdrawn ?? 0;
+            Waste rowWaste =
+                Waste(organic: transaction.totalOrganicWeight, inorganic: transaction.totalInorganicWeight);
+            int rowWithdrawBalance = 0;
             rowsReport.add(RowReport(
-              rt: transaction.user.rt,
-              rw: transaction.user.rw,
+              rt: transaction.warga.rt,
+              rw: transaction.warga.rw,
               waste: rowWaste,
               withdrawBalance: rowWithdrawBalance,
             ));
@@ -105,7 +102,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
         TotalRowReport totalRowReport = TotalRowReport(
           waste: Waste(organic: totalOrganic, inorganic: totalInorganic),
-          withdrawBalance: withdrawBalance,
+          withdrawBalance: 0,
           sumWaste: totalWasteStored,
         );
 
@@ -137,7 +134,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
           totalOrganicBalance: AppHelper.formatToThousandsInt(totalOrganicBalance),
           totalInorganicBalance: AppHelper.formatToThousandsInt(totalInorganicBalance),
           totalWasteStored: AppHelper.formatToThousandsInt(totalWasteStored),
-          totalWithdrawBalance: AppHelper.formatToThousandsInt(withdrawBalance),
+          totalWithdrawBalance: AppHelper.formatToThousandsInt(0),
         ));
       },
     );

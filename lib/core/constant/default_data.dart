@@ -1,5 +1,5 @@
 import '../../domain/entities/point_balance.dart';
-import '../../domain/entities/transaction_waste.dart';
+import '../../domain/entities/transaction.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/entities/waste.dart';
 import '../../domain/entities/waste_price.dart';
@@ -23,7 +23,6 @@ class DefaultData {
     phoneNumber: 'phoneNumber',
     role: 'warga',
     password: 'password',
-    balance: 0,
     fullName: 'fullName',
     rt: 'rt',
     rw: 'rw',
@@ -47,33 +46,50 @@ class DefaultData {
     ),
   );
 
-  static const withdrawnBalance = WithdrawnBalance(
-    balance: 0,
-    withdrawn: 0,
-    currentBalance: 0,
-  );
-
-  static final storeWaste = StoreWaste(
-    earnedBalance: 0,
-    waste: waste,
-    wasteBalance: waste,
-    wastePrice: wastePrice,
-  );
-
-  static final transactionWaste = TransactionWaste(
-    id: 'id-default-transaction',
+  static final transaction = Transaction(
+    id: 1,
+    admin: User(
+      id: 1,
+      phoneNumber: 'phoneNumber',
+      role: 'admin',
+      password: 'password',
+      fullName: 'admin',
+      rt: 'rt',
+      rw: 'rw',
+      village: 'village',
+      photoUrl: 'photoUrl',
+      totalInorganicWeight: 0,
+      totalOrganicWeight: 0,
+      totalWasteWeight: 0,
+      createdAt: nowDateEpoch,
+      updatedAt: nowDateEpoch,
+    ),
+    warga: User(
+      id: 3,
+      phoneNumber: 'phoneNumber',
+      role: 'warga',
+      password: 'password',
+      fullName: 'warga',
+      rt: 'rt',
+      rw: 'rw',
+      village: 'village',
+      photoUrl: 'photoUrl',
+      totalInorganicWeight: 0,
+      totalOrganicWeight: 0,
+      totalWasteWeight: 0,
+      createdAt: nowDateEpoch,
+      updatedAt: nowDateEpoch,
+    ),
+    imageUrl: '',
+    isVerified: false,
+    totalInorganicPrice: 10000,
+    totalInorganicWeight: 10,
+    totalOrganicPrice: 20000,
+    totalOrganicWeight: 20,
+    totalPrice: 30000,
+    totalWeight: 30,
     createdAt: nowDateEpoch,
     updatedAt: nowDateEpoch,
-    user: user.copyWith(
-      id: 0,
-    ),
-    staff: user.copyWith(
-      id: 1,
-      role: 'staff',
-    ),
-    withdrawnBalance: withdrawnBalance,
-    storeWaste: storeWaste,
-    historyStoreWaste: [],
   );
 
   static final months = <String>[

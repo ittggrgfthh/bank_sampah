@@ -133,7 +133,6 @@ class CreateUserFormBloc extends Bloc<CreateUserFormEvent, CreateUserFormState> 
         password: password,
         fullName: fullName,
         photoUrl: null,
-        balance: 100000,
         rt: rt,
         rw: rw,
         village: village,

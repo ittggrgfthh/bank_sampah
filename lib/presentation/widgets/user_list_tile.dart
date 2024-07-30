@@ -122,7 +122,7 @@ class UserListTile extends StatelessWidget {
             builder: (context) {
               if (isWithdrawBalance == true) {
                 return Text(
-                  AppHelper.intToIDR(user.balance),
+                  AppHelper.intToIDR(user.totalWasteWeight),
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w300,

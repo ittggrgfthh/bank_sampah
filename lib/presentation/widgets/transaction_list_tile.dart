@@ -4,10 +4,10 @@ import '../../component/widget/avatar_image.dart';
 import '../../core/constant/colors.dart';
 import '../../core/constant/theme.dart';
 import '../../core/utils/app_helper.dart';
-import '../../domain/entities/transaction_waste.dart';
+import '../../domain/entities/transaction.dart';
 
 class TransactionListTile extends StatelessWidget {
-  final TransactionWaste? transaction;
+  final Transaction? transaction;
   final void Function()? onTap;
   final bool enabled;
   final bool isTransactionHistory;
@@ -30,18 +30,18 @@ class TransactionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = transaction!.user;
+    final warga = transaction!.warga;
     return ListTile(
       enabled: enabled,
       onTap: onTap,
       leading: AvatarImage(
-        photoUrl: user.photoUrl,
-        username: user.fullName,
+        photoUrl: warga.photoUrl,
+        username: warga.fullName,
         size: 40,
         fontSize: 10,
       ),
       title: Text(
-        user.fullName!,
+        warga.fullName!,
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
@@ -50,12 +50,11 @@ class TransactionListTile extends StatelessWidget {
         ),
       ),
       subtitle: Builder(builder: (context) {
-        if (transaction!.storeWaste != null) {
-          final waste = transaction!.storeWaste!.waste;
+        if (transaction!.totalPrice != 0) {
           return Row(
             children: [
               Visibility(
-                visible: waste.organic > 0,
+                visible: transaction!.totalOrganicWeight > 0,
                 child: Row(
                   children: [
                     Icon(
@@ -64,7 +63,7 @@ class TransactionListTile extends StatelessWidget {
                       color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
                     ),
                     Text(
-                      '${waste.organic}kg',
+                      '${transaction!.totalOrganicWeight}kg',
                       style: TextStyle(
                         color: MyTheme.isDarkMode ? CColors.successDark : CColors.successLight,
                         fontSize: 12,
@@ -76,7 +75,7 @@ class TransactionListTile extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: waste.inorganic > 0,
+                visible: transaction!.totalInorganicWeight > 0,
                 child: Row(
                   children: [
                     Icon(
@@ -85,7 +84,7 @@ class TransactionListTile extends StatelessWidget {
                       color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
                     ),
                     Text(
-                      '${waste.inorganic}kg',
+                      '${transaction!.totalInorganicWeight}kg',
                       style: TextStyle(
                         color: MyTheme.isDarkMode ? CColors.warningDark : CColors.warningLight,
                         fontSize: 12,
@@ -99,7 +98,7 @@ class TransactionListTile extends StatelessWidget {
           );
         }
         return Builder(builder: (context) {
-          if (isTransactionHistory == true && transaction!.withdrawnBalance != null) {
+          if (isTransactionHistory == true && transaction!.totalPrice != 0) {
             return Row(
               children: [
                 Icon(
@@ -108,7 +107,7 @@ class TransactionListTile extends StatelessWidget {
                   color: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
                 ),
                 Text(
-                  AppHelper.intToIDR(transaction!.withdrawnBalance!.withdrawn),
+                  AppHelper.intToIDR(transaction!.totalPrice),
                   style: TextStyle(
                     color: MyTheme.isDarkMode ? CColors.dangerDark : CColors.dangerLight,
                     fontSize: 12,
@@ -146,9 +145,9 @@ class TransactionListTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Builder(builder: (context) {
-                    if (transaction!.storeWaste != null) {
+                    if (transaction!.totalPrice != 0) {
                       return Text(
-                        AppHelper.intToIDR(transaction!.storeWaste!.earnedBalance),
+                        AppHelper.intToIDR(transaction!.totalPrice),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize: 12,

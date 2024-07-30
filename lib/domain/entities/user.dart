@@ -15,7 +15,6 @@ class User with _$User {
     required String rt,
     required String rw,
     String? photoUrl,
-    required int balance,
     required int totalOrganicWeight,
     required int totalInorganicWeight,
     required int totalWasteWeight,

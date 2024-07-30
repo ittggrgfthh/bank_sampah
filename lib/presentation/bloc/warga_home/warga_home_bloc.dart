@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/failures/failure.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../domain/entities/transaction_waste.dart';
+import '../../../domain/entities/transaction.dart';
 import '../../../domain/usecase/auth/get_user_by_id.dart';
 import '../../../domain/usecase/user/get_transactions_by_user_id.dart';
 
@@ -19,6 +19,7 @@ class WargaHomeBloc extends Bloc<WargaHomeEvent, WargaHomeState> {
     on<WargaHomeEvent>((event, emit) async {
       await event.when(
         initialized: (userId) => _handleInitialized(emit, userId),
+        createTransaction: (transaction) => _handleCreateTransaction(emit, transaction),
       );
     });
   }
@@ -37,23 +38,14 @@ class WargaHomeBloc extends Bloc<WargaHomeEvent, WargaHomeState> {
         failure: optionOf(failure),
       )),
       (transactions) {
-        if (user != null) {
-          final totalOrganic = user.totalOrganicWeight;
-          final totalInorganic = user.totalInorganicWeight;
-          final totalWasteStored = totalOrganic + totalInorganic;
-          emit(state.copyWith(
-            totalBalance: AppHelper.formatToThousandsInt(user.balance),
-            totalOrganic: AppHelper.formatToThousandsInt(totalOrganic),
-            totalInorganic: AppHelper.formatToThousandsInt(totalInorganic),
-            totalWasteStored: AppHelper.formatToThousandsInt(totalWasteStored),
-          ));
-        }
         emit(state.copyWith(
           isLoading: false,
           failure: none(),
-          transactionwaste: optionOf(transactions),
+          transaction: optionOf(transactions),
         ));
       },
     );
   }
+
+  Future<void> _handleCreateTransaction(Emitter<WargaHomeState> emit, Transaction transaction) async {}
 }

@@ -99,7 +99,6 @@ class EditWastePriceBloc extends Bloc<EditWastePriceEvent, EditWastePriceState> 
         role: 'admin',
         password: 'password',
         fullName: 'fullName',
-        balance: 0,
         photoUrl: '',
         village: 'village',
         rt: 'rt',

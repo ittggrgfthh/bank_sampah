@@ -52,7 +52,6 @@ class UserModel with _$UserModel {
       password: password,
       fullName: fullName,
       photoUrl: photoProfile,
-      balance: 0,
       rt: rt!,
       rw: rw!,
       village: village,

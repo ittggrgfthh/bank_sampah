@@ -5,7 +5,7 @@ import '../../core/constant/firebase_exception_codes.dart';
 import '../../core/failures/failure.dart';
 import '../../domain/entities/filter_transaction_waste.dart';
 import '../../domain/entities/report.dart';
-import '../../domain/entities/transaction_waste.dart';
+import '../../domain/entities/transaction.dart' as transaction_waste;
 import '../../domain/repositories/transaction_repository.dart';
 import '../datasources/transaction_local_data_source.dart';
 import '../datasources/transaction_remote_data_source.dart';
@@ -19,7 +19,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   TransactionRepositoryImpl(this._transactionRemoteDataSource, this._transactionLocalDataSource);
 
   @override
-  Future<Either<Failure, Unit>> createTransaction(TransactionWaste transaction) async {
+  Future<Either<Failure, Unit>> createTransaction(transaction_waste.Transaction transaction) async {
     try {
       await _transactionRemoteDataSource.createTransaction(TransactionWasteModel.formDomain(transaction));
       return right(unit);
@@ -34,7 +34,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactions() async {
+  Future<Either<Failure, List<transaction_waste.Transaction>>> getTransactions() async {
     try {
       final result = await _transactionRemoteDataSource.getTransactions();
       return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
@@ -49,7 +49,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByStaffId(String staffId) async {
+  Future<Either<Failure, List<transaction_waste.Transaction>>> getTransactionsByStaffId(String staffId) async {
     try {
       final result = await _transactionRemoteDataSource.getTransactionsByStaffId(staffId);
       return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
@@ -64,7 +64,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByUserId(String user) async {
+  Future<Either<Failure, List<transaction_waste.Transaction>>> getTransactionsByUserId(String user) async {
     try {
       final result = await _transactionRemoteDataSource.getTransactionsByUserId(user);
       return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
@@ -79,7 +79,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateTransaction(TransactionWaste transaction) async {
+  Future<Either<Failure, Unit>> updateTransaction(transaction_waste.Transaction transaction) async {
     try {
       await _transactionRemoteDataSource.updateTransaction(TransactionWasteModel.formDomain(transaction));
       return right(unit);
@@ -94,7 +94,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getTransactionsByTimeSpan(TimeSpan timeSpan) async {
+  Future<Either<Failure, List<transaction_waste.Transaction>>> getTransactionsByTimeSpan(TimeSpan timeSpan) async {
     try {
       final result = await _transactionRemoteDataSource.getTransactionsByTimeSpan(timeSpan.start, timeSpan.end);
       return right(result.map((transactionWasteModel) => transactionWasteModel.toDomain()).toList());
@@ -109,7 +109,8 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionWaste>>> getFilteredTransactions(FilterTransactionWaste filter) async {
+  Future<Either<Failure, List<transaction_waste.Transaction>>> getFilteredTransactions(
+      FilterTransactionWaste filter) async {
     try {
       final result =
           await _transactionRemoteDataSource.getFilteredTransactions(FilterTransactionWasteModel.formDomain(filter));
