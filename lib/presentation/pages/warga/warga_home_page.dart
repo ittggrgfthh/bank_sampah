@@ -50,7 +50,7 @@ class WargaHomePage extends StatelessWidget {
                   return Text(
                     'Total Sampah Terkumpul ($totalWaste kg)',
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
@@ -63,7 +63,7 @@ class WargaHomePage extends StatelessWidget {
               Text(
                 'Riwayat',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -103,13 +103,13 @@ class WargaHomePage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.eco_rounded,
-                      color: Theme.of(context).colorScheme.background,
+                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                       size: 20,
                     ),
                     Text(
                       'Organik',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       ),
@@ -121,7 +121,7 @@ class WargaHomePage extends StatelessWidget {
                     return Text(
                       '0 Kg',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                       ),
@@ -149,13 +149,13 @@ class WargaHomePage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.shopping_bag_rounded,
-                      color: Theme.of(context).colorScheme.background,
+                      color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                       size: 20,
                     ),
                     Text(
                       'An-Organik',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       ),
@@ -167,7 +167,7 @@ class WargaHomePage extends StatelessWidget {
                     return Text(
                       '0 Kg',
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
+                        color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                       ),
