@@ -28,6 +28,12 @@ class AppRouterName {
   static const String adminCreateInorganicWastePath = 'create-inorganic';
   static const String adminCreateInorganicWasteName = 'create-inorganic';
 
+  static const String adminListTransactionPath = '/list-transaction';
+  static const String adminListTransactionName = 'list-transaction';
+
+  static const String adminVerifyTransactionPath = 'verify-transaction';
+  static const String adminVerifyTransactionname = 'verify-transaction';
+
   static const String wargaHomePath = '/warga';
   static const String wargaHomeName = 'warga';
 

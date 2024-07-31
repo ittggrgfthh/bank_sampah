@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bank_sampah/component/widget/navbar_warga.dart';
 import 'package:bank_sampah/presentation/pages/admin/admin_inorganic_waste_create_form.dart';
+import 'package:bank_sampah/presentation/pages/admin/admin_transaction_list_page.dart';
+import 'package:bank_sampah/presentation/pages/admin/admin_verify_transaction_form.dart';
 import 'package:bank_sampah/presentation/pages/warga/warga_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -77,6 +79,18 @@ final router = GoRouter(
               path: AppRouterName.adminCreateInorganicWastePath,
               name: AppRouterName.adminCreateInorganicWasteName,
               builder: (context, state) => const AdminInorganicWasteCreateForm(),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: AppRouterName.adminListTransactionPath,
+          name: AppRouterName.adminListTransactionName,
+          pageBuilder: (context, state) => const NoTransitionPage(child: AdminListTransactionPage()),
+          routes: [
+            GoRoute(
+              path: AppRouterName.adminVerifyTransactionPath,
+              name: AppRouterName.adminVerifyTransactionname,
+              builder: (context, state) => const AdminVerifyTransactionForm(),
             ),
           ],
         ),

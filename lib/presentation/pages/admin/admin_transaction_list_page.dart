@@ -1,3 +1,5 @@
+import 'package:bank_sampah/component/dummy/dummy_data.dart';
+import 'package:bank_sampah/presentation/widgets/transaction_list_tile.dart';
 import 'package:bank_sampah/presentation/widgets/user_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,16 +20,17 @@ import '../../bloc/list_user/list_user_bloc.dart';
 import '../../widgets/failure_info.dart';
 import '../app/search_user.dart';
 
-class AdminUserListPage extends StatelessWidget {
-  const AdminUserListPage({super.key});
+class AdminListTransactionPage extends StatelessWidget {
+  const AdminListTransactionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final admin = context.read<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    final transaction = DummyData.dummyTransaction;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Pengguna'),
+        title: const Text('Daftar Transaksi'),
         actions: [
           IconButton(
             onPressed: () {
@@ -144,20 +147,18 @@ class AdminUserListPage extends StatelessWidget {
                         );
                       }
                       return ListView.builder(
-                          itemCount: users.length,
+                          itemCount: transaction.length,
                           itemBuilder: (context, index) {
-                            final user = users[index];
                             return Container(
                               decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(color: CColors.shadow),
                                 ),
                               ),
-                              child: UserListTile.listUser(
-                                user: user,
+                              child: TransactionListTile(
                                 enabled: true,
-                                onTap: () => context.goNamed(AppRouterName.adminEditUserName,
-                                    pathParameters: {'userId': users[index].id.toString()}),
+                                transaction: transaction[index],
+                                onTap: () {},
                               ),
                             );
                           });

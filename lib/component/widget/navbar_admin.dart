@@ -34,9 +34,10 @@ class NavbarAdmin extends StatelessWidget {
             ],
           ),
           child: BottomNavigationBar(
-            backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.primaryDark,
+            selectedItemColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
             items: [
               BottomNavigationBarItem(
+                backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                 label: 'Laporan',
                 icon: SvgPicture.asset(
                   'assets/images/add-form.svg',
@@ -54,6 +55,7 @@ class NavbarAdmin extends StatelessWidget {
                 ),
               ),
               BottomNavigationBarItem(
+                backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                 label: 'Pengguna',
                 icon: SvgPicture.asset(
                   'assets/images/add-user.svg',
@@ -71,7 +73,26 @@ class NavbarAdmin extends StatelessWidget {
                 ),
               ),
               BottomNavigationBarItem(
+                backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                 label: 'Edit Harga',
+                icon: SvgPicture.asset(
+                  'assets/images/edit-balance.svg',
+                  colorFilter: ColorFilter.mode(
+                    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/images/edit-balance-active.svg',
+                  colorFilter: ColorFilter.mode(
+                    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+                label: 'Transaksi',
                 icon: SvgPicture.asset(
                   'assets/images/edit-balance.svg',
                   colorFilter: ColorFilter.mode(
@@ -107,6 +128,9 @@ class NavbarAdmin extends StatelessWidget {
       case 2:
         context.goNamed(AppRouterName.adminWastePriceName);
         break;
+      case 3:
+        context.goNamed(AppRouterName.adminListTransactionName);
+        break;
     }
   }
 
@@ -117,6 +141,9 @@ class NavbarAdmin extends StatelessWidget {
     }
     if (uri.startsWith(AppRouterName.adminWastePricePath)) {
       return 2;
+    }
+    if (uri.startsWith(AppRouterName.adminListTransactionPath)) {
+      return 3;
     }
     return 0;
   }

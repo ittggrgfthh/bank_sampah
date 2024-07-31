@@ -35,7 +35,7 @@ class NavbarWarga extends StatelessWidget {
             ],
           ),
           child: BottomNavigationBar(
-            backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.primaryDark,
+            backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
             items: [
               BottomNavigationBarItem(
                 label: 'Home',

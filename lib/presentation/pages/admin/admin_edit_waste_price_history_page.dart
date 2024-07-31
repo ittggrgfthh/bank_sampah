@@ -40,7 +40,7 @@ class AdminEditWastePriceHistoryPage extends StatelessWidget {
                   itemBuilder: (context, index) => Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Theme.of(context).colorScheme.primary),
+                        bottom: BorderSide(color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight),
                       ),
                     ),
                     child: ListTile(
@@ -73,7 +73,7 @@ class AdminEditWastePriceHistoryPage extends StatelessWidget {
                                 ? 'Anda'
                                 : 'Admin ${editWastePriceHistory[index].admin.fullName}',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
+                              color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                               fontSize: 10,
                               fontWeight: FontWeight.w300,
                               overflow: TextOverflow.ellipsis,
