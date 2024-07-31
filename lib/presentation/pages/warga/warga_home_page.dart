@@ -1,3 +1,5 @@
+import 'package:bank_sampah/component/dummy/dummy_data.dart';
+import 'package:bank_sampah/domain/entities/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +9,6 @@ import '../../../core/constant/colors.dart';
 import '../../../core/constant/theme.dart';
 import '../../../core/routing/router.dart';
 import '../../../core/utils/app_helper.dart';
-import '../../../domain/entities/transaction_waste.dart';
 import '../../../injection.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import '../../bloc/warga_home/warga_home_bloc.dart';
@@ -18,6 +19,8 @@ class WargaHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final warga = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
+    List<Transaction> transaction = DummyData.dummyTransaction;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Warga'),
@@ -66,6 +69,14 @@ class WargaHomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return _WargaListTile(transaction: transaction[index]);
+                  },
+                  itemCount: transaction.length,
+                ),
+              ),
             ],
           ),
         ),
@@ -173,7 +184,7 @@ class WargaHomePage extends StatelessWidget {
 }
 
 class _WargaListTile extends StatelessWidget {
-  final TransactionWaste transaction;
+  final Transaction transaction;
 
   const _WargaListTile({required this.transaction});
 
@@ -189,7 +200,7 @@ class _WargaListTile extends StatelessWidget {
         title: Text(
           AppHelper.millisecondEpochtoString(transaction.createdAt),
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
@@ -245,13 +256,21 @@ class _WargaListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Text(
+              'Rp. 0',
+              style: TextStyle(
+                color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                fontSize: 10,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  transaction.price.toString(),
+                  transaction.admin.fullName.toString(),
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+                    color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     fontSize: 10,
                     fontWeight: FontWeight.w300,
                   ),
@@ -263,6 +282,7 @@ class _WargaListTile extends StatelessWidget {
                     border: Border.all(color: CColors.shadow),
                   ),
                   child: const AvatarImage(
+                    username: 'MI',
                     photoUrl: '',
                     size: 16,
                     fontSize: 9,

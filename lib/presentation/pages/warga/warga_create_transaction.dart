@@ -29,7 +29,7 @@ class _WargaCreateTransactionState extends State<WargaCreateTransaction> {
   @override
   Widget build(BuildContext context) {
     final warga = getIt<AuthBloc>().state.whenOrNull(authenticated: (user) => user)!;
-    const List<String> inorganic = ['Plastik', 'Kertas', 'Kaca', 'Kaleng', 'Botol', 'Kimia', 'Tank', 'Lainnya'];
+    const List<String> inorganic = ['Plastik', 'Kertas', 'Kaca', 'Kaleng', 'Botol', 'Lainnya'];
 
     return Scaffold(
       appBar: AppBar(

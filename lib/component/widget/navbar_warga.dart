@@ -27,10 +27,11 @@ class NavbarWarga extends StatelessWidget {
             color: Colors.transparent,
             boxShadow: [
               BoxShadow(
-                  color: Theme.of(context).colorScheme.primary,
-                  spreadRadius: 2,
-                  blurRadius: 1,
-                  offset: const Offset(0, 2)),
+                color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                spreadRadius: 2,
+                blurRadius: 1,
+                offset: const Offset(0, 2),
+              ),
             ],
           ),
           child: BottomNavigationBar(
@@ -40,22 +41,34 @@ class NavbarWarga extends StatelessWidget {
                 label: 'Home',
                 icon: SvgPicture.asset(
                   'assets/images/add-form.svg',
-                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 activeIcon: SvgPicture.asset(
                   'assets/images/add-form-active.svg',
-                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               BottomNavigationBarItem(
                 label: 'Buat Transaksi',
                 icon: SvgPicture.asset(
                   'assets/images/add-user.svg',
-                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 activeIcon: SvgPicture.asset(
                   'assets/images/add-user-active.svg',
-                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ],
