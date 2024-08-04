@@ -207,7 +207,7 @@ class AdminUserCreateForm extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Divider(color: Theme.of(context).colorScheme.primary, height: 1),
+                Divider(color: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight, height: 1),
                 const SizedBox(height: 20),
                 BlocBuilder<CreateUserFormBloc, CreateUserFormState>(
                   buildWhen: (previous, current) => previous.isSubmitting != current.isSubmitting,

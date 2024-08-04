@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bank_sampah/component/button/rounded_button.dart';
 import 'package:bank_sampah/component/field/number_field.dart';
+import 'package:bank_sampah/component/widget/confirmation_dialog.dart';
 import 'package:bank_sampah/core/constant/colors.dart';
 import 'package:bank_sampah/core/constant/theme.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,19 @@ class _AdminVerifyTransactionFormState extends State<AdminVerifyTransactionForm>
                       ),
                     ),
                   ),
+            _whitespace(20),
+            RoundedButton(
+              name: 'Setujui',
+              selected: true,
+              color: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
+              textColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
+              onPressed: () => ConfirmationDialog.dialog(
+                context: context,
+                title: 'Konfirmasi',
+                content: 'Apakah anda yakin ingin menyetujui transaksi ini?',
+                onPressedYes: () {},
+              ),
+            ),
           ],
         ),
       ),

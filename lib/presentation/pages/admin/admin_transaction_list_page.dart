@@ -50,15 +50,6 @@ class AdminListTransactionPage extends StatelessWidget {
           const SizedBox(width: 15),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.goNamed(AppRouterName.adminCreateUserName);
-        },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor: MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
-        foregroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
-        child: const Icon(Icons.add_rounded, size: 32),
-      ),
       body: BlocListener<FilterUserBloc, FilterUserState>(
         listener: (context, state) {
           state.maybeWhen(
@@ -158,7 +149,7 @@ class AdminListTransactionPage extends StatelessWidget {
                               child: TransactionListTile(
                                 enabled: true,
                                 transaction: transaction[index],
-                                onTap: () {},
+                                onTap: () => context.goNamed(AppRouterName.adminVerifyTransactionname),
                               ),
                             );
                           });

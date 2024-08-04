@@ -94,14 +94,14 @@ class NavbarAdmin extends StatelessWidget {
                 backgroundColor: MyTheme.isDarkMode ? CColors.backgorundDark : CColors.backgorundLight,
                 label: 'Transaksi',
                 icon: SvgPicture.asset(
-                  'assets/images/edit-balance.svg',
+                  'assets/images/transaction-history.svg',
                   colorFilter: ColorFilter.mode(
                     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     BlendMode.srcIn,
                   ),
                 ),
                 activeIcon: SvgPicture.asset(
-                  'assets/images/edit-balance-active.svg',
+                  'assets/images/transaction-history-active.svg',
                   colorFilter: ColorFilter.mode(
                     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     BlendMode.srcIn,

@@ -40,14 +40,14 @@ class NavbarWarga extends StatelessWidget {
               BottomNavigationBarItem(
                 label: 'Home',
                 icon: SvgPicture.asset(
-                  'assets/images/add-form.svg',
+                  'assets/images/dashboard.svg',
                   colorFilter: ColorFilter.mode(
                     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     BlendMode.srcIn,
                   ),
                 ),
                 activeIcon: SvgPicture.asset(
-                  'assets/images/add-form-active.svg',
+                  'assets/images/dashboard-active.svg',
                   colorFilter: ColorFilter.mode(
                     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     BlendMode.srcIn,
@@ -57,14 +57,14 @@ class NavbarWarga extends StatelessWidget {
               BottomNavigationBarItem(
                 label: 'Buat Transaksi',
                 icon: SvgPicture.asset(
-                  'assets/images/add-user.svg',
+                  'assets/images/transaction-history.svg',
                   colorFilter: ColorFilter.mode(
                     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     BlendMode.srcIn,
                   ),
                 ),
                 activeIcon: SvgPicture.asset(
-                  'assets/images/add-user-active.svg',
+                  'assets/images/transaction-history-active.svg',
                   colorFilter: ColorFilter.mode(
                     MyTheme.isDarkMode ? CColors.primaryDark : CColors.primaryLight,
                     BlendMode.srcIn,
